@@ -1,0 +1,40 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 22
+    buildToolsVersion '22.0.1'
+    defaultConfig {
+        applicationId "architect.jazzy.medicinereminder"
+        minSdkVersion 14
+        targetSdkVersion 22
+        versionName '2.1'
+        versionCode 6
+
+
+        repositories {
+            mavenCentral()
+        }
+
+    }
+    buildTypes {
+        release {
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            debuggable false
+        }
+    }
+    productFlavors {
+    }
+}
+dependencies {
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    compile 'com.android.support:support-v4:22.2.0'
+    compile 'com.android.support:cardview-v7:22.2.0'
+    compile 'com.android.support:recyclerview-v7:22.2.0'
+    compile 'com.google.android.gms:play-services:7.5.0'
+    compile 'com.android.support:appcompat-v7:22.2.0'
+    compile 'com.h6ah4i.android.widget.advrecyclerview:advrecyclerview:0.7.1'
+    compile 'com.balysv:material-ripple:1.0.2'
+    compile 'com.github.citux:datetimepicker:0.1.2'
+    compile 'com.android.support:design:22.2.0'
+}

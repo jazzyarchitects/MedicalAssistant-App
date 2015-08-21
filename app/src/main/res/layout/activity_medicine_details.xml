@@ -1,0 +1,95 @@
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/screen_background"
+    tools:context="architect.jazzy.medicinereminder.Activities.MedicineDetails">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/actionBackground"
+        android:theme="@style/Theme.AppCompat" />
+
+    <architect.jazzy.medicinereminder.CustomViews.CustomViewPager
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/optionsbox"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="@dimen/toolbar_height">
+
+
+    </architect.jazzy.medicinereminder.CustomViews.CustomViewPager>
+
+
+    <LinearLayout
+        android:id="@+id/optionsbox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="#80000000"
+        android:orientation="horizontal"
+        android:weightSum="2">
+
+        <LinearLayout
+            android:id="@+id/editMedicine"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:background="@drawable/details_options_back"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:scaleType="center"
+                android:src="@drawable/ic_action_edit" />
+
+            <TextView
+                android:id="@+id/editButtonText"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:gravity="center"
+                android:text="Edit"
+                android:textColor="#FFF"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/deleteMedicine"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:background="@drawable/details_options_back"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:scaleType="center"
+                android:src="@drawable/ic_action_delete" />
+
+            <TextView
+                android:id="@+id/deleteButtonText"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="5dp"
+                android:gravity="center"
+                android:text="Delete"
+                android:textColor="#FFF"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</RelativeLayout>

@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="actionBackground">#ff2f2f70</color>
+    <!--<color name="actionBackground">#ff6d66ff</color>-->
+    <color name="selected">#ff9de19f</color>
+    <color name="even">#5c8ca9e1</color>
+    <color name="black_overlay">#66000000</color>
+    <color name="actionBackgroundDark">#ff7879ff</color>
+    <color name="actionBackgroundDarkText">#ffffff</color>
+    <color name="applicationThemeColor">#ff2e2e70</color>
+    <color name="screen_background">#ffeaebff</color>
+    <color name="emoji_selected">#ff8ccbff</color>
+    
+    <color name="selectedDay">#ff2abe50</color>
+
+    <color name="rippleColor">#a12f2f70</color>
+    <color name="evenListItemBackground">#ffe8f0ff</color>
+
+
+
+    <color name="text">#FCFCFC</color>
+    <color name="text_light">#999999</color>
+    <color name="text_inverted">#FFFFFF</color>
+    <color name="text_title">#DFDFDF</color>
+    <color name="pager_footer">#1fb6ed</color>
+    <color name="pager_selected_text">#FFFFFF</color>
+    <color name="pager_background">#F4F4F4</color>
+    <color name="pager_background_alternate">#E7E7E7</color>
+    <color name="text_link">#1fb6ed</color>
+    <color name="table_text">#484848</color>
+    <color name="table_text_inverted">#FFFFFF</color>
+    <color name="table_text_light">#A6A6A6</color>
+    <color name="table_text_header">#636363</color>
+    <color name="header_background_start">#ECECEC</color>
+    <color name="header_background_end">#C3C3C3</color>
+    <color name="header_background_top">#F9F9F9</color>
+    <color name="header_background_bottom">#A7A7A7</color>
+    <color name="actionbar_background_start">#272727</color>
+    <color name="actionbar_background_end">#1A1A1A</color>
+    <color name="bootstrap_divider_top">#000000</color>
+    <color name="bootstrap_divider_bottom">#5A5A5A</color>
+    <color name="main_background_start">#2E2E2E</color>
+    <color name="main_background_end">#2C2C2C</color>
+    <color name="button_background_enabled_start">#ff4141a0</color>
+    <color name="button_background_enabled_end">#ff28285f</color>
+    <!--<color name="button_background_enabled_start">#1fb6ed</color>-->
+    <!--<color name="button_background_enabled_end">#1c9ac8</color>-->
+    <color name="button_background_pressed_start">#ff393977</color>
+    <color name="button_background_pressed_end">#ff1b1b36</color>
+    <color name="edit_text_background_start">#ffffffff</color>
+    <color name="edit_text_background_end">#ffdde5ff</color>
+    <!--<color name="edit_text_background_end">#ffdde5ff</color>-->
+    <!--<color name="edit_text_background_start">#EFF6FF</color>-->
+    <!--<color name="edit_text_background_end">#FBFDFF</color>-->
+    <color name="button_background_disabled_start">#7b7b7b</color>
+    <color name="button_background_disabled_end">#646464</color>
+    <color name="text_shadow">#000000</color>
+
+
+
+    <color name="primary">#3c515c</color>
+    <color name="white">#FFFFFF</color>
+    <color name="scrim">#42000000</color>
+    <color name="pressed">#33000000</color>
+
+    <color name="light_blue_500">#ff45b5f4</color>
+    <color name="cyan_500">#ff42a1dd</color>
+    <color name="teal_500">#ff45b4f3</color>
+    <color name="green_500">#ff44d8ff</color>
+    <color name="light_green_500">#ff42a0dc</color>
+
+    <!--<color name="light_blue_500">#03A9F4</color>-->
+    <!--<color name="cyan_500">#00BCD4</color>-->
+    <!--<color name="teal_500">#009688</color>-->
+    <!--<color name="green_500">#4CAF50</color>-->
+    <!--<color name="light_green_500">#8BC34A</color>-->
+
+    <color name="tumblr_primary">#36465D</color>
+    <color name="tumblr_orange">#F2992E</color>
+    <color name="tumblr_green">#56BC8A</color>
+    <color name="tumblr_white">#FFFFFF</color>
+    <color name="tumblr_grey">#748089</color>
+    <color name="tumblr_blue">#4AA8D8</color>
+    <color name="tumblr_red">#D95E40</color>
+
+    <color name="path_primary">#E62F17</color>
+    <color name="path_orange">#FF9500</color>
+    <color name="path_blue">#1774E6</color>
+    <color name="path_black">#403B36</color>
+    <color name="path_green">#5FB336</color>
+    <color name="path_purple">#49098A</color>
+
+
+    <color name="bg_item_normal_state">#fff0f0f0</color>
+    <color name="bg_item_dragging_state">#ffffdddd</color>
+    <color name="bg_item_dragging_active_state">#ffff9999</color>
+    <color name="bg_item_swiping_state">#ffddddff</color>
+    <color name="bg_item_swiping_active_state">#ff9999ff</color>
+
+    <color name="bg_group_item_normal_state">#ffddffdd</color>
+    <color name="bg_group_item_normal_pressed_state">#ff99cc99</color>
+    <color name="bg_group_item_expanded_state">#ff88dd88</color>
+    <color name="bg_group_item_expanded_pressed_state">#ff99cc99</color>
+    <color name="bg_group_item_dragging_state">#ffeeccff</color>
+    <color name="bg_group_item_dragging_active_state">#ffee99ff</color>
+    <color name="bg_group_item_swiping_state">#ffddccff</color>
+    <color name="bg_group_item_swiping_active_state">#ffbb99ff</color>
+
+    <color name="bg_swipe_item_neutral">#ffffffff</color>
+    <color name="bg_swipe_item_left">#fff9930d</color>
+    <color name="bg_swipe_item_right">#ff2f8b2a</color>
+    <color name="bg_swipe_group_item_left">#fff45f30</color>
+    <color name="bg_swipe_group_item_right">#ff295db3</color>
+
+    <color name="snackbar_action_color_done">#ffccccff</color>
+    <color name="navigationDrawerIconTint">#000</color>
+    <color name="navigationDrawerTextColor">#000</color>
+    <color name="newsItemBackgroundColor">#FFF</color>
+    <color name="newsItemTextColor">#000</color>
+
+    <color name="color_healthTip">@color/bg_swipe_item_right</color>
+    <color name="color_vaccine">@color/bg_swipe_item_left</color>
+    <color name="color_death">@color/bg_swipe_group_item_left</color>
+    <color name="color_default">@color/bg_swipe_group_item_right</color>
+    <color name="linkColor">#1b3d87</color>
+</resources>

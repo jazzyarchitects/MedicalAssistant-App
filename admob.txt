@@ -1,0 +1,7 @@
+banner ad(all medicines): ca-app-pub-6208186273505028/4004540197 
+interstitial:ca-app-pub-6208186273505028/3306536191 
+Lock Screen: ca-app-pub-6208186273505028/2394879395 
+Notification: ca-app-pub-6208186273505028/7536429398
+
+
+Analytics:UA-58087731-2

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:background="@color/actionBackground"
+    android:layout_width="match_parent"
+    android:padding="10dp"
+    android:layout_height="wrap_content">
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:drawableLeft="@drawable/ic_action_search"
+        android:paddingLeft="10dp"
+        android:hint="Search..."
+        android:textSize="14sp"
+        android:id="@+id/searchQuery"
+        android:lines="1"
+        android:inputType="text"
+        android:scrollHorizontally="true"
+        android:imeOptions="actionSearch"
+        android:imeActionLabel="Search"
+        android:background="@drawable/search_edit_text"
+        android:maxLines="1"/>
+
+</LinearLayout>

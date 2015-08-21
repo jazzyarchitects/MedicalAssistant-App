@@ -1,0 +1,190 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:padding="10dp"
+    android:layout_height="match_parent"
+    tools:context="architect.jazzy.medicinereminder.Fragments.AddDoctorFragment">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:weightSum="3">
+
+            <ImageView
+                android:id="@+id/docPic"
+                android:layout_width="@dimen/doctor_contact_photo_size"
+                android:layout_height="@dimen/doctor_contact_photo_size"
+                android:layout_column="1"
+                android:layout_marginRight="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
+                android:layout_span="1"
+                android:src="@drawable/userlogin" />
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left|center_vertical"
+                android:layout_weight="3">
+
+                <EditText
+                    android:id="@+id/docName"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_column="6"
+                    android:layout_weight="3"
+                    android:gravity="center_vertical"
+                    android:hint="Name"
+                    android:inputType="textPersonName"
+                    android:textColor="#000"
+                    android:textSize="18sp" />
+            </android.support.design.widget.TextInputLayout>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:weightSum="1">
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1">
+
+                <EditText
+                    android:id="@+id/docPhone1"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_column="1"
+                    android:layout_weight="1"
+                    android:hint="Number 1"
+                    android:inputType="phone" />
+
+            </android.support.design.widget.TextInputLayout>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:weightSum="1">
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1">
+
+                <EditText
+                    android:id="@+id/docPhone2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_column="1"
+                    android:layout_weight="1"
+                    android:hint="Number 2"
+                    android:inputType="phone" />
+
+            </android.support.design.widget.TextInputLayout>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:weightSum="1">
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1">
+
+                <EditText
+                    android:id="@+id/docAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_column="1"
+                    android:lines="3"
+                    android:hint="Address"
+                    android:ems="10"
+                    android:inputType="textMultiLine" />
+            </android.support.design.widget.TextInputLayout>
+        </TableRow>
+
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:weightSum="1">
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1">
+
+                <EditText
+                    android:id="@+id/docHospital"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_column="1"
+                    android:layout_weight="1"
+                    android:hint="Hospital"
+                    android:inputType="text" />
+
+            </android.support.design.widget.TextInputLayout>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:weightSum="1">
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1">
+
+                <EditText
+                    android:id="@+id/docNotes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_column="1"
+                    android:lines="3"
+                    android:hint="Note"
+                    android:ems="10"
+                    android:inputType="textMultiLine" />
+            </android.support.design.widget.TextInputLayout>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="5dp"
+            android:weightSum="1">
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="Save"
+                android:textSize="16sp"
+                android:textColor="#FFF"
+                android:id="@+id/saveButton"
+                android:background="@drawable/button_background_states"/>
+
+        </TableRow>
+
+    </TableLayout>
+
+    </ScrollView>
+</LinearLayout>

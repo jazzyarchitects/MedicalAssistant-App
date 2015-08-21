@@ -1,0 +1,59 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/screen_background"
+    tools:context="architect.jazzy.medicinereminder.Fragments.NewsListFragment">
+
+    <ProgressBar
+        android:layout_width="@dimen/newsProgressBarSize"
+        android:layout_height="@dimen/newsProgressBarSize"
+        android:layout_centerInParent="true"
+        android:id="@+id/progressBar"
+        android:indeterminate="true"
+        style="?android:progressBarStyleLarge"/>
+
+    <ImageView
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_centerInParent="true"
+        android:src="@drawable/no_network"
+        android:visibility="gone"
+        android:id="@+id/noNetworkPic"
+        android:contentDescription="No Network"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/newsfeed"/>
+
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/coordinatorLayout"
+        android:layout_alignParentBottom="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp">
+
+            <android.support.design.widget.FloatingActionButton
+                android:layout_width="@dimen/floatingActionButtonSize"
+                android:layout_height="@dimen/floatingActionButtonSize"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="15dp"
+                android:src="@drawable/ic_action_filter"
+                android:tint="#FFF"
+                android:id="@+id/floatingActionButton"
+                android:contentDescription="Filter News"
+                android:scaleType="centerCrop"
+                android:layout_marginEnd="15dp"
+                android:layout_alignParentEnd="true" />
+        </RelativeLayout>
+
+
+    </android.support.design.widget.CoordinatorLayout>
+
+
+</RelativeLayout>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:background="#FFF"
+    android:layout_height="@dimen/category_popup_height">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:textColor="#FFF"
+        android:background="@color/actionBackground"
+        android:padding="10dp"
+        android:text="Select Category"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:padding="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/recyclerView" />
+
+</LinearLayout>

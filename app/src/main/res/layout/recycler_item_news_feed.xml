@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/backParent"
+    android:minHeight="@dimen/newsItemHeight"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="@dimen/newsItemHeight"
+        app:cardCornerRadius="5dp"
+        app:elevation="5dp"
+        android:gravity="center_vertical"
+        android:background="@color/newsItemBackgroundColor"
+        app:cardMaxElevation="5dp">
+
+        <RelativeLayout
+            android:id="@+id/ll"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:minHeight="@dimen/newsItemHeight"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:layout_centerVertical="true"
+                android:padding="5dp"
+                android:text="News Item"
+                android:textColor="@color/newsItemTextColor"
+                android:textSize="@dimen/newsItemTextSize" />
+
+
+            <TextView
+                android:id="@+id/dateView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="6dp"
+                android:layout_marginTop="10dp"
+                android:textColor="#333"
+                android:paddingLeft="5dp"
+                android:paddingBottom="3dp"
+                android:textSize="10sp"
+                android:layout_below="@+id/textView"
+                android:layout_alignBaseline="@+id/textView"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_alignParentBottom="true"
+                android:id="@+id/colorIndicator"
+                android:background="@color/color_default" />
+
+        </RelativeLayout>
+
+
+    </android.support.v7.widget.CardView>
+</FrameLayout>

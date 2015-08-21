@@ -1,0 +1,28 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="architect.jazzy.medicinereminder.Activities.Illustration$PlaceholderFragment">
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentTop="true"
+        android:scaleType="fitXY"
+        android:id="@+id/image"
+        android:layout_above="@+id/t1"
+        android:src="@drawable/p1"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/actionBackground"
+        android:textColor="#FFF"
+        android:text="Swipe to continue -->"
+        android:id="@+id/t1"
+        android:padding="10dp"
+        android:textSize="16sp"
+        android:gravity="center_horizontal"
+        android:layout_alignParentBottom="true"/>
+
+</RelativeLayout>

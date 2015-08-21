@@ -1,0 +1,10 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="architect.jazzy.medicinereminder.Activities.MedicineList">
+    <item
+        android:id="@+id/newMedicine"
+        android:title="New"
+        android:icon="@drawable/ic_action_new"
+        app:showAsAction="always" />
+</menu>

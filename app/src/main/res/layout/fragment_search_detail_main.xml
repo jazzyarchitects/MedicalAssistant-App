@@ -1,0 +1,16 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="architect.jazzy.medicinereminder.Fragments.SearchDetailMainFragment">
+
+    <include
+        android:id="@+id/searchLayout"
+        layout="@layout/navigation_drawer_header" />
+
+    <android.support.v4.view.ViewPager
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/searchLayout"
+        android:id="@+id/viewPager" />
+
+</RelativeLayout>

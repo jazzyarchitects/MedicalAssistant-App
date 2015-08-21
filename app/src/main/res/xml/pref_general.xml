@@ -1,0 +1,15 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <Preference android:title="Set default alarm timings">
+        <intent android:action="android.intent.action.VIEW"
+            android:targetPackage="architect.jazzy.medicinereminder"
+            android:targetClass="architect.jazzy.medicinereminder.Activities.TimeSettingPreference" />
+    </Preference>
+
+    <Preference android:title="Credits">
+        <intent android:action="android.intent.action.VIEW"
+            android:targetPackage="architect.jazzy.medicinereminder"
+            android:targetClass="architect.jazzy.medicinereminder.Activities.Credits"/>
+    </Preference>
+
+</PreferenceScreen>

@@ -1,0 +1,30 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="@dimen/widget_margin" android:background="#77000000">
+
+   <TextView
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:text="Take the following medicines"
+       android:textColor="#FFF"
+       android:id="@+id/widgetMedicine"
+       android:textStyle="bold"
+       android:textSize="20sp"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/widgetMedicine"
+        android:orientation="vertical">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/widgetMedicineList"
+        android:text="No Medicine to be taken now"
+        android:textSize="18sp"
+        android:textColor="#FFF"/>
+
+</LinearLayout>
+</RelativeLayout>

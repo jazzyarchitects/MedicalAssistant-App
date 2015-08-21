@@ -1,0 +1,352 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/medNameContainer"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffffff"
+    tools:context=".MainActivity">
+
+
+    <ScrollView
+        android:id="@+id/scrollView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!--<TextView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:background="@color/edit_text_background_end"-->
+                <!--android:gravity="center"-->
+                <!--android:paddingBottom="5dp"-->
+                <!--android:paddingLeft="10dp"-->
+                <!--android:paddingRight="10dp"-->
+                <!--android:maxLines="2"-->
+                <!--android:ellipsize="marquee"-->
+                <!--android:paddingTop="5dp"-->
+                <!--android:text="@string/lorem_ipsum"-->
+                <!--android:textSize="12sp"-->
+                <!--android:textStyle="italic" />-->
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/SignInEditText">
+                <AutoCompleteTextView
+                    android:id="@+id/medName"
+                    style="@style/SignInEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:hint="Medicine Name"
+                    android:inputType="textCapWords"
+                    android:lines="1"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:background="#00ffffff"
+                    android:textColor="#000"
+                    android:textSize="18sp" />
+            </android.support.design.widget.TextInputLayout>
+
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp">
+
+                <EditText
+                    android:id="@+id/medNotes"
+                    style="@style/SignInEditText.Notes"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:hint="Notes (Optional)"
+                    android:lines="1"
+                    android:paddingLeft="10dp"
+                    android:textColor="#000"
+                    android:textSize="15sp" />
+
+            </android.support.design.widget.TextInputLayout>
+
+            <LinearLayout
+                android:id="@+id/ll"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:paddingLeft="10dp"
+                    android:text="Medicine Icon: "
+                    android:textColor="#000"
+                    android:textSize="16sp" />
+
+                <ImageView
+                    android:id="@+id/medIcon"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginStart="10dp"
+                    android:src="@drawable/capsule_icon_emoji" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="30dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/emojis_rl"
+                    android:layout_width="100dp"
+                    android:layout_height="25dp"
+                    android:background="@drawable/schedule_background"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="5dp"
+                    android:text="Schedule"
+                    android:textColor="#000"
+                    android:textSize="16sp" />
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="5dp"
+                    android:onClick="showDaySelection"
+                    android:weightSum="7">
+
+                    <TextView
+                        android:id="@+id/text_sun"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="S" />
+
+                    <TextView
+                        android:id="@+id/text_mon"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="M" />
+
+                    <TextView
+                        android:id="@+id/text_tue"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="Tu" />
+
+                    <TextView
+                        android:id="@+id/text_wed"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="W" />
+
+                    <TextView
+                        android:id="@+id/text_thu"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="Th" />
+
+                    <TextView
+                        android:id="@+id/text_fri"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="F" />
+
+                    <TextView
+                        android:id="@+id/text_sat"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="Sa" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:baselineAligned="true"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+
+                <LinearLayout
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <architect.jazzy.medicinereminder.CustomViews.LabelledImage
+                        android:id="@+id/morning"
+                        android:layout_width="match_parent"
+                        android:layout_height="75dp"
+                        android:saveEnabled="false"
+                        android:src="@drawable/morning"
+                        android:text="Breakfast"
+                        android:textColor="#000" />
+
+                    <architect.jazzy.medicinereminder.CustomViews.LabelledImage
+                        android:id="@+id/noon"
+                        android:layout_width="match_parent"
+                        android:layout_height="75dp"
+                        android:saveEnabled="false"
+                        android:src="@drawable/noon"
+                        android:text="Lunch"
+                        android:textColor="#000" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical">
+
+                    <architect.jazzy.medicinereminder.CustomViews.LabelledImage
+                        android:id="@+id/night"
+                        android:layout_width="match_parent"
+                        android:layout_height="75dp"
+                        android:saveEnabled="false"
+                        android:src="@drawable/night"
+                        android:text="Dinner"
+                        android:textColor="#000" />
+
+                    <architect.jazzy.medicinereminder.CustomViews.LabelledImage
+                        android:id="@+id/custom"
+                        android:layout_width="match_parent"
+                        android:layout_height="75dp"
+                        android:saveEnabled="false"
+                        android:src="@drawable/custom_clock"
+                        android:text="Custom Time"
+                        android:textColor="#000" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="10">
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_weight="7">
+                    <EditText
+                        android:id="@+id/endDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:clickable="false"
+                        android:hint="End Date"
+                        android:inputType="none"
+                        android:maxLines="1"
+                        android:minHeight="50dp"
+                        android:textColor="#000"
+                        android:textSize="16sp" />
+                </android.support.design.widget.TextInputLayout>
+
+
+                <CheckBox
+                    android:id="@+id/endIndefinite"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|center_vertical"
+                    android:layout_weight="3"
+                    android:checked="false"
+                    android:text="Indefinite"
+                    android:textSize="12sp" />
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/but_add_medicine"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_gravity="center"
+                android:background="@drawable/button_background_states"
+                android:onClick="addMedicine"
+                android:paddingBottom="0dp"
+                android:paddingLeft="20dp"
+                android:paddingRight="20dp"
+                android:paddingTop="0dp"
+                android:text="Add Medicine"
+                android:textColor="#FFF" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:padding="5dp"
+                android:text="News"
+                android:textColor="#000"
+                android:textSize="16sp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#000" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/actionBackground"
+                android:padding="10dp">
+
+
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/newsFeedPager"
+                    android:layout_width="match_parent"
+                    android:layout_height="100dp"
+                    android:layout_marginBottom="25dp"
+                    android:layout_marginTop="5dp"
+                    android:visibility="gone" />
+
+                <android.support.v7.widget.CardView
+                    android:id="@+id/progressCard"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="25dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginRight="20dp"
+                    android:background="#333"
+                    android:minHeight="100dp"
+                    app:cardMaxElevation="5dp">
+
+                    <ProgressBar
+                        android:id="@+id/loadingBar"
+                        style="?android:attr/progressBarStyleLarge"
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:layout_gravity="center"
+                        android:indeterminate="true" />
+
+                </android.support.v7.widget.CardView>
+            </RelativeLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+
+</RelativeLayout>

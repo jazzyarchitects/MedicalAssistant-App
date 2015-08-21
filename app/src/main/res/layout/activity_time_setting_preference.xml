@@ -1,0 +1,266 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="architect.jazzy.medicinereminder.Activities.TimeSettingPreference"
+    android:background="#ffffffff">
+
+    <android.support.v7.widget.Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/toolBar"
+        android:background="@color/actionBackground"
+        android:theme="@style/Theme.AppCompat">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:gravity="center"
+            android:text="Set Alarm Timings"
+            android:background="@color/actionBackground"
+            android:textColor="#FFF"
+            android:paddingBottom="2sp"/>
+
+    </android.support.v7.widget.Toolbar>
+
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/actionBackground"
+        android:textSize="14sp"
+        android:gravity="center"
+        android:textColor="#FFF"
+        android:padding="5dp"
+        android:text="Note: This will change the alarm timings for all the medicines."
+        android:paddingBottom="15sp"/>
+
+
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="2"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="12 hours format"
+                    android:id="@+id/hr12"/>
+
+                <RadioButton
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:text="24 hours format"
+                    android:id="@+id/hr24"/>
+
+                </RadioGroup>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/edit_text_background2"
+        android:paddingBottom="5sp">
+
+        <TextView
+            android:layout_width="140sp"
+            android:layout_height="wrap_content"
+            android:text="Before Breakfast:"
+            android:textSize="16sp"
+            android:layout_marginLeft="5dp"
+            android:textColor="#000"
+            android:layout_marginBottom="5sp"
+            android:padding="0dp"/>
+
+        <EditText              android:focusable="false"
+            android:inputType="none"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/pref_beforeBreakfast"
+            android:textSize="16sp"
+            
+            android:layout_marginLeft="5dp"/>
+        </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_marginBottom="5sp"
+        android:background="@drawable/edit_text_background2"
+        android:layout_height="wrap_content"
+        android:paddingBottom="5sp">
+
+        <TextView
+            android:layout_width="140sp"
+            android:textColor="#000"
+            android:layout_height="wrap_content"
+            android:text="After Breakfast:"
+            android:textSize="16sp"
+            android:layout_marginLeft="5dp"/>
+
+        <EditText              android:focusable="false"
+            android:inputType="none"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            
+            android:id="@+id/pref_afterBreakfast"
+            android:textSize="16sp"
+            android:layout_marginLeft="5dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content"
+        android:background="@drawable/edit_text_background2"
+        android:paddingBottom="5sp">
+
+        <TextView
+            android:layout_width="140sp"
+            android:layout_height="wrap_content"
+            android:text="Before Lunch:"
+            android:textColor="#000"
+            android:textSize="16sp"
+            android:layout_marginLeft="5dp"/>
+
+        <EditText              android:focusable="false"
+            android:inputType="none"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/pref_beforeLunch"
+            android:layout_marginBottom="5sp"
+            android:textSize="16sp"
+            
+            android:layout_marginLeft="5dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content"
+        android:background="@drawable/edit_text_background2"
+        android:paddingBottom="5sp">
+
+        <TextView
+            android:layout_width="140sp"
+            android:layout_height="wrap_content"
+            android:text="After Lunch:"
+            android:textColor="#000"
+            android:textSize="16sp"
+            android:layout_marginLeft="5dp"/>
+
+        <EditText              android:focusable="false"
+            android:inputType="none"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/pref_afterLunch"
+            android:layout_marginBottom="5sp"
+            
+            android:textSize="16sp"
+            android:layout_marginLeft="5dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:paddingBottom="5sp"
+        android:background="@drawable/edit_text_background2"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="140sp"
+            android:layout_height="wrap_content"
+            android:text="Before Dinner:"
+            android:textColor="#000"
+            android:layout_marginBottom="5sp"
+            android:textSize="16sp"
+            android:layout_marginLeft="5dp"/>
+
+        <EditText
+            android:focusable="false"
+            android:inputType="none"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/pref_beforeNight"
+            android:layout_marginBottom="5sp"
+            
+            android:textSize="16sp"
+            android:layout_marginLeft="5dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:paddingBottom="5sp"
+        android:background="@drawable/edit_text_background2"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="140sp"
+            android:layout_height="wrap_content"
+            android:text="After Dinner:"
+            android:textColor="#000"
+            android:textSize="16sp"
+            android:layout_marginLeft="5dp"/>
+
+        <EditText              android:focusable="false"
+            android:inputType="none"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/pref_afterNight"
+            android:layout_marginBottom="5sp"
+            android:textColor="#000"
+            android:textSize="16sp"
+            
+            android:layout_marginLeft="5dp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:background="@drawable/button_background_states"
+            android:textColor="#FFF"
+            android:paddingLeft="10sp"
+            android:paddingRight="10sp"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="Save"
+            android:onClick="saveTimePrefs"/>
+
+        <Button
+            android:background="@drawable/button_background_states"
+            android:textColor="#FFF"
+            android:paddingLeft="10sp"
+            android:paddingRight="10sp"
+            android:layout_marginLeft="15sp"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="Default"
+            android:onClick="setDefaultTimePrefs"/>
+
+
+        </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

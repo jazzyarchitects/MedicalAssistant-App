@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="architect.jazzy.medicinereminder" >
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
+
+    <supports-screens
+        android:anyDensity="true"
+        android:resizeable="true" />
+
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+    <!--
+ The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
+         Google Maps Android API v2, but are recommended.
+    -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <application
+        android:name=".ThisApplication"
+        android:allowBackup="true"
+        android:icon="@drawable/capsuleicon"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name=".Activities.MainActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateHidden" >
+        </activity>
+        <activity
+            android:name=".Activities.SplashScreen"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:label="Medicine Reminder"
+            android:screenOrientation="portrait"
+            android:theme="@style/FullscreenTheme" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <receiver
+            android:name=".HelperClasses.AlarmReciever"
+            android:enabled="true"
+            android:exported="true" >
+        </receiver>
+
+        <activity
+            android:name=".Activities.NotificationOpen"
+            android:label="@string/title_activity_notification_open"
+            android:parentActivityName=".Activities.MainActivity" >
+        </activity>
+
+        <!-- This service is only used on devices with API v17+ -->
+        <receiver android:name=".Activities.AppWidget" >
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/app_widget_info" />
+        </receiver>
+
+        <service
+            android:name=".HelperClasses.AlarmSetterService"
+            android:exported="false" >
+        </service>
+
+        <receiver
+            android:name=".HelperClasses.BootCompleteReciever"
+            android:enabled="true"
+            android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".HelperClasses.DailyAlarmStarter"
+            android:enabled="true"
+            android:exported="true" >
+        </receiver>
+
+        <activity
+            android:name=".Activities.Credits"
+            android:label="Credits"
+            android:parentActivityName=".Activities.BasicPreferences"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".Activities.BasicPreferences"
+            android:label="@string/title_activity_preferences"
+            android:parentActivityName=".Activities.MainActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme" >
+        </activity>
+        <activity
+            android:name=".Activities.PopupWindow"
+            android:label="@string/title_activity_popup_window"
+            android:screenOrientation="portrait"
+            android:showOnLockScreen="true"
+            android:theme="@style/popup_style" >
+        </activity>
+        <activity
+            android:name=".Activities.FullScreenLockScreen"
+            android:label="@string/title_activity_full_screen_lock_screen"
+            android:screenOrientation="portrait"
+            android:showOnLockScreen="true"
+            android:theme="@style/FullscreenTheme" >
+        </activity>
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <activity
+            android:name="com.google.android.gms.ads.AdActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize" />
+        <activity
+            android:name=".Activities.TimeSettingPreference"
+            android:label="@string/title_activity_time_setting_preference"
+            android:parentActivityName=".Activities.BasicPreferences"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateHidden" >
+        </activity>
+        <activity
+            android:name=".Activities.MedicineDetails"
+            android:label="@string/title_activity_medicine_details"
+            android:parentActivityName=".Activities.MainActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateHidden" >
+        </activity>
+        <activity
+            android:name=".Activities.Illustration"
+            android:label="@string/title_activity_illustration" >
+        </activity>
+        <activity
+            android:name=".Activities.GoogleDriveActivity"
+            android:label="@string/title_activity_google_drive" >
+        </activity>
+
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="@string/google_maps_key" />
+
+    </application>
+
+</manifest>

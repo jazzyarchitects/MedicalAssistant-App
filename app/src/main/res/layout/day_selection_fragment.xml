@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:columnCount="2"
+    android:padding="10dp">
+
+    <TableRow android:weightSum="2">
+        <CheckBox
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:padding="5dp"
+            android:textSize="16sp"
+            android:layout_weight="1"
+            android:text="Sunday"
+            android:id="@+id/daySunday"/>
+
+
+        <CheckBox
+            android:layout_height="wrap_content"
+            android:textColor="#000"
+            android:layout_weight="1"
+            android:textSize="16sp"
+            android:text="Monday"
+            android:id="@+id/dayMonday"/>
+    </TableRow>
+
+
+    <TableRow android:weightSum="2">
+    <CheckBox
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#000"
+        android:text="Tuesday"
+        android:textSize="16sp"
+        android:layout_weight="1"
+        android:id="@+id/dayTuesday"/>
+
+    
+    <CheckBox
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#000"
+        android:textSize="16sp"
+        android:layout_weight="1"
+        android:text="Wednesday"
+        android:id="@+id/dayWednesday"/>
+    </TableRow>
+
+    <TableRow android:weightSum="2">
+    <CheckBox
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#000"
+        android:layout_weight="1"
+        android:textSize="16sp"
+        android:text="Thursday"
+        android:id="@+id/dayThursday"/>
+
+    
+    <CheckBox
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#000"
+        android:layout_weight="1"
+        android:text="Friday"
+        android:textSize="16sp"
+        android:id="@+id/dayFriday"/>
+    </TableRow>
+
+    <TableRow android:weightSum="2">
+    <CheckBox
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="#000"
+        android:layout_weight="1"
+        android:text="Saturday"
+        android:textSize="16sp"
+        android:id="@+id/daySaturday"/>
+    </TableRow>
+
+    
+</TableLayout>

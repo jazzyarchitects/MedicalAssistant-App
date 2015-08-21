@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:theme="@style/Theme.AppCompat.Dialog"
+    android:layout_height="200dp">
+
+    <GridView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:horizontalSpacing="0dp"
+        android:isScrollContainer="true"
+        android:numColumns="9"
+        android:stretchMode="columnWidth"
+        android:id="@+id/gridviewEmoji" />
+
+</LinearLayout>

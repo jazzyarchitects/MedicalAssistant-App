@@ -1,0 +1,39 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="architect.jazzy.medicinereminder.Fragments.SearchFragment">
+
+    <include
+        layout="@layout/navigation_drawer_header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/searchLayout" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Did you mean Correction?"
+        android:paddingBottom="3dp"
+        android:paddingTop="3dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:textColor="#000"
+        android:textSize="15sp"
+        android:visibility="gone"
+        android:id="@+id/suggestion"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:padding="5dp"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/recyclerView" />
+
+    </RelativeLayout>
+
+
+</LinearLayout>

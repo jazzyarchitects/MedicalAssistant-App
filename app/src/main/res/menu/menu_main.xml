@@ -1,0 +1,22 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".MainActivity">
+
+
+    <item android:id="@+id/action_settings" android:title="@string/action_settings"
+        android:orderInCategory="100" app:showAsAction="ifRoom"
+        android:icon="@drawable/ic_action_settings"/>
+
+
+    <item android:id="@+id/showMedicineList"
+        android:title="Show All Medicines"
+        android:titleCondensed="Medicines"
+        android:icon="@drawable/ic_action_list"
+        app:showAsAction="ifRoom" />
+
+    <!--<item android:id="@+id/dialogTest"-->
+        <!--android:title="Test Dialog"-->
+        <!--app:showAsAction="never" />-->
+
+</menu>

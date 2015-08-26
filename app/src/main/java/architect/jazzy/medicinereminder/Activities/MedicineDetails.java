@@ -32,6 +32,7 @@ public class MedicineDetails extends AppCompatActivity implements EmojiSelectFra
         {
 
     CustomViewPager viewPager;
+            private static final String TAG="MedicineDetailActivity";
 
     ArrayList<String> dataSet;
     MedicineDetailsViewPagerAdapter pagerAdapter;
@@ -97,6 +98,7 @@ public class MedicineDetails extends AppCompatActivity implements EmojiSelectFra
     }
 
     private void deleteMedicine(){
+        Log.e(TAG,"Deleting Medicine");
         AlertDialog.Builder builder=new AlertDialog.Builder(this);
         builder.setTitle("Confirm delete");
         builder.setMessage("Are you sure you want to delete the selected medicines from the list?");
@@ -113,15 +115,14 @@ public class MedicineDetails extends AppCompatActivity implements EmojiSelectFra
                 int currentIndex=viewPager.getCurrentItem();
                 Log.e("Current Fragment",String.valueOf(currentIndex));
                 final MedicineDetailFragment medFragment=pagerAdapter.getFragment(currentIndex);
-                Log.e("Current Fragment",medFragment.getMedName()+" 55");
+                Log.e("Current Fragment", medFragment.getMedName() + " 55");
                 String name=medFragment.getMedName();
                 dataSet.remove(name);
                 viewPager.removeAllViews();
-                viewPager.setAdapter(new MedicineDetailsViewPagerAdapter(getFragmentManager(),dataSet));
+                viewPager.setAdapter(new MedicineDetailsViewPagerAdapter(getFragmentManager(), dataSet));
                 viewPager.setCurrentItem(currentIndex + 1, true);
 
                 DataHandler handler=new DataHandler(MedicineDetails.this);
-                handler.open();
                 handler.deleteRow(name);
                 handler.close();
                 if(dataSet.size()==0)
@@ -134,7 +135,7 @@ public class MedicineDetails extends AppCompatActivity implements EmojiSelectFra
     }
 
     private void editMedicine(){
-        int currentIndex=viewPager.getCurrentItem();
+        final int currentIndex=viewPager.getCurrentItem();
         final MedicineDetailFragment medFragment=pagerAdapter.getFragment(currentIndex);
         if(isScrollingEnabled)
         {
@@ -147,7 +148,7 @@ public class MedicineDetails extends AppCompatActivity implements EmojiSelectFra
             delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    medFragment.discard();
+                    medFragment.discard(dataSet.get(currentIndex));
                     isScrollingEnabled = true;
                     viewPager.setEnabledSwipe(true);
                     editTextView.setText("Edit");

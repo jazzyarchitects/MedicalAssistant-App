@@ -34,6 +34,7 @@ import java.util.HashMap;
 import architect.jazzy.medicinereminder.Adapters.PopupListAdapter;
 import architect.jazzy.medicinereminder.Handlers.DataHandler;
 import architect.jazzy.medicinereminder.HelperClasses.AlarmReciever;
+import architect.jazzy.medicinereminder.Models.Medicine;
 import architect.jazzy.medicinereminder.R;
 
 
@@ -103,14 +104,12 @@ public class PopupWindow extends AppCompatActivity implements MediaPlayer.OnPrep
 
     public void populateMedicineList()
     {
-        ArrayList<Pair<Integer, String>> dataSet=new ArrayList<>();
+        ArrayList<Medicine> dataSet=new ArrayList<>();
         //medicineList contains the medicine Name  16 0
         DataHandler handler=new DataHandler(this);
-        handler.open();
         for(int i=0;i<medicineList.size();i++){
-            Cursor c=handler.findRow(medicineList.get(i));
-            c.moveToFirst();
-            dataSet.add(Pair.create(Integer.parseInt(c.getString(16)),c.getString(0)));
+            Medicine medicine=handler.findRow(medicineList.get(i));
+            dataSet.add(medicine);
         }
         handler.close();
         PopupListAdapter adapter=new PopupListAdapter(this,dataSet);

@@ -21,6 +21,7 @@ import architect.jazzy.medicinereminder.Activities.AppWidget;
 import architect.jazzy.medicinereminder.Activities.NotificationOpen;
 import architect.jazzy.medicinereminder.Activities.PopupWindow;
 import architect.jazzy.medicinereminder.Handlers.DataHandler;
+import architect.jazzy.medicinereminder.Models.Medicine;
 import architect.jazzy.medicinereminder.R;
 
 public class AlarmReciever extends BroadcastReceiver {
@@ -53,8 +54,8 @@ public class AlarmReciever extends BroadcastReceiver {
         dataHandler.open();
         Cursor c;
         for (int i = 0; i < medicineList.size(); i++) {
-            c = dataHandler.findRow(medicineList.get(i));
-            if (!c.moveToFirst()) {
+            Medicine medicine = dataHandler.findRow(medicineList.get(i));
+            if (medicine!=null) {
                 toDeleteString.add(medicineList.get(i));
             }
         }

@@ -9,9 +9,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
@@ -34,27 +31,22 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.DigitalClock;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.balysv.materialripple.MaterialRippleLayout;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import architect.jazzy.medicinereminder.Adapters.MedicineListAdapter;
-import architect.jazzy.medicinereminder.Handlers.DataHandler;
 import architect.jazzy.medicinereminder.HelperClasses.AlarmReciever;
-import architect.jazzy.medicinereminder.ThisApplication;
+import architect.jazzy.medicinereminder.Models.Medicine;
 import architect.jazzy.medicinereminder.R;
+import architect.jazzy.medicinereminder.ThisApplication;
 
 
 public class FullScreenLockScreen extends ActionBarActivity {
@@ -159,7 +151,7 @@ public class FullScreenLockScreen extends ActionBarActivity {
         RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(this);
         medicineListView.setHasFixedSize(true);
         medicineListView.setLayoutManager(layoutManager);
-        ArrayList<HashMap<String, ArrayList<String>>> dataSet=NotificationOpen.getMedicineData(this, medicineList);
+        ArrayList<Medicine> dataSet=NotificationOpen.getMedicineData(this, medicineList);
         MedicineListAdapter listAdapter=new MedicineListAdapter(this,dataSet);
         listAdapter.setLayout(R.layout.listitem_lock_screen);
         medicineListView.setAdapter(listAdapter);

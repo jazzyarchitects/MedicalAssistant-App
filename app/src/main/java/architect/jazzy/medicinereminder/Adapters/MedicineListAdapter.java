@@ -21,8 +21,8 @@ import com.h6ah4i.android.widget.advrecyclerview.swipeable.SwipeableItemAdapter;
 import com.h6ah4i.android.widget.advrecyclerview.utils.AbstractSwipeableItemViewHolder;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
+import architect.jazzy.medicinereminder.Models.Medicine;
 import architect.jazzy.medicinereminder.R;
 
 /**
@@ -48,14 +48,14 @@ public class MedicineListAdapter extends RecyclerView.Adapter<MedicineListAdapte
 
     private Context context;
     LayoutInflater inflater;
-    ArrayList<HashMap<String, ArrayList<String>>> dataSet;
+    ArrayList<Medicine> medicines;
     ArrayList<String> medicineNames;
     Activity parent = null;
 
     private EventListener mEventListener;
 
     public interface EventListener {
-        void onItemRemoved(int position, HashMap<String, ArrayList<String>> data);
+        void onItemRemoved(int position, Medicine medicine);
 
         void onItemViewClicked(int position, ArrayList<String> medicineList);
     }
@@ -65,16 +65,16 @@ public class MedicineListAdapter extends RecyclerView.Adapter<MedicineListAdapte
         this(null, null, null);
     }
 
-    public MedicineListAdapter(Context context, ArrayList<HashMap<String, ArrayList<String>>> dataSet, Activity parent) {
+    public MedicineListAdapter(Context context, ArrayList<Medicine> medicines, Activity parent) {
         Log.e("List", "Adaptor Called");
         this.context = context;
-        this.dataSet = dataSet;
+        this.medicines=medicines;
         this.parent = parent;
         inflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         imageAdapter = new ImageAdapter(context);
         medicineNames = new ArrayList<String>();
-        for (int i = 0; i < dataSet.size(); i++) {
-            medicineNames.add(dataSet.get(i).get(MEDICINE_NAME).get(0));
+        for (int i = 0; i < medicines.size(); i++) {
+            medicineNames.add(medicines.get(i).getMedName());
         }
         init();
     }
@@ -83,8 +83,8 @@ public class MedicineListAdapter extends RecyclerView.Adapter<MedicineListAdapte
         this.layout_id=layout_id;
     }
 
-    public MedicineListAdapter(Context context, ArrayList<HashMap<String, ArrayList<String>>> dataSet) {
-        this(context, dataSet, null);
+    public MedicineListAdapter(Context context, ArrayList<Medicine> medicines) {
+        this(context, medicines, null);
     }
 
     @Override
@@ -98,7 +98,7 @@ public class MedicineListAdapter extends RecyclerView.Adapter<MedicineListAdapte
 
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
-        final HashMap<String, ArrayList<String>> data = dataSet.get(position);
+        final Medicine data=medicines.get(position);
 
 
         mItemViewOnClickListener = new View.OnClickListener() {
@@ -121,11 +121,10 @@ public class MedicineListAdapter extends RecyclerView.Adapter<MedicineListAdapte
 //        holder.cardView.setOnClickListener(mSwipeableViewContainerOnClickListener);
 
 
-        name = "";
-        name = (data.get(MEDICINE_NAME)).get(0);
-        holder.medName.setText(name);
+        name = "";;
+        holder.medName.setText(data.getMedName());
 
-        holder.medIcon.setImageResource(ImageAdapter.emojis[getImageIndex(Integer.parseInt(data.get(IMAGE_ID).get(0)))]);
+        holder.medIcon.setImageResource(ImageAdapter.emojis[getImageIndex(data.getIcon())]);
 
 
         try {
@@ -162,7 +161,7 @@ public class MedicineListAdapter extends RecyclerView.Adapter<MedicineListAdapte
 
     @Override
     public int getItemCount() {
-        return dataSet.size();
+        return medicines.size();
     }
 
     @Override
@@ -196,19 +195,19 @@ public class MedicineListAdapter extends RecyclerView.Adapter<MedicineListAdapte
     @Override
     public void onPerformAfterSwipeReaction(ViewHolder viewHolder,final int position, int result, int reaction) {
         Log.d(TAG, "onPerformAfterSwipeReaction(position = " + position + ", result = " + result + ", reaction = " + reaction + ")");
-        final HashMap<String, ArrayList<String>> item = dataSet.get(position);
+        final Medicine item = medicines.get(position);
 
         if (reaction == RecyclerViewSwipeManager.AFTER_SWIPE_REACTION_REMOVE_ITEM) {
 
             if(parent!=null){
                 AlertDialog.Builder builder=new AlertDialog.Builder(parent);
                 builder.setTitle("Confirm Delete");
-                builder.setMessage(dataSet.get(position).get(MEDICINE_NAME).get(0)+" will be removed from the list. This cannot be undone.")
+                builder.setMessage(item.getMedName()+" will be removed from the list. This cannot be undone.")
                         .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                medicineNames.remove(dataSet.get(position).get(MEDICINE_NAME).get(0));
-                                dataSet.remove(position);
+                                medicineNames.remove(item.getMedName());
+                                medicines.remove(position);
                                 notifyItemRemoved(position);
                                 if (mEventListener != null) {
                                     mEventListener.onItemRemoved(position,item);

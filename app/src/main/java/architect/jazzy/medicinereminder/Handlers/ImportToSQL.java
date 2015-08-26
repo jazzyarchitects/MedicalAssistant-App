@@ -18,6 +18,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 import architect.jazzy.medicinereminder.Activities.MainActivity;
+import architect.jazzy.medicinereminder.Models.MedTime;
+import architect.jazzy.medicinereminder.Models.Medicine;
 
 public class ImportToSQL{
     private static Context mContext;
@@ -75,6 +77,7 @@ public class ImportToSQL{
         xpp.setInput(new InputStreamReader(fileInputStream));
         int eventType=xpp.getEventType();
         int i=0;
+        Medicine medicine=new Medicine();
         while(eventType!=XmlPullParser.END_DOCUMENT)
         {
             String name;
@@ -87,66 +90,83 @@ public class ImportToSQL{
                     switch (name)
                     {
                         case "medicine":
+                            medicine=new Medicine();
                             break;
                         case "name":
                             medicineName=xpp.nextText();
+                            medicine.setMedName(medicineName);
                             break;
-                        case "ma":
-                            breakfast=xpp.nextText();
-                            break;
-                        case "na":
-                            lunch=xpp.nextText();
-                            break;
-                        case "nia":
-                            dinner=xpp.nextText();
-                            break;
+//                        case "ma":
+//                            breakfast=xpp.nextText();
+//                            break;
+//                        case "na":
+//                            lunch=xpp.nextText();
+//                            break;
+//                        case "nia":
+//                            dinner=xpp.nextText();
+//                            break;
                         case "s":
                             daySelected[0]=xpp.nextText();
+                            medicine.setSun(Boolean.parseBoolean(daySelected[0]));
                             break;
                         case "m":
                             daySelected[1]=xpp.nextText();
+                            medicine.setMon(Boolean.parseBoolean(daySelected[1]));
                             break;
                         case "t":
                             daySelected[2]=xpp.nextText();
+                            medicine.setTue(Boolean.parseBoolean(daySelected[2]));
                             break;
                         case "w":
                             daySelected[3]=xpp.nextText();
+                            medicine.setWed(Boolean.parseBoolean(daySelected[3]));
                             break;
                         case "th":
                             daySelected[4]=xpp.nextText();
+                            medicine.setThu(Boolean.parseBoolean(daySelected[4]));
                             break;
                         case "f":
                             daySelected[5]=xpp.nextText();
+                            medicine.setFri(Boolean.parseBoolean(daySelected[5]));
                             break;
                         case "sa":
                             daySelected[6]=xpp.nextText();
+                            medicine.setSat(Boolean.parseBoolean(daySelected[6]));
                             break;
-                        case "sd":
-                            startDate=xpp.nextText();
-                            break;
+//                        case "sd":
+//                            startDate=xpp.nextText();
+//                            break;
                         case "ed":
                             endDate=xpp.nextText();
+                            medicine.setEndDate(endDate);
                             break;
                         case "bk":
                             bk=xpp.nextText();
+                            medicine.setBreakfast(bk);
                             break;
                         case "ln":
                             ln=xpp.nextText();
+                            medicine.setLunch(ln);
                             break;
                         case "dn":
                             dn=xpp.nextText();
+                            medicine.setDinner(dn);
                             break;
                         case "icon":
                             icon=xpp.nextText();
+                            medicine.setIcon(Integer.parseInt(icon));
                             break;
                         case "ch":
                             cH=xpp.nextText();
+                            medicine.setCustomTime(MedTime.parseTime(cH,"0"));
                             break;
                         case "cm":
                             cM=xpp.nextText();
+                            medicine.setCustomTime(MedTime.parseTime(cH,cM));
                             break;
                         case "note":
                             note=xpp.nextText();
+                            medicine.setNote(note);
                         default:
                             break;
 
@@ -159,11 +179,12 @@ public class ImportToSQL{
                         {
 
                             dataHandler=new DataHandler(mContext);
-                            dataHandler.open();
                             dataHandler.clear_database();
                             i++;
                         }
-                        dataHandler.insertData(medicineName, breakfast, lunch, dinner, String.valueOf(daySelected[0]), String.valueOf(daySelected[1]), String.valueOf(daySelected[2]), String.valueOf(daySelected[3]), String.valueOf(daySelected[4]), String.valueOf(daySelected[5]), String.valueOf(daySelected[6]), startDate, endDate,bk,ln,dn,icon,cH,cM,note);
+                        //TODO: insert Function
+//                        dataHandler.insertData(medicineName, breakfast, lunch, dinner, String.valueOf(daySelected[0]), String.valueOf(daySelected[1]), String.valueOf(daySelected[2]), String.valueOf(daySelected[3]), String.valueOf(daySelected[4]), String.valueOf(daySelected[5]), String.valueOf(daySelected[6]), startDate, endDate,bk,ln,dn,icon,cH,cM,note);
+                        dataHandler.insertData(medicine);
                     }
             }
             eventType=xpp.next();

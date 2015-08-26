@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
@@ -33,17 +32,19 @@ import architect.jazzy.medicinereminder.CustomViews.LabelledImage;
 import architect.jazzy.medicinereminder.Handlers.DataHandler;
 import architect.jazzy.medicinereminder.HelperClasses.Constants;
 import architect.jazzy.medicinereminder.HelperClasses.TimingClass;
+import architect.jazzy.medicinereminder.Models.Medicine;
 import architect.jazzy.medicinereminder.R;
 
-public class MedicineDetailFragment extends Fragment{
+public class MedicineDetailFragment extends Fragment {
 
     public static String medName;
     public String medicine;
     String changedName = "";
     ImageView medIcon;
     EditText medicineName;
+    String doctorId="";
     LabelledImage morning, noon, night, custom;
-    int pos=0;
+    int pos = 0;
     SharedPreferences inputPref;
     EditText endDose;
     private View mView;
@@ -57,6 +58,7 @@ public class MedicineDetailFragment extends Fragment{
     int day, month, year;
     EditText notes;
     String customTimeHour, customTimeMinute, ch, cm, icon;
+    private static final String TAG="MedicineDetailFragment";
 
     public static MedicineDetailFragment newInstance(String medicineName) {
         MedicineDetailFragment fragment = new MedicineDetailFragment();
@@ -124,52 +126,55 @@ public class MedicineDetailFragment extends Fragment{
         medicine = getArguments().getString(Constants.BUNDLE_MEDICINE_TAG);
 
         DataHandler handler = new DataHandler(getActivity().getApplicationContext());
-        handler.open();
 
-        Cursor c = handler.findRow(medName);
-        if (c.moveToFirst()) {
-            for (int i = 4; i < 11; i++) {
-                ((CheckBox) v.findViewById(checkBoxIds[i - 4])).setChecked(Boolean.parseBoolean(c.getString(i)));
-            }
-        }
+        Medicine medicine = handler.findRow(medName);
+        ((CheckBox) v.findViewById(checkBoxIds[0])).setChecked(medicine.getSun());
+        ((CheckBox) v.findViewById(checkBoxIds[1])).setChecked(medicine.getMon());
+        ((CheckBox) v.findViewById(checkBoxIds[2])).setChecked(medicine.getTue());
+        ((CheckBox) v.findViewById(checkBoxIds[3])).setChecked(medicine.getWed());
+        ((CheckBox) v.findViewById(checkBoxIds[4])).setChecked(medicine.getThu());
+        ((CheckBox) v.findViewById(checkBoxIds[5])).setChecked(medicine.getFri());
+        ((CheckBox) v.findViewById(checkBoxIds[6])).setChecked(medicine.getSat());
+
+
         setCheckboxEnabled(false);
         medicineName = (EditText) v.findViewById(R.id.medName);
         medicineName.setText(medName);
 
 
         morning.setNormalColor();
-        if (c.getString(13).equals("before"))
+        this.doctorId=medicine.getDoctorId();
+        //TODO: Change these wrt new table
+        if (medicine.getBreakfast().equals("before"))
             morning.setText(TimingClass.getTime(bbh, bbm, is24hr), "Before Breakfast");
-        else if (c.getString(13).equals("after"))
+        else if (medicine.getBreakfast().equals("after"))
             morning.setText(TimingClass.getTime(abh, abm, is24hr), "After Breakfast");
         else
             morning.setGrayScale();
-        this.bk = c.getString(13);
+        this.bk = medicine.getBreakfast();
 
         noon.setNormalColor();
-        if (c.getString(14).equals("before"))
+        if (medicine.getLunch().equals("before"))
             noon.setText(TimingClass.getTime(blh, blm, is24hr), "Before Lunch");
-        else if (c.getString(14).equals("after"))
+        else if (medicine.getLunch().equals("after"))
             noon.setText(TimingClass.getTime(alh, alm, is24hr), "After Lunch");
         else
             noon.setGrayScale();
-        this.ln = c.getString(14);
+        this.ln = medicine.getLunch();
 
         night.setNormalColor();
-        if (c.getString(15).equals("before"))
+        if (medicine.getDinner().equals("before"))
             night.setText(TimingClass.getTime(bdh, bdm, is24hr), "Before Dinner");
-        else if (c.getString(15).equals("after"))
+        else if (medicine.getDinner().equals("after"))
             night.setText(TimingClass.getTime(adh, adm, is24hr), "After Dinner");
         else
             night.setGrayScale();
-        this.dn = c.getString(15);
-
-        ch = c.getString(17);
-        cm = c.getString(18);
+        this.dn = medicine.getDinner();
 
 
-        this.customTimeHour = ch;
-        this.customTimeMinute = cm;
+
+        this.customTimeHour = String.valueOf(medicine.getCustomTime().getHour());
+        this.customTimeMinute = String.valueOf(medicine.getCustomTime().getMinute());
         custom.setNormalColor();
         Log.e("MedicineDetailFragment", "Custom Hour: " + ch + " Custom Minute: " + cm);
         if (ch != null && !ch.equals("null")) {
@@ -181,25 +186,25 @@ public class MedicineDetailFragment extends Fragment{
             custom.setGrayScale();
 
 
-        this.icon = c.getString(16);
+        this.icon = String.valueOf(medicine.getIcon());
         this.notes = (EditText) mView.findViewById(R.id.medNotes);
-        String note = c.getString(19);
+        String note = medicine.getNote();
         notes.setText(note);
         notes.setEnabled(false);
 
-        this.pos=Integer.parseInt(c.getString(16));
-        medIcon.setImageResource(ImageAdapter.emojis[pos]);
+        medIcon.setImageResource(ImageAdapter.emojis[medicine.getIcon()]);
 
         endDose = (EditText) v.findViewById(R.id.endDate);
-        if (!c.isNull(12)) {
-            if (c.getString(12).equalsIgnoreCase(Constants.INDEFINITE_SCHEDULE) || c.getString(12).isEmpty()) {
+        if (!medicine.getEndDate().isEmpty()) {
+            if (medicine.getEndDate().equalsIgnoreCase(Constants.INDEFINITE_SCHEDULE) || medicine.getEndDate().isEmpty()) {
+                endDate = medicine.getEndDate();
                 endDose.setText("");
-                endDate = "";
                 ((CheckBox) mView.findViewById(R.id.endIndefinite)).setChecked(true);
             } else {
-                String[] d=c.getString(12).split("-");
-                int dd=Integer.parseInt(d[0]), mm=Integer.parseInt(d[1]),yyyy=Integer.parseInt(d[2]);
-                endDose.setText(dd+" "+TimingClass.getEquivalentMonth(mm)+" "+yyyy);
+                String[] d = medicine.getEndDate().split("-");
+                int dd = Integer.parseInt(d[0]), mm = Integer.parseInt(d[1]), yyyy = Integer.parseInt(d[2]);
+                ((CheckBox) mView.findViewById(R.id.endIndefinite)).setChecked(false);
+                endDose.setText(dd + " " + TimingClass.getEquivalentMonth(mm) + " " + yyyy);
                 endDate = endDose.getText().toString();
             }
         }
@@ -457,19 +462,21 @@ public class MedicineDetailFragment extends Fragment{
     public void saveToDatabase() {
         HashMap<String, String> dataSet = getData();
         DataHandler handler = new DataHandler(context);
-        handler.open();
         Log.e("saveToDatabase()", dataSet.get(Constants.MEDICINE_NAME) + "  ***  " + dataSet.get(Constants.NOTES));
         Log.e("MedicineDetailsFragment", "Original Name= " + medicine + " new Name=" + dataSet.get(Constants.MEDICINE_NAME));
-        handler.updateData(medicine, dataSet.get(Constants.MEDICINE_NAME), dataSet.get(Constants.MORNING_TIME),
-                dataSet.get(Constants.NOON_TIME), dataSet.get(Constants.NIGHT_TIME),
-                dataSet.get(Constants.DAY_SUNDAY), dataSet.get(Constants.DAY_MONDAY),
+        Log.e("MedicineDetailsFragment", "Original Name= " + medicine + " Times: " + bk + " " + ln + " " + dn);
+
+        handler.updateData(medicine,
+                dataSet.get(Constants.MEDICINE_NAME),
+                dataSet.get(Constants.DOCTOR_ID),
+                dataSet.get(Constants.DAY_SUNDAY),
+                dataSet.get(Constants.DAY_MONDAY),
                 dataSet.get(Constants.DAY_TUESDAY), dataSet.get(Constants.DAY_WEDNESDAY),
                 dataSet.get(Constants.DAY_THURSDAY), dataSet.get(Constants.DAY_FRIDAY),
-                dataSet.get(Constants.DAY_SATURDAY), dataSet.get(Constants.START_DATE),
+                dataSet.get(Constants.DAY_SATURDAY),
                 dataSet.get(Constants.END_DATE), dataSet.get(Constants.BREAKFAST),
                 dataSet.get(Constants.LUNCH), dataSet.get(Constants.DINNER),
-                dataSet.get(Constants.ICON), dataSet.get(Constants.CUSTOM_TIME_HOUR),
-                dataSet.get(Constants.CUSTOM_TIME_MINUTE), dataSet.get(Constants.NOTES));
+                dataSet.get(Constants.CUSTOM_TIME_HOUR), dataSet.get(Constants.NOTES));
 
         Toast.makeText(context, "Medicine Schedule Modified", Toast.LENGTH_LONG).show();
         handler.close();
@@ -478,11 +485,7 @@ public class MedicineDetailFragment extends Fragment{
     public HashMap<String, String> getData() {
         HashMap<String, String> dataSet = new HashMap<>();
         dataSet.put(Constants.MEDICINE_NAME, this.changedName);
-
-        dataSet.put(Constants.MORNING_TIME, "");
-        dataSet.put(Constants.NOON_TIME, "");
-        dataSet.put(Constants.NIGHT_TIME, "");
-
+        dataSet.put(Constants.DOCTOR_ID,this.doctorId);
         dataSet.put(Constants.DAY_SUNDAY, String.valueOf(((CheckBox) mView.findViewById(this.checkBoxIds[0])).isChecked()));
         dataSet.put(Constants.DAY_MONDAY, String.valueOf(((CheckBox) mView.findViewById(this.checkBoxIds[1])).isChecked()));
         dataSet.put(Constants.DAY_TUESDAY, String.valueOf(((CheckBox) mView.findViewById(this.checkBoxIds[2])).isChecked()));
@@ -491,7 +494,6 @@ public class MedicineDetailFragment extends Fragment{
         dataSet.put(Constants.DAY_FRIDAY, String.valueOf(((CheckBox) mView.findViewById(this.checkBoxIds[5])).isChecked()));
         dataSet.put(Constants.DAY_SATURDAY, String.valueOf(((CheckBox) mView.findViewById(this.checkBoxIds[6])).isChecked()));
 
-        dataSet.put(Constants.START_DATE, "");
         dataSet.put(Constants.END_DATE, this.endDate);
 
         dataSet.put(Constants.BREAKFAST, this.bk);
@@ -500,11 +502,10 @@ public class MedicineDetailFragment extends Fragment{
 
         dataSet.put(Constants.ICON, String.valueOf(pos));
 
-        dataSet.put(Constants.CUSTOM_TIME_HOUR, this.customTimeHour);
-        dataSet.put(Constants.CUSTOM_TIME_MINUTE, this.customTimeMinute);
+        dataSet.put(Constants.CUSTOM_TIME_HOUR, this.customTimeHour+","+this.customTimeMinute);
 
         dataSet.put(Constants.NOTES, this.notes.getText().toString());
-        Log.e("getData()", this.changedName + "   Custom Time: " + this.customTimeHour+":"+this.customTimeMinute);
+        Log.e("getData()", this.changedName + "   Custom Time: " + this.customTimeHour + ":" + this.customTimeMinute);
         return dataSet;
     }
 
@@ -547,18 +548,99 @@ public class MedicineDetailFragment extends Fragment{
         com.android.datetimepicker.time.TimePickerDialog.newInstance(onTimeSetListener, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), is24hr).show(getFragmentManager(), "TIME_PICKER");
     }
 
+    public void discard(String name) {
+        Log.e(TAG,"Discarding Changes");
+        DataHandler handler = new DataHandler(getActivity());
+        Medicine medicine = handler.findRow(name);
+        ((CheckBox) v.findViewById(checkBoxIds[0])).setChecked(medicine.getSun());
+        ((CheckBox) v.findViewById(checkBoxIds[1])).setChecked(medicine.getMon());
+        ((CheckBox) v.findViewById(checkBoxIds[2])).setChecked(medicine.getTue());
+        ((CheckBox) v.findViewById(checkBoxIds[3])).setChecked(medicine.getWed());
+        ((CheckBox) v.findViewById(checkBoxIds[4])).setChecked(medicine.getThu());
+        ((CheckBox) v.findViewById(checkBoxIds[5])).setChecked(medicine.getFri());
+        ((CheckBox) v.findViewById(checkBoxIds[6])).setChecked(medicine.getSat());
+
+        setCheckboxEnabled(false);
+        this.medicineName.setText(name);
+        this.medicineName.setEnabled(false);
+        this.medIcon.setImageResource(ImageAdapter.emojis[Integer.parseInt(this.icon)]);
+
+
+        this.morning.setNormalColor();
+        if (medicine.getBreakfast().equals("before"))
+            morning.setText(TimingClass.getTime(bbh, bbm, is24hr), "Before Breakfast");
+        else if (medicine.getBreakfast().equals("after"))
+            morning.setText(TimingClass.getTime(abh, abm, is24hr), "After Breakfast");
+        else
+            morning.setGrayScale();
+
+        noon.setNormalColor();
+        if (medicine.getLunch().equals("before"))
+            noon.setText(TimingClass.getTime(blh, blm, is24hr), "Before Lunch");
+        else if (medicine.getLunch().equals("after"))
+            noon.setText(TimingClass.getTime(alh, alm, is24hr), "After Lunch");
+        else
+            noon.setGrayScale();
+
+        night.setNormalColor();
+        if (medicine.getDinner().equals("before"))
+            night.setText(TimingClass.getTime(bdh, bdm, is24hr), "Before Dinner");
+        else if (medicine.getDinner().equals("after"))
+            night.setText(TimingClass.getTime(adh, adm, is24hr), "After Dinner");
+        else
+            night.setGrayScale();
+
+        customTimeHour = String.valueOf(medicine.getCustomTime().getHour());
+        customTimeMinute = String.valueOf(medicine.getCustomTime().getMinute());
+        custom.setNormalColor();
+        if (ch != null && !ch.equals("null")) {
+            if (!ch.isEmpty()) {
+                custom.setText(TimingClass.getTime(Integer.parseInt(ch), Integer.parseInt(cm), is24hr), "Custom Time");
+            }
+        } else
+            custom.setGrayScale();
+
+        mView.findViewById(R.id.endIndefinite).setEnabled(false);
+        icon = String.valueOf(medicine.getIcon());
+        notes = (EditText) mView.findViewById(R.id.medNotes);
+        String note = medicine.getNote();
+        notes.setText(note);
+        notes.setEnabled(false);
+        endDose = (EditText) v.findViewById(R.id.endDate);
+        endDose.setText(medicine.getEndDate());
+
+        handler.close();
+    }
+
+    public String getMedName() {
+        return ((EditText) mView.findViewById(R.id.medName)).getText().toString();
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        ((MedicineDetails) activity).setEmojiSetListener(new MedicineDetails.onEmojiSetListener() {
+            @Override
+            public void onEmojiSet(int position) {
+                Log.e("MedicineDetailFragment", "Emoji set recieved " + medName);
+                onEmojiSelected(position);
+            }
+        });
+    }
+
+
     public void before(LabelledImage view, String tag) {
         int h = 0, m = 0;
         if (tag.equalsIgnoreCase("breakfast")) {
-            bk = "before";
+            this.bk = "before";
             h = bbh;
             m = bbm;
         } else if (tag.equalsIgnoreCase("lunch")) {
-            ln = "before";
+            this.ln = "before";
             h = blh;
             m = blm;
         } else if (tag.equalsIgnoreCase("dinner")) {
-            dn = "before";
+            this.dn = "before";
             h = bdh;
             m = bdm;
         }
@@ -571,15 +653,15 @@ public class MedicineDetailFragment extends Fragment{
     public void after(LabelledImage view, String tag) {
         int h = 0, m = 0;
         if (tag.equalsIgnoreCase("breakfast")) {
-            bk = "after";
+            this.bk = "after";
             h = abh;
             m = abm;
         } else if (tag.equalsIgnoreCase("lunch")) {
-            ln = "after";
+            this.ln = "after";
             h = alh;
             m = alm;
         } else if (tag.equalsIgnoreCase("dinner")) {
-            dn = "after";
+            this.dn = "after";
             h = adh;
             m = adm;
         }
@@ -603,83 +685,4 @@ public class MedicineDetailFragment extends Fragment{
         view.setGrayScale();
     }
 
-    public void discard() {
-        DataHandler handler = new DataHandler(getActivity());
-        handler.open();
-
-        Cursor c = handler.findRow(medName);
-        c.moveToFirst();
-        for (int i = 4; i < 11; i++) {
-            ((CheckBox) v.findViewById(checkBoxIds[i - 4])).setChecked(Boolean.parseBoolean(c.getString(i)));
-        }
-        setCheckboxEnabled(false);
-
-        medicineName.setText(medName);
-
-        medIcon.setImageResource(ImageAdapter.emojis[Integer.parseInt(this.icon)]);
-
-
-        morning.setNormalColor();
-        if (c.getString(13).equals("before"))
-            morning.setText(TimingClass.getTime(bbh, bbm, is24hr), "Before Breakfast");
-        else if (c.getString(13).equals("after"))
-            morning.setText(TimingClass.getTime(abh, abm, is24hr), "After Breakfast");
-        else
-            morning.setGrayScale();
-
-        noon.setNormalColor();
-        if (c.getString(14).equals("before"))
-            noon.setText(TimingClass.getTime(blh, blm, is24hr), "Before Lunch");
-        else if (c.getString(14).equals("after"))
-            noon.setText(TimingClass.getTime(alh, alm, is24hr), "After Lunch");
-        else
-            noon.setGrayScale();
-
-        night.setNormalColor();
-        if (c.getString(15).equals("before"))
-            night.setText(TimingClass.getTime(bdh, bdm, is24hr), "Before Dinner");
-        else if (c.getString(15).equals("after"))
-            night.setText(TimingClass.getTime(adh, adm, is24hr), "After Dinner");
-        else
-            night.setGrayScale();
-
-        ch = c.getString(17);
-        cm = c.getString(18);
-        customTimeHour = ch;
-        customTimeMinute = cm;
-        custom.setNormalColor();
-        if (ch != null && !ch.equals("null")) {
-            if (!ch.isEmpty()) {
-                custom.setText(TimingClass.getTime(Integer.parseInt(ch), Integer.parseInt(cm), is24hr), "Custom Time");
-            }
-        } else
-            custom.setGrayScale();
-
-        mView.findViewById(R.id.endIndefinite).setEnabled(false);
-        icon = c.getString(16);
-        notes = (EditText) mView.findViewById(R.id.medNotes);
-        String note = c.getString(19);
-        notes.setText(note);
-        notes.setEnabled(false);
-        endDose = (EditText) v.findViewById(R.id.endDate);
-        endDose.setText(c.getString(12));
-
-        handler.close();
-    }
-
-    public String getMedName() {
-        return ((EditText) mView.findViewById(R.id.medName)).getText().toString();
-    }
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        ((MedicineDetails)activity).setEmojiSetListener(new MedicineDetails.onEmojiSetListener() {
-            @Override
-            public void onEmojiSet(int position) {
-                Log.e("MedicineDetailFragment","Emoji set recieved "+medName);
-                onEmojiSelected(position);
-            }
-        });
-    }
 }

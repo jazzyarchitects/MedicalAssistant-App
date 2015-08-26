@@ -48,6 +48,7 @@ public class Constants {
 
 
     public static final String MEDICINE_NAME="medicineName";
+    public static final String DOCTOR_ID="doctorId";
     public static final String MORNING_TIME="mornTime";
     public static final String NOON_TIME="noonTime";
     public static final String NIGHT_TIME="nightTime";

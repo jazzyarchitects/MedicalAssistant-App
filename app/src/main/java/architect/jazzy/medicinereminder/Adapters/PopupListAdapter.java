@@ -1,7 +1,6 @@
 package architect.jazzy.medicinereminder.Adapters;
 
 import android.content.Context;
-import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,10 +8,9 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 
+import architect.jazzy.medicinereminder.Models.Medicine;
 import architect.jazzy.medicinereminder.R;
 
 /**
@@ -20,11 +18,11 @@ import architect.jazzy.medicinereminder.R;
  */
 public class PopupListAdapter extends BaseAdapter {
 
-    ArrayList<Pair<Integer, String>> dataSet;
+    ArrayList<Medicine> dataSet;
     Context mContext;
     LayoutInflater layoutInflater;
 
-    public PopupListAdapter(Context context, ArrayList<Pair<Integer,String>> dataSet) {
+    public PopupListAdapter(Context context, ArrayList<Medicine> dataSet) {
         this.dataSet=dataSet;
         this.mContext=context;
         layoutInflater=(LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -54,9 +52,9 @@ public class PopupListAdapter extends BaseAdapter {
         TextView textView=(TextView)v.findViewById(R.id.medName);
         ImageView imageView=(ImageView)v.findViewById(R.id.medIcon);
 
-        Pair<Integer, String> data=dataSet.get(position);
-        textView.setText(data.second);
-        imageView.setImageResource(ImageAdapter.emojis[data.first]);
+        Medicine medicine=dataSet.get(position);
+        textView.setText(medicine.getMedName());
+        imageView.setImageResource(ImageAdapter.emojis[medicine.getIcon()]);
 
         return v;
     }

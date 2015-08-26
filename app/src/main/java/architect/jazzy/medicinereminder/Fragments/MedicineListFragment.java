@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.NinePatchDrawable;
@@ -38,11 +37,11 @@ import com.h6ah4i.android.widget.advrecyclerview.touchguard.RecyclerViewTouchAct
 import com.h6ah4i.android.widget.advrecyclerview.utils.WrapperAdapterUtils;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import architect.jazzy.medicinereminder.Activities.MainActivity;
 import architect.jazzy.medicinereminder.Adapters.MedicineListAdapter;
 import architect.jazzy.medicinereminder.Handlers.DataHandler;
+import architect.jazzy.medicinereminder.Models.Medicine;
 import architect.jazzy.medicinereminder.R;
 import architect.jazzy.medicinereminder.ThisApplication;
 
@@ -53,7 +52,8 @@ public class MedicineListFragment extends Fragment {
 
     final int SHOW_LIST_REQUEST_CODE = 123;
     DataHandler dataHandler;
-    ArrayList<HashMap<String, ArrayList<String>>> dataSet;
+//    ArrayList<HashMap<String, ArrayList<String>>> dataSet;
+    ArrayList<Medicine> medicines;
     RecyclerView medicineList;
     MedicineListAdapter listAdaptor;
     RelativeLayout root;
@@ -149,7 +149,7 @@ public class MedicineListFragment extends Fragment {
 
 
     void createNoDataView(){
-        if (dataSet.isEmpty()) {
+        if (medicines==null || medicines.isEmpty()) {
             root.removeAllViews();
             root.setBackgroundColor(getResources().getColor(R.color.actionBackground));
             TextView textView = new TextView(context);
@@ -191,7 +191,7 @@ public class MedicineListFragment extends Fragment {
     }
 
     void createOptionalView() {
-        if (dataSet.isEmpty()) {
+        if (medicines==null || medicines.isEmpty()) {
             root.removeAllViews();
             root.setBackgroundColor(getResources().getColor(R.color.actionBackground));
             TextView textView = new TextView(context);
@@ -245,7 +245,7 @@ public class MedicineListFragment extends Fragment {
             mRecyclerViewSwipeManager = new RecyclerViewSwipeManager();
 
             medicineList.setItemAnimator(new DefaultItemAnimator());
-            listAdaptor = new MedicineListAdapter(context, dataSet, getActivity());
+            listAdaptor = new MedicineListAdapter(context, medicines, getActivity());
             listAdaptor.setEventListener(new MedicineListAdapter.EventListener() {
                 @Override
                 public void onItemViewClicked(int position, ArrayList<String> medicineNames) {
@@ -253,8 +253,8 @@ public class MedicineListFragment extends Fragment {
                 }
 
                 @Override
-                public void onItemRemoved(int position, HashMap<String, ArrayList<String>> data) {
-                    itemRemoved(position, data);
+                public void onItemRemoved(int position, Medicine medicine) {
+                    itemRemoved(position, medicine);
                 }
             });
 
@@ -295,10 +295,10 @@ public class MedicineListFragment extends Fragment {
         return (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP);
     }
 
-    public void itemRemoved(final int position, final HashMap<String, ArrayList<String>> item) {
-        final String name = item.get(MedicineListAdapter.MEDICINE_NAME).get(0);
+    public void itemRemoved(final int position, final Medicine item) {
+        final String name = item.getMedName();
         removedItems.add(name);
-        dataSet.remove(item);
+        medicines.remove(item);
         Log.e("MedicineList", "To be deleted: " + name);
         DataHandler handler=new DataHandler(context);
         handler.open();
@@ -319,25 +319,8 @@ public class MedicineListFragment extends Fragment {
 
     private void getMedicineData() {
         dataHandler = new DataHandler(context);
-        dataHandler.open();
-        dataSet = new ArrayList<>();
+        medicines = dataHandler.getMedicineList();
 
-        ArrayList<String> name, imageId;
-        Cursor c = dataHandler.returnData();
-        if (c.moveToFirst()) {
-            do {
-                HashMap<String, ArrayList<String>> data = new HashMap<>();
-                name = new ArrayList<>();
-                imageId = new ArrayList<>();
-
-                name.add(c.getString(0));
-                imageId.add(c.getString(16));
-                data.put(MedicineListAdapter.MEDICINE_NAME, name);
-                data.put(MedicineListAdapter.IMAGE_ID, imageId);
-                dataSet.add(data);
-            } while (c.moveToNext());
-        }
-        dataHandler.close();
     }
 
 

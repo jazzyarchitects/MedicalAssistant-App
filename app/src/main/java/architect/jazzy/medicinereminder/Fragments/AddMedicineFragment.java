@@ -25,6 +25,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
@@ -51,7 +52,6 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -63,9 +63,10 @@ import architect.jazzy.medicinereminder.CustomViews.LabelledImage;
 import architect.jazzy.medicinereminder.Handlers.DataHandler;
 import architect.jazzy.medicinereminder.HelperClasses.AlarmSetterService;
 import architect.jazzy.medicinereminder.HelperClasses.Constants;
-import architect.jazzy.medicinereminder.Models.FeedItem;
 import architect.jazzy.medicinereminder.HelperClasses.FeedParser;
 import architect.jazzy.medicinereminder.HelperClasses.TimingClass;
+import architect.jazzy.medicinereminder.Models.FeedItem;
+import architect.jazzy.medicinereminder.Models.Medicine;
 import architect.jazzy.medicinereminder.R;
 import architect.jazzy.medicinereminder.ThisApplication;
 
@@ -85,6 +86,7 @@ public class AddMedicineFragment extends Fragment {
     LabelledImage morning, noon, night, custom;
     ScrollView mainScrollView;
     CheckBox indefinite;
+    Button addButton;
     ViewPager feedPager;
     int pos = 54;
 
@@ -150,6 +152,14 @@ public class AddMedicineFragment extends Fragment {
         mainScrollView = (ScrollView) v.findViewById(R.id.scrollView);
         feedPager = (ViewPager) v.findViewById(R.id.newsFeedPager);
         progressCard = (CardView) v.findViewById(R.id.progressCard);
+        addButton=(Button)v.findViewById(R.id.but_add_medicine);
+
+        addButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addMedicine(v);
+            }
+        });
 
         try {
             ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Add Medicine");
@@ -384,7 +394,7 @@ public class AddMedicineFragment extends Fragment {
 
     public void loadAutoComplete() {
         autoCompleteList = new ArrayList<>();
-        al = dataHandler.findColumn(MEDICINE_NAME);
+        al = dataHandler.findColumn(DataHandler.MedicineTable.COL_NAME);
         if (al.moveToFirst()) {
             do {
                 autoCompleteList.add(al.getString(0));
@@ -437,7 +447,7 @@ public class AddMedicineFragment extends Fragment {
     }
 
 
-    public void addMedicine(View view) throws ParseException {
+    public void addMedicine(View view) {
         getData();
         if (medicineName.isEmpty()) {
             medName.setError("This cannot be empty");
@@ -462,9 +472,8 @@ public class AddMedicineFragment extends Fragment {
 
     public void writeToFile() {
         getData();
-        Cursor find;
-        find = dataHandler.findRow(medicineName);
-        if (find.moveToFirst()) {
+        Medicine medicine = dataHandler.findRow(medicineName);
+        if (medicine!=null) {
             startDate = Calendar.getInstance().get(Calendar.DATE) + "-" + (Calendar.getInstance().get(Calendar.MONTH) + 1) + "-" + Calendar.getInstance().get(Calendar.YEAR);
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             builder.setTitle("Confirm Modify");
@@ -472,7 +481,7 @@ public class AddMedicineFragment extends Fragment {
             builder.setPositiveButton("Yes,\n Update it", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    dataHandler.updateData(medicineName, medicineName, breakfast, lunch, dinner, String.valueOf(daySelected[0]), String.valueOf(daySelected[1]), String.valueOf(daySelected[2]), String.valueOf(daySelected[3]), String.valueOf(daySelected[4]), String.valueOf(daySelected[5]), String.valueOf(daySelected[6]), startDate, endDate, bk, ln, dn, String.valueOf(pos), customTimeHour, customTimeMinute, noteValue);
+                    dataHandler.updateData(medicineName, medicineName, bk, ln, dn, String.valueOf(daySelected[0]), String.valueOf(daySelected[1]), String.valueOf(daySelected[2]), String.valueOf(daySelected[3]), String.valueOf(daySelected[4]), String.valueOf(daySelected[5]), String.valueOf(daySelected[6]), endDate,  String.valueOf(pos), customTimeHour+","+customTimeMinute, noteValue);
                     Toast.makeText(context, "Medicine details modified", Toast.LENGTH_SHORT).show();
                 }
             });
@@ -486,7 +495,7 @@ public class AddMedicineFragment extends Fragment {
                             i++;
                         } while (temp.moveToNext());
                     }
-                    dataHandler.insertData(medicineName + " (" + i + ")", breakfast, lunch, dinner, String.valueOf(daySelected[0]), String.valueOf(daySelected[1]), String.valueOf(daySelected[2]), String.valueOf(daySelected[3]), String.valueOf(daySelected[4]), String.valueOf(daySelected[5]), String.valueOf(daySelected[6]), startDate, endDate, bk, ln, dn, String.valueOf(pos), customTimeHour, customTimeMinute, noteValue);
+                    dataHandler.insertData(medicineName + " (" + i + ")", String.valueOf(daySelected[0]), String.valueOf(daySelected[1]), String.valueOf(daySelected[2]), String.valueOf(daySelected[3]), String.valueOf(daySelected[4]), String.valueOf(daySelected[5]), String.valueOf(daySelected[6]), endDate, bk, ln, dn, String.valueOf(pos), customTimeHour, customTimeMinute, noteValue);
                     Toast.makeText(context, "Medicine Added", Toast.LENGTH_SHORT).show();
                 }
             });
@@ -494,7 +503,7 @@ public class AddMedicineFragment extends Fragment {
 
         } else {
             Log.e("MainActivity", "Create " + medicineName + " Custom hour: " + customTimeHour + " Custom Minute: " + customTimeMinute);
-            dataHandler.insertData(medicineName, breakfast, lunch, dinner, String.valueOf(daySelected[0]), String.valueOf(daySelected[1]), String.valueOf(daySelected[2]), String.valueOf(daySelected[3]), String.valueOf(daySelected[4]), String.valueOf(daySelected[5]), String.valueOf(daySelected[6]), startDate, endDate, bk, ln, dn, String.valueOf(pos), customTimeHour, customTimeMinute, noteValue);
+            dataHandler.insertData(medicineName, String.valueOf(daySelected[0]), String.valueOf(daySelected[1]), String.valueOf(daySelected[2]), String.valueOf(daySelected[3]), String.valueOf(daySelected[4]), String.valueOf(daySelected[5]), String.valueOf(daySelected[6]), endDate, bk, ln, dn, String.valueOf(pos), customTimeHour, customTimeMinute, noteValue);
             Toast.makeText(context, "Medicine Added", Toast.LENGTH_SHORT).show();
            fragmentInteractionListener.addMedicine();
         }

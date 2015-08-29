@@ -48,10 +48,10 @@ public class Constants {
 
 
     public static final String MEDICINE_NAME="medicineName";
-    public static final String DOCTOR_ID="doctorId";
     public static final String MORNING_TIME="mornTime";
     public static final String NOON_TIME="noonTime";
     public static final String NIGHT_TIME="nightTime";
+    public static final String DOCTOR_ID="doctorId";
     public static final String DAY_SUNDAY="sunday";
     public static final String DAY_MONDAY="monday";
     public static final String DAY_TUESDAY="tuesday";
@@ -74,7 +74,7 @@ public class Constants {
     public static final String SEARCH_FILE_NAME="tmpMR_Search.txt";
     public static final String BUNDLE_SEARCH_TERM="searchTerm";
     public static final String BUNDLE_WEB_DOCUMENT="webDocument";
-
+    public static final String BUNDLE_DOCTOR="doctorBundle";
 
 
     /**

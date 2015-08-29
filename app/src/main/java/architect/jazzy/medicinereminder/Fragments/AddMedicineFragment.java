@@ -23,6 +23,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -32,6 +33,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.ScrollView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -57,6 +59,7 @@ import java.util.Calendar;
 
 import architect.jazzy.medicinereminder.Activities.Illustration;
 import architect.jazzy.medicinereminder.Activities.MainActivity;
+import architect.jazzy.medicinereminder.Adapters.DoctorSpinnerAdapter;
 import architect.jazzy.medicinereminder.Adapters.FeedAdapter;
 import architect.jazzy.medicinereminder.Adapters.ImageAdapter;
 import architect.jazzy.medicinereminder.CustomViews.LabelledImage;
@@ -65,6 +68,7 @@ import architect.jazzy.medicinereminder.HelperClasses.AlarmSetterService;
 import architect.jazzy.medicinereminder.HelperClasses.Constants;
 import architect.jazzy.medicinereminder.HelperClasses.FeedParser;
 import architect.jazzy.medicinereminder.HelperClasses.TimingClass;
+import architect.jazzy.medicinereminder.Models.Doctor;
 import architect.jazzy.medicinereminder.Models.FeedItem;
 import architect.jazzy.medicinereminder.Models.Medicine;
 import architect.jazzy.medicinereminder.R;
@@ -85,10 +89,13 @@ public class AddMedicineFragment extends Fragment {
     ImageView medIcon;
     LabelledImage morning, noon, night, custom;
     ScrollView mainScrollView;
+    Spinner spinner;
     CheckBox indefinite;
     Button addButton;
     ViewPager feedPager;
     int pos = 54;
+    String doctorId="0";
+    ArrayList<Doctor> doctors;
 
 
     boolean[] daySelected = {true, true, true, true, true, true, true};
@@ -153,6 +160,27 @@ public class AddMedicineFragment extends Fragment {
         feedPager = (ViewPager) v.findViewById(R.id.newsFeedPager);
         progressCard = (CardView) v.findViewById(R.id.progressCard);
         addButton=(Button)v.findViewById(R.id.but_add_medicine);
+        spinner=(Spinner)v.findViewById(R.id.doctorSpinner);
+
+        dataHandler = new DataHandler(context);
+        doctors=dataHandler.getDoctorList();
+        DoctorSpinnerAdapter adapter=new DoctorSpinnerAdapter(getActivity(),doctors);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(position==0){
+                    doctorId="0";
+                }else {
+                    doctorId = doctors.get(position - 1).getId();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -183,9 +211,6 @@ public class AddMedicineFragment extends Fragment {
         morning.setTag("Breakfast");
         noon.setTag("Lunch");
         night.setTag("Dinner");
-
-        dataHandler = new DataHandler(context);
-        dataHandler.open();
 
         loadAutoComplete();
 
@@ -495,7 +520,7 @@ public class AddMedicineFragment extends Fragment {
                             i++;
                         } while (temp.moveToNext());
                     }
-                    dataHandler.insertData(medicineName + " (" + i + ")", String.valueOf(daySelected[0]), String.valueOf(daySelected[1]), String.valueOf(daySelected[2]), String.valueOf(daySelected[3]), String.valueOf(daySelected[4]), String.valueOf(daySelected[5]), String.valueOf(daySelected[6]), endDate, bk, ln, dn, String.valueOf(pos), customTimeHour, customTimeMinute, noteValue);
+                    dataHandler.insertData(medicineName + " (" + i + ")", doctorId,String.valueOf(daySelected[0]), String.valueOf(daySelected[1]), String.valueOf(daySelected[2]), String.valueOf(daySelected[3]), String.valueOf(daySelected[4]), String.valueOf(daySelected[5]), String.valueOf(daySelected[6]), endDate, bk, ln, dn, String.valueOf(pos), customTimeHour, customTimeMinute, noteValue);
                     Toast.makeText(context, "Medicine Added", Toast.LENGTH_SHORT).show();
                 }
             });
@@ -503,7 +528,7 @@ public class AddMedicineFragment extends Fragment {
 
         } else {
             Log.e("MainActivity", "Create " + medicineName + " Custom hour: " + customTimeHour + " Custom Minute: " + customTimeMinute);
-            dataHandler.insertData(medicineName, String.valueOf(daySelected[0]), String.valueOf(daySelected[1]), String.valueOf(daySelected[2]), String.valueOf(daySelected[3]), String.valueOf(daySelected[4]), String.valueOf(daySelected[5]), String.valueOf(daySelected[6]), endDate, bk, ln, dn, String.valueOf(pos), customTimeHour, customTimeMinute, noteValue);
+            dataHandler.insertData(medicineName,doctorId, String.valueOf(daySelected[0]), String.valueOf(daySelected[1]), String.valueOf(daySelected[2]), String.valueOf(daySelected[3]), String.valueOf(daySelected[4]), String.valueOf(daySelected[5]), String.valueOf(daySelected[6]), endDate, bk, ln, dn, String.valueOf(pos), customTimeHour, customTimeMinute, noteValue);
             Toast.makeText(context, "Medicine Added", Toast.LENGTH_SHORT).show();
            fragmentInteractionListener.addMedicine();
         }

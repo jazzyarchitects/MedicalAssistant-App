@@ -20,7 +20,7 @@ import architect.jazzy.medicinereminder.Models.Medicine;
  */
 public class DataHandler {
 
-    private static final String TAG="DataHandler";
+    private static final String TAG = "DataHandler";
     public static final String MEDICINE_NAME = "medName";
     public static final String DATABASE_NAME = "MedicineList";
     public static final String TABLE_NAME = "Reminders";
@@ -135,7 +135,7 @@ public class DataHandler {
             this.db = db;
             db.execSQL(CREATE_NEW_MEDICINE_TABLE);
 //            Cursor cursor = db.query(TABLE_NAME, new String[]{MEDICINE_NAME, "mornTime", "noonTime", "nightTime", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "startDate", "endDate", "breakfast", "lunch", "dinner", "icon", "customTimeHour", "customTimeMinute"}, null, null, null, null, null);
-            Cursor cursor=db.query(TABLE_NAME, null, null, null, null, null, null);
+            Cursor cursor = db.query(TABLE_NAME, null, null, null, null, null, null);
             if (!cursor.moveToFirst()) {
                 return;
             }
@@ -230,17 +230,17 @@ public class DataHandler {
     }
 
     @Deprecated
-    public long insertData(String medName, String sun, String mon, String tue, String wed, String thu, String fri, String sat
+    public long insertData(String medName, String doctorId, String sun, String mon, String tue, String wed, String thu, String fri, String sat
             , String endDate, String breakfast, String lunch, String dinner,
                            String icon, String customTimeHour, String customTimeMinute, String note) {
 
         ContentValues content = new ContentValues();
         content.put(MedicineTable.COL_ID, getId());
         content.put(MedicineTable.COL_NAME, medName);
-        content.put(MedicineTable.COL_DOCTOR, "0");
+        content.put(MedicineTable.COL_DOCTOR, doctorId);
         content.put(MedicineTable.COL_BREAKFAST, breakfast);
         content.put(MedicineTable.COL_LUNCH, lunch);
-        content.put(MedicineTable.COL_DINNER,dinner);
+        content.put(MedicineTable.COL_DINNER, dinner);
         content.put(MedicineTable.COL_SUNDAY, sun);
         content.put(MedicineTable.COL_MONDAY, mon);
         content.put(MedicineTable.COL_TUESDAY, tue);
@@ -372,7 +372,7 @@ public class DataHandler {
         try {
             medicine.setCustomTime(new MedTime(Integer.parseInt(time[0]), Integer.parseInt(time[1])));
         } catch (Exception e) {
-            e.printStackTrace();
+            medicine.setCustomTime(new MedTime(-1,-1));
         }
 
         medicine.setIcon(Integer.parseInt(c.getString(c.getColumnIndex(MedicineTable.COL_ICON))));
@@ -382,10 +382,10 @@ public class DataHandler {
         return medicine;
     }
 
-    public Medicine findRow(String medName){
-        Cursor c=db.query(MedicineTable.TABLE_NAME,null,MedicineTable.COL_NAME+"=?",new String[]{medName},null,null,null);
-        if(c.moveToFirst()){
-            Medicine medicine= getMedicine(c);
+    public Medicine findRow(String medName) {
+        Cursor c = db.query(MedicineTable.TABLE_NAME, null, MedicineTable.COL_NAME + "=?", new String[]{medName}, null, null, null);
+        if (c.moveToFirst()) {
+            Medicine medicine = getMedicine(c);
             c.close();
             return medicine;
         }
@@ -446,12 +446,12 @@ public class DataHandler {
 //        db.update(TABLE_NAME, content, MEDICINE_NAME + " = ?", new String[]{originalName});
 //    }
 
-    public void updateData(String originalName, String medName,String doctorId, String sun, String mon, String tue,
+    public void updateData(String originalName, String medName, String doctorId, String sun, String mon, String tue,
                            String wed, String thu, String fri, String sat
             , String endDate, String breakfast, String lunch, String dinner,
-                            String customTime, String note) {
+                           String customTime, String note) {
 
-        Log.e(TAG,"Times: "+breakfast+" "+lunch+" "+dinner);
+        Log.e(TAG, "Times: " + breakfast + " " + lunch + " " + dinner);
 
         ContentValues content = new ContentValues();
         content.put(MedicineTable.COL_NAME, medName);
@@ -483,7 +483,7 @@ public class DataHandler {
 
     public boolean deleteRow(String medName) {
 //        Log.e("DataHandler","To be deleted: "+key);
-        db.execSQL("DELETE FROM "+MedicineTable.TABLE_NAME+" WHERE "+MedicineTable.COL_NAME+"='" + medName + "'");
+        db.execSQL("DELETE FROM " + MedicineTable.TABLE_NAME + " WHERE " + MedicineTable.COL_NAME + "='" + medName + "'");
         return true;
     }
 
@@ -493,26 +493,12 @@ public class DataHandler {
 //    }
 
     public Cursor findColumn(String columnName) {
-        return db.rawQuery("SELECT " + columnName + " FROM "+MedicineTable.TABLE_NAME, null);
+        return db.rawQuery("SELECT " + columnName + " FROM " + MedicineTable.TABLE_NAME, null);
     }
 
     public Cursor searchDynamic(String pattern) {
-        return db.rawQuery("SELECT * FROM "+MedicineTable.TABLE_NAME+" WHERE "+MedicineTable.COL_NAME+" LIKE '%" + pattern + "%'", null);
+        return db.rawQuery("SELECT * FROM " + MedicineTable.TABLE_NAME + " WHERE " + MedicineTable.COL_NAME + " LIKE '%" + pattern + "%'", null);
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
     /**

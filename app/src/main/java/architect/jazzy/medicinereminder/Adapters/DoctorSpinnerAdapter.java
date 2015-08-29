@@ -35,37 +35,93 @@ public class DoctorSpinnerAdapter extends ArrayAdapter<Doctor>{
 
     @Override
     public View getDropDownView(int position, View convertView, ViewGroup parent) {
-        View v=inflater.inflate(R.layout.layout_doctor_spinner,parent,false);
 
-        Doctor doctor=doctors.get(position);
+        View v;
+        if(convertView==null) {
+            v = inflater.inflate(R.layout.layout_doctor_spinner, parent, false);
+        }else{
+            v=convertView;
+        }
+
+        Doctor doctor;
+        if(position==0){
+            doctor=null;
+        }else {
+            try {
+                doctor = doctors.get(position - 1);
+            }catch (IndexOutOfBoundsException e){
+                doctor=null;
+            }
+        }
+
         docName = (TextView)v.findViewById(R.id.textView);
         docImage=(ImageView)v.findViewById(R.id.imageView);
 
-        try {
-            docImage.setImageURI(doctor.getPhotoUri());
-        }catch (Exception e){
-            e.printStackTrace();
+        String name="Select a doctor";
+        if(doctor!=null){
+            name=doctor.getName();
+            try {
+                docImage.setImageURI(doctor.getPhotoUri());
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }else{
+            docImage.setImageResource(R.drawable.userlogin);
         }
 
-        docName.setText(doctor.getName());
 
-
-
+        docName.setText(name);
         return v;
     }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        return super.getView(position, convertView, parent);
+
+        View v;
+        if(convertView==null) {
+            v = inflater.inflate(R.layout.layout_doctor_spinner, parent, false);
+        }else{
+            v=convertView;
+        }
+
+        Doctor doctor;
+        if(position==0){
+            doctor=null;
+        }else {
+            try {
+                doctor = doctors.get(position - 1);
+            }catch (IndexOutOfBoundsException e){
+                doctor=null;
+            }
+        }
+
+        docName = (TextView)v.findViewById(R.id.textView);
+        docImage=(ImageView)v.findViewById(R.id.imageView);
+
+        String name="Select a doctor";
+        if(doctor!=null){
+            name=doctor.getName();
+            try {
+                docImage.setImageURI(doctor.getPhotoUri());
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }else{
+            docImage.setImageResource(R.drawable.userlogin);
+        }
+
+
+        docName.setText(name);
+        return v;
     }
 
     @Override
     public int getCount() {
-        return doctors.size();
+        return doctors==null?1:doctors.size()+1;
     }
 
     @Override
     public long getItemId(int position) {
-        return Long.valueOf(doctors.get(position).getId());
+        return position;
     }
 }

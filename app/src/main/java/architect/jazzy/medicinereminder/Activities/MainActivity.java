@@ -95,16 +95,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onBackPressed() {
+        if(activityKeyClickListener!=null){
+            if(activityKeyClickListener.onBackKeyPressed()){
+                return;
+            }
+        }
         if(drawerLayout.isDrawerOpen(GravityCompat.START)){
             drawerLayout.closeDrawers();
         }else if(getFragmentManager().getBackStackEntryCount()>1){
-            getFragmentManager().popBackStackImmediate();
-//            Log.e("MainActivity", "Back Stack Count after Pop:" + getFragmentManager().getBackStackEntryCount());
+            getFragmentManager().popBackStack();
         }
-//        else if(getSupportFragmentManager().getBackStackEntryCount()>0){
-//            getSupportFragmentManager().popBackStack();
-//            Log.e("MainActivity", "Back Stack Count after Pop:" + getFragmentManager().getBackStackEntryCount());
-//        }
         else{
             super.onBackPressed();
         }
@@ -202,7 +202,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             transaction.addToBackStack(null);
         }
         transaction.commit();
-        Log.e("MainActivity", "Back Stack Count after Push:" + getFragmentManager().getBackStackEntryCount());
+//        Log.e("MainActivity", "Back Stack Count after Push:" + getFragmentManager().getBackStackEntryCount());
     }
     void showCredits(){
         startActivity(new Intent(this, Credits.class));
@@ -275,6 +275,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public void setActivityResultListener(ActivityResultListener activityResultListener){
         this.activityResultListener=activityResultListener;
+    }
+
+    ActivityKeyClickListener activityKeyClickListener;
+    public interface ActivityKeyClickListener{
+        boolean onBackKeyPressed();
+    }
+    public void setActivityKeyClickListener(ActivityKeyClickListener activityKeyClickListener){
+        this.activityKeyClickListener=activityKeyClickListener;
     }
 
 

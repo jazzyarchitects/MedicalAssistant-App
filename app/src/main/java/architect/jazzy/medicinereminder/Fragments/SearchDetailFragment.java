@@ -89,7 +89,7 @@ public class SearchDetailFragment extends Fragment {
                 }else{
                     urlView.setText(document.getUrl());
                 }
-                return false;
+                return true;
             }
         });
         organizationView.setText(document.getOrganizationName());

@@ -124,4 +124,6 @@
     <color name="color_death">@color/bg_swipe_group_item_left</color>
     <color name="color_default">@color/bg_swipe_group_item_right</color>
     <color name="linkColor">#1b3d87</color>
+
+    <color name="deafaultFragmentBackground">#EEE</color>
 </resources>

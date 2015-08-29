@@ -20,16 +20,14 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/optionsbox"
         android:layout_centerInParent="true"
-        android:layout_marginTop="@dimen/toolbar_height">
-
-
-    </architect.jazzy.medicinereminder.CustomViews.CustomViewPager>
+        android:layout_below="@+id/toolBar"
+        android:layout_margin="10dp"/>
 
 
     <LinearLayout
         android:id="@+id/optionsbox"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_alignParentBottom="true"
         android:background="#80000000"
         android:orientation="horizontal"
@@ -38,7 +36,7 @@
         <LinearLayout
             android:id="@+id/editMedicine"
             android:layout_width="0dp"
-            android:layout_height="60dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/details_options_back"
             android:gravity="center"
@@ -65,7 +63,7 @@
         <LinearLayout
             android:id="@+id/deleteMedicine"
             android:layout_width="0dp"
-            android:layout_height="60dp"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/details_options_back"
             android:gravity="center"

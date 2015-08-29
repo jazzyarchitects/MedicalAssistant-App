@@ -53,7 +53,6 @@ public class DoctorListFragment extends Fragment {
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Your Doctors");
         doctorList.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         DataHandler handler=new DataHandler(mContext);
-        handler.open();
         ArrayList<Doctor> doctors=handler.getDoctorList();
         if(!doctors.isEmpty()) {
             DoctorListAdapter adapter = new DoctorListAdapter(mContext, doctors);

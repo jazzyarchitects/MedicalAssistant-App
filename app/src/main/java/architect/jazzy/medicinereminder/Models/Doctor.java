@@ -1,11 +1,13 @@
 package architect.jazzy.medicinereminder.Models;
 
 import android.net.Uri;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 /**
  * Created by Jibin_ism on 14-Aug-15.
  */
-public class Doctor {
+public class Doctor implements Parcelable {
     private String id="",
             name="",phone_1="",phone_2="",address="",hospital="",notes="";
     private Uri photoUri=null;
@@ -22,6 +24,52 @@ public class Doctor {
         this.hospital = hospital;
         this.notes=notes;
     }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.id);
+        dest.writeString(this.name);
+        dest.writeString(this.phone_1);
+        dest.writeString(this.phone_2);
+        dest.writeString(this.address);
+        dest.writeString(this.hospital);
+        dest.writeString(this.notes);
+    }
+
+    public Doctor(Parcel in){
+        this.id=in.readString();
+        this.name=in.readString();
+        this.phone_1=in.readString();
+        this.phone_2=in.readString();
+        this.address=in.readString();
+        this.hospital=in.readString();
+        this.notes=in.readString();
+    }
+
+    public static final Creator<Doctor> CREATOR = new Creator<Doctor>() {
+        @Override
+        public Doctor createFromParcel(Parcel source) {
+            return new Doctor(source);
+        }
+
+        @Override
+        public Doctor[] newArray(int size) {
+            return new Doctor[size];
+        }
+    };
+
+
+
+
+
+
+
+    /**Getter Setter Methods**/
 
     public Uri getPhotoUri() {
         return photoUri;
@@ -92,4 +140,5 @@ public class Doctor {
         return "Doctor: {id:"+id+",name:"+name+", hospital:"+hospital+", phone1:"+phone_1+"," +
                 " phone2:"+phone_2+", address:"+address+", notes:"+notes+"}";
     }
+
 }

@@ -26,6 +26,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import architect.jazzy.medicinereminder.Handlers.DataHandler;
+import architect.jazzy.medicinereminder.HelperClasses.Constants;
 import architect.jazzy.medicinereminder.Models.Doctor;
 import architect.jazzy.medicinereminder.R;
 
@@ -45,6 +46,14 @@ public class AddDoctorFragment extends Fragment {
 
     Button save;
     EditText docName, docPhone1, docPhone2, docAddress, docHospital, docNotes;
+
+    public static AddDoctorFragment newInstance(Doctor doctor){
+        AddDoctorFragment fragment=new AddDoctorFragment();
+        Bundle args=new Bundle();
+        args.putParcelable(Constants.BUNDLE_DOCTOR,doctor);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     public AddDoctorFragment() {
         // Required empty public constructor
@@ -81,7 +90,6 @@ public class AddDoctorFragment extends Fragment {
             }
         });
 
-        updateForm();
         if(mMap!=null) {
             try{
 //                setUpMapIfNeeded();
@@ -89,7 +97,12 @@ public class AddDoctorFragment extends Fragment {
                 e.printStackTrace();
             }
         }
-        doctor=new Doctor();
+        try{
+            doctor=getArguments().getParcelable(Constants.BUNDLE_DOCTOR);
+        }catch (NullPointerException e){
+            doctor=new Doctor();
+        }
+        updateForm();
         setHasOptionsMenu(true);
 
         return v;

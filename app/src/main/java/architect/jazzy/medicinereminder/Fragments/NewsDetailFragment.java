@@ -1,6 +1,7 @@
 package architect.jazzy.medicinereminder.Fragments;
 
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.net.Uri;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import android.widget.ProgressBar;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 
+import architect.jazzy.medicinereminder.Activities.MainActivity;
 import architect.jazzy.medicinereminder.HelperClasses.Constants;
 import architect.jazzy.medicinereminder.R;
 import architect.jazzy.medicinereminder.ThisApplication;
@@ -91,18 +93,12 @@ public class NewsDetailFragment extends Fragment {
         logo = (ImageView) v.findViewById(R.id.logo);
         newsUrl = Uri.parse(getArguments().getString(Constants.BUNDLE_SELECTED_NEWS));
         progressBar = (ProgressBar) v.findViewById(R.id.progressBar);
-//        progressBar.setMax(100);
-//        progressBar.setBackgroundColor(getResources().getColor(R.color.pager_footer));
+
         webView = (WebView) v.findViewById(R.id.webView);
         webView.setWebViewClient(new NewsClient());
         webView.setWebChromeClient(new WebChromeClient() {
             @Override
             public void onProgressChanged(WebView view, int newProgress) {
-                float progressLeft = 100 - newProgress;
-//                Log.e("Progress ", String.valueOf(newProgress));
-//                Log.e("Progress ", "Scale: " + (progressLeft / 100));
-//                logo.setScaleX(progressLeft / 100);
-//                logo.setScaleY(progressLeft / 100);
                 progressBar.setProgress(newProgress);
                 if (newProgress >= 50) {
                     logo.setVisibility(View.GONE);
@@ -124,5 +120,20 @@ public class NewsDetailFragment extends Fragment {
             return super.shouldOverrideUrlLoading(view, url);
         }
 
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        ((MainActivity)activity).setActivityKeyClickListener(new MainActivity.ActivityKeyClickListener() {
+            @Override
+            public boolean onBackKeyPressed() {
+                if(webView.canGoBack()){
+                    webView.goBack();
+                    return true;
+                }
+                return false;
+            }
+        });
     }
 }

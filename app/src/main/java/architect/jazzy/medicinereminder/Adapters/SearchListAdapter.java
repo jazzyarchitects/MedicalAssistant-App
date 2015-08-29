@@ -90,7 +90,7 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Vi
 
     ItemClickListener itemClickListener;
     public interface ItemClickListener{
-        void OnItemClick(ArrayList<WebDocument> documents,int position);
+        void OnItemClick(ArrayList<WebDocument> documents, int position);
     }
     public void setItemClickListener(ItemClickListener itemClickListener){
         this.itemClickListener=itemClickListener;

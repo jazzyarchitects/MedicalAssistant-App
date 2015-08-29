@@ -14,24 +14,29 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.android.datetimepicker.time.RadialPickerLayout;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 
 import architect.jazzy.medicinereminder.Activities.MedicineDetails;
+import architect.jazzy.medicinereminder.Adapters.DoctorSpinnerAdapter;
 import architect.jazzy.medicinereminder.Adapters.ImageAdapter;
 import architect.jazzy.medicinereminder.CustomViews.LabelledImage;
 import architect.jazzy.medicinereminder.Handlers.DataHandler;
 import architect.jazzy.medicinereminder.HelperClasses.Constants;
 import architect.jazzy.medicinereminder.HelperClasses.TimingClass;
+import architect.jazzy.medicinereminder.Models.Doctor;
 import architect.jazzy.medicinereminder.Models.Medicine;
 import architect.jazzy.medicinereminder.R;
 
@@ -42,7 +47,7 @@ public class MedicineDetailFragment extends Fragment {
     String changedName = "";
     ImageView medIcon;
     EditText medicineName;
-    String doctorId="";
+    String doctorId="0";
     LabelledImage morning, noon, night, custom;
     int pos = 0;
     SharedPreferences inputPref;
@@ -50,6 +55,7 @@ public class MedicineDetailFragment extends Fragment {
     private View mView;
     private final int[] checkBoxIds = {R.id.check_sun, R.id.check_mon, R.id.check_tue, R.id.check_wed, R.id.check_thu, R.id.check_fri, R.id.check_sat};
     String bk = "none", ln = "none", dn = "none", endDate = "";
+    int dd,mm,yy;
     boolean[] daySelected = {false, false, false, false, false, false, false};
     int bbh, bbm, abh, abm, blh, blm, alh, alm, bdh, bdm, adh, adm;
     Boolean is24hr, menuSelected = false;
@@ -57,7 +63,8 @@ public class MedicineDetailFragment extends Fragment {
     int customHour = 0, customMinute = 0;
     int day, month, year;
     EditText notes;
-    String customTimeHour, customTimeMinute, ch, cm, icon;
+    Spinner spinner;
+    String customTimeHour, customTimeMinute,icon;
     private static final String TAG="MedicineDetailFragment";
 
     public static MedicineDetailFragment newInstance(String medicineName) {
@@ -118,6 +125,7 @@ public class MedicineDetailFragment extends Fragment {
         noon = (LabelledImage) v.findViewById(R.id.noon);
         night = (LabelledImage) v.findViewById(R.id.night);
         custom = (LabelledImage) v.findViewById(R.id.custom);
+        spinner=(Spinner)v.findViewById(R.id.doctorSpinner);
 
 
         medIcon = (ImageView) v.findViewById(R.id.medIcon);
@@ -126,8 +134,18 @@ public class MedicineDetailFragment extends Fragment {
         medicine = getArguments().getString(Constants.BUNDLE_MEDICINE_TAG);
 
         DataHandler handler = new DataHandler(getActivity().getApplicationContext());
-
         Medicine medicine = handler.findRow(medName);
+
+        ArrayList<Doctor> doctors=new ArrayList<>();
+        Doctor doctor=handler.getDoctor(medicine.getDoctorId());
+        if(doctor!=null){
+            doctors.add(doctor);
+        }
+        DoctorSpinnerAdapter adapter=new DoctorSpinnerAdapter(context,doctors);
+        spinner.setAdapter(adapter);
+        spinner.setSelection(1);
+        spinner.setEnabled(false);
+
         ((CheckBox) v.findViewById(checkBoxIds[0])).setChecked(medicine.getSun());
         ((CheckBox) v.findViewById(checkBoxIds[1])).setChecked(medicine.getMon());
         ((CheckBox) v.findViewById(checkBoxIds[2])).setChecked(medicine.getTue());
@@ -176,13 +194,11 @@ public class MedicineDetailFragment extends Fragment {
         this.customTimeHour = String.valueOf(medicine.getCustomTime().getHour());
         this.customTimeMinute = String.valueOf(medicine.getCustomTime().getMinute());
         custom.setNormalColor();
-        Log.e("MedicineDetailFragment", "Custom Hour: " + ch + " Custom Minute: " + cm);
-        if (ch != null && !ch.equals("null")) {
-            if (!ch.isEmpty()) {
-                Log.e("MedicineDetailFragment", "Integer Custom Hour: " + Integer.parseInt(ch) + " Custom Minute: " + Integer.parseInt(cm));
-                custom.setText(TimingClass.getTime(Integer.parseInt(ch), Integer.parseInt(cm), is24hr), "Custom Time");
-            }
-        } else
+        Log.e("MedicineDetailFragment", "Custom Hour: " + this.customTimeHour + " Custom Minute: " + this.customTimeMinute);
+        if (!this.customTimeHour.equals("-1")) {
+//                Log.e("MedicineDetailFragment", "Integer Custom Hour: " + Integer.parseInt(ch) + " Custom Minute: " + Integer.parseInt(cm));
+                custom.setText(TimingClass.getTime(Integer.parseInt(this.customTimeHour), Integer.parseInt(this.customTimeMinute), is24hr), "Custom Time");
+        }else
             custom.setGrayScale();
 
 
@@ -203,6 +219,9 @@ public class MedicineDetailFragment extends Fragment {
             } else {
                 String[] d = medicine.getEndDate().split("-");
                 int dd = Integer.parseInt(d[0]), mm = Integer.parseInt(d[1]), yyyy = Integer.parseInt(d[2]);
+                this.dd=dd;
+                this.mm=mm;
+                this.yy=yyyy;
                 ((CheckBox) mView.findViewById(R.id.endIndefinite)).setChecked(false);
                 endDose.setText(dd + " " + TimingClass.getEquivalentMonth(mm) + " " + yyyy);
                 endDate = endDose.getText().toString();
@@ -313,6 +332,28 @@ public class MedicineDetailFragment extends Fragment {
         night.setTag("Dinner");
 
 
+        DataHandler handler=new DataHandler(context);
+        final ArrayList<Doctor> doctors=handler.getDoctorList();
+        DoctorSpinnerAdapter adapter=new DoctorSpinnerAdapter(context,doctors);
+        spinner.setAdapter(adapter);
+        spinner.setSelection(0);
+        spinner.setEnabled(true);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if(position==0){
+                    doctorId="0";
+                }else{
+                    doctorId=doctors.get(position-1).getId();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
         LabelledImage.ViewClickListener viewClickListener = new LabelledImage.ViewClickListener() {
             @Override
             public void onImageClick(LabelledImage labelledImageView) {
@@ -398,8 +439,8 @@ public class MedicineDetailFragment extends Fragment {
                     onTopTextClick(labelledImageView);
 
                 } else {
-                    customTimeHour = ch;
-                    customTimeMinute = cm;
+//                    customTimeHour = ch;
+//                    customTimeMinute = cm;
                     labelledImageView.setGrayScale();
                     none(labelledImageView, labelledImageView.getTag());
                 }
@@ -442,6 +483,7 @@ public class MedicineDetailFragment extends Fragment {
             }
         });
         mView.findViewById(R.id.endIndefinite).setEnabled(false);
+        spinner.setEnabled(false);
 
         morning.removeViewClickListener();
         noon.removeViewClickListener();
@@ -462,9 +504,9 @@ public class MedicineDetailFragment extends Fragment {
     public void saveToDatabase() {
         HashMap<String, String> dataSet = getData();
         DataHandler handler = new DataHandler(context);
-        Log.e("saveToDatabase()", dataSet.get(Constants.MEDICINE_NAME) + "  ***  " + dataSet.get(Constants.NOTES));
-        Log.e("MedicineDetailsFragment", "Original Name= " + medicine + " new Name=" + dataSet.get(Constants.MEDICINE_NAME));
-        Log.e("MedicineDetailsFragment", "Original Name= " + medicine + " Times: " + bk + " " + ln + " " + dn);
+//        Log.e("saveToDatabase()", dataSet.get(Constants.MEDICINE_NAME) + "  ***  " + dataSet.get(Constants.NOTES));
+//        Log.e("MedicineDetailsFragment", "Original Name= " + medicine + " new Name=" + dataSet.get(Constants.MEDICINE_NAME));
+//        Log.e("MedicineDetailsFragment", "Original Name= " + medicine + " Times: " + bk + " " + ln + " " + dn);
 
         handler.updateData(medicine,
                 dataSet.get(Constants.MEDICINE_NAME),
@@ -494,7 +536,7 @@ public class MedicineDetailFragment extends Fragment {
         dataSet.put(Constants.DAY_FRIDAY, String.valueOf(((CheckBox) mView.findViewById(this.checkBoxIds[5])).isChecked()));
         dataSet.put(Constants.DAY_SATURDAY, String.valueOf(((CheckBox) mView.findViewById(this.checkBoxIds[6])).isChecked()));
 
-        dataSet.put(Constants.END_DATE, this.endDate);
+        dataSet.put(Constants.END_DATE, this.dd+"-"+this.mm+"-"+this.yy);
 
         dataSet.put(Constants.BREAKFAST, this.bk);
         dataSet.put(Constants.LUNCH, this.ln);
@@ -565,6 +607,15 @@ public class MedicineDetailFragment extends Fragment {
         this.medicineName.setEnabled(false);
         this.medIcon.setImageResource(ImageAdapter.emojis[Integer.parseInt(this.icon)]);
 
+        ArrayList<Doctor> doctors=new ArrayList<>();
+        Doctor doctor=handler.getDoctor(medicine.getDoctorId());
+        if(doctor!=null){
+            doctors.add(doctor);
+        }
+        DoctorSpinnerAdapter adapter=new DoctorSpinnerAdapter(context,doctors);
+        spinner.setAdapter(adapter);
+        spinner.setSelection(1);
+        spinner.setEnabled(false);
 
         this.morning.setNormalColor();
         if (medicine.getBreakfast().equals("before"))
@@ -593,12 +644,12 @@ public class MedicineDetailFragment extends Fragment {
         customTimeHour = String.valueOf(medicine.getCustomTime().getHour());
         customTimeMinute = String.valueOf(medicine.getCustomTime().getMinute());
         custom.setNormalColor();
-        if (ch != null && !ch.equals("null")) {
-            if (!ch.isEmpty()) {
-                custom.setText(TimingClass.getTime(Integer.parseInt(ch), Integer.parseInt(cm), is24hr), "Custom Time");
-            }
-        } else
+        if (!customTimeHour.equals("-1")) {
+//                Log.e("MedicineDetailFragment", "Integer Custom Hour: " + Integer.parseInt(ch) + " Custom Minute: " + Integer.parseInt(cm));
+            custom.setText(TimingClass.getTime(Integer.parseInt(this.customTimeHour), Integer.parseInt(this.customTimeMinute), is24hr), "Custom Time");
+        }else
             custom.setGrayScale();
+
 
         mView.findViewById(R.id.endIndefinite).setEnabled(false);
         icon = String.valueOf(medicine.getIcon());

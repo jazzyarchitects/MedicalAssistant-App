@@ -1,27 +1,28 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:layout_centerInParent="true"
+    android:layout_gravity="center_vertical"
+    android:background="@color/deafaultFragmentBackground"
     android:minHeight="500dp"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
+    app:cardUseCompatPadding="true"
     tools:context="architect.jazzy.medicinereminder.Activities.MedicineDetails$MedicineDetailsFragment">
 
-    <android.support.v7.widget.CardView
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#FFF"
-        android:minHeight="500dp"
-        android:layout_gravity="center_vertical"
-        app:cardUseCompatPadding="true">
+        android:minHeight="500dp">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:background="#FFF"
             android:orientation="vertical"
             android:padding="5dp">
@@ -34,7 +35,10 @@
                 android:layout_marginTop="3dp"
                 android:background="#00000000"
                 android:enabled="false"
-                android:gravity="center_horizontal"
+                android:gravity="center"
+                android:hint="Medicine Name"
+                android:inputType="text"
+                android:minHeight="30dp"
                 android:text="Medicine Name"
                 android:textColor="#000"
                 android:textSize="@dimen/titleTextSize"
@@ -43,10 +47,10 @@
 
             <LinearLayout
                 android:id="@+id/ll"
-                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:visibility="gone">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -213,6 +217,24 @@
 
             </LinearLayout>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="Doctor:"
+                android:textColor="#000"
+                android:textSize="16sp" />
+
+            <Spinner
+                android:id="@+id/doctorSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#FEFEFE"
+                android:minHeight="30dp"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:spinnerMode="dropdown" />
 
             <EditText
                 android:id="@+id/medNotes"
@@ -263,6 +285,6 @@
 
         </LinearLayout>
 
-    </android.support.v7.widget.CardView>
+    </ScrollView>
 
-</ScrollView>
+</android.support.v7.widget.CardView>

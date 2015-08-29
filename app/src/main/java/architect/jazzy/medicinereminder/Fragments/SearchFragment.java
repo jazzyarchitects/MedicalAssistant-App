@@ -208,16 +208,7 @@ public class SearchFragment extends Fragment {
                         PrintWriter writer = new PrintWriter(new FileWriter(out));
                         String line = null;
                         while ((line = reader.readLine()) != null) {
-                            writer.write(line
-//                                     .replace("&lt;", "<")
-//                                    .replace("&gt;", ">")
-//                                    .replace("&lt;ul&gt;&lt;li&gt;", "<br />")
-//                                    .replace("&lt;/li&gt;&lt;li&gt;", "<br />")
-//                                    .replace("&lt;/li&gt;&lt;/ul&gt;", "")
-//                                    .replace("<ul><li>;", "<br />")
-//                                    .replace("</li><li>;", "<br />")
-//                                    .replace("</li></ul>;", "")
-                            );
+                            writer.write(line);
                         }
                         reader.close();
                         writer.close();
@@ -248,6 +239,7 @@ public class SearchFragment extends Fragment {
             if (result != null) {
 
                 if(result.getCount()==0 && !result.getSpellingCorrection().isEmpty() && hideSuggestion){
+                    initalSearch=true;
                     spellingView.setVisibility(View.VISIBLE);
                     spellingView.setText(Constants.getSuggestionText(result.getTerm(),result.getSpellingCorrection()));
                     hideSuggestion=false;
@@ -292,7 +284,7 @@ public class SearchFragment extends Fragment {
                 }
                 SearchListAdapter adapter = new SearchListAdapter(getActivity(), documents);
                 searchListAdapter=adapter;
-                ((LinearLayoutManager)recyclerView.getLayoutManager()).scrollToPosition(result.getRetstart()-result.getRetmax());
+                ((LinearLayoutManager)recyclerView.getLayoutManager()).scrollToPosition(result.getRetstart());
                 adapter.setItemClickListener(new SearchListAdapter.ItemClickListener() {
                     @Override
                     public void OnItemClick(ArrayList<WebDocument> documents, int position) {

@@ -1,4 +1,4 @@
-package architect.jazzy.medicinereminder.Fragments;
+package architect.jazzy.medicinereminder.Fragments.SearchFragments;
 
 
 import android.app.Activity;
@@ -37,6 +37,7 @@ import java.util.ArrayList;
 
 import architect.jazzy.medicinereminder.Activities.MainActivity;
 import architect.jazzy.medicinereminder.Adapters.SearchListAdapter;
+import architect.jazzy.medicinereminder.Fragments.NewsFragments.NewsDetailFragment;
 import architect.jazzy.medicinereminder.HelperClasses.Constants;
 import architect.jazzy.medicinereminder.HelperClasses.SearchResultParser;
 import architect.jazzy.medicinereminder.Models.SearchQuery;
@@ -267,7 +268,7 @@ public class SearchFragment extends Fragment {
                             .setPositiveButton("Yeah Sure", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    activity.displayFragment(NewsDetailFragment.getInstance("https://www.google.com/search?q="+result.getTerm().replace(" ","+"),false));
+                                    activity.displayFragment(NewsDetailFragment.getInstance("https://www.google.com/search?q=" + result.getTerm().replace(" ", "+"), false));
                                     dialog.dismiss();
                                 }
                             })

@@ -42,10 +42,16 @@ public class DoctorListAdapter extends RecyclerView.Adapter<DoctorListAdapter.Vi
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        Doctor doctor=doctors.get(position);
+    public void onBindViewHolder(ViewHolder holder, final int position) {
+        final Doctor doctor=doctors.get(position);
         Log.e(TAG,"Doctor Name: "+doctor.getName());
         holder.nameView.setText(doctor.getName());
+        holder.linearLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                itemClickListener.onItemClick(position,doctor);
+            }
+        });
         if(doctor.getPhotoUri()!=null) {
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(), doctor.getPhotoUri());
@@ -82,5 +88,13 @@ public class DoctorListAdapter extends RecyclerView.Adapter<DoctorListAdapter.Vi
             nameView=(TextView)itemView.findViewById(R.id.textView);
             linearLayout=(LinearLayout)itemView.findViewById(R.id.ll);
         }
+    }
+
+    ItemClickListener itemClickListener;
+    public interface ItemClickListener{
+        void onItemClick(int position, Doctor doctor);
+    }
+    public void setItemClickListener(ItemClickListener itemClickListener){
+        this.itemClickListener=itemClickListener;
     }
 }

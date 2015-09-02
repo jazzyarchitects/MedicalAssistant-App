@@ -62,6 +62,7 @@ import architect.jazzy.medicinereminder.Activities.MainActivity;
 import architect.jazzy.medicinereminder.Adapters.DoctorSpinnerAdapter;
 import architect.jazzy.medicinereminder.Adapters.FeedAdapter;
 import architect.jazzy.medicinereminder.Adapters.ImageAdapter;
+import architect.jazzy.medicinereminder.CustomViews.DaySelectorFragmentDialog;
 import architect.jazzy.medicinereminder.CustomViews.LabelledImage;
 import architect.jazzy.medicinereminder.Handlers.DataHandler;
 import architect.jazzy.medicinereminder.HelperClasses.AlarmSetterService;

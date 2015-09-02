@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Random;
 
 import architect.jazzy.medicinereminder.Models.Doctor;
@@ -380,6 +381,53 @@ public class DataHandler {
         medicine.setEndDate(c.getString(c.getColumnIndex(MedicineTable.COL_END_DATE)));
 
         return medicine;
+    }
+
+    public ArrayList<Medicine> getMedicineListByDoctor(Doctor doctor){
+        ArrayList<Medicine> medicines=null;
+        Cursor c=db.query(MedicineTable.TABLE_NAME,null,MedicineTable.COL_DOCTOR+"=?",new String[]{doctor.getId()},null,null,null);
+        if(c.moveToFirst()){
+            medicines=new ArrayList<>();
+            do {
+                medicines.add(getMedicine(c));
+            }while (c.moveToNext());
+        }
+        c.close();
+        return medicines;
+    }
+
+    public ArrayList<Medicine> getTodaysMedicine(){
+        ArrayList<Medicine> medicines=new ArrayList<>();
+        Calendar calendar=Calendar.getInstance();
+        String colName=getTodayColoumName(calendar);
+        Cursor c=db.query(MedicineTable.TABLE_NAME,null,colName+"=?",new String[]{"true"},null,null,null);
+        if(c.moveToFirst()){
+            do{
+                medicines.add(getMedicine(c));
+            }while (c.moveToNext());
+        }
+        c.close();
+        return medicines;
+    }
+
+    private String getTodayColoumName(Calendar calendar){
+        switch (calendar.get(Calendar.DAY_OF_WEEK)){
+            case Calendar.SUNDAY:
+                return MedicineTable.COL_SUNDAY;
+            case Calendar.MONDAY:
+                return MedicineTable.COL_MONDAY;
+            case Calendar.TUESDAY:
+                return MedicineTable.COL_TUESDAY;
+            case Calendar.WEDNESDAY:
+                return MedicineTable.COL_WEDNESDAY;
+            case Calendar.THURSDAY:
+                return MedicineTable.COL_THURSDAY;
+            case Calendar.FRIDAY:
+                return MedicineTable.COL_FRIDAY;
+            case Calendar.SATURDAY:
+                return MedicineTable.COL_SATURDAY;
+        }
+        return MedicineTable.COL_SATURDAY;
     }
 
     public Medicine findRow(String medName) {

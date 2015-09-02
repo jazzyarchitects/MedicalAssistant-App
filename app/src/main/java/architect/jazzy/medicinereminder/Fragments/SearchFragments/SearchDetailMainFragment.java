@@ -1,4 +1,4 @@
-package architect.jazzy.medicinereminder.Fragments;
+package architect.jazzy.medicinereminder.Fragments.SearchFragments;
 
 
 import android.app.Activity;

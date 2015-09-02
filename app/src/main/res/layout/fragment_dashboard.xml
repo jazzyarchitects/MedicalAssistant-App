@@ -1,0 +1,62 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    tools:context="architect.jazzy.medicinereminder.Fragments.DashboardFragment">
+
+    <architect.jazzy.medicinereminder.CustomViews.CircleView
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        app:fillColor="@color/actionBackground"
+        android:padding="10dp"
+        android:id="@+id/mainIndicator"
+        app:strokeColor="@color/actionBackground"
+        app:textColor="#FFF"
+        android:layout_marginTop="10dp"
+        app:strokeWidth="5dp"
+        android:layout_centerHorizontal="true"
+        app:divCount="1"
+        app:textSize="18sp"
+        app:bigTextSize="28sp"
+        app:bigText="02/09/2015"
+        app:text="Today"/>
+    
+    <architect.jazzy.medicinereminder.CustomViews.CircleView
+        android:layout_width="105dp"
+        android:layout_height="105dp"
+        app:fillColor="@color/color_death"
+        app:strokeColor="@color/color_death"
+        app:textColor="#FFF"
+        android:layout_below="@+id/mainIndicator"
+        app:strokeWidth="0dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginLeft="25dp"
+        app:textSize="14sp"
+        app:isButton="true"
+        android:id="@+id/medicineCountView"
+        app:bigText="5"
+        app:bigTextSize="25sp"
+        app:text="Medicines"/>
+    
+    <architect.jazzy.medicinereminder.CustomViews.CircleView
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        app:fillColor="@color/color_healthTip"
+        app:strokeColor="@color/color_healthTip"
+        app:textColor="#FFF"
+        android:layout_below="@+id/mainIndicator"
+        app:strokeWidth="0dp"
+        android:id="@+id/appointmentCount"
+        app:isButton="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="25dp"
+        android:layout_marginRight="25dp"
+        app:textSize="14sp"
+        app:bigTextSize="25sp"
+        app:bigText="1"
+        app:text="Appointments"/>
+
+</RelativeLayout>

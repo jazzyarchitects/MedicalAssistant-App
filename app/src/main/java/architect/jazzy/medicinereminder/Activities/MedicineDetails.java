@@ -2,7 +2,6 @@ package architect.jazzy.medicinereminder.Activities;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v4.app.NavUtils;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -200,7 +199,7 @@ public class MedicineDetails extends AppCompatActivity implements EmojiSelectFra
         int id=item.getItemId();
         switch (id){
             case android.R.id.home:
-                NavUtils.navigateUpFromSameTask(this);
+                finish();
                 break;
         }
         return true;

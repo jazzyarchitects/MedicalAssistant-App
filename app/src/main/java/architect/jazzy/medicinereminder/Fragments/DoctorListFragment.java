@@ -56,6 +56,12 @@ public class DoctorListFragment extends Fragment {
         ArrayList<Doctor> doctors=handler.getDoctorList();
         if(!doctors.isEmpty()) {
             DoctorListAdapter adapter = new DoctorListAdapter(mContext, doctors);
+            adapter.setItemClickListener(new DoctorListAdapter.ItemClickListener() {
+                @Override
+                public void onItemClick(int position, Doctor doctor) {
+                    onFragmentInteractionListenr.onDoctorSelected(doctor);
+                }
+            });
             doctorList.setAdapter(adapter);
         }
         setHasOptionsMenu(true);
@@ -66,6 +72,7 @@ public class DoctorListFragment extends Fragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         menuItemClickListener=(OnMenuItemClickListener)activity;
+        onFragmentInteractionListenr=(OnFragmentInteractionListenr)activity;
     }
 
     @Override
@@ -88,5 +95,10 @@ public class DoctorListFragment extends Fragment {
     }
     public void setMenuItemClickListener(OnMenuItemClickListener menuItemClickListener){
         this.menuItemClickListener=menuItemClickListener;
+    }
+
+    OnFragmentInteractionListenr onFragmentInteractionListenr;
+    public interface OnFragmentInteractionListenr{
+        void onDoctorSelected(Doctor doctor);
     }
 }

@@ -1,6 +1,7 @@
 package architect.jazzy.medicinereminder;
 
 import android.app.Application;
+import android.content.Context;
 import android.os.Environment;
 
 import com.google.android.gms.analytics.GoogleAnalytics;
@@ -53,6 +54,11 @@ public class ThisApplication extends Application {
 
 
     private Thread.UncaughtExceptionHandler exceptionHandler;
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+    }
 
     @Override
     public void onCreate() {

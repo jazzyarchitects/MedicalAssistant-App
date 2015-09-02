@@ -26,15 +26,19 @@ import java.util.ArrayList;
 import architect.jazzy.medicinereminder.Adapters.NewsListAdapter;
 import architect.jazzy.medicinereminder.Fragments.AddDoctorFragment;
 import architect.jazzy.medicinereminder.Fragments.AddMedicineFragment;
-import architect.jazzy.medicinereminder.Fragments.DaySelectorFragmentDialog;
+import architect.jazzy.medicinereminder.Fragments.DashboardFragment;
+import architect.jazzy.medicinereminder.CustomViews.DaySelectorFragmentDialog;
+import architect.jazzy.medicinereminder.Fragments.DoctorDetailFragments.DoctorDetailFragment;
+import architect.jazzy.medicinereminder.Fragments.DoctorDetailFragments.DoctorMedicineListFragment;
 import architect.jazzy.medicinereminder.Fragments.DoctorListFragment;
 import architect.jazzy.medicinereminder.Fragments.EmojiSelectFragment;
 import architect.jazzy.medicinereminder.Fragments.MedicineListFragment;
-import architect.jazzy.medicinereminder.Fragments.NewsDetailFragment;
-import architect.jazzy.medicinereminder.Fragments.NewsListFragment;
-import architect.jazzy.medicinereminder.Fragments.SearchFragment;
+import architect.jazzy.medicinereminder.Fragments.NewsFragments.NewsDetailFragment;
+import architect.jazzy.medicinereminder.Fragments.NewsFragments.NewsListFragment;
+import architect.jazzy.medicinereminder.Fragments.SearchFragments.SearchFragment;
 import architect.jazzy.medicinereminder.HelperClasses.AlarmSetterService;
 import architect.jazzy.medicinereminder.HelperClasses.Constants;
+import architect.jazzy.medicinereminder.Models.Doctor;
 import architect.jazzy.medicinereminder.Models.FeedItem;
 import architect.jazzy.medicinereminder.R;
 
@@ -42,7 +46,8 @@ import architect.jazzy.medicinereminder.R;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
         EmojiSelectFragment.OnFragmentInteractionListener,  DaySelectorFragmentDialog.OnFragmentInteractionListener,
         MedicineListFragment.FragmentInteractionListener, AddMedicineFragment.FragmentInteractionListener,
-        NewsListAdapter.FeedClickListener, DoctorListFragment.OnMenuItemClickListener{
+        NewsListAdapter.FeedClickListener, DoctorListFragment.OnMenuItemClickListener,
+        DoctorMedicineListFragment.FragmentInteractionListener, DoctorListFragment.OnFragmentInteractionListenr{
 
     public static final String TAG="MainActivity";
 
@@ -148,6 +153,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.addDoctor:
                 displayFragment(new DoctorListFragment(),true);
                 break;
+            case R.id.circularTest:
+                displayFragment(new DashboardFragment(),true);
             default:
                 break;
         }
@@ -256,6 +263,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onAddDoctorClicked() {
         displayFragment(new AddDoctorFragment(),true);
+    }
+
+    @Override
+    public void onDoctorSelected(Doctor doctor) {
+        displayFragment(DoctorDetailFragment.newInstance(doctor),true);
     }
 
     public interface ActivityClickListener{

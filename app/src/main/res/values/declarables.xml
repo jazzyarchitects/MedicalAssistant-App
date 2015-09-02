@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="CircleView">
+        <attr name="strokeColor" format="color|reference" />
+        <attr name="fillColor" format="color|reference" />
+        <attr name="textColor" format="color|reference" />
+        <attr name="strokeWidth" format="dimension|reference" />
+        <attr name="text" format="string|reference" />
+        <attr name="bigText" format="string|reference" />
+        <attr name="isButton" format="boolean" />
+        <attr name="textSize" format="dimension|reference" />
+        <attr name="divCount" format="integer" />
+        <attr name="bigTextSize" format="dimension|reference" />
+    </declare-styleable>
+
+</resources>

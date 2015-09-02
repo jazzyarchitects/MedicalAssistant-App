@@ -7,7 +7,7 @@ import android.util.Log;
 
 import java.util.ArrayList;
 
-import architect.jazzy.medicinereminder.Fragments.FeedFragment;
+import architect.jazzy.medicinereminder.Fragments.NewsFragments.FeedFragment;
 import architect.jazzy.medicinereminder.Models.FeedItem;
 
 /**

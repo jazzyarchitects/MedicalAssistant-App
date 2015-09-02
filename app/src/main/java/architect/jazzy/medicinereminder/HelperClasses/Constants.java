@@ -76,7 +76,6 @@ public class Constants {
     public static final String BUNDLE_WEB_DOCUMENT="webDocument";
     public static final String BUNDLE_DOCTOR="doctorBundle";
 
-
     /**
      * Check if phone is connected to internet
      */

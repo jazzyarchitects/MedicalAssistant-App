@@ -84,6 +84,7 @@ public class SplashScreen extends ActionBarActivity {
                     Intent i = new Intent(getBaseContext(), MainActivity.class);
                     startActivity(i);
                     finish();
+                    overridePendingTransition(R.anim.main_show, R.anim.splash_hide);
                 }
             }
         };

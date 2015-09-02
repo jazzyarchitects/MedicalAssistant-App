@@ -1,4 +1,4 @@
-package architect.jazzy.medicinereminder.Fragments;
+package architect.jazzy.medicinereminder.CustomViews;
 
 import android.app.Activity;
 import android.app.DialogFragment;

@@ -19,6 +19,9 @@
         android:icon="@drawable/ic_action_coffee"
         android:title="News" />
 
+    <item android:id="@+id/circularTest"
+        android:title="Circular Test" />
+
     <item
         android:id="@+id/section2"
         android:title="User Management">

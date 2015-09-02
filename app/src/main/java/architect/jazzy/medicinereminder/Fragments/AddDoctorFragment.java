@@ -202,7 +202,12 @@ public class AddDoctorFragment extends Fragment {
     }
 
     Uri retrieveContactUri(Cursor cursor){
-        return Uri.parse(cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.PHOTO_THUMBNAIL_URI)));
+        try{
+            return Uri.parse(cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.PHOTO_THUMBNAIL_URI)));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return null;
     }
 
     String retrieveContactId(Cursor cursor){

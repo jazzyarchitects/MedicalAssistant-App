@@ -9,8 +9,8 @@
     <dimen name="widget_margin">8dp</dimen>
     <dimen name="navigation_drawer_width">240dp</dimen>
 
-    <dimen name="listCardElevation">5dp</dimen>
-    <dimen name="listCardRadius">5dp</dimen>
+    <dimen name="listCardElevation">1dp</dimen>
+    <dimen name="listCardRadius">1dp</dimen>
 
 
 

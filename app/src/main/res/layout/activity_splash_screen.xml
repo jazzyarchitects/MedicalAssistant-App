@@ -1,5 +1,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/actionBackground"
     tools:context="architect.jazzy.medicinereminder.Activities.SplashScreen">
@@ -10,37 +11,41 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
         android:orientation="vertical">
+
         <TextView
+            android:id="@+id/ssmr"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Medicine Reminder"
+            android:layout_gravity="center"
+            android:text="@string/app_name"
             android:textColor="#FFFFFF"
-            android:textSize="30sp"
-            android:id="@+id/ssmr"
-            android:layout_gravity="center"/>
-    <ImageView
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/icon"
-        android:layout_gravity="center"
-        android:src="@drawable/capsuleicon"/>
-
-    <TextView android:id="@+id/fullscreen_content"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:keepScreenOn="true"
-        android:textColor="#FFFFFF"
-        android:layout_below="@id/icon"
-        android:textSize="38sp"
-        android:gravity="center"
-        android:text="Your complete medical partner" />
+            android:textSize="30sp" />
 
 
+        <ImageView
+            android:id="@+id/icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="20dp"
+            android:src="@mipmap/ic_launcher" />
 
-</LinearLayout>
+
+        <TextView
+            android:id="@+id/fullscreen_content"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/icon"
+            android:gravity="center"
+            android:keepScreenOn="true"
+            android:text="Your perfect medical assistant"
+            android:textColor="#FFFFFF"
+            android:textSize="38sp" />
+
+
+    </LinearLayout>
 </RelativeLayout>

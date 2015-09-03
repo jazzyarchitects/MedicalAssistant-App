@@ -1,10 +1,192 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="5dp"
+    android:background="@color/doctorDetailFragmentsColor"
     tools:context="architect.jazzy.medicinereminder.Fragments.DoctorDetailFragments.ContactDetailFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView android:layout_width="match_parent" android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-</FrameLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="10">
+
+                <TextView android:layout_width="0dp"
+                    android:layout_weight="4"
+                    android:text="Name"
+                    android:textColor="#222"
+                    android:gravity="center"
+                    android:textSize="15sp" />
+
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_weight="6"
+                    android:inputType="textPersonName"
+                    android:id="@+id/docName"
+                    android:hint="Name"
+                    android:textSize="15sp"
+                    android:textColor="#000"
+                    />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="10">
+
+                <TextView android:layout_width="0dp"
+                    android:layout_weight="4"
+                    android:text="Mobile"
+                    android:textColor="#222"
+                    android:gravity="center"
+                    android:textSize="15sp" />
+
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_weight="6"
+                    android:id="@+id/docPhone1"
+                    android:hint="Mobile"
+                    android:inputType="phone"
+                    android:textSize="15sp"
+                    android:textColor="#000"
+                    />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="10">
+
+                <TextView android:layout_width="0dp"
+                    android:layout_weight="4"
+                    android:text="Office"
+                    android:textColor="#222"
+                    android:gravity="center"
+                    android:textSize="15sp" />
+
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_weight="6"
+                    android:id="@+id/docPhone2"
+                    android:hint="Office number"
+                    android:textSize="15sp"
+                    android:inputType="phone"
+                    android:textColor="#000"
+                    />
+            </TableRow>
+
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="10">
+
+                <TextView android:layout_width="0dp"
+                    android:layout_weight="4"
+                    android:text="Address"
+                    android:textColor="#222"
+                    android:gravity="center"
+                    android:textSize="15sp" />
+
+                <EditText
+                    android:id="@+id/docAddress"
+                    android:layout_width="0dp"
+                    android:layout_weight="6"
+                    android:layout_height="wrap_content"
+                    android:layout_column="1"
+                    android:lines="3"
+                    android:hint="Address"
+                    android:textSize="15sp"
+                    android:inputType="textMultiLine" />
+            </TableRow>
+
+
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="10">
+
+                <TextView android:layout_width="0dp"
+                    android:layout_weight="4"
+                    android:text="Hospital"
+                    android:textColor="#222"
+                    android:gravity="center"
+                    android:textSize="15sp" />
+
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_weight="6"
+                    android:id="@+id/docHospital"
+                    android:hint="Hospital Name"
+                    android:textSize="15sp"
+                    android:textColor="#000"
+                    />
+            </TableRow>
+
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="10">
+
+                <TextView android:layout_width="0dp"
+                    android:layout_weight="4"
+                    android:text="Note"
+                    android:textColor="#222"
+                    android:gravity="center"
+                    android:textSize="15sp" />
+
+                <EditText
+                    android:id="@+id/docNotes"
+                    android:layout_width="0dp"
+                    android:layout_weight="6"
+                    android:layout_height="wrap_content"
+                    android:layout_column="1"
+                    android:lines="2"
+                    android:hint="Note"
+                    android:textSize="15sp"
+                    android:inputType="textMultiLine" />
+            </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:weightSum="10">
+
+                <View android:layout_weight="3"
+                    android:layout_height="1dp"
+                    android:layout_width="0dp" />
+
+                <Button android:layout_width="0dp"
+                    android:layout_height="35dp"
+                    android:layout_weight="4"
+                    android:text="Save Changes"
+                    android:background="@drawable/button_background_states"
+                    android:textColor="#FFF"
+                    android:id="@+id/saveButton"
+                    android:gravity="center"
+                    android:textSize="14sp" />
+
+            </TableRow>
+
+        </LinearLayout>
+
+
+
+    </ScrollView>
+
+
+
+</RelativeLayout>

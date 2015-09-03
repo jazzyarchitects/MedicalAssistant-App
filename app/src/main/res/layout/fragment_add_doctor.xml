@@ -67,7 +67,7 @@
                     android:layout_height="wrap_content"
                     android:layout_column="1"
                     android:layout_weight="1"
-                    android:hint="Number 1"
+                    android:hint="Mobile"
                     android:inputType="phone" />
 
             </android.support.design.widget.TextInputLayout>
@@ -90,7 +90,7 @@
                     android:layout_height="wrap_content"
                     android:layout_column="1"
                     android:layout_weight="1"
-                    android:hint="Number 2"
+                    android:hint="Office"
                     android:inputType="phone" />
 
             </android.support.design.widget.TextInputLayout>

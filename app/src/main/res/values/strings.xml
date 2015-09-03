@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">Medicine Reminder</string>
+    <string name="app_name">Cuidar</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_testing">Testing</string>
     <string name="title_activity_all_medicines">All Medicines</string>

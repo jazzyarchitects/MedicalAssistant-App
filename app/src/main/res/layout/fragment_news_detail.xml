@@ -28,7 +28,7 @@
             <ImageView
                 android:layout_width="@dimen/webViewIconSize"
                 android:layout_height="@dimen/webViewIconSize"
-                android:src="@drawable/capsule"
+                android:src="@mipmap/ic_launcher"
                 android:id="@+id/logo"
                 android:scaleType="centerCrop"
                 android:layout_centerInParent="true"/>

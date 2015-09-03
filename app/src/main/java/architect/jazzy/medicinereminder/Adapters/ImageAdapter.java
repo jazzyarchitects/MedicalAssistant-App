@@ -44,7 +44,7 @@ public class ImageAdapter extends BaseAdapter{
             R.drawable.bic_action_eye_open,R.drawable.bic_action_contrast,R.drawable.bic_action_pie_chart,
             R.drawable.bic_action_heart, R.drawable.bic_action_sun,R.drawable.bic_action_temperature,
 
-            R.drawable.capsule_icon_emoji
+            R.drawable.small_icon
 
     };
 

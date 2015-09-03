@@ -90,7 +90,7 @@ public class MedicineListAdapter extends RecyclerView.Adapter<MedicineListAdapte
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if(this.layout_id==0)
-            v = inflater.inflate(R.layout.listitem_custom, parent, false);
+            v = inflater.inflate(R.layout.recycler_view_item_medicine_list, parent, false);
         else
             v=inflater.inflate(layout_id, parent, false);
         return new ViewHolder(v);

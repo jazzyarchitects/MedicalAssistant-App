@@ -37,8 +37,8 @@ public class AddDoctorFragment extends Fragment {
 
     View v;
     private GoogleMap mMap; // Might be null if Google Play services APK is not available.
-    private static final String TAG="AddDoctorFragment";
-    public static final int CONTACT_PICK_REQUEST_CODE=121;
+    private static final String TAG = "AddDoctorFragment";
+    public static final int CONTACT_PICK_REQUEST_CODE = 121;
     private Uri uriContact;
     private String contactID;
     ImageView imageView;
@@ -47,10 +47,10 @@ public class AddDoctorFragment extends Fragment {
     Button save;
     EditText docName, docPhone1, docPhone2, docAddress, docHospital, docNotes;
 
-    public static AddDoctorFragment newInstance(Doctor doctor){
-        AddDoctorFragment fragment=new AddDoctorFragment();
-        Bundle args=new Bundle();
-        args.putParcelable(Constants.BUNDLE_DOCTOR,doctor);
+    public static AddDoctorFragment newInstance(Doctor doctor) {
+        AddDoctorFragment fragment = new AddDoctorFragment();
+        Bundle args = new Bundle();
+        args.putParcelable(Constants.BUNDLE_DOCTOR, doctor);
         fragment.setArguments(args);
         return fragment;
     }
@@ -64,25 +64,24 @@ public class AddDoctorFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        v=inflater.inflate(R.layout.fragment_add_doctor, container, false);
+        v = inflater.inflate(R.layout.fragment_add_doctor, container, false);
 
         try {
             ((AppCompatActivity) getActivity()).getSupportActionBar().show();
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
-        ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Add Doctor");
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Add Doctor");
 
 
-
-        imageView=(ImageView)v.findViewById(R.id.docPic);
-        docAddress=(EditText)v.findViewById(R.id.docAddress);
-        docHospital=(EditText)v.findViewById(R.id.docHospital);
-        docName=(EditText)v.findViewById(R.id.docName);
-        docPhone1=(EditText)v.findViewById(R.id.docPhone1);
-        docPhone2=(EditText)v.findViewById(R.id.docPhone2);
-        docNotes=(EditText)v.findViewById(R.id.docNotes);
-        save=(Button)v.findViewById(R.id.saveButton);
+        imageView = (ImageView) v.findViewById(R.id.docPic);
+        docAddress = (EditText) v.findViewById(R.id.docAddress);
+        docHospital = (EditText) v.findViewById(R.id.docHospital);
+        docName = (EditText) v.findViewById(R.id.docName);
+        docPhone1 = (EditText) v.findViewById(R.id.docPhone1);
+        docPhone2 = (EditText) v.findViewById(R.id.docPhone2);
+        docNotes = (EditText) v.findViewById(R.id.docNotes);
+        save = (Button) v.findViewById(R.id.saveButton);
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -90,17 +89,17 @@ public class AddDoctorFragment extends Fragment {
             }
         });
 
-        if(mMap!=null) {
-            try{
+        if (mMap != null) {
+            try {
 //                setUpMapIfNeeded();
-            }catch (NullPointerException e){
+            } catch (NullPointerException e) {
                 e.printStackTrace();
             }
         }
-        try{
-            doctor=getArguments().getParcelable(Constants.BUNDLE_DOCTOR);
-        }catch (NullPointerException e){
-            doctor=new Doctor();
+        try {
+            doctor = getArguments().getParcelable(Constants.BUNDLE_DOCTOR);
+        } catch (NullPointerException e) {
+            doctor = new Doctor();
         }
         updateForm();
         setHasOptionsMenu(true);
@@ -114,7 +113,7 @@ public class AddDoctorFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
 
 //        Log.e(TAG, "Contact Result 2: "+resultCode);
-        if(resultCode==Activity.RESULT_OK) {
+        if (resultCode == Activity.RESULT_OK) {
             if (requestCode == CONTACT_PICK_REQUEST_CODE) {
 //                Log.e(TAG, "Contact Result 2");
                 uriContact = data.getData();
@@ -123,27 +122,32 @@ public class AddDoctorFragment extends Fragment {
         }
     }
 
-    void retrieveContactDetails(){
+    void retrieveContactDetails() {
         retrieveContactNumber();
     }
 
-    void updateForm(){
-        if(doctor==null){
-            doctor=new Doctor();
+    void updateForm() {
+        if (doctor == null) {
+            doctor = new Doctor();
         }
         docName.setText(doctor.getName());
         docAddress.setText(doctor.getAddress());
         docPhone1.setText(doctor.getPhone_1());
         docPhone2.setText(doctor.getPhone_2());
         docNotes.setText(doctor.getNotes());
+        try{
+            imageView.setImageURI(doctor.getPhotoUri());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
-    void saveDoctor(){
-        if(docName.getText().toString().length()<3){
+    void saveDoctor() {
+        if (docName.getText().toString().length() < 3) {
             docName.setError("Name cannot be less than 3 characters");
             return;
         }
-        if(docPhone1.getText().toString().isEmpty() && docPhone2.getText().toString().isEmpty()){
+        if (docPhone1.getText().toString().isEmpty() && docPhone2.getText().toString().isEmpty()) {
             docPhone1.setError("Phone number cannot be empty");
             return;
         }
@@ -156,76 +160,75 @@ public class AddDoctorFragment extends Fragment {
         doctor.setHospital(docHospital.getText().toString());
 
 
-        DataHandler dataHandler=new DataHandler(getActivity());
-        dataHandler.open();
+        DataHandler dataHandler = new DataHandler(getActivity());
         dataHandler.insertDoctor(doctor);
         dataHandler.close();
         Toast.makeText(getActivity(), "Doctor details saved", Toast.LENGTH_SHORT).show();
     }
 
 
-    void retrieveContactNumber(){
-        ContentResolver contentResolver=getActivity().getContentResolver();
-        Cursor cursor=contentResolver.query(uriContact,null,null,null,null);
+    void retrieveContactNumber() {
+        ContentResolver contentResolver = getActivity().getContentResolver();
+        Cursor cursor = contentResolver.query(uriContact, null, null, null, null);
 
-        if(cursor.moveToFirst()){
+        if (cursor.moveToFirst()) {
             doctor.setName(retrieveContactName());
             doctor.setPhotoUri(retrieveContactUri(cursor));
             doctor.setId(retrieveContactId(cursor));
 
 
-            if(Integer.parseInt(cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER)))>0){
-                Cursor phoneCursor=contentResolver.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+            if (Integer.parseInt(cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER))) > 0) {
+                Cursor phoneCursor = contentResolver.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
                         null,
-                        ContactsContract.CommonDataKinds.Phone.CONTACT_ID+"=?",
+                        ContactsContract.CommonDataKinds.Phone.CONTACT_ID + "=?",
                         new String[]{doctor.getId()},
                         null);
                 phoneCursor.moveToFirst();
-                int i=1;
-                do{
+                int i = 1;
+                do {
 //                    String type=phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE));
 //                    String s=(String) ContactsContract.CommonDataKinds.Phone.getTypeLabel(getActivity().getResources(),Integer.parseInt(type),"");
-                    String phone=phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-                    if(i==1){
+                    String phone = phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+                    if (i == 1) {
                         doctor.setPhone_1(phone);
-                    }else if(i==2){
+                    } else if (i == 2) {
                         doctor.setPhone_2(phone);
-                    }else{
+                    } else {
                         break;
                     }
                     i++;
-                }while(phoneCursor.moveToNext());
+                } while (phoneCursor.moveToNext());
+                phoneCursor.close();
             }
             cursor.close();
             updateForm();
         }
     }
 
-    Uri retrieveContactUri(Cursor cursor){
-        try{
+    Uri retrieveContactUri(Cursor cursor) {
+        try {
             return Uri.parse(cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.PHOTO_THUMBNAIL_URI)));
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    String retrieveContactId(Cursor cursor){
-        return contactID=cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));
+    String retrieveContactId(Cursor cursor) {
+        return contactID = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts._ID));
     }
 
 
-    String retrieveContactName(){
-        String contactName="";
-        Cursor cursor=getActivity().getContentResolver().query(uriContact,null,null,null,null);
-        if(cursor.moveToFirst()){
-            contactName=cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
+    String retrieveContactName() {
+        String contactName = "";
+        Cursor cursor = getActivity().getContentResolver().query(uriContact, null, null, null, null);
+        if (cursor.moveToFirst()) {
+            contactName = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
         }
         cursor.close();
 //        Log.e(TAG,"Contact Name: "+contactName);
         return contactName;
     }
-
 
 
     @Override
@@ -237,7 +240,7 @@ public class AddDoctorFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
-        if(item.getItemId()==R.id.selectContact){
+        if (item.getItemId() == R.id.selectContact) {
             selectDoctorFromContacts();
         }
         return super.onOptionsItemSelected(item);
@@ -252,9 +255,9 @@ public class AddDoctorFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        try{
+        try {
 //            setUpMapIfNeeded();
-        }catch (NullPointerException e){
+        } catch (NullPointerException e) {
             e.printStackTrace();
         }
     }
@@ -262,9 +265,10 @@ public class AddDoctorFragment extends Fragment {
 
     /**
      * Google Map Functions
+     *
      * @throws NullPointerException
      */
-    private void setUpMapIfNeeded() throws NullPointerException{
+    private void setUpMapIfNeeded() throws NullPointerException {
         // Do a null check to confirm that we have not already instantiated the map.
 //        if (mMap == null) {
 //            // Try to obtain the map from the SupportMapFragment.

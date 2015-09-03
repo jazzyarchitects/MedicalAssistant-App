@@ -3,16 +3,25 @@ package architect.jazzy.medicinereminder.Models;
 import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 /**
  * Created by Jibin_ism on 14-Aug-15.
  */
 public class Doctor implements Parcelable {
     private String id="",
-            name="",phone_1="",phone_2="",address="",hospital="",notes="";
+            name="",phone_1="",phone_2="",address="",hospital="",notes="", photoPath="";
     private Uri photoUri=null;
 
     public Doctor() {
+    }
+
+    public String getPhotoPath() {
+        return photoPath;
+    }
+
+    public void setPhotoPath(String photoPath) {
+        this.photoPath = photoPath;
     }
 
     public Doctor(String id, String name, String phone_1, String phone_2, String address, String hospital, String notes) {
@@ -96,10 +105,12 @@ public class Doctor implements Parcelable {
     }
 
     public String getPhone_1() {
+        Log.d("Doctor","Getting Phone 1: "+phone_1);
         return phone_1;
     }
 
     public void setPhone_1(String phone_1) {
+        Log.d("Doctor","Setting Phone 1: "+phone_1);
         this.phone_1 = phone_1;
     }
 
@@ -133,6 +144,27 @@ public class Doctor implements Parcelable {
 
     public void setNotes(String notes) {
         this.notes = notes;
+    }
+
+    public void setPhoto(String string){
+        try{
+            Uri uri=Uri.parse(string);
+            this.setPhotoUri(uri);
+        }catch (Exception e){
+            try {
+                this.setPhotoPath(string);
+            }catch (Exception e1){
+                this.photoPath="";
+            }
+        }
+    }
+
+    public String getPhoto(){
+        if(getPhotoUri()!=null){
+            return getPhotoUri().toString();
+        }else{
+            return getPhotoPath();
+        }
     }
 
     @Override

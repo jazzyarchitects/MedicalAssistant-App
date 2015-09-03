@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.net.Uri;
 import android.util.Log;
 
 import java.util.ArrayList;
@@ -572,12 +571,13 @@ public class DataHandler {
             contentValues.put(DoctorTable.COL_ID, doctor.getId());
 
         contentValues.put(DoctorTable.COL_NAME, doctor.getName());
+        Log.d(TAG,"getContentValues: phone1:"+doctor.getPhone_1());
         contentValues.put(DoctorTable.COL_PHONE_1, doctor.getPhone_1());
         contentValues.put(DoctorTable.COL_PHONE_2, doctor.getPhone_2());
         contentValues.put(DoctorTable.COL_HOSPITAL, doctor.getHospital());
         contentValues.put(DoctorTable.COL_ADDRESS, doctor.getAddress());
         contentValues.put(DoctorTable.COL_NOTES, doctor.getNotes());
-        contentValues.put(DoctorTable.COL_IMAGE_URI, String.valueOf(doctor.getPhotoUri()));
+        contentValues.put(DoctorTable.COL_IMAGE_URI, doctor.getPhoto());
         return contentValues;
     }
 
@@ -594,11 +594,11 @@ public class DataHandler {
         doctor.setId(c.getString(0));
         doctor.setName(c.getString(1));
         doctor.setHospital(c.getString(2));
-        doctor.setPhone_1(c.getColumnName(3));
+        doctor.setPhone_1(c.getString(3));
         doctor.setPhone_2(c.getString(4));
         doctor.setAddress(c.getString(5));
         doctor.setNotes(c.getString(6));
-        doctor.setPhotoUri(Uri.parse(c.getString(7)));
+        doctor.setPhoto(c.getString(7));
         c.close();
         return doctor;
     }

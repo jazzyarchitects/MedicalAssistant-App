@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!--<color name="actionBackground">#ff26A9E0</color>-->
     <color name="actionBackground">#ff2f2f70</color>
+    <!--<color name="applicationThemeColor">#ff26A9E0</color>-->
+    <color name="applicationThemeColor">#ff2e2e70</color>
     <!--<color name="actionBackground">#ff6d66ff</color>-->
     <color name="selected">#ff9de19f</color>
     <color name="even">#5c8ca9e1</color>
     <color name="black_overlay">#66000000</color>
     <color name="actionBackgroundDark">#ff7879ff</color>
     <color name="actionBackgroundDarkText">#ffffff</color>
-    <color name="applicationThemeColor">#ff2e2e70</color>
     <color name="screen_background">#ffeaebff</color>
     <color name="emoji_selected">#ff8ccbff</color>
     
@@ -126,4 +128,5 @@
     <color name="linkColor">#1b3d87</color>
 
     <color name="deafaultFragmentBackground">#EEE</color>
+    <color name="doctorDetailFragmentsColor">#FFF</color>
 </resources>

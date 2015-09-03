@@ -22,21 +22,31 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
+        Fragment fragment=null;
         switch (position){
             case 0:
-                return new ContactDetailFragment();
+                fragment= ContactDetailFragment.newInstance(doctor);
+                ((ContactDetailFragment)fragment).setDoctorStateListener(new ContactDetailFragment.DoctorStateListener() {
+                    @Override
+                    public void onDoctorSaved(Doctor doctor) {
+                        listener.onDoctorSaved(doctor);
+                    }
+                });
+                break;
             case 1:
-                return DoctorMedicineListFragment.newInstance(doctor);
+                fragment= DoctorMedicineListFragment.newInstance(doctor);
+                break;
             case 2:
-                return new DoctorAppointmentFragment();
+                fragment= new DoctorAppointmentFragment();
+                break;
         }
 
-        return null;
+        return fragment;
     }
 
     @Override
     public int getCount() {
-        return 3;
+        return 2;
     }
 
     @Override
@@ -50,5 +60,13 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
                 return "Appointments";
         }
         return super.getPageTitle(position);
+    }
+
+    ViewPagerFragmentInteractionListener listener;
+    public interface ViewPagerFragmentInteractionListener{
+        void onDoctorSaved(Doctor doctor);
+    }
+    public void setViewPagerFragmentListener(ViewPagerFragmentInteractionListener viewPagerFragmentListener){
+        this.listener=viewPagerFragmentListener;
     }
 }

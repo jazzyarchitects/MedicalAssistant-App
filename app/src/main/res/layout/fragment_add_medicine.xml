@@ -91,7 +91,7 @@
                     android:layout_height="40dp"
                     android:layout_marginLeft="10dp"
                     android:layout_marginStart="10dp"
-                    android:src="@drawable/capsule_icon_emoji" />
+                    android:src="@drawable/ic_launcher" />
 
             </LinearLayout>
 

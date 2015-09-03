@@ -26,7 +26,7 @@
     <application
         android:name=".ThisApplication"
         android:allowBackup="true"
-        android:icon="@drawable/capsuleicon"
+        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
@@ -38,7 +38,7 @@
         <activity
             android:name=".Activities.SplashScreen"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="Medicine Reminder"
+            android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/FullscreenTheme" >
             <intent-filter>

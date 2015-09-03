@@ -43,7 +43,7 @@ public class MedicineListAdapter extends RecyclerView.Adapter<MedicineListAdapte
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         LayoutInflater inflater=(LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View v = inflater.inflate(R.layout.listitem_custom, parent, false);
+        View v = inflater.inflate(R.layout.recycler_view_item_medicine_list, parent, false);
         return new ViewHolder(v);
     }
 

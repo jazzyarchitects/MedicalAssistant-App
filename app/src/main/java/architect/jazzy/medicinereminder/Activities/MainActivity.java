@@ -47,7 +47,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         EmojiSelectFragment.OnFragmentInteractionListener,  DaySelectorFragmentDialog.OnFragmentInteractionListener,
         MedicineListFragment.FragmentInteractionListener, AddMedicineFragment.FragmentInteractionListener,
         NewsListAdapter.FeedClickListener, DoctorListFragment.OnMenuItemClickListener,
-        DoctorMedicineListFragment.FragmentInteractionListener, DoctorListFragment.OnFragmentInteractionListenr{
+        DoctorMedicineListFragment.FragmentInteractionListener, DoctorListFragment.OnFragmentInteractionListenr,
+        DoctorDetailFragment.ImageChangeListener{
 
     public static final String TAG="MainActivity";
 
@@ -270,6 +271,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         displayFragment(DoctorDetailFragment.newInstance(doctor),true);
     }
 
+    @Override
+    public void onDoctorImageChange(int resultCode, Intent data) {
+        if(doctorDetailImageChangeListener!=null){
+            doctorDetailImageChangeListener.onDoctorImageChanged(resultCode,data);
+        }
+    }
+
     public interface ActivityClickListener{
         void daySelectionChanged(int position, boolean isCheck);
         void daySelectionClick();
@@ -295,6 +303,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
     public void setActivityKeyClickListener(ActivityKeyClickListener activityKeyClickListener){
         this.activityKeyClickListener=activityKeyClickListener;
+    }
+
+    DoctorDetailImageChangeListener doctorDetailImageChangeListener;
+    public interface DoctorDetailImageChangeListener{
+        void onDoctorImageChanged(int resultCode, Intent data);
+    }
+    public void setDoctorDetailImageChangeListener(DoctorDetailImageChangeListener doctorDetailImageChangeListener){
+        this.doctorDetailImageChangeListener=doctorDetailImageChangeListener;
     }
 
 

@@ -11,6 +11,7 @@ import android.graphics.drawable.NinePatchDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -57,6 +58,7 @@ public class MedicineListFragment extends Fragment {
     RecyclerView medicineList;
     MedicineListAdapter listAdaptor;
     RelativeLayout root;
+    FloatingActionButton floatingActionButton;
     ArrayList<String> removedItems = new ArrayList<>();
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.Adapter mWrappedAdapter;
@@ -75,7 +77,7 @@ public class MedicineListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        v=inflater.inflate(R.layout.fragment_medicine_list, container, false);
+        v=inflater.inflate(R.layout.fragment_list, container, false);
         context=getActivity();
         Tracker t = ((ThisApplication) getActivity().getApplication()).getTracker(
                 ThisApplication.TrackerName.APP_TRACKER);
@@ -88,8 +90,15 @@ public class MedicineListFragment extends Fragment {
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
-        medicineList = (RecyclerView) v.findViewById(R.id.medicineList);
+        medicineList = (RecyclerView) v.findViewById(R.id.recyclerView);
         root = (RelativeLayout) v.findViewById(R.id.rl);
+        floatingActionButton=(FloatingActionButton)v.findViewById(R.id.floatingActionButton);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                fragmentInteractionListener.addMedicine();
+            }
+        });
         getMedicineData();
 
         try {
@@ -301,7 +310,6 @@ public class MedicineListFragment extends Fragment {
         medicines.remove(item);
         Log.e("MedicineList", "To be deleted: " + name);
         DataHandler handler=new DataHandler(context);
-        handler.open();
         handler.deleteRow(name);
         handler.close();
         createNoDataView();

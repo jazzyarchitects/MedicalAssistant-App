@@ -48,7 +48,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         MedicineListFragment.FragmentInteractionListener, AddMedicineFragment.FragmentInteractionListener,
         NewsListAdapter.FeedClickListener, DoctorListFragment.OnMenuItemClickListener,
         DoctorMedicineListFragment.FragmentInteractionListener, DoctorListFragment.OnFragmentInteractionListenr,
-        DoctorDetailFragment.ImageChangeListener{
+        DoctorDetailFragment.ImageChangeListener, DashboardFragment.OnFragmentInteractionListener{
 
     public static final String TAG="MainActivity";
 
@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView = (NavigationView)findViewById(R.id.navigationView);
         searchQuery=(EditText)navigationView.findViewById(R.id.searchQuery);
         navigationView.setNavigationItemSelectedListener(this);
-        navigationView.getMenu().findItem(R.id.add).setChecked(true);
+//        navigationView.getMenu().findItem(R.id.add).setChecked(true);
 
         searchQuery.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -91,11 +91,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-        displayFragment(new AddMedicineFragment(), true);
+        displayFragment(new DashboardFragment(), true);
     }
 
     private void performSearch(String s){
-        displayFragment(SearchFragment.initiate(s),true);
+        displayFragment(SearchFragment.initiate(s), true);
         drawerLayout.closeDrawers();
     }
 
@@ -142,9 +142,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.action_settings:
                 showSettings();
                 break;
-            case R.id.add:
-                addMedicine(false);
-                break;
+//            case R.id.add:
+//                addMedicine(false);
+//                break;
             case R.id.credits:
                 showCredits();
                 break;
@@ -162,20 +162,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return false;
     }
 
-    @Override
-    public void onEmojiSelected(int position) {
-        activityClickListener.emojiClick(position);
-    }
-
-    @Override
-    public void onDaySelectionChanged(int position, Boolean isChecked) {
-        activityClickListener.daySelectionChanged(position, isChecked);
-    }
-
-    @Override
-    public void addMedicine() {
-        addMedicine(false);
-    }
 
     void showSettings(){
         Intent prefIntent = new Intent(this, BasicPreferences.class);
@@ -194,7 +180,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public void displayFragment(Fragment fragment){
-        displayFragment(fragment,false);
+        displayFragment(fragment, false);
     }
 
     public void displayFragment(Fragment fragment, boolean add){
@@ -226,44 +212,40 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-    @Override
-    public void showDetails(int position, ArrayList<String> medicineNames) {
-            Intent i = new Intent(this, MedicineDetails.class);
-            i.putExtra(Constants.MEDICINE_NAME_LIST, medicineNames);
-            i.putExtra(Constants.MEDICINE_POSITION, position);
-            startActivityForResult(i, SHOW_LIST_REQUEST_CODE);
-    }
-
-    @Override
-    public void onFeedClick(FeedItem item) {
-        showFeed(item.getUrl());
-    }
-
-
 
     public void showDaySelection(View v) {
         activityClickListener.daySelectionClick();
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        Log.e(TAG,"Activity Result "+requestCode);
-        if (requestCode == SHOW_LIST_REQUEST_CODE) {
-            activityResultListener.medicineListActivityResult(requestCode,resultCode,data);
-        }
-    }
 
     public void showFeed(String url){
-        displayFragment(NewsDetailFragment.getInstance(url),true);
+        displayFragment(NewsDetailFragment.getInstance(url), true);
     }
+
     public void showFeed(String url, boolean isNews){
-        displayFragment(NewsDetailFragment.getInstance(url,isNews),true);
+        displayFragment(NewsDetailFragment.getInstance(url, isNews), true);
+    }
+
+
+
+    @Override
+    public void onEmojiSelected(int position) {
+        activityClickListener.emojiClick(position);
+    }
+
+    @Override
+    public void onDaySelectionChanged(int position, Boolean isChecked) {
+        activityClickListener.daySelectionChanged(position, isChecked);
+    }
+
+    @Override
+    public void addMedicine() {
+        addMedicine(true);
     }
 
     @Override
     public void onAddDoctorClicked() {
-        displayFragment(new AddDoctorFragment(),true);
+        displayFragment(new AddDoctorFragment(), true);
     }
 
     @Override
@@ -272,11 +254,70 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
+    public void addDoctor() {
+        AddDoctorFragment fragment=new AddDoctorFragment();
+        displayFragment(fragment,true);
+    }
+
+    @Override
     public void onDoctorImageChange(int resultCode, Intent data) {
         if(doctorDetailImageChangeListener!=null){
             doctorDetailImageChangeListener.onDoctorImageChanged(resultCode,data);
         }
     }
+
+    @Override
+    public void showDetails(int position, ArrayList<String> medicineNames) {
+        Intent i = new Intent(this, MedicineDetails.class);
+        i.putExtra(Constants.MEDICINE_NAME_LIST, medicineNames);
+        i.putExtra(Constants.MEDICINE_POSITION, position);
+        startActivityForResult(i, SHOW_LIST_REQUEST_CODE);
+    }
+
+    @Override
+    public void onFeedClick(FeedItem item) {
+        showFeed(item.getUrl());
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Log.e(TAG, "Activity Result " + requestCode);
+        if (requestCode == SHOW_LIST_REQUEST_CODE) {
+            activityResultListener.medicineListActivityResult(requestCode,resultCode,data);
+        }
+    }
+
+
+
+
+
+
+    ActivityKeyClickListener activityKeyClickListener;
+    DoctorDetailImageChangeListener doctorDetailImageChangeListener;
+
+
+
+
+    public void setDoctorDetailImageChangeListener(DoctorDetailImageChangeListener doctorDetailImageChangeListener){
+        this.doctorDetailImageChangeListener=doctorDetailImageChangeListener;
+    }
+
+    public void setActivityKeyClickListener(ActivityKeyClickListener activityKeyClickListener){
+        this.activityKeyClickListener=activityKeyClickListener;
+    }
+
+    public void setActivityResultListener(ActivityResultListener activityResultListener){
+        this.activityResultListener=activityResultListener;
+    }
+
+    public void setActivityClickListener(ActivityClickListener activityClickListener){
+        this.activityClickListener=activityClickListener;
+    }
+
+
+
 
     public interface ActivityClickListener{
         void daySelectionChanged(int position, boolean isCheck);
@@ -288,31 +329,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         void medicineListActivityResult(int requestCode, int resultCode, Intent data);
     }
 
-
-    public void setActivityClickListener(ActivityClickListener activityClickListener){
-        this.activityClickListener=activityClickListener;
-    }
-
-    public void setActivityResultListener(ActivityResultListener activityResultListener){
-        this.activityResultListener=activityResultListener;
-    }
-
-    ActivityKeyClickListener activityKeyClickListener;
-    public interface ActivityKeyClickListener{
-        boolean onBackKeyPressed();
-    }
-    public void setActivityKeyClickListener(ActivityKeyClickListener activityKeyClickListener){
-        this.activityKeyClickListener=activityKeyClickListener;
-    }
-
-    DoctorDetailImageChangeListener doctorDetailImageChangeListener;
     public interface DoctorDetailImageChangeListener{
         void onDoctorImageChanged(int resultCode, Intent data);
     }
-    public void setDoctorDetailImageChangeListener(DoctorDetailImageChangeListener doctorDetailImageChangeListener){
-        this.doctorDetailImageChangeListener=doctorDetailImageChangeListener;
+
+    public interface ActivityKeyClickListener{
+        boolean onBackKeyPressed();
     }
-
-
 }
 

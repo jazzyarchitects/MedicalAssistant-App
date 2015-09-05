@@ -1,6 +1,7 @@
 package architect.jazzy.medicinereminder.Adapters;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import architect.jazzy.medicinereminder.HelperClasses.Constants;
 import architect.jazzy.medicinereminder.Models.Doctor;
 import architect.jazzy.medicinereminder.R;
 
@@ -61,7 +63,12 @@ public class DoctorSpinnerAdapter extends ArrayAdapter<Doctor>{
         if(doctor!=null){
             name=doctor.getName();
             try {
-                docImage.setImageURI(doctor.getPhotoUri());
+                Bitmap bitmap=Constants.getScaledBitmap(doctor.getPhoto(), 10, 10);
+                if(bitmap!=null) {
+                    docImage.setImageBitmap(bitmap);
+                }else{
+                    docImage.setImageResource(R.drawable.userlogin);
+                }
             }catch (Exception e){
                 e.printStackTrace();
             }
@@ -102,7 +109,12 @@ public class DoctorSpinnerAdapter extends ArrayAdapter<Doctor>{
         if(doctor!=null){
             name=doctor.getName();
             try {
-                docImage.setImageURI(doctor.getPhotoUri());
+                Bitmap bitmap=Constants.getScaledBitmap(doctor.getPhoto(), 10, 10);
+                if(bitmap!=null) {
+                    docImage.setImageBitmap(bitmap);
+                }else{
+                    docImage.setImageResource(R.drawable.userlogin);
+                }
             }catch (Exception e){
                 e.printStackTrace();
             }

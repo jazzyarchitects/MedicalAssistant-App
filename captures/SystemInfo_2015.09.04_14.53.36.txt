@@ -1,0 +1,4 @@
+Applications Graphics Acceleration Info:
+Uptime: 149407646 Realtime: 372123189
+
+** Graphics info for pid 26146 [architect.jazzy.medicinereminder] **

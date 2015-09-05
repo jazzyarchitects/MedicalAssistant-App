@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -31,6 +32,7 @@ public class DoctorListFragment extends Fragment {
     RecyclerView doctorList;
     Context mContext;
     View v;
+    FloatingActionButton floatingActionButton;
 
     public DoctorListFragment() {
         // Required empty public constructor
@@ -42,7 +44,7 @@ public class DoctorListFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         mContext=getActivity();
-        v=inflater.inflate(R.layout.fragment_doctor_list, container, false);
+        v=inflater.inflate(R.layout.fragment_list, container, false);
 
         try {
             ((AppCompatActivity) getActivity()).getSupportActionBar().show();
@@ -64,6 +66,14 @@ public class DoctorListFragment extends Fragment {
             });
             doctorList.setAdapter(adapter);
         }
+        floatingActionButton=(FloatingActionButton)v.findViewById(R.id.floatingActionButton);
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onFragmentInteractionListenr.addDoctor();
+            }
+        });
+
         setHasOptionsMenu(true);
         return  v;
     }
@@ -100,5 +110,6 @@ public class DoctorListFragment extends Fragment {
     OnFragmentInteractionListenr onFragmentInteractionListenr;
     public interface OnFragmentInteractionListenr{
         void onDoctorSelected(Doctor doctor);
+        void addDoctor();
     }
 }

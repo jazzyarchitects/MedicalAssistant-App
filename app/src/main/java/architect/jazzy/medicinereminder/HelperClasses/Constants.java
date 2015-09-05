@@ -7,6 +7,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.text.Html;
 import android.text.Spanned;
+import android.util.Log;
 import android.util.Pair;
 
 import java.util.ArrayList;
@@ -157,7 +158,9 @@ public class Constants {
         sizeOptions.inJustDecodeBounds = false;
         sizeOptions.inSampleSize = inSampleSize;
 
-        return BitmapFactory.decodeFile(picturePath, sizeOptions);
+        Bitmap bitmap=BitmapFactory.decodeFile(picturePath, sizeOptions);
+        Log.e("Constants","Get scaled Bitmap: "+bitmap.toString());
+        return bitmap;
     }
 
 

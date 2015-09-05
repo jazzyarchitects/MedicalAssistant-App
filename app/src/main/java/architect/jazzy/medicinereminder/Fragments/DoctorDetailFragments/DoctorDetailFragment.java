@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -80,7 +81,12 @@ public class DoctorDetailFragment extends Fragment implements ViewPagerAdapter.V
 
     void setup(){
         try {
-            doctorImageView.setImageBitmap(Constants.getScaledBitmap(doctor.getPhoto(),100,100));
+            Bitmap bitmap=Constants.getScaledBitmap(doctor.getPhoto(), 100, 100);
+            if(bitmap!=null) {
+                doctorImageView.setImageBitmap(bitmap);
+            }else{
+                doctorImageView.setImageResource(R.drawable.userlogin);
+            }
         }catch (Exception e){
             e.printStackTrace();
             doctorImageView.setImageResource(R.drawable.userlogin);

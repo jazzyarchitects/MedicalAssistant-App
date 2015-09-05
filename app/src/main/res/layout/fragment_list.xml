@@ -1,0 +1,42 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/rl"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/deafaultFragmentBackground"
+    tools:context="architect.jazzy.medicinereminder.Fragments.DoctorListFragment">
+
+    <android.support.design.widget.CoordinatorLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/snackbarPosition">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <android.support.design.widget.FloatingActionButton
+                android:layout_width="@dimen/floatingActionButtonSize"
+                android:layout_height="@dimen/floatingActionButtonSize"
+                android:src="@drawable/ic_action_new"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentBottom="true"
+                app:pressedTranslationZ="4dp"
+                android:id="@+id/floatingActionButton"
+                app:backgroundTintMode="src_atop"
+                app:elevation="5dp"
+                android:layout_margin="10dp"
+                />
+
+        </RelativeLayout>
+
+    </android.support.design.widget.CoordinatorLayout>
+
+</RelativeLayout>

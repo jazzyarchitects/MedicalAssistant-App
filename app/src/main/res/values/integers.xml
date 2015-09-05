@@ -3,4 +3,5 @@
     <integer name="activity_transition_duration">250</integer>
     <integer name="splash_screen_hide_duration">300</integer>
     <integer name="main_show_duration">500</integer>
+    <integer name="fabAnimDuration">350</integer>
 </resources>

@@ -63,7 +63,7 @@ public class DoctorSpinnerAdapter extends ArrayAdapter<Doctor>{
         if(doctor!=null){
             name=doctor.getName();
             try {
-                Bitmap bitmap=Constants.getScaledBitmap(doctor.getPhoto(), 10, 10);
+                Bitmap bitmap=Constants.getScaledBitmap(doctor.getPhoto(), 30, 30);
                 if(bitmap!=null) {
                     docImage.setImageBitmap(bitmap);
                 }else{
@@ -109,7 +109,7 @@ public class DoctorSpinnerAdapter extends ArrayAdapter<Doctor>{
         if(doctor!=null){
             name=doctor.getName();
             try {
-                Bitmap bitmap=Constants.getScaledBitmap(doctor.getPhoto(), 10, 10);
+                Bitmap bitmap=Constants.getScaledBitmap(doctor.getPhoto(), 30,30);
                 if(bitmap!=null) {
                     docImage.setImageBitmap(bitmap);
                 }else{

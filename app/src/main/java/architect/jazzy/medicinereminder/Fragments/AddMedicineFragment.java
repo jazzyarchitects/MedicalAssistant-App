@@ -81,6 +81,7 @@ import architect.jazzy.medicinereminder.ThisApplication;
 public class AddMedicineFragment extends Fragment {
 
     public static final String MEDICINE_NAME = "medName";
+    private static final String TAG="AddMedicineFragment";
 
     View v;
     private Context context;
@@ -353,6 +354,7 @@ public class AddMedicineFragment extends Fragment {
 
         return v;
     }
+
 
     public void onEmojiSelected(int position) {
         medIcon.setImageResource(ImageAdapter.emojis[position]);

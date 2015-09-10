@@ -312,7 +312,8 @@ public class MedicineListFragment extends Fragment {
         DataHandler handler=new DataHandler(context);
         handler.deleteRow(name);
         handler.close();
-        createNoDataView();
+//        createNoDataView();
+        createOptionalView();
 
         try {
             final CoordinatorLayout coordinatorView = (CoordinatorLayout) v.findViewById(R.id.snackbarPosition);

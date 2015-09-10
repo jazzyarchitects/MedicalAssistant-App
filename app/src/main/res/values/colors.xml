@@ -3,6 +3,7 @@
 
     <!--<color name="actionBackground">#ff26A9E0</color>-->
     <color name="actionBackground">#ff2f2f70</color>
+    <color name="actionBackgroundDarker">#222252</color>
     <!--<color name="applicationThemeColor">#ff26A9E0</color>-->
     <color name="applicationThemeColor">#ff2e2e70</color>
     <!--<color name="actionBackground">#ff6d66ff</color>-->
@@ -129,4 +130,11 @@
 
     <color name="deafaultFragmentBackground">#EEE</color>
     <color name="doctorDetailFragmentsColor">#FFF</color>
+    <color name="color_red">#890000</color>
+    <!--<color name="dashboardMedicineCountColor">@color/color_red</color>-->
+    <!--<color name="dashboardMedicineColor">#af0001</color>-->
+    <color name="dashboardMedicineCountColor">#1eac24</color>
+    <color name="dashboardMedicineColor">#e2efef</color>
+    <color name="dashboardMedicineTextColor">#000</color>
+    <color name="dashboardMedicineColor2">#6ec67f</color>
 </resources>

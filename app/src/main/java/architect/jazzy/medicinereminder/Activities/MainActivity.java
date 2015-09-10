@@ -21,6 +21,10 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.InterstitialAd;
+
 import java.util.ArrayList;
 
 import architect.jazzy.medicinereminder.Adapters.NewsListAdapter;
@@ -59,6 +63,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     ActivityResultListener activityResultListener;
     EditText searchQuery;
     NavigationView navigationView;
+    private InterstitialAd interstitialAd;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,6 +78,31 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawerToggle.syncState();
 
         frameLayout=(FrameLayout)findViewById(R.id.frame);
+
+
+
+        Intent startAlarmServiceIntent=new Intent(this, AlarmSetterService.class);
+        startAlarmServiceIntent.setAction("CANCEL");
+        startService(startAlarmServiceIntent);
+        startAlarmServiceIntent.setAction("CREATE");
+        startService(startAlarmServiceIntent);
+
+
+        //TODO: uncomment ad
+
+        interstitialAd=new InterstitialAd(MainActivity.this);
+        interstitialAd.setAdUnitId("ca-app-pub-6208186273505028/3306536191");
+        AdRequest adRequest=new AdRequest.Builder().build();
+        //.addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+        //.addTestDevice("8143FD5F7B003AB85585893D768C3142");
+
+        interstitialAd.loadAd(adRequest);
+        interstitialAd.setAdListener(new AdListener() {
+            public void onAdLoaded() {
+                // Call displayInterstitial() function
+//               displayInterstitial();
+            }
+        });
 
 
         navigationView = (NavigationView)findViewById(R.id.navigationView);
@@ -93,7 +123,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         displayFragment(new DashboardFragment(), true);
     }
+    public void displayInterstitial()
+    {
+        if (interstitialAd.isLoaded()) {
+            interstitialAd.show();
+        }
 
+    }
     private void performSearch(String s){
         displayFragment(SearchFragment.initiate(s), true);
         drawerLayout.closeDrawers();
@@ -133,11 +169,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(MenuItem menuItem) {
         int id=menuItem.getItemId();
 
+        Fragment fragment=getFragmentManager().findFragmentById(R.id.frame);
         menuItem.setChecked(true);
         drawerLayout.closeDrawers();
         switch (id){
             case R.id.showMedicineList:
-                showMedicines();
+                if(!(fragment instanceof MedicineListFragment)) {
+                    showMedicines();
+                }
                 break;
             case R.id.action_settings:
                 showSettings();
@@ -149,16 +188,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 showCredits();
                 break;
             case R.id.news:
-                displayFragment(new NewsListFragment(),true);
+                if(!(fragment instanceof NewsListFragment)) {
+                    displayFragment(new NewsListFragment(), true);
+                }
                 break;
             case R.id.addDoctor:
-                displayFragment(new DoctorListFragment(),true);
+                if(!(fragment instanceof DoctorListFragment)) {
+                    displayFragment(new DoctorListFragment(), true);
+                }
                 break;
             case R.id.circularTest:
-                displayFragment(new DashboardFragment(),true);
+                if(!(fragment instanceof DashboardFragment)) {
+                    displayFragment(new DashboardFragment(), true);
+                }
             default:
                 break;
         }
+        drawerLayout.closeDrawers();
         return false;
     }
 
@@ -189,6 +235,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }catch (NullPointerException e){
             e.printStackTrace();
         }
+
         FragmentManager fragmentManager=getFragmentManager();
         FragmentTransaction transaction=fragmentManager.beginTransaction();
         transaction.replace(R.id.frame, fragment);
@@ -241,6 +288,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void addMedicine() {
         addMedicine(true);
+    }
+
+    @Override
+    public void showNews() {
+        displayFragment(new NewsListFragment(),true);
     }
 
     @Override

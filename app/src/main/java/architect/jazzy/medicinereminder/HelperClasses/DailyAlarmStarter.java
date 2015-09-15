@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 
 import architect.jazzy.medicinereminder.Activities.AppWidget;
+import architect.jazzy.medicinereminder.Services.AlarmSetterService;
 
 public class DailyAlarmStarter extends BroadcastReceiver {
     public DailyAlarmStarter() {

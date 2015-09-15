@@ -39,8 +39,9 @@ import architect.jazzy.medicinereminder.Fragments.EmojiSelectFragment;
 import architect.jazzy.medicinereminder.Fragments.MedicineListFragment;
 import architect.jazzy.medicinereminder.Fragments.NewsFragments.NewsDetailFragment;
 import architect.jazzy.medicinereminder.Fragments.NewsFragments.NewsListFragment;
+import architect.jazzy.medicinereminder.Fragments.Practo.DoctorSearch;
 import architect.jazzy.medicinereminder.Fragments.SearchFragments.SearchFragment;
-import architect.jazzy.medicinereminder.HelperClasses.AlarmSetterService;
+import architect.jazzy.medicinereminder.Services.AlarmSetterService;
 import architect.jazzy.medicinereminder.HelperClasses.Constants;
 import architect.jazzy.medicinereminder.Models.Doctor;
 import architect.jazzy.medicinereminder.Models.FeedItem;
@@ -201,6 +202,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 if(!(fragment instanceof DashboardFragment)) {
                     displayFragment(new DashboardFragment(), true);
                 }
+                break;
+            case R.id.practoSearch:
+                if(!(fragment instanceof DoctorSearch)){
+                    displayFragment(new DoctorSearch(),true);
+                }
+                break;
             default:
                 break;
         }

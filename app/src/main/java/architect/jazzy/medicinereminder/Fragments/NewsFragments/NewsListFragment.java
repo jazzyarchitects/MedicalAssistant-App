@@ -33,7 +33,7 @@ import java.util.ArrayList;
 import architect.jazzy.medicinereminder.Adapters.NewsListAdapter;
 import architect.jazzy.medicinereminder.CustomViews.NewsFeedCategoryPopup;
 import architect.jazzy.medicinereminder.HelperClasses.Constants;
-import architect.jazzy.medicinereminder.HelperClasses.FeedParser;
+import architect.jazzy.medicinereminder.Parsers.FeedParser;
 import architect.jazzy.medicinereminder.Models.FeedItem;
 import architect.jazzy.medicinereminder.R;
 

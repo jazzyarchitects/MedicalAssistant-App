@@ -1,8 +1,10 @@
-package architect.jazzy.medicinereminder.HelperClasses;
+package architect.jazzy.medicinereminder.BroadcastRecievers;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+
+import architect.jazzy.medicinereminder.Services.AlarmSetterService;
 
 public class BootCompleteReciever extends BroadcastReceiver {
     public BootCompleteReciever() {

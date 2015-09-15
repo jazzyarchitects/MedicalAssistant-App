@@ -17,7 +17,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
-import architect.jazzy.medicinereminder.HelperClasses.FeedParser;
+import architect.jazzy.medicinereminder.Parsers.FeedParser;
 import architect.jazzy.medicinereminder.Models.FeedItem;
 
 /**

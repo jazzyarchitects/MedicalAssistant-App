@@ -39,7 +39,7 @@ import architect.jazzy.medicinereminder.Activities.MainActivity;
 import architect.jazzy.medicinereminder.Adapters.SearchListAdapter;
 import architect.jazzy.medicinereminder.Fragments.NewsFragments.NewsDetailFragment;
 import architect.jazzy.medicinereminder.HelperClasses.Constants;
-import architect.jazzy.medicinereminder.HelperClasses.SearchResultParser;
+import architect.jazzy.medicinereminder.Parsers.SearchResultParser;
 import architect.jazzy.medicinereminder.Models.SearchQuery;
 import architect.jazzy.medicinereminder.Models.SearchResult;
 import architect.jazzy.medicinereminder.Models.WebDocument;

@@ -43,7 +43,7 @@
         </activity>
 
         <receiver
-            android:name=".HelperClasses.AlarmReciever"
+            android:name=".BroadcastRecievers.AlarmReciever"
             android:enabled="true"
             android:exported="true" >
         </receiver>
@@ -66,12 +66,12 @@
         </receiver>
 
         <service
-            android:name=".HelperClasses.AlarmSetterService"
+            android:name=".Services.AlarmSetterService"
             android:exported="false" >
         </service>
 
         <receiver
-            android:name=".HelperClasses.BootCompleteReciever"
+            android:name=".BroadcastRecievers.BootCompleteReciever"
             android:enabled="true"
             android:exported="true" >
             <intent-filter>

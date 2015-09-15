@@ -1,4 +1,4 @@
-package architect.jazzy.medicinereminder.HelperClasses;
+package architect.jazzy.medicinereminder.Services;
 
 import android.app.AlarmManager;
 import android.app.IntentService;
@@ -10,7 +10,6 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -20,6 +19,9 @@ import java.util.Date;
 import java.util.Locale;
 
 import architect.jazzy.medicinereminder.Handlers.DataHandler;
+import architect.jazzy.medicinereminder.BroadcastRecievers.AlarmReciever;
+import architect.jazzy.medicinereminder.HelperClasses.Constants;
+import architect.jazzy.medicinereminder.HelperClasses.DailyAlarmStarter;
 
 public class AlarmSetterService extends IntentService {
 

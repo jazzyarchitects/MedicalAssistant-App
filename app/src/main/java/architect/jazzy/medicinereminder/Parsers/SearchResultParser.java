@@ -1,4 +1,4 @@
-package architect.jazzy.medicinereminder.HelperClasses;
+package architect.jazzy.medicinereminder.Parsers;
 
 import android.os.Environment;
 import android.util.Log;
@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import architect.jazzy.medicinereminder.HelperClasses.Constants;
 import architect.jazzy.medicinereminder.Models.SearchResult;
 import architect.jazzy.medicinereminder.Models.WebDocument;
 

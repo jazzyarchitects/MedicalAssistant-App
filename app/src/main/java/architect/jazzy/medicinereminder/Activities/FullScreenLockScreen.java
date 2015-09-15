@@ -43,7 +43,7 @@ import com.google.android.gms.analytics.Tracker;
 import java.util.ArrayList;
 
 import architect.jazzy.medicinereminder.Adapters.MedicineListAdapter;
-import architect.jazzy.medicinereminder.HelperClasses.AlarmReciever;
+import architect.jazzy.medicinereminder.BroadcastRecievers.AlarmReciever;
 import architect.jazzy.medicinereminder.Models.Medicine;
 import architect.jazzy.medicinereminder.R;
 import architect.jazzy.medicinereminder.ThisApplication;

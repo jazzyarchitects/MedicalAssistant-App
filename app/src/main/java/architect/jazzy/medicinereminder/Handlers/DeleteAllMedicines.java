@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 
-import architect.jazzy.medicinereminder.HelperClasses.AlarmSetterService;
+import architect.jazzy.medicinereminder.Services.AlarmSetterService;
 
 /**
  * Created by Jibin_ism on 25-Dec-14.

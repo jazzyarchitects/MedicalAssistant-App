@@ -1,4 +1,4 @@
-package architect.jazzy.medicinereminder.HelperClasses;
+package architect.jazzy.medicinereminder.BroadcastRecievers;
 
 import android.app.Notification;
 import android.app.NotificationManager;

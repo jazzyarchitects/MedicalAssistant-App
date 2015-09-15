@@ -1,39 +1,29 @@
 package architect.jazzy.medicinereminder.Activities;
 
 import android.app.AlarmManager;
-import android.app.AlertDialog;
 import android.app.PendingIntent;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.database.Cursor;
 import android.media.MediaPlayer;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Pair;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
-import android.view.WindowManager;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.balysv.materialripple.MaterialRippleLayout;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import architect.jazzy.medicinereminder.Adapters.PopupListAdapter;
 import architect.jazzy.medicinereminder.Handlers.DataHandler;
-import architect.jazzy.medicinereminder.HelperClasses.AlarmReciever;
+import architect.jazzy.medicinereminder.BroadcastRecievers.AlarmReciever;
 import architect.jazzy.medicinereminder.Models.Medicine;
 import architect.jazzy.medicinereminder.R;
 

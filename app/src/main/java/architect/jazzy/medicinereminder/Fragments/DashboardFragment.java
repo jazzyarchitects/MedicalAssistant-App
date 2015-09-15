@@ -36,7 +36,7 @@ import java.util.ArrayList;
 
 import architect.jazzy.medicinereminder.Handlers.DataHandler;
 import architect.jazzy.medicinereminder.HelperClasses.Constants;
-import architect.jazzy.medicinereminder.HelperClasses.FeedParser;
+import architect.jazzy.medicinereminder.Parsers.FeedParser;
 import architect.jazzy.medicinereminder.HelperClasses.TimingClass;
 import architect.jazzy.medicinereminder.Models.FeedItem;
 import architect.jazzy.medicinereminder.Models.Medicine;
@@ -221,6 +221,9 @@ public class DashboardFragment extends Fragment {
 
 
     private void displayAppInstallAd(final NativeAppInstallAd appInstallAd, LinearLayout containerView) {
+        if(getActivity()==null){
+            return;
+        }
         LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         LinearLayout view = (LinearLayout) inflater.inflate(R.layout.native_install_adview, null);
         final NativeAppInstallAdView adView = (NativeAppInstallAdView) view.findViewById(R.id.nativeAdView);
@@ -268,6 +271,9 @@ public class DashboardFragment extends Fragment {
     }
 
     private void displayContentAd(final NativeContentAd nativeContentAd, LinearLayout containerView) {
+        if(getActivity()==null){
+            return;
+        }
         LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         LinearLayout view = (LinearLayout) inflater.inflate(R.layout.native_content_adview, null);
         final NativeContentAdView adView = (NativeContentAdView) view.findViewById(R.id.nativeContentAdView);

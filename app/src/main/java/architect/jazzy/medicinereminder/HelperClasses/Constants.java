@@ -12,6 +12,8 @@ import android.util.Pair;
 
 import java.util.ArrayList;
 
+import architect.jazzy.medicinereminder.Parsers.FeedParser;
+
 /**
  * Created by Jibin_ism on 25-Mar-15.
  */

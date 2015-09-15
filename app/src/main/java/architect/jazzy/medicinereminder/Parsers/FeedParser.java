@@ -1,4 +1,4 @@
-package architect.jazzy.medicinereminder.HelperClasses;
+package architect.jazzy.medicinereminder.Parsers;
 
 import android.os.Environment;
 import android.util.Log;

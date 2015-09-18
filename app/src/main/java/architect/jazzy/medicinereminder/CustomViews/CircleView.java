@@ -46,7 +46,7 @@ public class CircleView extends View implements View.OnTouchListener {
         try {
             text = a.getString(R.styleable.CircleView_text);
             fillColor = a.getInteger(R.styleable.CircleView_fillColor, Color.parseColor("#ffffff"));
-            strokeColor = a.getInteger(R.styleable.CircleView_strokeColor, Color.parseColor("#000000"));
+            strokeColor = a.getInteger(R.styleable.CircleView_strokeColor, fillColor);
             textColor = a.getInteger(R.styleable.CircleView_textColor, Color.parseColor("#000000"));
             isButton = a.getBoolean(R.styleable.CircleView_isButton, false);
             strokeWidth = a.getDimension(R.styleable.CircleView_strokeWidth, 2);
@@ -149,7 +149,8 @@ public class CircleView extends View implements View.OnTouchListener {
                     yoff += bounds.height() + 0.5 * bounds.height();
                 }
             }catch (Exception e1){
-                canvas.drawText(text, centerX, centerY + yoff, textPaint);
+                if(!text.isEmpty())
+                    canvas.drawText(text, centerX, centerY + yoff, textPaint);
 
             }
         }

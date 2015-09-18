@@ -1,8 +1,9 @@
 package architect.jazzy.medicinereminder.Fragments.Practo.Adapter;
 
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.support.v13.app.FragmentStatePagerAdapter;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.util.Log;
 
 import architect.jazzy.medicinereminder.Fragments.Practo.PractoSearchCriteria;
 
@@ -11,6 +12,7 @@ import architect.jazzy.medicinereminder.Fragments.Practo.PractoSearchCriteria;
  */
 public class SearchCriteriaAdapter extends FragmentStatePagerAdapter {
 
+    private static final String TAG="SearchCriteriaAdapter";
     public static final int OPTION_CITY=101;
     public static final int OPTION_LOCALITY=102;
     public static final int OPTION_SORT_BY=103;
@@ -19,6 +21,7 @@ public class SearchCriteriaAdapter extends FragmentStatePagerAdapter {
 
     public SearchCriteriaAdapter(FragmentManager fm) {
         super(fm);
+        Log.e(TAG, "Constructor");
     }
 
     @Override
@@ -41,9 +44,10 @@ public class SearchCriteriaAdapter extends FragmentStatePagerAdapter {
                 criteria=OPTION_SORT_BY;
                 break;
             default:
-                criteria=OPTION_SORT_BY;
+                criteria=OPTION_CITY;
                 break;
         }
+        Log.e(TAG,"Criteria: "+criteria);
 
         Fragment fragment= PractoSearchCriteria.newInstance(criteria);
 
@@ -61,4 +65,9 @@ public class SearchCriteriaAdapter extends FragmentStatePagerAdapter {
     public int getCount() {
         return 5;
     }
+//
+//    @Override
+//    public int getItemPosition(Object object) {
+//        return POSITION_NONE;
+//    }
 }

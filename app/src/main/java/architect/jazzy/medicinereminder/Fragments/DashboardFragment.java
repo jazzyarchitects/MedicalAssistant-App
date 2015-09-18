@@ -34,9 +34,9 @@ import com.google.android.gms.ads.formats.NativeContentAdView;
 
 import java.util.ArrayList;
 
+import architect.jazzy.medicinereminder.CyclicTransitionDrawable;
 import architect.jazzy.medicinereminder.Handlers.DataHandler;
 import architect.jazzy.medicinereminder.HelperClasses.Constants;
-import architect.jazzy.medicinereminder.Parsers.FeedParser;
 import architect.jazzy.medicinereminder.HelperClasses.TimingClass;
 import architect.jazzy.medicinereminder.Models.FeedItem;
 import architect.jazzy.medicinereminder.Models.Medicine;
@@ -49,13 +49,14 @@ public class DashboardFragment extends Fragment {
     View v;
     //    CircleView todayView, medicineCountView, appointmentCountView;
     TextView medicineCountView;
+    ImageView backParent, backParent2;
     FloatingActionButton floatingActionButton;
     RelativeLayout relativeLayout;
     boolean isMenuOpen = false;
-    LinearLayout adViewContainer1,adViewContainer2;
+    LinearLayout adViewContainer1, adViewContainer2;
     int bbh, bbm, abh, abm, alh, alm, blh, blm, adh, adm, bdh, bdm;
     boolean is24hr;
-    TextView newsFeedView;
+    //    TextView newsFeedView;
     int[] medicineViewIds = {R.id.medicine1, R.id.medicine2, R.id.medicine3, R.id.medicine4, R.id.medicine5, R.id.medicine6};
     String[] medicineViewTimes = {"Before Breakfast", "After Breakfast", "Before Lunch", "After Lunch", "Before Dinner", "After Dinner"};
 
@@ -86,19 +87,41 @@ public class DashboardFragment extends Fragment {
         floatingActionButton = (FloatingActionButton) v.findViewById(R.id.floatingActionButton);
         relativeLayout = (RelativeLayout) v.findViewById(R.id.r1);
         medicineCountView = (TextView) v.findViewById(R.id.medicineCount);
-        adViewContainer1 = (LinearLayout) v.findViewById(R.id.adViewContainer1);
+//        adViewContainer1 = (LinearLayout) v.findViewById(R.id.adViewContainer1);
         adViewContainer2 = (LinearLayout) v.findViewById(R.id.adViewContainer2);
-        newsFeedView=(TextView)v.findViewById(R.id.newsfeed);
-        newsFeedView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onFragmentInteractionListener.showNews();
-            }
-        });
+        backParent = (ImageView) v.findViewById(R.id.backParent);
+//        backParent2 = (ImageView) v.findViewById(R.id.backParent2);
+//        newsFeedView=(TextView)v.findViewById(R.id.newsfeed);
+//        newsFeedView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                onFragmentInteractionListener.showNews();
+//            }
+//        });
+
+        Drawable[] drawables = {getResources().getDrawable(R.drawable.back_car),
+                getResources().getDrawable(R.drawable.back_city),
+                getResources().getDrawable(R.drawable.back_street),
+                getResources().getDrawable(R.drawable.back_clinic)};
+        CyclicTransitionDrawable transitionDrawable = new CyclicTransitionDrawable(drawables);
+        transitionDrawable.startTransition(3000, 10000);
+//        relativeLayout.setBackgroundDrawable(transitionDrawable);
+        backParent.setImageDrawable(transitionDrawable);
+
+
+//        Drawable[] drawables2 = {getResources().getDrawable(R.drawable.back_street),
+//                getResources().getDrawable(R.drawable.back_clinic),
+//                getResources().getDrawable(R.drawable.back_car),
+//                getResources().getDrawable(R.drawable.back_city),
+//                getResources().getDrawable(R.drawable.back_street_2)};
+//        CyclicTransitionDrawable transitionDrawable2 = new CyclicTransitionDrawable(drawables);
+//        transitionDrawable2.startTransition(3000, 20000);
+//        backParent2.setImageDrawable(transitionDrawable2);
+
 
         try {
             ((AppCompatActivity) getActivity()).getSupportActionBar().show();
-            ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Dashboard");
+            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Dashboard");
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
@@ -124,38 +147,38 @@ public class DashboardFragment extends Fragment {
         });
         thread.start();
 
-        try{
-            ArrayList<FeedItem> items= FeedParser.parse();
-            String s="";
-            for (FeedItem item : items) {
-                s += "   " + item.getTitle() + "  |";
-            }
-            newsFeedView.setSelected(true);
-            newsFeedView.setText(s);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
+//        try{
+//            ArrayList<FeedItem> items= FeedParser.parse();
+//            String s="";
+//            for (FeedItem item : items) {
+//                s += "   " + item.getTitle() + "  |";
+//            }
+////            newsFeedView.setSelected(true);
+////            newsFeedView.setText(s);
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
 
-        NewsRetrieverService newsRetrieverService=new NewsRetrieverService();
+        NewsRetrieverService newsRetrieverService = new NewsRetrieverService();
         newsRetrieverService.setFeedParserListener(new NewsRetrieverService.FeedParserListener() {
             @Override
             public void onFeedsParsed(final ArrayList<FeedItem> items) {
-                newsFeedView.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        String s="";
-                        if(items!=null) {
-                            for (FeedItem item : items) {
-                                s += "   " + item.getTitle() + "  |";
-                            }
-                            newsFeedView.setSelected(true);
-                            newsFeedView.setText(s);
-                        }
-                    }
-                });
+//                newsFeedView.post(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        String s="";
+//                        if(items!=null) {
+//                            for (FeedItem item : items) {
+//                                s += "   " + item.getTitle() + "  |";
+//                            }
+//                            newsFeedView.setSelected(true);
+//                            newsFeedView.setText(s);
+//                        }
+//                    }
+//                });
             }
         });
-        newsRetrieverService.execute();
+//        newsRetrieverService.execute();
 
 
         return v;
@@ -175,25 +198,25 @@ public class DashboardFragment extends Fragment {
 //        medicineCountView.setText(String.valueOf(medicines.size()));
 
 
-        //TODO: Change this test ad Unit id
-        AdLoader adLoader = new AdLoader.Builder(getActivity(), "ca-app-pub-3940256099942544/2247696110")
-                .forAppInstallAd(new NativeAppInstallAd.OnAppInstallAdLoadedListener() {
-                    @Override
-                    public void onAppInstallAdLoaded(NativeAppInstallAd nativeAppInstallAd) {
-                        Log.e(TAG, "Install app loaded");
-                        displayAppInstallAd(nativeAppInstallAd, adViewContainer1);
-                    }
-                })
-                .forContentAd(new NativeContentAd.OnContentAdLoadedListener() {
-                    @Override
-                    public void onContentAdLoaded(NativeContentAd nativeContentAd) {
-                        Log.e(TAG, "Content adloaded");
-                        displayContentAd(nativeContentAd,adViewContainer1 );
-                    }
-                })
-                .withNativeAdOptions(new NativeAdOptions.Builder().build())
-                .build();
-        adLoader.loadAd(new AdRequest.Builder().build());
+//        //TODO: Change this test ad Unit id
+//        AdLoader adLoader = new AdLoader.Builder(getActivity(), "ca-app-pub-3940256099942544/2247696110")
+//                .forAppInstallAd(new NativeAppInstallAd.OnAppInstallAdLoadedListener() {
+//                    @Override
+//                    public void onAppInstallAdLoaded(NativeAppInstallAd nativeAppInstallAd) {
+//                        Log.e(TAG, "Install app loaded");
+//                        displayAppInstallAd(nativeAppInstallAd, adViewContainer1);
+//                    }
+//                })
+//                .forContentAd(new NativeContentAd.OnContentAdLoadedListener() {
+//                    @Override
+//                    public void onContentAdLoaded(NativeContentAd nativeContentAd) {
+//                        Log.e(TAG, "Content adloaded");
+//                        displayContentAd(nativeContentAd,adViewContainer1 );
+//                    }
+//                })
+//                .withNativeAdOptions(new NativeAdOptions.Builder().build())
+//                .build();
+//        adLoader.loadAd(new AdRequest.Builder().build());
 
 
         //TODO: Change this test ad Unit id
@@ -209,7 +232,7 @@ public class DashboardFragment extends Fragment {
                     @Override
                     public void onContentAdLoaded(NativeContentAd nativeContentAd) {
                         Log.e(TAG, "Content adloaded 2");
-                        displayContentAd(nativeContentAd,adViewContainer2);
+                        displayContentAd(nativeContentAd, adViewContainer2);
                     }
                 })
                 .withNativeAdOptions(new NativeAdOptions.Builder().build())
@@ -221,7 +244,7 @@ public class DashboardFragment extends Fragment {
 
 
     private void displayAppInstallAd(final NativeAppInstallAd appInstallAd, LinearLayout containerView) {
-        if(getActivity()==null){
+        if (getActivity() == null) {
             return;
         }
         LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -233,7 +256,7 @@ public class DashboardFragment extends Fragment {
         final TextView advertiserView = (TextView) adView.findViewById(R.id.advertiser);
         final TextView adBody = (TextView) adView.findViewById(R.id.adBody);
         final TextView adPrice = (TextView) adView.findViewById(R.id.adPrice);
-        final RatingBar ratingBar=(RatingBar)adView.findViewById(R.id.adRating);
+        final RatingBar ratingBar = (RatingBar) adView.findViewById(R.id.adRating);
 
 
         adView.setStarRatingView(ratingBar);
@@ -252,10 +275,10 @@ public class DashboardFragment extends Fragment {
                 contentHeadline.setText(appInstallAd.getHeadline());
                 try {
                     imageView.setImageDrawable(appInstallAd.getIcon().getDrawable());
-                }catch (NullPointerException e){
-                    try{
+                } catch (NullPointerException e) {
+                    try {
                         imageView.setImageDrawable(appInstallAd.getImages().get(0).getDrawable());
-                    }catch (Exception e1){
+                    } catch (Exception e1) {
                         e1.printStackTrace();
                     }
                 }
@@ -271,7 +294,7 @@ public class DashboardFragment extends Fragment {
     }
 
     private void displayContentAd(final NativeContentAd nativeContentAd, LinearLayout containerView) {
-        if(getActivity()==null){
+        if (getActivity() == null) {
             return;
         }
         LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -295,10 +318,10 @@ public class DashboardFragment extends Fragment {
                 contentHeadline.setText(nativeContentAd.getHeadline());
                 try {
                     imageView.setImageDrawable(nativeContentAd.getLogo().getDrawable());
-                }catch (NullPointerException e){
-                    try{
+                } catch (NullPointerException e) {
+                    try {
                         imageView.setImageDrawable(nativeContentAd.getImages().get(0).getDrawable());
-                    }catch (Exception e1){
+                    } catch (Exception e1) {
                         e1.printStackTrace();
                     }
                 }
@@ -404,7 +427,9 @@ public class DashboardFragment extends Fragment {
 
     public interface OnFragmentInteractionListener {
         void addMedicine();
+
         void showNews();
+
         void addDoctor();
     }
 

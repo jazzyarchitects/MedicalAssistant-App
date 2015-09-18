@@ -133,8 +133,12 @@
     <color name="color_red">#890000</color>
     <!--<color name="dashboardMedicineCountColor">@color/color_red</color>-->
     <!--<color name="dashboardMedicineColor">#af0001</color>-->
-    <color name="dashboardMedicineCountColor">#1eac24</color>
-    <color name="dashboardMedicineColor">#e2efef</color>
-    <color name="dashboardMedicineTextColor">#000</color>
-    <color name="dashboardMedicineColor2">#6ec67f</color>
+    <!--<color name="dashboardMedicineCountColor">#1eac24</color>-->
+    <!--<color name="dashboardMedicineColor">#e2efef</color>-->
+    <!--<color name="dashboardMedicineTextColor">#000</color>-->
+    <!--<color name="dashboardMedicineColor2">#6ec67f</color>-->
+    <color name="dashboardMedicineCountColor">#CC2f2f70</color>
+    <color name="dashboardMedicineColor">#88000000</color>
+    <color name="dashboardMedicineTextColor">#EEFFFFFF</color>
+    <color name="dashboardMedicineColor2">#88000000</color>
 </resources>

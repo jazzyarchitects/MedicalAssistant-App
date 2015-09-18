@@ -41,6 +41,7 @@ import architect.jazzy.medicinereminder.Fragments.NewsFragments.NewsDetailFragme
 import architect.jazzy.medicinereminder.Fragments.NewsFragments.NewsListFragment;
 import architect.jazzy.medicinereminder.Fragments.Practo.DoctorSearch;
 import architect.jazzy.medicinereminder.Fragments.SearchFragments.SearchFragment;
+import architect.jazzy.medicinereminder.HelperClasses.FragmentBackStack;
 import architect.jazzy.medicinereminder.Services.AlarmSetterService;
 import architect.jazzy.medicinereminder.HelperClasses.Constants;
 import architect.jazzy.medicinereminder.Models.Doctor;
@@ -57,6 +58,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public static final String TAG="MainActivity";
 
+    FragmentBackStack fragmentBackStack=new FragmentBackStack();
     final int SHOW_LIST_REQUEST_CODE = 123;
     FrameLayout frameLayout;
     DrawerLayout drawerLayout;
@@ -97,7 +99,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //.addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
         //.addTestDevice("8143FD5F7B003AB85585893D768C3142");
 
-        interstitialAd.loadAd(adRequest);
+//        interstitialAd.loadAd(adRequest);
         interstitialAd.setAdListener(new AdListener() {
             public void onAdLoaded() {
                 // Call displayInterstitial() function
@@ -145,8 +147,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         if(drawerLayout.isDrawerOpen(GravityCompat.START)){
             drawerLayout.closeDrawers();
-        }else if(getFragmentManager().getBackStackEntryCount()>1){
-            getFragmentManager().popBackStack();
+        }else if(!fragmentBackStack.empty()){
+            Fragment fragment=fragmentBackStack.pop();
+            if(fragment==null){
+                Log.e(TAG,"popping support fragment");
+                android.support.v4.app.Fragment fragment1=fragmentBackStack.popSupport();
+                displaySupportFragment(fragment1,false);
+                return;
+            }
+            Log.e(TAG,"popping fragment");
+            displayFragment(fragment,false);
         }
         else{
             super.onBackPressed();
@@ -170,7 +180,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(MenuItem menuItem) {
         int id=menuItem.getItemId();
 
-        Fragment fragment=getFragmentManager().findFragmentById(R.id.frame);
+        Fragment fragment=null;
+        android.support.v4.app.Fragment supportFragment=null;
+        try {
+            fragment = getFragmentManager().findFragmentById(R.id.frame);
+        }catch (Exception e){
+            supportFragment=getSupportFragmentManager().findFragmentById(R.id.frame);
+        }
         menuItem.setChecked(true);
         drawerLayout.closeDrawers();
         switch (id){
@@ -204,8 +220,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
                 break;
             case R.id.practoSearch:
-                if(!(fragment instanceof DoctorSearch)){
-                    displayFragment(new DoctorSearch(),true);
+                if(!(supportFragment instanceof DoctorSearch)){
+                    displaySupportFragment(new DoctorSearch(), true);
                 }
                 break;
             default:
@@ -237,21 +253,48 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public void displayFragment(Fragment fragment, boolean add){
+        ((FrameLayout)findViewById(R.id.frame)).removeAllViewsInLayout();
         try {
             getSupportActionBar().show();
         }catch (NullPointerException e){
             e.printStackTrace();
         }
-
+        Log.e(TAG, "display fragment");
         FragmentManager fragmentManager=getFragmentManager();
         FragmentTransaction transaction=fragmentManager.beginTransaction();
         transaction.replace(R.id.frame, fragment);
         if(add) {
-            transaction.addToBackStack(null);
+            fragmentBackStack.push(fragment);
         }
         transaction.commit();
 //        Log.e("MainActivity", "Back Stack Count after Push:" + getFragmentManager().getBackStackEntryCount());
     }
+
+    public void displaySupportFragment(android.support.v4.app.Fragment fragment, boolean add){
+        try {
+            getSupportActionBar().show();
+        }catch (NullPointerException e){
+            e.printStackTrace();
+        }
+        if(fragment==null){
+            return;
+        }
+        try{
+            getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentById(R.id.frame)).commit();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        Log.e(TAG,"display Support fragment: "+fragment.toString());
+
+        android.support.v4.app.FragmentManager fragmentManager=getSupportFragmentManager();
+        android.support.v4.app.FragmentTransaction transaction=fragmentManager.beginTransaction();
+        transaction.replace(R.id.frame,fragment).commit();
+        if(add){
+            fragmentBackStack.push(fragment);
+        }
+    }
+
     void showCredits(){
         startActivity(new Intent(this, Credits.class));
     }

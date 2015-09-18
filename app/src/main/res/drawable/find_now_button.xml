@@ -3,6 +3,8 @@
     <item android:drawable="@drawable/find_now_button_pressed"
         android:state_checked="true" />
     <item android:drawable="@drawable/find_now_button_pressed"
+        android:state_pressed="true" />
+    <item android:drawable="@drawable/find_now_button_pressed"
         android:state_selected="true" />
     <item android:drawable="@drawable/find_now_button_pressed"
         android:state_focused="true" />

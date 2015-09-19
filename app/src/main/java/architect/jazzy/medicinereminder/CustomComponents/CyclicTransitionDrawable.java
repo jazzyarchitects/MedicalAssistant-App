@@ -1,4 +1,4 @@
-package architect.jazzy.medicinereminder;
+package architect.jazzy.medicinereminder.CustomComponents;
 
 /**
  * Created by Jibin_ism on 22-May-15.

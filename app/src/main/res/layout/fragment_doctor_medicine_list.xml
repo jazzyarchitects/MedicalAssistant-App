@@ -9,4 +9,28 @@
         android:layout_height="match_parent"
         android:id="@+id/recyclerView" />
 
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:id="@+id/noMed"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/ic_action_emo_cool"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="No medicines here"
+            android:textColor="#444"
+            android:textSize="16sp"/>
+
+    </LinearLayout>
+
 </RelativeLayout>

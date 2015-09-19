@@ -24,9 +24,6 @@ import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.google.android.gms.ads.AdLoader;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.formats.NativeAdOptions;
 import com.google.android.gms.ads.formats.NativeAppInstallAd;
 import com.google.android.gms.ads.formats.NativeAppInstallAdView;
 import com.google.android.gms.ads.formats.NativeContentAd;
@@ -34,30 +31,30 @@ import com.google.android.gms.ads.formats.NativeContentAdView;
 
 import java.util.ArrayList;
 
-import architect.jazzy.medicinereminder.CyclicTransitionDrawable;
+import architect.jazzy.medicinereminder.CustomViews.CircleView;
+import architect.jazzy.medicinereminder.CustomComponents.CyclicTransitionDrawable;
 import architect.jazzy.medicinereminder.Handlers.DataHandler;
 import architect.jazzy.medicinereminder.HelperClasses.Constants;
-import architect.jazzy.medicinereminder.HelperClasses.TimingClass;
-import architect.jazzy.medicinereminder.Models.FeedItem;
+import architect.jazzy.medicinereminder.CustomComponents.TimingClass;
 import architect.jazzy.medicinereminder.Models.Medicine;
 import architect.jazzy.medicinereminder.R;
-import architect.jazzy.medicinereminder.Services.NewsRetrieverService;
 
 public class DashboardFragment extends Fragment {
 
     private static final String TAG = "Dashboard";
     View v;
-    //    CircleView todayView, medicineCountView, appointmentCountView;
     TextView medicineCountView;
-    ImageView backParent, backParent2;
+    ImageView backParent;
     FloatingActionButton floatingActionButton;
     RelativeLayout relativeLayout;
     boolean isMenuOpen = false;
-    LinearLayout adViewContainer1, adViewContainer2;
     int bbh, bbm, abh, abm, alh, alm, blh, blm, adh, adm, bdh, bdm;
     boolean is24hr;
-    //    TextView newsFeedView;
+
+    CircleView circleSearch, circleAddDoctor, circleAddMedicine, circleMedicineList, circleDoctorList;
+
     int[] medicineViewIds = {R.id.medicine1, R.id.medicine2, R.id.medicine3, R.id.medicine4, R.id.medicine5, R.id.medicine6};
+
     String[] medicineViewTimes = {"Before Breakfast", "After Breakfast", "Before Lunch", "After Lunch", "Before Dinner", "After Dinner"};
 
     public static final int ADD_DOCTOR_FAB_ID = 305;
@@ -81,23 +78,53 @@ public class DashboardFragment extends Fragment {
 
         getDefaultTime();
         isMenuOpen = false;
-//        todayView=(CircleView)v.findViewById(R.id.mainIndicator);
-//        medicineCountView=(CircleView)v.findViewById(R.id.medicineCountView);
-//        appointmentCountView=(CircleView)v.findViewById(R.id.appointmentCount);
+
         floatingActionButton = (FloatingActionButton) v.findViewById(R.id.floatingActionButton);
         relativeLayout = (RelativeLayout) v.findViewById(R.id.r1);
         medicineCountView = (TextView) v.findViewById(R.id.medicineCount);
-//        adViewContainer1 = (LinearLayout) v.findViewById(R.id.adViewContainer1);
-        adViewContainer2 = (LinearLayout) v.findViewById(R.id.adViewContainer2);
         backParent = (ImageView) v.findViewById(R.id.backParent);
-//        backParent2 = (ImageView) v.findViewById(R.id.backParent2);
-//        newsFeedView=(TextView)v.findViewById(R.id.newsfeed);
-//        newsFeedView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                onFragmentInteractionListener.showNews();
-//            }
-//        });
+
+        circleAddDoctor=(CircleView)v.findViewById(R.id.circleAddDoctor);
+        circleAddMedicine=(CircleView)v.findViewById(R.id.circleAddMedicine);
+        circleDoctorList=(CircleView)v.findViewById(R.id.circleDoctorList);
+        circleMedicineList=(CircleView)v.findViewById(R.id.circleMedicineList);
+        circleSearch=(CircleView)v.findViewById(R.id.circleSearch);
+
+        circleSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onFragmentInteractionListener.showSearch();
+            }
+        });
+
+        circleAddMedicine.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onFragmentInteractionListener.addMedicine();
+            }
+        });
+
+        circleMedicineList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onFragmentInteractionListener.showMedicineList();
+            }
+        });
+
+        circleDoctorList.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onFragmentInteractionListener.showDoctors();
+            }
+        });
+
+        circleAddDoctor.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onFragmentInteractionListener.addDoctor();
+            }
+        });
+
 
         Drawable[] drawables = {getResources().getDrawable(R.drawable.back_car),
                 getResources().getDrawable(R.drawable.back_city),
@@ -105,18 +132,7 @@ public class DashboardFragment extends Fragment {
                 getResources().getDrawable(R.drawable.back_clinic)};
         CyclicTransitionDrawable transitionDrawable = new CyclicTransitionDrawable(drawables);
         transitionDrawable.startTransition(3000, 10000);
-//        relativeLayout.setBackgroundDrawable(transitionDrawable);
         backParent.setImageDrawable(transitionDrawable);
-
-
-//        Drawable[] drawables2 = {getResources().getDrawable(R.drawable.back_street),
-//                getResources().getDrawable(R.drawable.back_clinic),
-//                getResources().getDrawable(R.drawable.back_car),
-//                getResources().getDrawable(R.drawable.back_city),
-//                getResources().getDrawable(R.drawable.back_street_2)};
-//        CyclicTransitionDrawable transitionDrawable2 = new CyclicTransitionDrawable(drawables);
-//        transitionDrawable2.startTransition(3000, 20000);
-//        backParent2.setImageDrawable(transitionDrawable2);
 
 
         try {
@@ -146,41 +162,6 @@ public class DashboardFragment extends Fragment {
             }
         });
         thread.start();
-
-//        try{
-//            ArrayList<FeedItem> items= FeedParser.parse();
-//            String s="";
-//            for (FeedItem item : items) {
-//                s += "   " + item.getTitle() + "  |";
-//            }
-////            newsFeedView.setSelected(true);
-////            newsFeedView.setText(s);
-//        }catch (Exception e){
-//            e.printStackTrace();
-//        }
-
-        NewsRetrieverService newsRetrieverService = new NewsRetrieverService();
-        newsRetrieverService.setFeedParserListener(new NewsRetrieverService.FeedParserListener() {
-            @Override
-            public void onFeedsParsed(final ArrayList<FeedItem> items) {
-//                newsFeedView.post(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        String s="";
-//                        if(items!=null) {
-//                            for (FeedItem item : items) {
-//                                s += "   " + item.getTitle() + "  |";
-//                            }
-//                            newsFeedView.setSelected(true);
-//                            newsFeedView.setText(s);
-//                        }
-//                    }
-//                });
-            }
-        });
-//        newsRetrieverService.execute();
-
-
         return v;
     }
 
@@ -194,50 +175,6 @@ public class DashboardFragment extends Fragment {
                 addNewItems();
             }
         });
-
-//        medicineCountView.setText(String.valueOf(medicines.size()));
-
-
-//        //TODO: Change this test ad Unit id
-//        AdLoader adLoader = new AdLoader.Builder(getActivity(), "ca-app-pub-3940256099942544/2247696110")
-//                .forAppInstallAd(new NativeAppInstallAd.OnAppInstallAdLoadedListener() {
-//                    @Override
-//                    public void onAppInstallAdLoaded(NativeAppInstallAd nativeAppInstallAd) {
-//                        Log.e(TAG, "Install app loaded");
-//                        displayAppInstallAd(nativeAppInstallAd, adViewContainer1);
-//                    }
-//                })
-//                .forContentAd(new NativeContentAd.OnContentAdLoadedListener() {
-//                    @Override
-//                    public void onContentAdLoaded(NativeContentAd nativeContentAd) {
-//                        Log.e(TAG, "Content adloaded");
-//                        displayContentAd(nativeContentAd,adViewContainer1 );
-//                    }
-//                })
-//                .withNativeAdOptions(new NativeAdOptions.Builder().build())
-//                .build();
-//        adLoader.loadAd(new AdRequest.Builder().build());
-
-
-        //TODO: Change this test ad Unit id
-        AdLoader adLoader2 = new AdLoader.Builder(getActivity(), "ca-app-pub-3940256099942544/2247696110")
-                .forAppInstallAd(new NativeAppInstallAd.OnAppInstallAdLoadedListener() {
-                    @Override
-                    public void onAppInstallAdLoaded(NativeAppInstallAd nativeAppInstallAd) {
-                        Log.e(TAG, "Install app loaded 2");
-                        displayAppInstallAd(nativeAppInstallAd, adViewContainer2);
-                    }
-                })
-                .forContentAd(new NativeContentAd.OnContentAdLoadedListener() {
-                    @Override
-                    public void onContentAdLoaded(NativeContentAd nativeContentAd) {
-                        Log.e(TAG, "Content adloaded 2");
-                        displayContentAd(nativeContentAd, adViewContainer2);
-                    }
-                })
-                .withNativeAdOptions(new NativeAdOptions.Builder().build())
-                .build();
-        adLoader2.loadAd(new AdRequest.Builder().build());
 
 
     }
@@ -378,14 +315,14 @@ public class DashboardFragment extends Fragment {
 
 
         FloatingActionButton addMedFab = new FloatingActionButton(getActivity());
-        Drawable drawable = getResources().getDrawable(R.drawable.ic_action_pill);
         try {
+            Drawable drawable = getResources().getDrawable(R.drawable.ic_action_pill).mutate();
             drawable.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
+            addMedFab.setImageDrawable(drawable);
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
         relativeLayout.addView(addDocFab);
-        addMedFab.setImageDrawable(drawable);
         addMedFab.setClickable(true);
         addMedFab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -427,9 +364,9 @@ public class DashboardFragment extends Fragment {
 
     public interface OnFragmentInteractionListener {
         void addMedicine();
-
-        void showNews();
-
+        void showMedicineList();
+        void showDoctors();
+        void showSearch();
         void addDoctor();
     }
 
@@ -491,28 +428,5 @@ public class DashboardFragment extends Fragment {
     private final int BREAKFAST = 0;
     private final int LUNCH = 1;
     private final int DINNER = 2;
-
-    Medicine findTimelyMedicine(ArrayList<Medicine> medicines, int bld, String beforeOrAfter) {
-        for (Medicine medicine : medicines) {
-            switch (bld) {
-                case BREAKFAST:
-                    if (medicine.getBreakfast().equalsIgnoreCase(beforeOrAfter)) {
-                        return medicine;
-                    }
-                    break;
-                case LUNCH:
-                    if (medicine.getLunch().equalsIgnoreCase(beforeOrAfter)) {
-                        return medicine;
-                    }
-                    break;
-                case DINNER:
-                    if (medicine.getDinner().equalsIgnoreCase(beforeOrAfter)) {
-                        return medicine;
-                    }
-                    break;
-            }
-        }
-        return null;
-    }
 
 }

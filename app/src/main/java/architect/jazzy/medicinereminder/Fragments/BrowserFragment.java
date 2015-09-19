@@ -1,4 +1,4 @@
-package architect.jazzy.medicinereminder.Fragments.NewsFragments;
+package architect.jazzy.medicinereminder.Fragments;
 
 
 import android.app.Activity;
@@ -26,7 +26,7 @@ import architect.jazzy.medicinereminder.ThisApplication;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class NewsDetailFragment extends Fragment {
+public class BrowserFragment extends Fragment {
 
 
     WebView webView;
@@ -34,8 +34,8 @@ public class NewsDetailFragment extends Fragment {
     Uri newsUrl;
     ImageView logo;
 
-    public static NewsDetailFragment getInstance(String url) {
-        NewsDetailFragment fragment = new NewsDetailFragment();
+    public static BrowserFragment getInstance(String url) {
+        BrowserFragment fragment = new BrowserFragment();
         Bundle args = new Bundle();
         args.putString(Constants.BUNDLE_SELECTED_NEWS, url);
         args.putBoolean("isNews", true);
@@ -43,8 +43,8 @@ public class NewsDetailFragment extends Fragment {
         return fragment;
     }
 
-    public static NewsDetailFragment getInstance(String url, boolean isNews) {
-        NewsDetailFragment fragment = new NewsDetailFragment();
+    public static BrowserFragment getInstance(String url, boolean isNews) {
+        BrowserFragment fragment = new BrowserFragment();
         Bundle args = new Bundle();
         args.putString(Constants.BUNDLE_SELECTED_NEWS, url);
         args.putBoolean("isNews", isNews);
@@ -52,7 +52,7 @@ public class NewsDetailFragment extends Fragment {
         return fragment;
     }
 
-    public NewsDetailFragment() {
+    public BrowserFragment() {
         // Required empty public constructor
     }
 

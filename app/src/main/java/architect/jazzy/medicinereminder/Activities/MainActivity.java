@@ -37,11 +37,11 @@ import architect.jazzy.medicinereminder.Fragments.DoctorDetailFragments.DoctorMe
 import architect.jazzy.medicinereminder.Fragments.DoctorListFragment;
 import architect.jazzy.medicinereminder.Fragments.EmojiSelectFragment;
 import architect.jazzy.medicinereminder.Fragments.MedicineListFragment;
-import architect.jazzy.medicinereminder.Fragments.NewsFragments.NewsDetailFragment;
+import architect.jazzy.medicinereminder.Fragments.BrowserFragment;
 import architect.jazzy.medicinereminder.Fragments.NewsFragments.NewsListFragment;
 import architect.jazzy.medicinereminder.Fragments.Practo.DoctorSearch;
 import architect.jazzy.medicinereminder.Fragments.SearchFragments.SearchFragment;
-import architect.jazzy.medicinereminder.HelperClasses.FragmentBackStack;
+import architect.jazzy.medicinereminder.CustomComponents.FragmentBackStack;
 import architect.jazzy.medicinereminder.Services.AlarmSetterService;
 import architect.jazzy.medicinereminder.HelperClasses.Constants;
 import architect.jazzy.medicinereminder.Models.Doctor;
@@ -150,8 +150,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }else if(!fragmentBackStack.empty()){
             Fragment fragment=fragmentBackStack.pop();
             if(fragment==null){
-                Log.e(TAG,"popping support fragment");
                 android.support.v4.app.Fragment fragment1=fragmentBackStack.popSupport();
+                if(fragment1==null){
+                    super.onBackPressed();
+                    return;
+                }
+                Log.e(TAG,"popping support fragment: "+fragment1.toString());
                 displaySupportFragment(fragment1,false);
                 return;
             }
@@ -239,8 +243,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     void showMedicines(){
         Fragment fragment=new MedicineListFragment();
-        displayFragment(fragment, false);
+        displayFragment(fragment, true);
     }
+
 
     void addMedicine(boolean add){
         Fragment fragment=new AddMedicineFragment();
@@ -253,22 +258,39 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public void displayFragment(Fragment fragment, boolean add){
-        ((FrameLayout)findViewById(R.id.frame)).removeAllViewsInLayout();
         try {
             getSupportActionBar().show();
         }catch (NullPointerException e){
             e.printStackTrace();
         }
         Log.e(TAG, "display fragment");
+        if(add) {
+            addToBackStack();
+        }
         FragmentManager fragmentManager=getFragmentManager();
         FragmentTransaction transaction=fragmentManager.beginTransaction();
         transaction.replace(R.id.frame, fragment);
-        if(add) {
-            fragmentBackStack.push(fragment);
-        }
         transaction.commit();
 //        Log.e("MainActivity", "Back Stack Count after Push:" + getFragmentManager().getBackStackEntryCount());
     }
+
+
+    void addToBackStack(){
+        try {
+            Fragment fragment = getFragmentManager().findFragmentById(R.id.frame);
+            if(fragment==null){
+                throw new Exception();
+            }
+            fragmentBackStack.push(fragment);
+        }catch (Exception e){
+            android.support.v4.app.Fragment fragment=getSupportFragmentManager().findFragmentById(R.id.frame);
+            if(fragment==null){
+                return;
+            }
+            fragmentBackStack.push(fragment);
+        }
+    }
+
 
     public void displaySupportFragment(android.support.v4.app.Fragment fragment, boolean add){
         try {
@@ -285,14 +307,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             e.printStackTrace();
         }
 
+        if(add){
+            addToBackStack();
+        }
+
         Log.e(TAG,"display Support fragment: "+fragment.toString());
 
         android.support.v4.app.FragmentManager fragmentManager=getSupportFragmentManager();
         android.support.v4.app.FragmentTransaction transaction=fragmentManager.beginTransaction();
         transaction.replace(R.id.frame,fragment).commit();
-        if(add){
-            fragmentBackStack.push(fragment);
-        }
+
     }
 
     void showCredits(){
@@ -316,11 +340,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     public void showFeed(String url){
-        displayFragment(NewsDetailFragment.getInstance(url), true);
+        displayFragment(BrowserFragment.getInstance(url), true);
     }
 
     public void showFeed(String url, boolean isNews){
-        displayFragment(NewsDetailFragment.getInstance(url, isNews), true);
+        displayFragment(BrowserFragment.getInstance(url, isNews), true);
     }
 
 
@@ -341,9 +365,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    public void showNews() {
-        displayFragment(new NewsListFragment(),true);
+    public void showMedicineList() {
+        displayFragment(new MedicineListFragment(), true);
     }
+
 
     @Override
     public void onAddDoctorClicked() {
@@ -352,7 +377,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onDoctorSelected(Doctor doctor) {
-        displayFragment(DoctorDetailFragment.newInstance(doctor),true);
+        displaySupportFragment(DoctorDetailFragment.newInstance(doctor), true);
     }
 
     @Override
@@ -366,6 +391,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if(doctorDetailImageChangeListener!=null){
             doctorDetailImageChangeListener.onDoctorImageChanged(resultCode,data);
         }
+    }
+
+    @Override
+    public void showDoctors() {
+        displayFragment(new DoctorListFragment(), true);
+    }
+
+    @Override
+    public void showSearch() {
+        displayFragment(new SearchFragment(), true);
     }
 
     @Override

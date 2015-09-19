@@ -1,8 +1,9 @@
 package architect.jazzy.medicinereminder.Fragments.DoctorDetailFragments.Adapters;
 
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.support.v13.app.FragmentStatePagerAdapter;
+
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
 
 import architect.jazzy.medicinereminder.Fragments.DoctorDetailFragments.ContactDetailFragment;
 import architect.jazzy.medicinereminder.Fragments.DoctorDetailFragments.DoctorAppointmentFragment;

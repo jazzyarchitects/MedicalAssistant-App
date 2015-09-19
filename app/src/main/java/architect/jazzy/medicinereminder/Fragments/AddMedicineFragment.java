@@ -68,7 +68,7 @@ import architect.jazzy.medicinereminder.Handlers.DataHandler;
 import architect.jazzy.medicinereminder.Services.AlarmSetterService;
 import architect.jazzy.medicinereminder.HelperClasses.Constants;
 import architect.jazzy.medicinereminder.Parsers.FeedParser;
-import architect.jazzy.medicinereminder.HelperClasses.TimingClass;
+import architect.jazzy.medicinereminder.CustomComponents.TimingClass;
 import architect.jazzy.medicinereminder.Models.Doctor;
 import architect.jazzy.medicinereminder.Models.FeedItem;
 import architect.jazzy.medicinereminder.Models.Medicine;

@@ -23,7 +23,7 @@ import java.util.Calendar;
 
 import architect.jazzy.medicinereminder.ThisApplication;
 import architect.jazzy.medicinereminder.HelperClasses.Constants;
-import architect.jazzy.medicinereminder.HelperClasses.TimingClass;
+import architect.jazzy.medicinereminder.CustomComponents.TimingClass;
 import architect.jazzy.medicinereminder.R;
 
 

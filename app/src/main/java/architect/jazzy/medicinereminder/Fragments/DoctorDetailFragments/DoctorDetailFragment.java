@@ -2,7 +2,6 @@ package architect.jazzy.medicinereminder.Fragments.DoctorDetailFragments;
 
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -10,6 +9,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -95,7 +95,7 @@ public class DoctorDetailFragment extends Fragment implements ViewPagerAdapter.V
         doctorNameView.setText(doctor.getName());
 
 
-        ViewPagerAdapter adapter=new ViewPagerAdapter(getFragmentManager(),doctor);
+        ViewPagerAdapter adapter=new ViewPagerAdapter(this.getChildFragmentManager(),doctor);
         adapter.setViewPagerFragmentListener(this);
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);

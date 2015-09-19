@@ -35,7 +35,7 @@ import architect.jazzy.medicinereminder.Adapters.ImageAdapter;
 import architect.jazzy.medicinereminder.CustomViews.LabelledImage;
 import architect.jazzy.medicinereminder.Handlers.DataHandler;
 import architect.jazzy.medicinereminder.HelperClasses.Constants;
-import architect.jazzy.medicinereminder.HelperClasses.TimingClass;
+import architect.jazzy.medicinereminder.CustomComponents.TimingClass;
 import architect.jazzy.medicinereminder.Models.Doctor;
 import architect.jazzy.medicinereminder.Models.Medicine;
 import architect.jazzy.medicinereminder.R;

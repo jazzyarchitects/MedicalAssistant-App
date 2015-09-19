@@ -171,6 +171,7 @@ public class CircleView extends View implements View.OnTouchListener {
                 }
                 break;
             case MotionEvent.ACTION_UP:
+                this.performClick();
             case MotionEvent.ACTION_CANCEL:
                 if (isButton) {
 //                    Log.e(TAG, "Changing color to Lifted");

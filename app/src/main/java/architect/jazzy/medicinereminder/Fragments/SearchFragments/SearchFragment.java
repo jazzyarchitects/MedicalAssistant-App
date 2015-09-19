@@ -37,7 +37,7 @@ import java.util.ArrayList;
 
 import architect.jazzy.medicinereminder.Activities.MainActivity;
 import architect.jazzy.medicinereminder.Adapters.SearchListAdapter;
-import architect.jazzy.medicinereminder.Fragments.NewsFragments.NewsDetailFragment;
+import architect.jazzy.medicinereminder.Fragments.BrowserFragment;
 import architect.jazzy.medicinereminder.HelperClasses.Constants;
 import architect.jazzy.medicinereminder.Parsers.SearchResultParser;
 import architect.jazzy.medicinereminder.Models.SearchQuery;
@@ -82,11 +82,11 @@ public class SearchFragment extends Fragment {
         // Inflate the layout for this fragment
         v = inflater.inflate(R.layout.fragment_search, container, false);
 
-        Log.e(TAG, String.valueOf(i++));
+//        Log.e(TAG, String.valueOf(i++));
         searchQuery = (EditText) v.findViewById(R.id.searchLayout).findViewById(R.id.searchQuery);
-        Log.e(TAG, String.valueOf(i++));
+//        Log.e(TAG, String.valueOf(i++));
         spellingView=(TextView)v.findViewById(R.id.suggestion);
-        Log.e(TAG, String.valueOf(i++));
+//        Log.e(TAG, String.valueOf(i++));
         searchQuery.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -102,37 +102,37 @@ public class SearchFragment extends Fragment {
         Log.e(TAG, String.valueOf(i++));
         try {
             term = getArguments().getString(Constants.BUNDLE_SEARCH_TERM);
-            Log.e(TAG, String.valueOf(i++));
+            getArguments().clear();
+//            Log.e(TAG, String.valueOf(i++));
         }catch (Exception e){
             term="";
-            Log.e(TAG, String.valueOf(i++));
+//            Log.e(TAG, String.valueOf(i++));
         }
-        Log.e(TAG, String.valueOf(i++));
-        getArguments().clear();
-        Log.e(TAG, String.valueOf(i++));
+//        Log.e(TAG, String.valueOf(i++));
+//        Log.e(TAG, String.valueOf(i++));
         recyclerView = (RecyclerView) v.findViewById(R.id.recyclerView);
-        Log.e(TAG, String.valueOf(i++));
+//        Log.e(TAG, String.valueOf(i++));
         if(searchListAdapter!=null) {
             Log.e(TAG, String.valueOf(i++));
 //            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 //            recyclerView.setAdapter(searchListAdapter);
             searchWeb(term);
-            Log.e(TAG, String.valueOf(i++));
+//            Log.e(TAG, String.valueOf(i++));
         }
         try{
-            Log.e(TAG, String.valueOf(i++));
+//            Log.e(TAG, String.valueOf(i++));
             if(!term.isEmpty())
-                Log.e(TAG, String.valueOf(i++));
+//                Log.e(TAG, String.valueOf(i++));
                 searchWeb(term);
-            Log.e(TAG, String.valueOf(i++));
+//            Log.e(TAG, String.valueOf(i++));
         }catch (NullPointerException e){
             e.printStackTrace();
-            Log.e(TAG, String.valueOf(i++));
+//            Log.e(TAG, String.valueOf(i++));
         }
 
-        Log.e(TAG, String.valueOf(i++));
+//        Log.e(TAG, String.valueOf(i++));
         searchQuery.setText(term);
-        Log.e(TAG, String.valueOf(i++));
+//        Log.e(TAG, String.valueOf(i++));
 
 
         try {
@@ -268,7 +268,7 @@ public class SearchFragment extends Fragment {
                             .setPositiveButton("Yeah Sure", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    activity.displayFragment(NewsDetailFragment.getInstance("https://www.google.com/search?q=" + result.getTerm().replace(" ", "+"), false));
+                                    activity.displayFragment(BrowserFragment.getInstance("https://www.google.com/search?q=" + result.getTerm().replace(" ", "+"), false));
                                     dialog.dismiss();
                                 }
                             })

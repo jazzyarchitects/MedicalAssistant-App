@@ -21,55 +21,47 @@
         android:orientation="vertical"
         android:weightSum="6">
 
-        <!--<TextView-->
-        <!--android:id="@+id/quoteText"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:background="@drawable/blue_gradient"-->
-        <!--android:gravity="center"-->
-        <!--android:padding="10dp"-->
-        <!--android:text="@string/dailyQuote"-->
-        <!--android:textColor="#000"-->
-        <!--android:textSize="14sp"-->
-        <!--android:textStyle="italic" />-->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1.5"
-                android:layout_marginBottom="3dp"
-                android:layout_marginTop="3dp"
-                android:orientation="horizontal"
-                android:weightSum="3">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginBottom="3dp"
+            android:layout_marginTop="3dp"
+            android:layout_weight="1.5"
+            android:orientation="horizontal"
+            android:weightSum="3">
 
-                <architect.jazzy.medicinereminder.CustomViews.CircleView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    app:isButton="true"
-                    app:text="Search"
-                    app:textColor="#000"
-                    app:textSize="12sp" />
+            <architect.jazzy.medicinereminder.CustomViews.CircleView
+                android:id="@+id/circleSearch"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                app:isButton="true"
+                app:text="Search"
+                app:textColor="#000"
+                app:textSize="12sp" />
 
 
-                <architect.jazzy.medicinereminder.CustomViews.CircleView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    app:isButton="true"
-                    app:text="My\nMedicines"
-                    app:textSize="12sp" />
+            <architect.jazzy.medicinereminder.CustomViews.CircleView
+                android:id="@+id/circleMedicineList"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                app:isButton="true"
+                app:text="My\nMedicines"
+                app:textSize="12sp" />
 
 
-                <architect.jazzy.medicinereminder.CustomViews.CircleView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    app:isButton="true"
-                    app:text="Add\nMedicines"
-                    app:textSize="12sp" />
+            <architect.jazzy.medicinereminder.CustomViews.CircleView
+                android:id="@+id/circleAddMedicine"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                app:isButton="true"
+                app:text="Add\nMedicines"
+                app:textSize="12sp" />
 
 
-            </LinearLayout>
+        </LinearLayout>
 
 
         <LinearLayout
@@ -81,8 +73,9 @@
             android:orientation="horizontal"
             android:weightSum="3">
 
+
             <architect.jazzy.medicinereminder.CustomViews.CircleView
-                android:id="@+id/search2"
+                android:id="@+id/circleDoctorList"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -92,8 +85,16 @@
                 app:textSize="12sp" />
 
 
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="20dp"
+                android:scaleType="centerInside"
+                android:src="@mipmap/ic_launcher" />
+
             <architect.jazzy.medicinereminder.CustomViews.CircleView
-                android:id="@+id/showDoctorList2"
+                android:id="@+id/circleAddDoctor"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -102,14 +103,14 @@
                 app:textSize="12sp" />
 
 
-            <architect.jazzy.medicinereminder.CustomViews.CircleView
-                android:id="@+id/findDoctor2"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                app:isButton="true"
-                app:text="Find\nHospitals"
-                app:textSize="12sp" />
+            <!--<architect.jazzy.medicinereminder.CustomViews.CircleView-->
+            <!--android:id="@+id/findDoctor2"-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight="1"-->
+            <!--app:isButton="true"-->
+            <!--app:text="Find\nHospitals"-->
+            <!--app:textSize="12sp" />-->
 
 
         </LinearLayout>
@@ -135,8 +136,6 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:layout_marginBottom="1dp"
-                    android:layout_marginRight="1dp"
                     android:layout_weight="3"
                     android:background="@color/dashboardMedicineCountColor"
                     android:gravity="center"
@@ -276,134 +275,9 @@
 
         </LinearLayout>
 
-
-        <LinearLayout
-            android:id="@+id/adViewContainer"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1.5"
-            android:orientation="horizontal"
-            android:visibility="gone"
-            android:weightSum="2">
-
-            <!--<View-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:layout_weight="1" />-->
-
-            <LinearLayout
-                android:id="@+id/newsContainer"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="horizontal" />
-
-            <LinearLayout
-                android:id="@+id/adViewContainer2"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:orientation="horizontal" />
-
-
-        </LinearLayout>
-
-
     </LinearLayout>
 
 
-    <!--<LinearLayout-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="40dp"-->
-    <!--android:background="@color/actionBackground"-->
-    <!--android:orientation="horizontal"-->
-    <!--android:layout_alignParentBottom="true"-->
-    <!--android:id="@+id/newsLayout">-->
-
-    <!--<TextView-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="match_parent"-->
-    <!--android:gravity="center"-->
-    <!--android:singleLine="true"-->
-    <!--android:text="News: "-->
-    <!--android:textColor="#FFF"-->
-    <!--android:textSize="15sp"-->
-    <!--android:paddingLeft="5dp"-->
-    <!--android:background="@color/color_red"-->
-    <!--android:textStyle="bold" />-->
-
-    <!--<TextView-->
-    <!--android:id="@+id/newsfeed"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_gravity="center"-->
-    <!--android:ellipsize="marquee"-->
-    <!--android:gravity="center"-->
-    <!--android:marqueeRepeatLimit="marquee_forever"-->
-    <!--android:maxLines="1"-->
-    <!--android:padding="5dp"-->
-    <!--android:singleLine="true"-->
-    <!--android:text="Medical News"-->
-    <!--android:textColor="#FFF"-->
-    <!--android:textSize="15sp" />-->
-    <!--</LinearLayout>-->
-    <!--<architect.jazzy.medicinereminder.CustomViews.CircleView-->
-    <!--&lt;!&ndash;android:id="@+id/mainIndicator"&ndash;&gt;-->
-    <!--&lt;!&ndash;android:layout_width="200dp"&ndash;&gt;-->
-    <!--&lt;!&ndash;android:layout_height="200dp"&ndash;&gt;-->
-    <!--&lt;!&ndash;android:layout_centerHorizontal="true"&ndash;&gt;-->
-    <!--&lt;!&ndash;android:layout_marginTop="10dp"&ndash;&gt;-->
-    <!--&lt;!&ndash;android:padding="10dp"&ndash;&gt;-->
-    <!--&lt;!&ndash;app:bigText="02/09/2015"&ndash;&gt;-->
-    <!--&lt;!&ndash;app:bigTextSize="28sp"&ndash;&gt;-->
-    <!--&lt;!&ndash;app:divCount="1"&ndash;&gt;-->
-    <!--&lt;!&ndash;app:fillColor="@color/actionBackground"&ndash;&gt;-->
-    <!--&lt;!&ndash;app:strokeColor="@color/actionBackground"&ndash;&gt;-->
-    <!--&lt;!&ndash;app:strokeWidth="5dp"&ndash;&gt;-->
-    <!--&lt;!&ndash;app:text="Today"&ndash;&gt;-->
-    <!--&lt;!&ndash;app:textColor="#FFF"&ndash;&gt;-->
-    <!--&lt;!&ndash;app:textSize="18sp" />&ndash;&gt;-->
-
-    <!--&lt;!&ndash;<architect.jazzy.medicinereminder.CustomViews.CircleView&ndash;&gt;-->
-    <!--&lt;!&ndash;android:id="@+id/medicineCountView"&ndash;&gt;-->
-    <!--&lt;!&ndash;android:layout_width="105dp"&ndash;&gt;-->
-    <!--&lt;!&ndash;android:layout_height="105dp"&ndash;&gt;-->
-    <!--&lt;!&ndash;android:layout_below="@+id/mainIndicator"&ndash;&gt;-->
-    <!--&lt;!&ndash;android:layout_marginLeft="25dp"&ndash;&gt;-->
-    <!--&lt;!&ndash;android:layout_marginTop="25dp"&ndash;&gt;-->
-    <!--&lt;!&ndash;app:bigText="5"&ndash;&gt;-->
-    <!--&lt;!&ndash;app:bigTextSize="25sp"&ndash;&gt;-->
-    <!--&lt;!&ndash;app:fillColor="@color/color_death"&ndash;&gt;-->
-    <!--&lt;!&ndash;app:isButton="true"&ndash;&gt;-->
-    <!--&lt;!&ndash;app:strokeColor="@color/color_death"&ndash;&gt;-->
-    <!--&lt;!&ndash;app:strokeWidth="0dp"&ndash;&gt;-->
-    <!--&lt;!&ndash;app:text="Medicines"&ndash;&gt;-->
-    <!--&lt;!&ndash;app:textColor="#FFF"&ndash;&gt;-->
-    <!--&lt;!&ndash;app:textSize="14sp" />&ndash;&gt;-->
-
-    <!--&lt;!&ndash;<architect.jazzy.medicinereminder.CustomViews.CircleView&ndash;&gt;-->
-    <!--&lt;!&ndash;android:id="@+id/appointmentCount"&ndash;&gt;-->
-    <!--&lt;!&ndash;android:layout_width="120dp"&ndash;&gt;-->
-    <!--&lt;!&ndash;android:layout_height="120dp"&ndash;&gt;-->
-    <!--&lt;!&ndash;android:layout_alignParentEnd="true"&ndash;&gt;-->
-    <!--&lt;!&ndash;android:layout_alignParentRight="true"&ndash;&gt;-->
-    <!--&lt;!&ndash;android:layout_below="@+id/mainIndicator"&ndash;&gt;-->
-    <!--&lt;!&ndash;android:layout_marginRight="25dp"&ndash;&gt;-->
-    <!--&lt;!&ndash;android:layout_marginTop="25dp"&ndash;&gt;-->
-    <!--&lt;!&ndash;app:bigText="1"&ndash;&gt;-->
-    <!--&lt;!&ndash;app:bigTextSize="25sp"&ndash;&gt;-->
-    <!--&lt;!&ndash;app:fillColor="@color/color_healthTip"&ndash;&gt;-->
-    <!--&lt;!&ndash;app:isButton="true"&ndash;&gt;-->
-    <!--&lt;!&ndash;app:strokeColor="@color/color_healthTip"&ndash;&gt;-->
-    <!--&lt;!&ndash;app:strokeWidth="0dp"&ndash;&gt;-->
-    <!--&lt;!&ndash;app:text="Appointments"&ndash;&gt;-->
-    <!--&lt;!&ndash;app:textColor="#FFF"&ndash;&gt;-->
-    <!--&lt;!&ndash;app:textSize="14sp" />&ndash;&gt;-->
-    <!-- -->
-    <!-- -->
-    <!-- -->
-    <!-- -->
-    <!-- -->
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/floatingActionButton"
         android:layout_width="@dimen/floatingActionButtonSize"

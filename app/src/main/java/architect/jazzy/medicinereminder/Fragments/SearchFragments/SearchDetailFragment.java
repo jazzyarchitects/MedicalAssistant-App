@@ -15,7 +15,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import architect.jazzy.medicinereminder.Activities.MainActivity;
-import architect.jazzy.medicinereminder.Fragments.NewsFragments.NewsDetailFragment;
+import architect.jazzy.medicinereminder.Fragments.BrowserFragment;
 import architect.jazzy.medicinereminder.HelperClasses.Constants;
 import architect.jazzy.medicinereminder.Models.WebDocument;
 import architect.jazzy.medicinereminder.R;
@@ -86,7 +86,7 @@ public class SearchDetailFragment extends Fragment {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     urlView.setText(Html.fromHtml("<u>" + document.getUrl() + "</u>"));
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                    activity.displayFragment(NewsDetailFragment.getInstance(document.getUrl(), false));
+                    activity.displayFragment(BrowserFragment.getInstance(document.getUrl(), false));
                 }else{
                     urlView.setText(document.getUrl());
                 }

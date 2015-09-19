@@ -14,8 +14,6 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import architect.jazzy.medicinereminder.Adapters.ImageAdapter;
-import architect.jazzy.medicinereminder.Handlers.DataHandler;
-import architect.jazzy.medicinereminder.Models.Doctor;
 import architect.jazzy.medicinereminder.Models.Medicine;
 import architect.jazzy.medicinereminder.R;
 
@@ -27,16 +25,9 @@ public class MedicineListAdapter extends RecyclerView.Adapter<MedicineListAdapte
     ArrayList<Medicine> medicines;
     Context context;
     ArrayList<String> medicineNames;
-    public MedicineListAdapter(Context context,Doctor doctor) {
+    public MedicineListAdapter(Context context,ArrayList<Medicine> medicines) {
         this.context=context;
-        DataHandler handler=new DataHandler(context);
-        medicines=handler.getMedicineListByDoctor(doctor);
-        medicineNames=new ArrayList<>();
-        if(medicines!=null) {
-            for (Medicine medicine : medicines) {
-                medicineNames.add(medicine.getMedName());
-            }
-        }
+        this.medicines=medicines;
 
     }
 

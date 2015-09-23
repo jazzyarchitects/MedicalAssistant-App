@@ -28,16 +28,20 @@ import com.google.android.gms.ads.formats.NativeAppInstallAd;
 import com.google.android.gms.ads.formats.NativeAppInstallAdView;
 import com.google.android.gms.ads.formats.NativeContentAd;
 import com.google.android.gms.ads.formats.NativeContentAdView;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 
 import java.util.ArrayList;
 
-import architect.jazzy.medicinereminder.CustomViews.CircleView;
 import architect.jazzy.medicinereminder.CustomComponents.CyclicTransitionDrawable;
+import architect.jazzy.medicinereminder.CustomComponents.TimingClass;
+import architect.jazzy.medicinereminder.CustomViews.CircleView;
 import architect.jazzy.medicinereminder.Handlers.DataHandler;
 import architect.jazzy.medicinereminder.HelperClasses.Constants;
-import architect.jazzy.medicinereminder.CustomComponents.TimingClass;
+import architect.jazzy.medicinereminder.Models.Doctor;
 import architect.jazzy.medicinereminder.Models.Medicine;
 import architect.jazzy.medicinereminder.R;
+import architect.jazzy.medicinereminder.ThisApplication;
 
 public class DashboardFragment extends Fragment {
 
@@ -68,6 +72,14 @@ public class DashboardFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        /**Analytics Code*/
+        Tracker t = ((ThisApplication) getActivity().getApplication()).getTracker(
+                ThisApplication.TrackerName.APP_TRACKER);
+        t.setScreenName("Dashboard");
+        t.enableAdvertisingIdCollection(true);
+        t.send(new HitBuilders.AppViewBuilder().build());
+        Log.e(TAG,"onCreate");
+
     }
 
     @Override
@@ -79,6 +91,28 @@ public class DashboardFragment extends Fragment {
         getDefaultTime();
         isMenuOpen = false;
 
+
+        try{
+            DataHandler handler=new DataHandler(getActivity());
+            ArrayList<Medicine> medicines=handler.getMedicineList();
+            ArrayList<Doctor> doctors=handler.getDoctorList();
+            for(Medicine medicine:medicines) {
+                Log.e(TAG, "Medicine:--> "+medicine.getJSON());
+            }
+            for(Doctor doctor: doctors){
+                Log.e(TAG,"Doctors:--> "+doctor.getJSON());
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        return v;
+    }
+
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
         floatingActionButton = (FloatingActionButton) v.findViewById(R.id.floatingActionButton);
         relativeLayout = (RelativeLayout) v.findViewById(R.id.r1);
         medicineCountView = (TextView) v.findViewById(R.id.medicineCount);
@@ -136,11 +170,12 @@ public class DashboardFragment extends Fragment {
 
 
         try {
-            ((AppCompatActivity) getActivity()).getSupportActionBar().show();
-            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Dashboard");
+            ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
+//            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Dashboard");
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
+
 
         DataHandler handler = new DataHandler(getActivity());
         final ArrayList<Medicine> medicines = handler.getTodaysMedicine();
@@ -150,33 +185,22 @@ public class DashboardFragment extends Fragment {
             if (i >= medicines.size()) {
                 break;
             }
-            TextView view = (TextView) v.findViewById(medicineViewIds[i]);
-            view.setText(Html.fromHtml(getMedicineDetailDisplayString(medicines.get(i), i)));
+            TextView view1 = (TextView) v.findViewById(medicineViewIds[i]);
+            view1.setText(Html.fromHtml(getMedicineDetailDisplayString(medicines.get(i), i)));
             i++;
         }
 
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                initialize();
-            }
-        });
-        thread.start();
-        return v;
+        initialize();
     }
-
 
     void initialize() {
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Log.e(TAG, "fab add onclick");
-
                 addNewItems();
             }
         });
-
-
     }
 
 

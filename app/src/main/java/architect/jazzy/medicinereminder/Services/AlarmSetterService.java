@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -18,8 +19,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-import architect.jazzy.medicinereminder.Handlers.DataHandler;
 import architect.jazzy.medicinereminder.BroadcastRecievers.AlarmReciever;
+import architect.jazzy.medicinereminder.Handlers.DataHandler;
 import architect.jazzy.medicinereminder.HelperClasses.Constants;
 import architect.jazzy.medicinereminder.HelperClasses.DailyAlarmStarter;
 
@@ -61,15 +62,14 @@ public class AlarmSetterService extends IntentService {
         minutes=new int[]{bbm,abm,blm,alm,bdm,adm};
 
 
-
         if (matcher.matchAction(action)) {
             try {
-                execute(action);
+//                execute(action);
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
         }
+
 
         AlarmManager alarmManager2=(AlarmManager)getSystemService(Context.ALARM_SERVICE);
         Intent start2=new Intent(getApplicationContext(),DailyAlarmStarter.class);
@@ -81,17 +81,20 @@ public class AlarmSetterService extends IntentService {
         cdND.set(Calendar.SECOND,1);
         cdND.set(Calendar.MILLISECOND,0);
         alarmManager2.setRepeating(AlarmManager.RTC,cdND.getTimeInMillis(),AlarmManager.INTERVAL_DAY,forNextDay);
+
+        Intent i=new Intent(this,AlarmReciever.class);
+        PendingIntent pi=PendingIntent.getBroadcast(this,100,i,PendingIntent.FLAG_CANCEL_CURRENT);
+        alarmManager2.cancel(pi);
+        Log.e("AlarmSetterService","Cancelled Alarm");
     }
 
     public void initialize() throws ParseException,NullPointerException
     {
-
         for(int i=0;i<6;i++)
         {
             medicineList[i]=new ArrayList<>();
         }
         dataHandler=new DataHandler(getBaseContext());
-        dataHandler.open();
         ctime=dataHandler.returnData();
 
         int dayToday=Calendar.getInstance().get(Calendar.DAY_OF_WEEK)-Calendar.SUNDAY;

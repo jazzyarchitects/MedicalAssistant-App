@@ -141,4 +141,5 @@
     <color name="dashboardMedicineColor">#88000000</color>
     <color name="dashboardMedicineTextColor">#EEFFFFFF</color>
     <color name="dashboardMedicineColor2">#88000000</color>
+    <color name="editTextIconColor">#444</color>
 </resources>

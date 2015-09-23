@@ -2,25 +2,35 @@ package architect.jazzy.medicinereminder.Models;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import architect.jazzy.medicinereminder.Handlers.DataHandler;
 
 /**
  * Created by Jibin_ism on 25-Aug-15.
  */
 public class Medicine implements Parcelable{
 
+    private static final String TAG="Medicine";
+    long id=(long)0;
     String medName;
-    Boolean sun, mon, tue, wed, thu, fri, sat;
     String doctorId;
     String endDate;
-    String breakfast, lunch,dinner;
     Integer icon;
     MedTime customTime;
     String note;
+    String breakfast, lunch,dinner;
+    Boolean sun, mon, tue, wed, thu, fri, sat;
+
 
     public Medicine() {
     }
 
     public Medicine(Parcel in){
+        this.id=in.readLong();
         this.medName=in.readString();
         this.doctorId=in.readString();
         this.sun=Boolean.parseBoolean(in.readString());
@@ -38,6 +48,7 @@ public class Medicine implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(id);
         dest.writeString(medName);
         dest.writeString(doctorId);
         dest.writeString(String.valueOf(sun));
@@ -66,9 +77,60 @@ public class Medicine implements Parcelable{
         }
     };
 
+
     @Override
     public int describeContents() {
         return 0;
+    }
+
+    public JSONObject getJSON(){
+        if(id==0){
+            Log.e(TAG,"Invalid id: "+id);
+            return null;
+        }
+        JSONObject jsonObject=new JSONObject();
+        try {
+            Log.e(TAG,"Medicine "+getMedName()+" DoctorId: "+getDoctorId());
+            jsonObject.put(DataHandler.MedicineTable.COL_ID,id);
+            jsonObject.put(DataHandler.MedicineTable.COL_NAME, medName);
+            jsonObject.put(DataHandler.MedicineTable.COL_ICON,icon);
+            jsonObject.put(DataHandler.MedicineTable.COL_NOTES,note);
+            jsonObject.put(DataHandler.MedicineTable.COL_END_DATE,endDate);
+            jsonObject.put(DataHandler.MedicineTable.COL_DOCTOR,doctorId);
+            jsonObject.put(DataHandler.MedicineTable.COL_CUSTOM_TIME,customTime.getJSON());
+            jsonObject.put(DataHandler.MedicineTable.COL_BREAKFAST,breakfast);
+            jsonObject.put(DataHandler.MedicineTable.COL_LUNCH,lunch);
+            jsonObject.put(DataHandler.MedicineTable.COL_DINNER,dinner);
+            jsonObject.put(DataHandler.MedicineTable.DAYS,getDaysJSON());
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+        return jsonObject;
+    }
+
+    private JSONObject getDaysJSON(){
+        JSONObject object=new JSONObject();
+        try{
+            object.put("sunday",sun);
+            object.put("monday",mon);
+            object.put("tuesday",tue);
+            object.put("wednesday",wed);
+            object.put("thursday",thu);
+            object.put("friday",fri);
+            object.put("saturday",sat);
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+        return object;
+    }
+
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getMedName() {

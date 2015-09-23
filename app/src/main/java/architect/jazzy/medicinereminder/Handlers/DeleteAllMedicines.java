@@ -27,11 +27,7 @@ public class DeleteAllMedicines {
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
-                dataHandler = new DataHandler(mcontext);
-                dataHandler.open();
-                dataHandler.clear_database();
-                dataHandler.close();
+                mcontext.deleteDatabase(DataHandler.DATABASE_NAME);
                 Intent startAlarmServiceIntent=new Intent(mcontext, AlarmSetterService.class);
                 startAlarmServiceIntent.setAction("CANCEL");
                 Log.v("Delete command passed","Passed");
@@ -41,7 +37,7 @@ public class DeleteAllMedicines {
         builder.setNegativeButton("No",new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
+                dialog.dismiss();
             }
         });
         builder.show();

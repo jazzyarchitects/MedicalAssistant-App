@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ffffffff"
-    tools:context=".MainActivity">
+    tools:context=".Fragments.AddMedicineFragment">
 
 
     <ScrollView
@@ -18,20 +18,6 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!--<TextView-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:background="@color/edit_text_background_end"-->
-                <!--android:gravity="center"-->
-                <!--android:paddingBottom="5dp"-->
-                <!--android:paddingLeft="10dp"-->
-                <!--android:paddingRight="10dp"-->
-                <!--android:maxLines="2"-->
-                <!--android:ellipsize="marquee"-->
-                <!--android:paddingTop="5dp"-->
-                <!--android:text="@string/lorem_ipsum"-->
-                <!--android:textSize="12sp"-->
-                <!--android:textStyle="italic" />-->
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
@@ -48,7 +34,7 @@
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
                     android:background="#00ffffff"
-                    android:textColor="#000"
+                    android:textColor="#222"
                     android:textSize="18sp" />
             </android.support.design.widget.TextInputLayout>
 
@@ -65,7 +51,7 @@
                     android:hint="Notes (Optional)"
                     android:lines="1"
                     android:paddingLeft="10dp"
-                    android:textColor="#000"
+                    android:textColor="#222"
                     android:textSize="15sp" />
 
             </android.support.design.widget.TextInputLayout>
@@ -108,7 +94,7 @@
                     android:gravity="center_vertical"
                     android:paddingLeft="5dp"
                     android:text="Schedule"
-                    android:textColor="#000"
+                    android:textColor="#15152f"
                     android:textSize="16sp" />
 
                 <LinearLayout
@@ -278,6 +264,8 @@
                         android:hint="End Date"
                         android:inputType="none"
                         android:maxLines="1"
+                        android:drawableEnd="@drawable/ic_action_calendar_month"
+                        android:drawableRight="@drawable/ic_action_calendar_month"
                         android:minHeight="50dp"
                         android:textColor="#000"
                         android:textSize="16sp" />

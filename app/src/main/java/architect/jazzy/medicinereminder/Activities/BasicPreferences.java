@@ -62,7 +62,6 @@ public class BasicPreferences extends PreferenceActivity {
         Tracker t = ((ThisApplication) this.getApplication()).getTracker(
                 ThisApplication.TrackerName.APP_TRACKER);
         t.setScreenName("Basic Preferences");
-        t.enableAdvertisingIdCollection(true);
         t.send(new HitBuilders.AppViewBuilder().build());
 
 

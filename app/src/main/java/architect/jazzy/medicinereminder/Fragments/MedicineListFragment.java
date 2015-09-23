@@ -79,6 +79,8 @@ public class MedicineListFragment extends Fragment {
         // Inflate the layout for this fragment
         v=inflater.inflate(R.layout.fragment_list, container, false);
         context=getActivity();
+
+        /**Analytics Code*/
         Tracker t = ((ThisApplication) getActivity().getApplication()).getTracker(
                 ThisApplication.TrackerName.APP_TRACKER);
         t.setScreenName("Medicine List");
@@ -157,47 +159,6 @@ public class MedicineListFragment extends Fragment {
     }
 
 
-    void createNoDataView(){
-        if (medicines==null || medicines.isEmpty()) {
-            root.removeAllViews();
-            root.setBackgroundColor(getResources().getColor(R.color.actionBackground));
-            TextView textView = new TextView(context);
-            textView.setTextSize(20);
-            textView.setTextColor(Color.WHITE);
-            textView.setText(Html.fromHtml("<big><b>...Congratulation...</b></big><br /><br />You are not taking any medicines"));
-            RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            layoutParams.addRule(RelativeLayout.CENTER_IN_PARENT);
-            textView.setPadding(10, 10, 10, 10);
-            textView.setGravity(Gravity.CENTER);
-            textView.setLayoutParams(layoutParams);
-            textView.setId(0);
-
-            Button addNew = new Button(context);
-            addNew.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    fragmentInteractionListener.addMedicine();
-                }
-            });
-            RelativeLayout.LayoutParams butLP = new RelativeLayout.LayoutParams(300, ViewGroup.LayoutParams.WRAP_CONTENT);
-//            butLP.addRule(RelativeLayout.BELOW,textView.getId());
-            butLP.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-            butLP.addRule(RelativeLayout.CENTER_HORIZONTAL);
-            butLP.setMargins(10, 10, 10, 50);
-            addNew.setLayoutParams(butLP);
-            addNew.setText("Add Medicines");
-            addNew.setCompoundDrawables(getResources().getDrawable(R.drawable.ic_action_new), null, null, null);
-            addNew.setTextColor(Color.WHITE);
-            GradientDrawable drawable = new GradientDrawable();
-            drawable.setColor(getResources().getColor(R.color.path_orange));
-            drawable.setCornerRadius(20);
-            addNew.setBackgroundDrawable(drawable);
-            addNew.setGravity(Gravity.CENTER);
-
-            root.addView(textView);
-            root.addView(addNew);
-        }
-    }
 
     void createOptionalView() {
         if (medicines==null || medicines.isEmpty()) {
@@ -287,6 +248,7 @@ public class MedicineListFragment extends Fragment {
                 medicineList.addItemDecoration(new ItemShadowDecorator((NinePatchDrawable) getResources().getDrawable(R.drawable.material_shadow_z1)));
             }
             medicineList.addItemDecoration(new SimpleListDividerDecorator(getResources().getDrawable(R.drawable.list_divider), true));
+            medicineList.getAdapter().notifyDataSetChanged();
 
             // NOTE:
             // The initialization order is very important! This order determines the priority of touch event handling.

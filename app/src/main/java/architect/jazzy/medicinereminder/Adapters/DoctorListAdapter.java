@@ -7,7 +7,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,11 +45,12 @@ public class DoctorListAdapter extends RecyclerView.Adapter<DoctorListAdapter.Vi
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
         final Doctor doctor = doctors.get(position);
-        Log.e(TAG, "Doctor Name: " + doctor.getName());
+//        Log.e(TAG, "Doctor Name: " + doctor.getName());
         holder.nameView.setText(doctor.getName());
         holder.linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+//                Log.e(TAG,"Item clicked "+position+" "+doctor.getName());
                 itemClickListener.onItemClick(position, doctor);
             }
         });

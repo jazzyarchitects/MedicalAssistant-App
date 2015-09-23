@@ -9,7 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.GridView;
@@ -21,6 +21,7 @@ public class DaySelectorFragmentDialog extends DialogFragment implements CheckBo
 
     Context mContext;
     GridView gridView;
+    Button button;
 
     DialogFragment fragment;
 
@@ -46,7 +47,14 @@ public class DaySelectorFragmentDialog extends DialogFragment implements CheckBo
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         super.onCreateView(inflater, container, savedInstanceState);
 
-        View v = inflater.inflate(R.layout.day_selection_fragment, null);
+        View v = inflater.inflate(R.layout.day_selection_fragment, container,false);
+        button=(Button)v.findViewById(R.id.done_button);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getDialog().dismiss();
+            }
+        });
         fragment = this;
         mContext = getActivity().getApplicationContext();
         getDialog().setTitle("Select Days");

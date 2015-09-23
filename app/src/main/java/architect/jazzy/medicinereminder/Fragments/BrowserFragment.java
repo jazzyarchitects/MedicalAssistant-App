@@ -58,6 +58,16 @@ public class BrowserFragment extends Fragment {
 
     View v;
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        /**Analytics Code*/
+        Tracker t = ((ThisApplication) getActivity().getApplication()).getTracker(
+                ThisApplication.TrackerName.APP_TRACKER);
+        t.setScreenName("Browser");
+        t.enableAdvertisingIdCollection(true);
+        t.send(new HitBuilders.AppViewBuilder().build());
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -71,12 +81,6 @@ public class BrowserFragment extends Fragment {
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
-        Tracker t = ((ThisApplication) getActivity().getApplication()).getTracker(
-                ThisApplication.TrackerName.APP_TRACKER);
-        t.setScreenName("Browser");
-        t.enableAdvertisingIdCollection(true);
-        t.send(new HitBuilders.AppViewBuilder().build());
-
         boolean b = getArguments().getBoolean("isNews");
         try {
             String title="";

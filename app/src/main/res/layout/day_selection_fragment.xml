@@ -80,5 +80,20 @@
         android:id="@+id/daySaturday"/>
     </TableRow>
 
+
+    <TableRow
+        android:layout_width="match_parent"
+        android:gravity="center_horizontal"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_gravity="center"
+            android:id="@+id/done_button"
+            android:background="@drawable/find_now_button"
+            android:text="Done"/>
+
+    </TableRow>
     
 </TableLayout>

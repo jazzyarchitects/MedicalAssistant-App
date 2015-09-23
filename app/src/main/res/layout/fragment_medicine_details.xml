@@ -12,7 +12,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:cardUseCompatPadding="true"
-    tools:context="architect.jazzy.medicinereminder.Activities.MedicineDetails$MedicineDetailsFragment">
+    tools:context="architect.jazzy.medicinereminder.Fragments.MedicineDetailFragment">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -43,33 +43,6 @@
                 android:textColor="#000"
                 android:textSize="@dimen/titleTextSize"
                 android:textStyle="bold" />
-
-
-            <LinearLayout
-                android:id="@+id/ll"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:visibility="gone">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:text="Medicine Icon: "
-                    android:textColor="#000"
-                    android:textSize="16sp" />
-
-                <ImageView
-                    android:id="@+id/medIcon"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginLeft="10dp"
-                    android:layout_marginStart="10dp"
-                    android:src="@drawable/capsule_icon_emoji" />
-
-            </LinearLayout>
-
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -154,6 +127,25 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="Sat" />
+
+                    <TableRow
+                        android:layout_width="match_parent"
+                        android:id="@+id/iconRow"
+                        android:layout_height="wrap_content">
+
+                        <ImageView
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:id="@+id/medIcon"
+                            android:padding="3dp"
+                            android:src="@mipmap/ic_launcher"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center"
+                            android:text="Icon"/>
+                    </TableRow>
 
 
                 </LinearLayout>
@@ -242,7 +234,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:hint="Notes"
-                android:inputType="text" />
+                android:drawableRight="@drawable/ic_action_edit"
+                android:drawableEnd="@drawable/ic_action_edit"
+                android:inputType="text"
+                android:textSize="14sp" />
 
 
             <LinearLayout
@@ -252,23 +247,32 @@
                 android:orientation="horizontal"
                 android:weightSum="10">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:text="End Date"
-                    android:textColor="#000"
-                    android:textSize="16sp" />
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:gravity="center_vertical"-->
+                    <!--android:text="End Date"-->
+                    <!--android:textColor="#000"-->
+                    <!--android:textSize="16sp" />-->
 
-                <EditText
-                    android:id="@+id/endDate"
+                <android.support.design.widget.TextInputLayout
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
                     android:layout_weight="6"
-                    android:hint="End Date"
-                    android:inputType="none"
-                    android:lines="1" />
+                    android:layout_marginLeft="5dp"
+                    android:layout_height="wrap_content">
+
+                    <EditText
+                        android:id="@+id/endDate"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Dose finishes on..."
+                        android:inputType="none"
+                        android:drawableRight="@drawable/ic_action_calendar_month"
+                        android:drawableEnd="@drawable/ic_action_calendar_month"
+                        android:lines="1"
+                        android:textSize="14sp" />
+
+                </android.support.design.widget.TextInputLayout>
 
                 <CheckBox
                     android:id="@+id/endIndefinite"

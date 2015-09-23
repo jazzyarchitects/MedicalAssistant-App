@@ -21,14 +21,15 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 
+import architect.jazzy.medicinereminder.Fragments.DoctorDetailFragments.DoctorDetailFragment;
 import architect.jazzy.medicinereminder.Handlers.DataHandler;
 import architect.jazzy.medicinereminder.HelperClasses.Constants;
 import architect.jazzy.medicinereminder.Models.Doctor;
 import architect.jazzy.medicinereminder.R;
+import architect.jazzy.medicinereminder.ThisApplication;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -36,14 +37,14 @@ import architect.jazzy.medicinereminder.R;
 public class AddDoctorFragment extends Fragment {
 
     View v;
-    private GoogleMap mMap; // Might be null if Google Play services APK is not available.
     private static final String TAG = "AddDoctorFragment";
-    public static final int CONTACT_PICK_REQUEST_CODE = 121;
+    public static final int CONTACT_PICK_REQUEST_CODE = 120;
     private Uri uriContact;
     private String contactID;
     ImageView imageView;
     Doctor doctor;
 
+    private static final int COVER_PIC_REQUEST_CODE = 121;
     Button save;
     EditText docName, docPhone1, docPhone2, docAddress, docHospital, docNotes;
 
@@ -59,6 +60,18 @@ public class AddDoctorFragment extends Fragment {
         // Required empty public constructor
     }
 
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        /**Analytics Code*/
+        Tracker t = ((ThisApplication) getActivity().getApplication()).getTracker(
+                ThisApplication.TrackerName.APP_TRACKER);
+        t.setScreenName("Add Doctor Fragment");
+        t.enableAdvertisingIdCollection(true);
+        t.send(new HitBuilders.AppViewBuilder().build());
+
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -89,13 +102,6 @@ public class AddDoctorFragment extends Fragment {
             }
         });
 
-        if (mMap != null) {
-            try {
-//                setUpMapIfNeeded();
-            } catch (NullPointerException e) {
-                e.printStackTrace();
-            }
-        }
         try {
             doctor = getArguments().getParcelable(Constants.BUNDLE_DOCTOR);
         } catch (NullPointerException e) {
@@ -103,6 +109,24 @@ public class AddDoctorFragment extends Fragment {
         }
         updateForm();
         setHasOptionsMenu(true);
+
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(Intent.ACTION_GET_CONTENT);
+                i.setType("image/*");
+                startActivityForResult(Intent.createChooser(i, "Select Doctor's Photo"), COVER_PIC_REQUEST_CODE);
+            }
+        });
+
+        imageView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                imageView.setImageResource(R.drawable.userlogin);
+                doctor.setPhoto("");
+                return false;
+            }
+        });
 
         return v;
     }
@@ -118,6 +142,11 @@ public class AddDoctorFragment extends Fragment {
 //                Log.e(TAG, "Contact Result 2");
                 uriContact = data.getData();
                 retrieveContactDetails();
+            }
+            if(requestCode==COVER_PIC_REQUEST_CODE){
+                String path=DoctorDetailFragment.getImagePath(data, getActivity());
+                imageView.setImageBitmap(Constants.getScaledBitmap(path, imageView.getMeasuredWidth(), imageView.getMeasuredHeight()));
+                doctor.setPhoto(path);
             }
         }
     }
@@ -201,7 +230,7 @@ public class AddDoctorFragment extends Fragment {
                 phoneCursor.close();
             }
             cursor.close();
-            updateForm();
+            onFragmentInteractionListener.showDoctors();
         }
     }
 
@@ -231,20 +260,6 @@ public class AddDoctorFragment extends Fragment {
     }
 
 
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.add_doctor_menu, menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        if (item.getItemId() == R.id.selectContact) {
-            selectDoctorFromContacts();
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
     public void selectDoctorFromContacts() {
         Intent i = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
@@ -255,40 +270,31 @@ public class AddDoctorFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        try {
-//            setUpMapIfNeeded();
-        } catch (NullPointerException e) {
-            e.printStackTrace();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.menu_contact_select, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId()==R.id.addDoctor){
+            selectDoctorFromContacts();
         }
+        return super.onOptionsItemSelected(item);
     }
 
+    OnFragmentInteractionListener onFragmentInteractionListener;
 
-    /**
-     * Google Map Functions
-     *
-     * @throws NullPointerException
-     */
-    private void setUpMapIfNeeded() throws NullPointerException {
-        // Do a null check to confirm that we have not already instantiated the map.
-//        if (mMap == null) {
-//            // Try to obtain the map from the SupportMapFragment.
-//            mMap = ((MapFragment) getFragmentManager().findFragmentById(R.id.map))
-//                    .getMap();
-//            // Check if we were successful in obtaining the map.
-//            if (mMap != null) {
-//                setUpMap();
-//            }
-//        }
+    public interface OnFragmentInteractionListener {
+        void showDoctors();
     }
 
-    /**
-     * This is where we can add markers or lines, add listeners or move the camera. In this case, we
-     * just add a marker near Africa.
-     * <p/>
-     * This should only be called once and when we are sure that {@link #mMap} is not null.
-     */
-    private void setUpMap() {
-        mMap.addMarker(new MarkerOptions().position(new LatLng(0, 0)).title("Marker"));
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        onFragmentInteractionListener = (OnFragmentInteractionListener) activity;
     }
-
 }

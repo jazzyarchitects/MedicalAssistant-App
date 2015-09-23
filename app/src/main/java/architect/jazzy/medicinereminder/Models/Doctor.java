@@ -3,7 +3,9 @@ package architect.jazzy.medicinereminder.Models;
 import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * Created by Jibin_ism on 14-Aug-15.
@@ -12,6 +14,7 @@ public class Doctor implements Parcelable {
     private String id="",
             name="",phone_1="",phone_2="",address="",hospital="",notes="", photoPath="";
     private Uri photoUri=null;
+
 
     public Doctor() {
     }
@@ -74,7 +77,21 @@ public class Doctor implements Parcelable {
 
 
 
-
+    public JSONObject getJSON(){
+        JSONObject jsonObject=new JSONObject();
+        try {
+            jsonObject.put("id", id);
+            jsonObject.put("name",name);
+            jsonObject.put("mobileNo",phone_1);
+            jsonObject.put("officeNo",phone_2);
+            jsonObject.put("address",address);
+            jsonObject.put("hospital",hospital);
+            jsonObject.put("notes",notes);
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+        return jsonObject;
+    }
 
 
 
@@ -105,12 +122,10 @@ public class Doctor implements Parcelable {
     }
 
     public String getPhone_1() {
-        Log.d("Doctor","Getting Phone 1: "+phone_1);
         return phone_1;
     }
 
     public void setPhone_1(String phone_1) {
-        Log.d("Doctor","Setting Phone 1: "+phone_1);
         this.phone_1 = phone_1;
     }
 

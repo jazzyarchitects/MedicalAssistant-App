@@ -1,18 +1,27 @@
 package architect.jazzy.medicinereminder.HelperClasses;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.ScaleDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
+import android.support.annotation.ColorRes;
+import android.support.annotation.DrawableRes;
 import android.text.Html;
 import android.text.Spanned;
-import android.util.Log;
 import android.util.Pair;
+import android.view.Gravity;
+import android.view.View;
+import android.widget.EditText;
 
 import java.util.ArrayList;
 
 import architect.jazzy.medicinereminder.Parsers.FeedParser;
+import architect.jazzy.medicinereminder.R;
 
 /**
  * Created by Jibin_ism on 25-Mar-15.
@@ -161,8 +170,48 @@ public class Constants {
         sizeOptions.inSampleSize = inSampleSize;
 
         Bitmap bitmap=BitmapFactory.decodeFile(picturePath, sizeOptions);
-        Log.e("Constants","Get scaled Bitmap: "+bitmap.toString());
+//        Log.e("Constants","Get scaled Bitmap: "+bitmap.toString());
         return bitmap;
+    }
+
+    /**
+     * Scale the drawables in editText
+     *
+     * @param context
+     * @param editText
+     * @param drawableImage
+     */
+    public static void scaleEditTextImage(Context context, final EditText editText,@DrawableRes int drawableImage,@ColorRes int color) {
+        final double IMAGE_SCALE_RATIO = 0.6;
+        final ScaleDrawable icon = new ScaleDrawable(context.getResources().getDrawable(drawableImage).mutate(), Gravity.CENTER, 1F, 1F) {
+            @Override
+            public int getIntrinsicHeight() {
+                return (int) (editText.getHeight() * IMAGE_SCALE_RATIO);
+            }
+
+            @Override
+            public int getIntrinsicWidth() {
+                return (int) (editText.getHeight() * IMAGE_SCALE_RATIO);
+            }
+        };
+        icon.setLevel(10000);
+        editText.setCompoundDrawables(null, null, icon, null);
+        editText.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+            @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
+            @Override
+            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                try {
+                    editText.setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, icon, null);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        editText.getCompoundDrawables()[2].setColorFilter(context.getResources()
+                .getColor(color), PorterDuff.Mode.SRC_ATOP);
+    }
+    public static void scaleEditTextImage(Context context, final EditText editText,@DrawableRes int drawableImage) {
+        scaleEditTextImage(context,editText,drawableImage,R.color.editTextIconColor);
     }
 
 

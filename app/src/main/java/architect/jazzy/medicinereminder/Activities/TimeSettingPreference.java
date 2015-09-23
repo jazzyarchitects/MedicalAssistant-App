@@ -18,13 +18,14 @@ import com.android.datetimepicker.time.TimePickerDialog;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 
-
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
-import architect.jazzy.medicinereminder.ThisApplication;
-import architect.jazzy.medicinereminder.HelperClasses.Constants;
 import architect.jazzy.medicinereminder.CustomComponents.TimingClass;
+import architect.jazzy.medicinereminder.HelperClasses.Constants;
 import architect.jazzy.medicinereminder.R;
+import architect.jazzy.medicinereminder.ThisApplication;
 
 
 public class TimeSettingPreference extends AppCompatActivity {
@@ -33,6 +34,8 @@ public class TimeSettingPreference extends AppCompatActivity {
     int bbh,bbm,abh,abm,blh,blm,alh,alm,bdh,bdm,adh,adm;
     Boolean is24hrs=false;
     RadioButton is12,is24;
+    Tracker t;
+
 
 
     @Override
@@ -46,11 +49,10 @@ public class TimeSettingPreference extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
-        Tracker t = ((ThisApplication) this.getApplication()).getTracker(
+        t = ((ThisApplication) this.getApplication()).getTracker(
                 ThisApplication.TrackerName.APP_TRACKER);
         t.setScreenName("Time Change Preference");
         t.enableAdvertisingIdCollection(true);
-        t.send(new HitBuilders.AppViewBuilder().build());
 
         bb=(EditText)findViewById(R.id.pref_beforeBreakfast);
         ab=(EditText)findViewById(R.id.pref_afterBreakfast);
@@ -78,7 +80,7 @@ public class TimeSettingPreference extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
                     SharedPreferences.Editor editor=inputPref.edit();
-                    editor.putBoolean(Constants.IS_24_HOURS_FORMAT,false);
+                    editor.putBoolean(Constants.IS_24_HOURS_FORMAT, false);
                     editor.apply();
                     is24hrs=false;
                     writeTime();
@@ -91,7 +93,7 @@ public class TimeSettingPreference extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
                     SharedPreferences.Editor editor=inputPref.edit();
-                    editor.putBoolean(Constants.IS_24_HOURS_FORMAT,true);
+                    editor.putBoolean(Constants.IS_24_HOURS_FORMAT, true);
                     editor.apply();
                     is24hrs=true;
                     writeTime();
@@ -239,6 +241,13 @@ public class TimeSettingPreference extends AppCompatActivity {
 
     @Override
     protected void onStop() {
+        Map<String, String> timingTracker=new HashMap<>();
+        timingTracker.put("Breakfast",bbh+":"+bbm+"  and "+abh+":"+abm);
+        timingTracker.put("Lunch",blh+":"+blm+"  and "+alh+":"+alm);
+        timingTracker.put("Dinner",bdh+":"+bdm+"  and "+adh+":"+adm);
+        timingTracker.put("Is24Hour",String.valueOf(is24hrs));
+        t.send(timingTracker);
+        t.send(new HitBuilders.AppViewBuilder().build());
         finish();
         super.onStop();
     }

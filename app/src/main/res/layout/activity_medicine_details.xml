@@ -10,7 +10,7 @@
         android:id="@+id/toolBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/actionBackground"
+        android:background="@drawable/toolbar_background"
         android:theme="@style/Theme.AppCompat" />
 
     <architect.jazzy.medicinereminder.CustomViews.CustomViewPager
@@ -21,7 +21,8 @@
         android:layout_above="@+id/optionsbox"
         android:layout_centerInParent="true"
         android:layout_below="@+id/toolBar"
-        android:layout_margin="10dp"/>
+        android:padding="3dp"
+        android:layout_margin="5dp"/>
 
 
     <LinearLayout

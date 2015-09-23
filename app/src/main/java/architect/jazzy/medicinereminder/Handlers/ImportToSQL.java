@@ -21,6 +21,7 @@ import architect.jazzy.medicinereminder.Activities.MainActivity;
 import architect.jazzy.medicinereminder.Models.MedTime;
 import architect.jazzy.medicinereminder.Models.Medicine;
 
+@Deprecated
 public class ImportToSQL{
     private static Context mContext;
 

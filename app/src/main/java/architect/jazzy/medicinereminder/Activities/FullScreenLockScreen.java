@@ -24,7 +24,7 @@ import android.renderscript.Allocation;
 import android.renderscript.Element;
 import android.renderscript.RenderScript;
 import android.renderscript.ScriptIntrinsicBlur;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -49,7 +49,7 @@ import architect.jazzy.medicinereminder.R;
 import architect.jazzy.medicinereminder.ThisApplication;
 
 
-public class FullScreenLockScreen extends ActionBarActivity {
+public class FullScreenLockScreen extends AppCompatActivity {
 
     Cursor c;
     LinearLayout[] displayViews;
@@ -74,6 +74,8 @@ public class FullScreenLockScreen extends ActionBarActivity {
         Tracker t = ((ThisApplication) this.getApplication()).getTracker(
                 ThisApplication.TrackerName.APP_TRACKER);
         t.setScreenName("FullScreenLockScreen");
+        t.enableAdvertisingIdCollection(true);
+        t.enableExceptionReporting(true);
         t.send(new HitBuilders.AppViewBuilder().build());
 
 

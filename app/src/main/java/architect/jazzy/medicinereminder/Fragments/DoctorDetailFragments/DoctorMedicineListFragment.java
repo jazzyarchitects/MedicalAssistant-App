@@ -27,6 +27,7 @@ import architect.jazzy.medicinereminder.R;
  */
 public class DoctorMedicineListFragment extends Fragment {
 
+    private static final String TAG="DMedicineListFragment";
     Doctor doctor;
     LinearLayout noMed;
 
@@ -57,6 +58,7 @@ public class DoctorMedicineListFragment extends Fragment {
         v = inflater.inflate(R.layout.fragment_doctor_medicine_list, container, false);
         noMed=(LinearLayout)v.findViewById(R.id.noMed);
 
+//        Log.e(TAG,"OnCreateView");
         refreshLayout();
 
         return v;
@@ -64,27 +66,30 @@ public class DoctorMedicineListFragment extends Fragment {
 
     public void refreshLayout(){
         RecyclerView recyclerView=(RecyclerView)v.findViewById(R.id.recyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
 
         DataHandler handler=new DataHandler(getActivity());
         ArrayList<Medicine> medicines=handler.getMedicineListByDoctor(doctor);
-        if(medicines.isEmpty()){
+        handler.close();
+        if(medicines==null){
             noMed.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.GONE);
             return;
         }
+//        Log.e(TAG,"refreshLayout");
         noMed.setVisibility(View.GONE);
         recyclerView.setVisibility(View.VISIBLE);
-        MedicineListAdapter adapter=new MedicineListAdapter(getActivity(),medicines);
+        MedicineListAdapter adapter=new MedicineListAdapter(getActivity(), medicines);
+//        Log.e(TAG,"Setting Adapter");
         adapter.setItemClickListener(new MedicineListAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(int position, ArrayList<String> medicines) {
-                showDetails(position,medicines);
+                showDetails(position, medicines);
             }
         });
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+//        Log.e(TAG,"Displaying medicine List");
         recyclerView.setAdapter(adapter);
-        recyclerView.setHasFixedSize(true);
     }
 
     @Override

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item android:id="@+id/none"
-        android:title="Not now"
+        android:title="Not here"
         app:showAsAction="always"
         android:visible="true" />
 

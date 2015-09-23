@@ -48,6 +48,8 @@ public class DataHandler {
         public static final String COL_ICON = "icon";
         public static final String COL_NOTES = "notes";
         public static final String COL_CUSTOM_TIME = "customTime";
+
+        public static final String DAYS="days";
     }
 
     public static final int DATABASE_VERSION = 3;
@@ -108,6 +110,13 @@ public class DataHandler {
         this.ctx = ctx;
         dbhelper = new DataBaseHelper(ctx);
         db = dbhelper.getWritableDatabase();
+        createTables();
+    }
+
+
+    void createTables(){
+        db.execSQL(CREATE_NEW_MEDICINE_TABLE);
+        db.execSQL(CREATE_TABLE_DOCTORS);
     }
 
     private static class DataBaseHelper extends SQLiteOpenHelper {
@@ -123,6 +132,7 @@ public class DataHandler {
         @Override
         public void onCreate(SQLiteDatabase db) {
             db.execSQL(CREATE_NEW_MEDICINE_TABLE);
+            db.execSQL(CREATE_TABLE_DOCTORS);
         }
 
         @Override
@@ -234,8 +244,10 @@ public class DataHandler {
             , String endDate, String breakfast, String lunch, String dinner,
                            String icon, String customTimeHour, String customTimeMinute, String note) {
 
+        long id=Long.parseLong(getId());
         ContentValues content = new ContentValues();
-        content.put(MedicineTable.COL_ID, getId());
+        content.put(MedicineTable.COL_ID, id);
+        Log.e(TAG,"Assigning Id: "+id);
         content.put(MedicineTable.COL_NAME, medName);
         content.put(MedicineTable.COL_DOCTOR, doctorId);
         content.put(MedicineTable.COL_BREAKFAST, breakfast);
@@ -256,9 +268,12 @@ public class DataHandler {
     }
 
     public long insertData(Medicine medicine) {
+        return db.insertOrThrow(MedicineTable.TABLE_NAME, null, getMedicineContentValues(medicine));
+    }
 
+    private ContentValues getMedicineContentValues(Medicine medicine){
         ContentValues content = new ContentValues();
-        content.put(MedicineTable.COL_ID, getId());
+        content.put(MedicineTable.COL_ID, String.valueOf(medicine.getId() == 0 ? getId() : String.valueOf(medicine.getId())));
         content.put(MedicineTable.COL_NAME, medicine.getMedName());
         content.put(MedicineTable.COL_DOCTOR, medicine.getDoctorId());
         content.put(MedicineTable.COL_BREAKFAST, medicine.getBreakfast());
@@ -275,7 +290,7 @@ public class DataHandler {
         content.put(MedicineTable.COL_NOTES, medicine.getNote());
         content.put(MedicineTable.COL_END_DATE, medicine.getEndDate());
         content.put(MedicineTable.COL_ICON, medicine.getIcon());
-        return db.insertOrThrow(MedicineTable.TABLE_NAME, null, content);
+        return content;
     }
 
 
@@ -290,53 +305,6 @@ public class DataHandler {
         return String.valueOf(id);
     }
 
-
-//    public long insertData(String medName, String mornTime, String noonTime, String nightTime, String sun, String mon, String tue, String wed, String thu, String fri, String sat, String startDate, String endDate, String breakfast, String lunch, String dinner, String icon, String customTimeHour, String customTimeMinute, String note) {
-//        ContentValues content = new ContentValues();
-//        /*0*/
-//        content.put(MEDICINE_NAME, medName);
-//        /*1*/
-//        content.put("mornTime", mornTime);
-//        /*2*/
-//        content.put("noonTime", noonTime);
-//        /*3*/
-//        content.put("nightTime", nightTime);
-//        /*4*/
-//        content.put("Sunday", sun);
-//        /*5*/
-//        content.put("Monday", mon);
-//        /*6*/
-//        content.put("Tuesday", tue);
-//        /*7*/
-//        content.put("Wednesday", wed);
-//        /*8*/
-//        content.put("Thursday", thu);
-//        /*9*/
-//        content.put("Friday", fri);
-//        /*10*/
-//        content.put("Saturday", sat);
-//        /*11*/
-//        content.put("startDate", startDate);
-//        /*12*/
-//        content.put("endDate", endDate);
-//        /*13*/
-//        content.put("breakfast", breakfast);
-//        /*14*/
-//        content.put("lunch", lunch);
-//        /*15*/
-//        content.put("dinner", dinner);
-//        /*16*/
-//        content.put("icon", icon);
-//        /*17*/
-//        content.put("customTimeHour", customTimeHour);
-//        /*18*/
-//        content.put("customTimeMinute", customTimeMinute);
-//        /*19*/
-//        content.put("note", note);
-//
-//
-//        return db.insertOrThrow(TABLE_NAME, null, content);
-//    }
 
     public ArrayList<Medicine> getMedicineList() {
 
@@ -353,6 +321,7 @@ public class DataHandler {
 
     private Medicine getMedicine(Cursor c) {
         Medicine medicine = new Medicine();
+        medicine.setId(Long.parseLong(c.getString(c.getColumnIndex(MedicineTable.COL_ID))));
         medicine.setMedName(c.getString(c.getColumnIndex(MedicineTable.COL_NAME)));
         medicine.setDoctorId(c.getString(c.getColumnIndex(MedicineTable.COL_DOCTOR)));
         medicine.setBreakfast(c.getString(c.getColumnIndex(MedicineTable.COL_BREAKFAST)));
@@ -388,6 +357,7 @@ public class DataHandler {
         if(c.moveToFirst()){
             medicines=new ArrayList<>();
             do {
+                Log.e(TAG,"getting Medicine By Doctor");
                 medicines.add(getMedicine(c));
             }while (c.moveToNext());
         }
@@ -445,54 +415,12 @@ public class DataHandler {
         return db.query(TABLE_NAME, new String[]{MEDICINE_NAME, "mornTime", "noonTime", "nightTime", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "startDate", "endDate", "breakfast", "lunch", "dinner", "icon", "customTimeHour", "customTimeMinute"}, null, null, null, null, "medName ASC");
     }
 
-//    @Deprecated
-//    public void updateData(String originalName, String medName, String mornTime, String noonTime, String nightTime, String sun, String mon, String tue, String wed, String thu, String fri, String sat, String startDate, String endDate, String breakfast, String lunch, String dinner, String icon, String customTimeHour, String customTimeMinute, String note) {
-//        ContentValues content = new ContentValues();
-//        /*0*/
-//        content.put(MEDICINE_NAME, medName);
-//        /*1*/
-//        content.put("mornTime", mornTime);
-//        /*2*/
-//        content.put("noonTime", noonTime);
-//        /*3*/
-//        content.put("nightTime", nightTime);
-//        /*4*/
-//        content.put("Sunday", sun);
-//        /*5*/
-//        content.put("Monday", mon);
-//        /*6*/
-//        content.put("Tuesday", tue);
-//        /*7*/
-//        content.put("Wednesday", wed);
-//        /*8*/
-//        content.put("Thursday", thu);
-//        /*9*/
-//        content.put("Friday", fri);
-//        /*10*/
-//        content.put("Saturday", sat);
-//        /*11*/
-//        content.put("startDate", startDate);
-//        /*12*/
-//        content.put("endDate", endDate);
-//        /*13*/
-//        content.put("breakfast", breakfast);
-//        /*14*/
-//        content.put("lunch", lunch);
-//        /*15*/
-//        content.put("dinner", dinner);
-//        /*16*/
-//        content.put("icon", icon);
-//        /*17*/
-//        content.put("customTimeHour", customTimeHour);
-//        /*18*/
-//        content.put("customTimeMinute", customTimeMinute);
-//        /*19*/
-//        content.put("note", note);
-//
-//        Log.e("Database", "Updated medicine with name " + originalName + " to " + medName);
-//        db.update(TABLE_NAME, content, MEDICINE_NAME + " = ?", new String[]{originalName});
-//    }
+    public void updateMedicine(Medicine medicine){
+        db.update(MedicineTable.TABLE_NAME,getMedicineContentValues(medicine),MedicineTable.COL_ID+"=?",new String[]{medicine.getId().toString()});
+    }
 
+
+    @Deprecated
     public void updateData(String originalName, String medName, String doctorId, String sun, String mon, String tue,
                            String wed, String thu, String fri, String sat
             , String endDate, String breakfast, String lunch, String dinner,
@@ -530,7 +458,8 @@ public class DataHandler {
 
     public boolean deleteRow(String medName) {
 //        Log.e("DataHandler","To be deleted: "+key);
-        db.execSQL("DELETE FROM " + MedicineTable.TABLE_NAME + " WHERE " + MedicineTable.COL_NAME + "='" + medName + "'");
+//        db.execSQL("DELETE FROM " + MedicineTable.TABLE_NAME + " WHERE " + MedicineTable.COL_NAME + "='" + medName + "'");
+        db.delete(MedicineTable.TABLE_NAME,MedicineTable.COL_NAME+"=?",new String[]{medName});
         return true;
     }
 
@@ -571,7 +500,6 @@ public class DataHandler {
             contentValues.put(DoctorTable.COL_ID, doctor.getId());
 
         contentValues.put(DoctorTable.COL_NAME, doctor.getName());
-        Log.d(TAG,"getContentValues: phone1:"+doctor.getPhone_1());
         contentValues.put(DoctorTable.COL_PHONE_1, doctor.getPhone_1());
         contentValues.put(DoctorTable.COL_PHONE_2, doctor.getPhone_2());
         contentValues.put(DoctorTable.COL_HOSPITAL, doctor.getHospital());
@@ -587,18 +515,24 @@ public class DataHandler {
 
     public Doctor getDoctor(String id) {
         Doctor doctor = new Doctor();
+        if(id==null){
+            return null;
+        }
         Cursor c = db.query(DoctorTable.TABLE_DOCTOR, null, DoctorTable.COL_ID + "=?", new String[]{id}, null, null, null);
+        if(c==null){
+            return null;
+        }
         if (!c.moveToFirst()) {
             return null;
         }
-        doctor.setId(c.getString(0));
-        doctor.setName(c.getString(1));
-        doctor.setHospital(c.getString(2));
-        doctor.setPhone_1(c.getString(3));
-        doctor.setPhone_2(c.getString(4));
-        doctor.setAddress(c.getString(5));
-        doctor.setNotes(c.getString(6));
-        doctor.setPhoto(c.getString(7));
+        doctor.setId(c.getString(c.getColumnIndex(DoctorTable.COL_ID)));
+        doctor.setName(c.getString(c.getColumnIndex(DoctorTable.COL_NAME)));
+        doctor.setHospital(c.getString(c.getColumnIndex(DoctorTable.COL_HOSPITAL)));
+        doctor.setPhone_1(c.getString(c.getColumnIndex(DoctorTable.COL_PHONE_1)));
+        doctor.setPhone_2(c.getString(c.getColumnIndex(DoctorTable.COL_PHONE_2)));
+        doctor.setAddress(c.getString(c.getColumnIndex(DoctorTable.COL_ADDRESS)));
+        doctor.setNotes(c.getString(c.getColumnIndex(DoctorTable.COL_NOTES)));
+        doctor.setPhoto(c.getString(c.getColumnIndex(DoctorTable.COL_IMAGE_URI)));
         c.close();
         return doctor;
     }
@@ -608,6 +542,7 @@ public class DataHandler {
         Cursor c = db.query(DoctorTable.TABLE_DOCTOR, null, null, null, null, null, DoctorTable.COL_NAME + " ASC");
         if (c.moveToFirst()) {
             do {
+                Log.e(TAG,"Getting doctor loop");
                 doctors.add(getDoctor(c.getString(c.getColumnIndex(DoctorTable.COL_ID))));
             } while (c.moveToNext());
         }

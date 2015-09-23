@@ -56,11 +56,11 @@ public class SearchFragment extends Fragment {
     String term;
     RecyclerView recyclerView;
     MainActivity activity;
-    SearchListAdapter searchListAdapter=null;
+    SearchListAdapter searchListAdapter = null;
     TextView spellingView;
-    boolean hideSuggestion=true;
-    ArrayList<WebDocument> documents=null;
-    boolean initalSearch=true;
+    boolean hideSuggestion = true;
+    ArrayList<WebDocument> documents = null;
+    boolean initalSearch = true;
 
     public static SearchFragment initiate(String searchQuery) {
         SearchFragment fragment = new SearchFragment();
@@ -70,7 +70,8 @@ public class SearchFragment extends Fragment {
         return fragment;
     }
 
-    int i=0;
+    int i = 0;
+
     public SearchFragment() {
         // Required empty public constructor
     }
@@ -82,16 +83,12 @@ public class SearchFragment extends Fragment {
         // Inflate the layout for this fragment
         v = inflater.inflate(R.layout.fragment_search, container, false);
 
-//        Log.e(TAG, String.valueOf(i++));
         searchQuery = (EditText) v.findViewById(R.id.searchLayout).findViewById(R.id.searchQuery);
-//        Log.e(TAG, String.valueOf(i++));
-        spellingView=(TextView)v.findViewById(R.id.suggestion);
-//        Log.e(TAG, String.valueOf(i++));
+        spellingView = (TextView) v.findViewById(R.id.suggestion);
         searchQuery.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-//                    performSearch(v.getText().toString());
                     initalSearch = true;
                     searchWeb(v.getText().toString());
                     hideSuggestion = true;
@@ -99,44 +96,31 @@ public class SearchFragment extends Fragment {
                 return false;
             }
         });
-        Log.e(TAG, String.valueOf(i++));
+
+
         try {
             term = getArguments().getString(Constants.BUNDLE_SEARCH_TERM);
             getArguments().clear();
-//            Log.e(TAG, String.valueOf(i++));
-        }catch (Exception e){
-            term="";
-//            Log.e(TAG, String.valueOf(i++));
+        } catch (Exception e) {
+            term = "";
         }
-//        Log.e(TAG, String.valueOf(i++));
-//        Log.e(TAG, String.valueOf(i++));
         recyclerView = (RecyclerView) v.findViewById(R.id.recyclerView);
-//        Log.e(TAG, String.valueOf(i++));
-        if(searchListAdapter!=null) {
-            Log.e(TAG, String.valueOf(i++));
-//            recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-//            recyclerView.setAdapter(searchListAdapter);
-            searchWeb(term);
-//            Log.e(TAG, String.valueOf(i++));
-        }
-        try{
-//            Log.e(TAG, String.valueOf(i++));
-            if(!term.isEmpty())
-//                Log.e(TAG, String.valueOf(i++));
+        if (searchListAdapter != null) {
+            if (!term.isEmpty())
                 searchWeb(term);
-//            Log.e(TAG, String.valueOf(i++));
-        }catch (NullPointerException e){
-            e.printStackTrace();
-//            Log.e(TAG, String.valueOf(i++));
         }
+//        try {
+//            if (!term.isEmpty())
+//                searchWeb(term);
+//        } catch (NullPointerException e) {
+//            e.printStackTrace();
+//        }
 
-//        Log.e(TAG, String.valueOf(i++));
+
         searchQuery.setText(term);
-//        Log.e(TAG, String.valueOf(i++));
 
 
         try {
-            Log.e(TAG, String.valueOf(i++));
             ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
         } catch (NullPointerException e) {
             e.printStackTrace();
@@ -148,7 +132,7 @@ public class SearchFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        this.activity=(MainActivity)activity;
+        this.activity = (MainActivity) activity;
     }
 
     public void searchWeb(String s) {
@@ -167,7 +151,7 @@ public class SearchFragment extends Fragment {
             dialog = new ProgressDialog(getActivity());
             dialog.setIndeterminate(true);
             dialog.setMessage("Searching...");
-            if(initalSearch)
+            if (initalSearch)
                 dialog.show();
         }
 
@@ -232,31 +216,31 @@ public class SearchFragment extends Fragment {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            initalSearch=false;
+            initalSearch = false;
             if (dialog.isShowing()) {
                 dialog.dismiss();
             }
             final SearchResult result = SearchResultParser.parse();
             if (result != null) {
 
-                if(result.getCount()==0 && !result.getSpellingCorrection().isEmpty() && hideSuggestion){
-                    initalSearch=true;
+                if (result.getCount() == 0 && !result.getSpellingCorrection().isEmpty() && hideSuggestion) {
+                    initalSearch = true;
                     spellingView.setVisibility(View.VISIBLE);
-                    spellingView.setText(Constants.getSuggestionText(result.getTerm(),result.getSpellingCorrection()));
-                    hideSuggestion=false;
+                    spellingView.setText(Constants.getSuggestionText(result.getTerm(), result.getSpellingCorrection()));
+                    hideSuggestion = false;
                     searchWeb(result.getSpellingCorrection());
                     return;
-                }else{
-                    if(hideSuggestion){
+                } else {
+                    if (hideSuggestion) {
                         spellingView.setVisibility(View.GONE);
                     }
                 }
 
-                if(result.getCount()==0 && result.getSpellingCorrection().isEmpty()){
+                if (result.getCount() == 0 && result.getSpellingCorrection().isEmpty()) {
                     //TODO: Redirect to google
-                    AlertDialog.Builder builder=new AlertDialog.Builder(getActivity());
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                     builder.setTitle("Search Failed")
-                            .setMessage("Sorry..!! We couldn't find anything in our database regarding "+result.getTerm()+"" +
+                            .setMessage("Sorry..!! We couldn't find anything in our database regarding " + result.getTerm() + "" +
                                     "\nWould you like to search other sources on the internet?")
                             .setNegativeButton("No", new DialogInterface.OnClickListener() {
                                 @Override
@@ -278,34 +262,34 @@ public class SearchFragment extends Fragment {
 
                 recyclerView.setVisibility(View.VISIBLE);
                 recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-                if(result.getRetstart()>result.getRetmax()){
+                if (result.getRetstart() > result.getRetmax()) {
                     documents.addAll(result.getWebDocuments());
-                }else{
-                    documents=result.getWebDocuments();
+                } else {
+                    documents = result.getWebDocuments();
                 }
                 SearchListAdapter adapter = new SearchListAdapter(getActivity(), documents);
-                searchListAdapter=adapter;
-                ((LinearLayoutManager)recyclerView.getLayoutManager()).scrollToPosition(result.getRetstart());
+                searchListAdapter = adapter;
+                ((LinearLayoutManager) recyclerView.getLayoutManager()).scrollToPosition(result.getRetstart());
                 adapter.setItemClickListener(new SearchListAdapter.ItemClickListener() {
                     @Override
                     public void OnItemClick(ArrayList<WebDocument> documents, int position) {
-                        openDetail(documents,position);
+                        openDetail(documents, position);
                     }
                 });
                 searchListAdapter.setItemClickListener(new SearchListAdapter.ItemClickListener() {
                     @Override
                     public void OnItemClick(ArrayList<WebDocument> documents, int position) {
-                        openDetail(documents,position);
+                        openDetail(documents, position);
                     }
                 });
                 adapter.setAdapterPositionListener(new SearchListAdapter.AdapterPositionListener() {
                     @Override
                     public void onLastItemLoaded() {
-                        if(result.getCount()>result.getRetstart()+result.getRetmax()){
+                        if (result.getCount() > result.getRetstart() + result.getRetmax()) {
 
-                            Snackbar.make(recyclerView,"Fetching more result",Snackbar.LENGTH_SHORT).show();
+                            Snackbar.make(recyclerView, "Fetching more result", Snackbar.LENGTH_SHORT).show();
 
-                            SearchQuery query=new SearchQuery();
+                            SearchQuery query = new SearchQuery();
                             query.setFileName(result.getFile());
                             query.setServer(result.getServer());
                             query.setRetstart(result.getRetstart() + result.getRetmax() + 1);
@@ -323,8 +307,8 @@ public class SearchFragment extends Fragment {
 
     }
 
-    public void openDetail(ArrayList<WebDocument> documents,int position){
-        activity.displayFragment(SearchDetailMainFragment.newInstance(documents, searchQuery.getText().toString(),position),true);
+    public void openDetail(ArrayList<WebDocument> documents, int position) {
+        activity.displayFragment(SearchDetailMainFragment.newInstance(documents, searchQuery.getText().toString(), position), true);
     }
 
 

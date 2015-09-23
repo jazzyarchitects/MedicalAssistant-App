@@ -17,6 +17,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -36,6 +39,7 @@ import architect.jazzy.medicinereminder.HelperClasses.Constants;
 import architect.jazzy.medicinereminder.Parsers.FeedParser;
 import architect.jazzy.medicinereminder.Models.FeedItem;
 import architect.jazzy.medicinereminder.R;
+import architect.jazzy.medicinereminder.ThisApplication;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -68,6 +72,12 @@ public class NewsListFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         firstTime=true;
+        /**Analytics Code*/
+        Tracker t = ((ThisApplication) getActivity().getApplication()).getTracker(
+                ThisApplication.TrackerName.APP_TRACKER);
+        t.setScreenName("News List");
+        t.enableAdvertisingIdCollection(true);
+        t.send(new HitBuilders.AppViewBuilder().build());
     }
 
     @Override

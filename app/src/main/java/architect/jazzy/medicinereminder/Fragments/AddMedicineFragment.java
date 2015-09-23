@@ -122,6 +122,12 @@ public class AddMedicineFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        /**Analytics Code*/
+        Tracker t = ((ThisApplication) getActivity().getApplication()).getTracker(
+                ThisApplication.TrackerName.APP_TRACKER);
+        t.setScreenName("Add Medicine");
+        t.enableAdvertisingIdCollection(true);
+        t.send(new HitBuilders.AppViewBuilder().build());
     }
 
     @Override
@@ -142,11 +148,6 @@ public class AddMedicineFragment extends Fragment {
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
-        Tracker t = ((ThisApplication) getActivity().getApplication()).getTracker(
-                ThisApplication.TrackerName.APP_TRACKER);
-        t.setScreenName("Add Medicine Fragment");
-        t.enableAdvertisingIdCollection(true);
-        t.send(new HitBuilders.AppViewBuilder().build());
 
         getDefaultTime();
 
@@ -313,6 +314,7 @@ public class AddMedicineFragment extends Fragment {
         none(noon, noon.getTag());
         none(night, night.getTag());
 
+        Constants.scaleEditTextImage(getActivity(),endDose,R.drawable.ic_action_calendar_month);
         endDose.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -533,7 +535,7 @@ public class AddMedicineFragment extends Fragment {
             Log.e("MainActivity", "Create " + medicineName + " Custom hour: " + customTimeHour + " Custom Minute: " + customTimeMinute);
             dataHandler.insertData(medicineName,doctorId, String.valueOf(daySelected[0]), String.valueOf(daySelected[1]), String.valueOf(daySelected[2]), String.valueOf(daySelected[3]), String.valueOf(daySelected[4]), String.valueOf(daySelected[5]), String.valueOf(daySelected[6]), endDate, bk, ln, dn, String.valueOf(pos), customTimeHour, customTimeMinute, noteValue);
             Toast.makeText(context, "Medicine Added", Toast.LENGTH_SHORT).show();
-           fragmentInteractionListener.addMedicine();
+           fragmentInteractionListener.addMedicine(false);
         }
         setAlarm(getActivity());
     }
@@ -691,7 +693,7 @@ public class AddMedicineFragment extends Fragment {
     FragmentInteractionListener fragmentInteractionListener;
 
     public interface FragmentInteractionListener{
-        void addMedicine();
+        void addMedicine(boolean addToBackStack);
     }
 
     public void setFragmentInteractionListener(FragmentInteractionListener fragmentInteractionListener){

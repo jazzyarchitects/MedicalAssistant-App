@@ -17,6 +17,7 @@ import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
@@ -26,27 +27,29 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import architect.jazzy.medicinereminder.Adapters.NewsListAdapter;
+import architect.jazzy.medicinereminder.CustomComponents.FragmentBackStack;
+import architect.jazzy.medicinereminder.CustomViews.DaySelectorFragmentDialog;
 import architect.jazzy.medicinereminder.Fragments.AddDoctorFragment;
 import architect.jazzy.medicinereminder.Fragments.AddMedicineFragment;
+import architect.jazzy.medicinereminder.Fragments.BrowserFragment;
 import architect.jazzy.medicinereminder.Fragments.DashboardFragment;
-import architect.jazzy.medicinereminder.CustomViews.DaySelectorFragmentDialog;
 import architect.jazzy.medicinereminder.Fragments.DoctorDetailFragments.DoctorDetailFragment;
 import architect.jazzy.medicinereminder.Fragments.DoctorDetailFragments.DoctorMedicineListFragment;
 import architect.jazzy.medicinereminder.Fragments.DoctorListFragment;
 import architect.jazzy.medicinereminder.Fragments.EmojiSelectFragment;
 import architect.jazzy.medicinereminder.Fragments.MedicineListFragment;
-import architect.jazzy.medicinereminder.Fragments.BrowserFragment;
 import architect.jazzy.medicinereminder.Fragments.NewsFragments.NewsListFragment;
 import architect.jazzy.medicinereminder.Fragments.Practo.DoctorSearch;
 import architect.jazzy.medicinereminder.Fragments.SearchFragments.SearchFragment;
-import architect.jazzy.medicinereminder.CustomComponents.FragmentBackStack;
-import architect.jazzy.medicinereminder.Services.AlarmSetterService;
 import architect.jazzy.medicinereminder.HelperClasses.Constants;
 import architect.jazzy.medicinereminder.Models.Doctor;
 import architect.jazzy.medicinereminder.Models.FeedItem;
 import architect.jazzy.medicinereminder.R;
+import architect.jazzy.medicinereminder.Services.AlarmSetterService;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
@@ -54,7 +57,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         MedicineListFragment.FragmentInteractionListener, AddMedicineFragment.FragmentInteractionListener,
         NewsListAdapter.FeedClickListener, DoctorListFragment.OnMenuItemClickListener,
         DoctorMedicineListFragment.FragmentInteractionListener, DoctorListFragment.OnFragmentInteractionListenr,
-        DoctorDetailFragment.ImageChangeListener, DashboardFragment.OnFragmentInteractionListener{
+        DoctorDetailFragment.ImageChangeListener, DashboardFragment.OnFragmentInteractionListener,
+        AddDoctorFragment.OnFragmentInteractionListener{
 
     public static final String TAG="MainActivity";
 
@@ -116,16 +120,47 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         searchQuery.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if(actionId== EditorInfo.IME_ACTION_SEARCH){
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     performSearch(v.getText().toString());
                     searchQuery.setText("");
+                    hideKeyboard();
                 }
                 return false;
             }
         });
 
+
+
+        dimNotificationBar();
+
         displayFragment(new DashboardFragment(), true);
     }
+
+
+    private void dimNotificationBar() {
+        final View decorView = getWindow().getDecorView();
+        int uiOptions = View.SYSTEM_UI_FLAG_LOW_PROFILE;
+        decorView.setSystemUiVisibility(uiOptions);
+        decorView.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
+            @Override
+            public void onSystemUiVisibilityChange(int visibility) {
+                Timer timer = new Timer();
+                timer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        MainActivity.this.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
+                            }
+                        });
+                    }
+                }, 5000);
+            }
+        });
+    }
+
+
     public void displayInterstitial()
     {
         if (interstitialAd.isLoaded()) {
@@ -247,7 +282,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-    void addMedicine(boolean add){
+    void addMedicineToView(boolean add){
         Fragment fragment=new AddMedicineFragment();
         displayFragment(fragment, add);
 
@@ -301,15 +336,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if(fragment==null){
             return;
         }
+
+
+        if(add){
+            addToBackStack();
+        }
+
         try{
             getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentById(R.id.frame)).commit();
         }catch (Exception e){
             e.printStackTrace();
         }
 
-        if(add){
-            addToBackStack();
-        }
 
         Log.e(TAG,"display Support fragment: "+fragment.toString());
 
@@ -361,7 +399,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void addMedicine() {
-        addMedicine(true);
+        addMedicineToView(true);
     }
 
     @Override
@@ -383,9 +421,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void addDoctor() {
         AddDoctorFragment fragment=new AddDoctorFragment();
-        displayFragment(fragment,true);
+        displayFragment(fragment, true);
     }
 
+    @Override
+    public void addMedicine(boolean addToBackStack) {
+        addMedicineToView(addToBackStack);
+    }
     @Override
     public void onDoctorImageChange(int resultCode, Intent data) {
         if(doctorDetailImageChangeListener!=null){
@@ -428,7 +470,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
 
-
+    public void hideKeyboard() {
+        // Check if no view has focus:
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
+    }
 
 
     ActivityKeyClickListener activityKeyClickListener;
@@ -452,7 +501,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void setActivityClickListener(ActivityClickListener activityClickListener){
         this.activityClickListener=activityClickListener;
     }
-
 
 
 

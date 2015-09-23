@@ -3,6 +3,7 @@ package architect.jazzy.medicinereminder.Fragments.DoctorDetailFragments.Adapter
 import android.content.Context;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,12 +23,21 @@ import architect.jazzy.medicinereminder.R;
  */
 public class MedicineListAdapter extends RecyclerView.Adapter<MedicineListAdapter.ViewHolder> {
 
+    private static final String TAG="DDListAdapter";
     ArrayList<Medicine> medicines;
     Context context;
     ArrayList<String> medicineNames;
     public MedicineListAdapter(Context context,ArrayList<Medicine> medicines) {
         this.context=context;
         this.medicines=medicines;
+
+//        Log.e(TAG,"Constructor");
+        medicineNames=new ArrayList<>();
+        for(Medicine medincine: medicines){
+            Log.e(TAG,"Adding medicine Name: "+medincine.getMedName());
+//            this.medicineNames.add(medincine.getMedName());
+        }
+
 
     }
 
@@ -42,6 +52,7 @@ public class MedicineListAdapter extends RecyclerView.Adapter<MedicineListAdapte
     public void onBindViewHolder(ViewHolder holder,final int position) {
         Medicine medicine=medicines.get(position);
 
+        Log.e(TAG,"OnBindViewHolder");
         holder.medicineHolder.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

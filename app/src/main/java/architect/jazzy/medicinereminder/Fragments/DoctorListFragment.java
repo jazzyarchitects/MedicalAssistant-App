@@ -9,9 +9,13 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 
 import java.util.ArrayList;
 
@@ -19,13 +23,14 @@ import architect.jazzy.medicinereminder.Adapters.DoctorListAdapter;
 import architect.jazzy.medicinereminder.Handlers.DataHandler;
 import architect.jazzy.medicinereminder.Models.Doctor;
 import architect.jazzy.medicinereminder.R;
+import architect.jazzy.medicinereminder.ThisApplication;
 
 /**
  * A simple {@link Fragment} subclass.
  */
 public class DoctorListFragment extends Fragment {
 
-
+    private static final String TAG="DoctorListFragment";
     RecyclerView doctorList;
     Context mContext;
     View v;
@@ -35,6 +40,15 @@ public class DoctorListFragment extends Fragment {
         // Required empty public constructor
     }
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        /**Analytics Code*/
+        Tracker t = ((ThisApplication) getActivity().getApplication()).getTracker(
+                ThisApplication.TrackerName.APP_TRACKER);
+        t.setScreenName("Doctor List");
+        t.send(new HitBuilders.AppViewBuilder().build());
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -51,18 +65,7 @@ public class DoctorListFragment extends Fragment {
         doctorList=(RecyclerView)v.findViewById(R.id.recyclerView);
         ((AppCompatActivity)getActivity()).getSupportActionBar().setTitle("Your Doctors");
         doctorList.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-        DataHandler handler=new DataHandler(mContext);
-        ArrayList<Doctor> doctors=handler.getDoctorList();
-        if(!doctors.isEmpty()) {
-            DoctorListAdapter adapter = new DoctorListAdapter(mContext, doctors);
-            adapter.setItemClickListener(new DoctorListAdapter.ItemClickListener() {
-                @Override
-                public void onItemClick(int position, Doctor doctor) {
-                    onFragmentInteractionListenr.onDoctorSelected(doctor);
-                }
-            });
-            doctorList.setAdapter(adapter);
-        }
+
         floatingActionButton=(FloatingActionButton)v.findViewById(R.id.floatingActionButton);
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,8 +73,25 @@ public class DoctorListFragment extends Fragment {
                 onFragmentInteractionListenr.addDoctor();
             }
         });
-
+        refreshLayout();
+        setHasOptionsMenu(false);
         return  v;
+    }
+
+    void refreshLayout(){
+        DataHandler handler=new DataHandler(mContext);
+        ArrayList<Doctor> doctors=handler.getDoctorList();
+        if(!doctors.isEmpty()) {
+            DoctorListAdapter adapter = new DoctorListAdapter(mContext, doctors);
+            adapter.setItemClickListener(new DoctorListAdapter.ItemClickListener() {
+                @Override
+                public void onItemClick(int position, Doctor doctor) {
+                    Log.e(TAG,"Item clicked "+position );
+                    onFragmentInteractionListenr.onDoctorSelected(doctor);
+                }
+            });
+            doctorList.setAdapter(adapter);
+        }
     }
 
     @Override

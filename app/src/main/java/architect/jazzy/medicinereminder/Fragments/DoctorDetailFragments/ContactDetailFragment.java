@@ -3,10 +3,7 @@ package architect.jazzy.medicinereminder.Fragments.DoctorDetailFragments;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -112,22 +109,12 @@ public class ContactDetailFragment extends Fragment {
         ((MainActivity)activity).setDoctorDetailImageChangeListener(new MainActivity.DoctorDetailImageChangeListener() {
             @Override
             public void onDoctorImageChanged(int resultCode, Intent data) {
-                doctor.setPhotoPath(getImagePath(data));
+                doctor.setPhotoPath(DoctorDetailFragment.getImagePath(data,getActivity()));
                 doctor.setPhotoUri(null);
             }
         });
     }
 
-    String getImagePath(Intent result) {
-        Uri imageUri = result.getData();
-        String[] filePathColoumn = {MediaStore.Images.Media.DATA};
-        Cursor cursor = getActivity().getContentResolver().query(imageUri, filePathColoumn, null, null, null);
-        cursor.moveToFirst();
-        int coloumnIndex = cursor.getColumnIndex(filePathColoumn[0]);
-        String picturePath = cursor.getString(coloumnIndex);
-        cursor.close();
-        return picturePath;
-    }
 
     DoctorStateListener doctorStateListener;
     public interface DoctorStateListener{

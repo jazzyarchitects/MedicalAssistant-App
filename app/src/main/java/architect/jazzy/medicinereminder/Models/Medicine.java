@@ -44,6 +44,9 @@ public class Medicine implements Parcelable{
         this.icon=Integer.parseInt(in.readString());
         this.customTime=MedTime.parseTime(in.readString(), in.readString());
         this.note=in.readString();
+        this.breakfast=in.readString();
+        this.lunch=in.readString();
+        this.dinner=in.readString();
     }
 
     @Override
@@ -63,6 +66,9 @@ public class Medicine implements Parcelable{
         dest.writeString(String.valueOf(customTime.getHour()));
         dest.writeString(String.valueOf(customTime.getMinute()));
         dest.writeString(note);
+        dest.writeString(breakfast);
+        dest.writeString(lunch);
+        dest.writeString(dinner);
     }
     public static Parcelable.Creator<Medicine> CREATOR=new Parcelable.Creator<Medicine>(){
 
@@ -90,7 +96,7 @@ public class Medicine implements Parcelable{
         }
         JSONObject jsonObject=new JSONObject();
         try {
-            Log.e(TAG,"Medicine "+getMedName()+" DoctorId: "+getDoctorId());
+//            Log.e(TAG,"Medicine "+getMedName()+" DoctorId: "+getDoctorId());
             jsonObject.put(DataHandler.MedicineTable.COL_ID,id);
             jsonObject.put(DataHandler.MedicineTable.COL_NAME, medName);
             jsonObject.put(DataHandler.MedicineTable.COL_ICON,icon);
@@ -106,6 +112,10 @@ public class Medicine implements Parcelable{
             e.printStackTrace();
         }
         return jsonObject;
+    }
+
+    public JSONObject toJSON(){
+        return getJSON();
     }
 
     private JSONObject getDaysJSON(){

@@ -218,8 +218,8 @@ public class MedicineListFragment extends Fragment {
             listAdaptor = new MedicineListAdapter(context, medicines, getActivity());
             listAdaptor.setEventListener(new MedicineListAdapter.EventListener() {
                 @Override
-                public void onItemViewClicked(int position, ArrayList<String> medicineNames) {
-                    showDetails(position, medicineNames);
+                public void onItemViewClicked(int position, ArrayList<Medicine> medicines) {
+                    showDetails(position, medicines);
                 }
 
                 @Override
@@ -291,17 +291,18 @@ public class MedicineListFragment extends Fragment {
     private void getMedicineData() {
         dataHandler = new DataHandler(context);
         medicines = dataHandler.getMedicineList();
+        dataHandler.close();
 
     }
 
 
-    public void showDetails(int position, ArrayList<String> medicineNames) {
-        fragmentInteractionListener.showDetails(position,medicineNames);
+    public void showDetails(int position, ArrayList<Medicine> medicines) {
+        fragmentInteractionListener.showDetails(position,medicines);
     }
 
     public interface FragmentInteractionListener{
         void addMedicine();
-        void showDetails(int position, ArrayList<String> medicineNames);
+        void showDetails(int position, ArrayList<Medicine> medicines);
     }
 
 

@@ -57,7 +57,7 @@ public class MedicineListAdapter extends RecyclerView.Adapter<MedicineListAdapte
     public interface EventListener {
         void onItemRemoved(int position, Medicine medicine);
 
-        void onItemViewClicked(int position, ArrayList<String> medicineList);
+        void onItemViewClicked(int position, ArrayList<Medicine> medicineList);
     }
 
 
@@ -132,13 +132,13 @@ public class MedicineListAdapter extends RecyclerView.Adapter<MedicineListAdapte
                 holder.goIcon.setVisibility(View.GONE);
             }
         }catch (NullPointerException e){
-            Log.e("MedicineListAdapter","Lock Screen popup");
+//            Log.e("MedicineListAdapter","Lock Screen popup");
         }
 
         holder.setSwipeItemSlideAmount(0);
 
         final int swipeState = holder.getSwipeStateFlags();
-        Log.e(TAG, "Swipe State= " + swipeState);
+//        Log.e(TAG, "Swipe State= " + swipeState);
     }
 
     void init() {
@@ -236,13 +236,13 @@ public class MedicineListAdapter extends RecyclerView.Adapter<MedicineListAdapte
 
     private void onItemViewClick(int position, ArrayList<String> mednames) {
         if (mEventListener != null) {
-            mEventListener.onItemViewClicked(position, mednames); // true --- pinned
+            mEventListener.onItemViewClicked(position, medicines); // true --- pinned
         }
     }
 
     private void onSwipeableViewContainerClick(int position, ArrayList<String> medicineNames) {
         if (mEventListener != null) {
-            mEventListener.onItemViewClicked(position, medicineNames);  // false --- not pinned
+            mEventListener.onItemViewClicked(position, medicines);  // false --- not pinned
         }
     }
 

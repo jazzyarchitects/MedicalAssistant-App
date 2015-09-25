@@ -24,6 +24,7 @@ import architect.jazzy.medicinereminder.Fragments.EmojiSelectFragment;
 import architect.jazzy.medicinereminder.Fragments.MedicineDetailFragment;
 import architect.jazzy.medicinereminder.Handlers.DataHandler;
 import architect.jazzy.medicinereminder.HelperClasses.Constants;
+import architect.jazzy.medicinereminder.Models.Medicine;
 import architect.jazzy.medicinereminder.R;
 import architect.jazzy.medicinereminder.ThisApplication;
 
@@ -33,7 +34,7 @@ public class MedicineDetails extends AppCompatActivity implements EmojiSelectFra
     CustomViewPager viewPager;
             private static final String TAG="MedicineDetailActivity";
 
-    ArrayList<String> dataSet;
+    ArrayList<Medicine> dataSet;
     MedicineDetailsViewPagerAdapter pagerAdapter;
     LinearLayout edit,delete;
     TextView editTextView,deleteTextView;
@@ -60,7 +61,12 @@ public class MedicineDetails extends AppCompatActivity implements EmojiSelectFra
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
 
-        dataSet=getIntent().getStringArrayListExtra(Constants.MEDICINE_NAME_LIST);
+//        dataSet=getIntent().getParcelableArrayListExtra(Constants.MEDICINE_NAME_LIST);
+        Bundle bundle=getIntent().getExtras();
+        dataSet=bundle.getParcelableArrayList(Constants.MEDICINE_NAME_LIST);
+//        for(Medicine medicine:dataSet){
+//            Log.e(TAG,"Recieved Medicines: "+medicine.toJSON());
+//        }
 
         int currentPosition;
         try
@@ -112,17 +118,20 @@ public class MedicineDetails extends AppCompatActivity implements EmojiSelectFra
             public void onClick(DialogInterface dialog, int which) {
 
                 int currentIndex=viewPager.getCurrentItem();
-                Log.e("Current Fragment",String.valueOf(currentIndex));
+//                Log.e("Current Fragment",String.valueOf(currentIndex));
                 final MedicineDetailFragment medFragment=pagerAdapter.getFragment(currentIndex);
-                Log.e("Current Fragment", medFragment.getMedName() + " 55");
-                String name=medFragment.getMedName();
-                dataSet.remove(name);
+//                Log.e("Current Fragment", medFragment.getMedName() + " 55");
+                Medicine medicine=medFragment.getMedicine();
+
+                DataHandler handler=new DataHandler(MedicineDetails.this);
+                if(!handler.deleteMedicine(medicine)){
+                    Toast.makeText(getApplicationContext(),"Error deleting medicine",Toast.LENGTH_LONG).show();
+                    return;
+                }
+                dataSet.remove(medicine);
                 viewPager.removeAllViews();
                 viewPager.setAdapter(new MedicineDetailsViewPagerAdapter(getFragmentManager(), dataSet));
                 viewPager.setCurrentItem(currentIndex + 1, true);
-
-                DataHandler handler=new DataHandler(MedicineDetails.this);
-                handler.deleteRow(name);
                 handler.close();
                 if(dataSet.size()==0)
                     finish();

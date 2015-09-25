@@ -60,4 +60,5 @@
     <string name="title_activity_maps">Map</string>
 
     <string name="dailyQuote">The secret of your future is hidden in your daily routine.</string>
+    <string name="title_activity_backup_restore">Backup and Restore</string>
 </resources>

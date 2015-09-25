@@ -365,6 +365,16 @@ public class DataHandler {
         return medicines;
     }
 
+    public boolean deleteMedicine(Medicine medicine){
+        try{
+            db.delete(MedicineTable.TABLE_NAME,MedicineTable.COL_ID+"=?",new String[]{medicine.getId().toString()});
+            return true;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     public ArrayList<Medicine> getTodaysMedicine(){
         ArrayList<Medicine> medicines=new ArrayList<>();
         Calendar calendar=Calendar.getInstance();

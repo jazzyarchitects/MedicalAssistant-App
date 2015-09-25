@@ -59,7 +59,7 @@ public class MedicineListAdapter extends RecyclerView.Adapter<MedicineListAdapte
                 if(itemClickListener==null){
                     throw new UnknownError("Need to implement itemClickListener in the activity");
                 }
-                itemClickListener.onItemClick(position,medicineNames);
+                itemClickListener.onItemClick(position,medicines);
             }
         });
         holder.medName.setText(medicine.getMedName());
@@ -100,7 +100,7 @@ public class MedicineListAdapter extends RecyclerView.Adapter<MedicineListAdapte
 
     OnItemClickListener itemClickListener;
     public interface OnItemClickListener{
-        void onItemClick(int position, ArrayList<String> medicines);
+        void onItemClick(int position, ArrayList<Medicine> medicines);
     }
     public void setItemClickListener(OnItemClickListener onItemClickListener){
         this.itemClickListener=onItemClickListener;

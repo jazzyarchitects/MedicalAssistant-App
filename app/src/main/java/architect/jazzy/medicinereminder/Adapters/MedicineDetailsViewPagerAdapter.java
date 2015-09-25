@@ -2,26 +2,27 @@ package architect.jazzy.medicinereminder.Adapters;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.util.Log;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import architect.jazzy.medicinereminder.Fragments.MedicineDetailFragment;
+import architect.jazzy.medicinereminder.Models.Medicine;
 
 /**
  * Created by Jibin_ism on 25-Mar-15.
  */
 public class MedicineDetailsViewPagerAdapter extends android.support.v13.app.FragmentStatePagerAdapter {
-    private ArrayList<String> dataSet;
+
+    private ArrayList<Medicine> dataSet;
 
     HashMap<Integer, MedicineDetailFragment> fragmentMap=new HashMap<>();
 
-    public MedicineDetailsViewPagerAdapter(FragmentManager fm, ArrayList<String> medNames) {
+    public MedicineDetailsViewPagerAdapter(FragmentManager fm, ArrayList<Medicine> medNames) {
         super(fm);
         fragmentMap.clear();
-        Log.e("Fragment map",fragmentMap.size()+"  "+fragmentMap.toString());
+//        Log.e("Fragment map",fragmentMap.size()+"  "+fragmentMap.toString());
         this.dataSet=medNames;
     }
 

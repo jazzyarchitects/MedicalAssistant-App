@@ -84,7 +84,7 @@ public class DoctorMedicineListFragment extends Fragment {
 //        Log.e(TAG,"Setting Adapter");
         adapter.setItemClickListener(new MedicineListAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(int position, ArrayList<String> medicines) {
+            public void onItemClick(int position, ArrayList<Medicine> medicines) {
                 showDetails(position, medicines);
             }
         });
@@ -109,11 +109,11 @@ public class DoctorMedicineListFragment extends Fragment {
 
 
     FragmentInteractionListener fragmentInteractionListener;
-    public void showDetails(int position, ArrayList<String> medicineNames) {
-        fragmentInteractionListener.showDetails(position, medicineNames);
+    public void showDetails(int position, ArrayList<Medicine> medicines) {
+        fragmentInteractionListener.showDetails(position, medicines);
     }
 
     public interface FragmentInteractionListener{
-        void showDetails(int position, ArrayList<String> medicineNames);
+        void showDetails(int position, ArrayList<Medicine> medicines);
     }
 }

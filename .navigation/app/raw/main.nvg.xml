@@ -110,7 +110,7 @@
     <statePointEntry>
       <state      
         class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
-        className = "architect.jazzy.medicinereminder.Activities.Credits"/>
+        className = "architect.jazzy.medicinereminder.Activities.AboutUs"/>
       <point      
         x = "800"      
         y = "6460"/>

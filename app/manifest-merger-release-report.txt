@@ -153,7 +153,7 @@ ADDED from AndroidManifest.xml:76:9
 		ADDED from AndroidManifest.xml:78:13
 	android:name
 		ADDED from AndroidManifest.xml:77:13
-activity#architect.jazzy.medicinereminder.Activities.Credits
+activity#architect.jazzy.medicinereminder.Activities.AboutUs
 ADDED from AndroidManifest.xml:82:9
 	android:label
 		ADDED from AndroidManifest.xml:84:13

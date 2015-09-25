@@ -9,7 +9,7 @@ import com.google.android.gms.analytics.Tracker;
 import architect.jazzy.medicinereminder.ThisApplication;
 import architect.jazzy.medicinereminder.R;
 
-public class Credits extends ActionBarActivity {
+public class AboutUs extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,7 +19,7 @@ public class Credits extends ActionBarActivity {
 
         Tracker t = ((ThisApplication) getApplication()).getTracker(
                 ThisApplication.TrackerName.APP_TRACKER);
-        t.setScreenName("Credits");
+        t.setScreenName("AboutUs");
         t.enableAdvertisingIdCollection(true);
         t.send(new HitBuilders.AppViewBuilder().build());
     }

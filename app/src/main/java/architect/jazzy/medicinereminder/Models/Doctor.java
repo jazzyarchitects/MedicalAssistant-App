@@ -93,6 +93,9 @@ public class Doctor implements Parcelable {
         return jsonObject;
     }
 
+    public JSONObject toJSON(){
+        return getJSON();
+    }
 
 
     /**Getter Setter Methods**/

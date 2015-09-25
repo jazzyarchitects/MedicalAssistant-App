@@ -45,9 +45,11 @@ import architect.jazzy.medicinereminder.Fragments.MedicineListFragment;
 import architect.jazzy.medicinereminder.Fragments.NewsFragments.NewsListFragment;
 import architect.jazzy.medicinereminder.Fragments.Practo.DoctorSearch;
 import architect.jazzy.medicinereminder.Fragments.SearchFragments.SearchFragment;
+import architect.jazzy.medicinereminder.Fragments.SettingsFragment;
 import architect.jazzy.medicinereminder.HelperClasses.Constants;
 import architect.jazzy.medicinereminder.Models.Doctor;
 import architect.jazzy.medicinereminder.Models.FeedItem;
+import architect.jazzy.medicinereminder.Models.Medicine;
 import architect.jazzy.medicinereminder.R;
 import architect.jazzy.medicinereminder.Services.AlarmSetterService;
 
@@ -272,8 +274,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     void showSettings(){
-        Intent prefIntent = new Intent(this, BasicPreferences.class);
-        startActivity(prefIntent);
+//        Intent prefIntent = new Intent(this, BasicPreferences.class);
+//        startActivity(prefIntent);
+        displayFragment(new SettingsFragment(),true);
     }
 
     void showMedicines(){
@@ -358,7 +361,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     void showCredits(){
-        startActivity(new Intent(this, Credits.class));
+        startActivity(new Intent(this, AboutUs.class));
     }
 
 
@@ -446,10 +449,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    public void showDetails(int position, ArrayList<String> medicineNames) {
+    public void showDetails(int position, ArrayList<Medicine> medicines) {
         Intent i = new Intent(this, MedicineDetails.class);
-        i.putExtra(Constants.MEDICINE_NAME_LIST, medicineNames);
+//        for(Medicine medicine:medicines){
+//            Log.e(TAG,"Starting Intent with Medicines: "+medicine.toJSON());
+//        }
+        Bundle bundle=new Bundle();
+        bundle.putParcelableArrayList(Constants.MEDICINE_NAME_LIST,medicines);
+//        i.putExtra(Constants.MEDICINE_NAME_LIST, medicines);
         i.putExtra(Constants.MEDICINE_POSITION, position);
+        i.putExtras(bundle);
         startActivityForResult(i, SHOW_LIST_REQUEST_CODE);
     }
 

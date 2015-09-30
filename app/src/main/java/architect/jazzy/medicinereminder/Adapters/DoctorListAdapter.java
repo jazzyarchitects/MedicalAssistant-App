@@ -54,6 +54,7 @@ public class DoctorListAdapter extends RecyclerView.Adapter<DoctorListAdapter.Vi
                 itemClickListener.onItemClick(position, doctor);
             }
         });
+        holder.nameView.setBackgroundColor(Constants.getThemeColor(context));
         try {
             Bitmap bitmap=null;
 //            try {

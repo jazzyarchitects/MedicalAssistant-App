@@ -141,14 +141,6 @@ public class AddMedicineFragment extends Fragment {
             startActivity(new Intent(context, Illustration.class));
             getActivity().finish();
         }
-
-
-        try {
-            ((AppCompatActivity) getActivity()).getSupportActionBar().show();
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
-
         getDefaultTime();
 
         medName = (AutoCompleteTextView) v.findViewById(R.id.medName);
@@ -355,6 +347,16 @@ public class AddMedicineFragment extends Fragment {
 
 
         return v;
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        try{
+            ((AppCompatActivity)getActivity()).getSupportActionBar().show();
+        }catch (NullPointerException e){
+            e.printStackTrace();
+        }
     }
 
 

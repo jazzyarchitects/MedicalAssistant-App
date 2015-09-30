@@ -12,6 +12,7 @@ import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
+import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,9 +21,11 @@ import android.view.ViewGroup;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 
+import architect.jazzy.medicinereminder.CustomViews.ColorSelectorFragment;
 import architect.jazzy.medicinereminder.Handlers.DeleteAllMedicines;
 import architect.jazzy.medicinereminder.Handlers.ExportToJSON;
-import architect.jazzy.medicinereminder.Handlers.ImportToSQL;
+import architect.jazzy.medicinereminder.Handlers.ImportBackup;
+import architect.jazzy.medicinereminder.HelperClasses.Constants;
 import architect.jazzy.medicinereminder.R;
 import architect.jazzy.medicinereminder.ThisApplication;
 
@@ -45,6 +48,11 @@ public class SettingsFragment extends PreferenceFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        try{
+            ((AppCompatActivity)getActivity()).getSupportActionBar().show();
+        }catch (NullPointerException e){
+            e.printStackTrace();
+        }
         Tracker t = ((ThisApplication) getActivity().getApplication()).getTracker(
                 ThisApplication.TrackerName.APP_TRACKER);
         t.setScreenName("Basic Preferences");
@@ -68,7 +76,8 @@ public class SettingsFragment extends PreferenceFragment {
         preference.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                ImportToSQL.importData(getActivity());
+//                ImportToSQL.importData(getActivity());
+                ImportBackup.ImportData(getActivity());
                 return false;
             }
         });
@@ -89,7 +98,20 @@ public class SettingsFragment extends PreferenceFragment {
                 return false;
             }
         });
+
+        final Preference colorPref=findPreference(Constants.THEME_COLOR);
+        colorPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                ColorSelectorFragment colorSelectorFragment=new ColorSelectorFragment();
+                colorSelectorFragment.show(getFragmentManager(),"Color Selector");
+                return false;
+            }
+        });
+
+
     }
+
 
 
     /**

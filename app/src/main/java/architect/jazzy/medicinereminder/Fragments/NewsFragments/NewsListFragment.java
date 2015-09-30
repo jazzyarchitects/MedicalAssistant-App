@@ -2,6 +2,8 @@ package architect.jazzy.medicinereminder.Fragments.NewsFragments;
 
 
 import android.app.Fragment;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
@@ -16,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
@@ -36,8 +39,8 @@ import java.util.ArrayList;
 import architect.jazzy.medicinereminder.Adapters.NewsListAdapter;
 import architect.jazzy.medicinereminder.CustomViews.NewsFeedCategoryPopup;
 import architect.jazzy.medicinereminder.HelperClasses.Constants;
-import architect.jazzy.medicinereminder.Parsers.FeedParser;
 import architect.jazzy.medicinereminder.Models.FeedItem;
+import architect.jazzy.medicinereminder.Parsers.FeedParser;
 import architect.jazzy.medicinereminder.R;
 import architect.jazzy.medicinereminder.ThisApplication;
 
@@ -108,9 +111,16 @@ public class NewsListFragment extends Fragment {
             feedUrl=FeedParser.feedUrl;
         }
 
+        RelativeLayout relativeLayout=(RelativeLayout)v.findViewById(R.id.back);
+        Drawable drawable=relativeLayout.getBackground().mutate();
+        drawable.setColorFilter(Constants.getThemeColor(getActivity()), PorterDuff.Mode.MULTIPLY);
+        relativeLayout.setBackgroundDrawable(drawable);
+
+
         newsList = (RecyclerView) v.findViewById(R.id.newsfeed);
         progressBar = (ProgressBar) v.findViewById(R.id.progressBar);
         floatingActionButton=(FloatingActionButton)v.findViewById(R.id.floatingActionButton);
+        floatingActionButton.setBackgroundTintList(Constants.getFabBackground(getActivity()));
 
         staggeredGridLayoutManager=new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
         newsList.setLayoutManager(staggeredGridLayoutManager);

@@ -2,14 +2,15 @@ package architect.jazzy.medicinereminder.HelperClasses;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.ScaleDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Build;
-import android.support.annotation.ColorRes;
 import android.support.annotation.DrawableRes;
 import android.text.Html;
 import android.text.Spanned;
@@ -58,30 +59,6 @@ public class Constants {
 
     public static final String IS_24_HOURS_FORMAT="is24hrs";
 
-    public static final String FROM_MAIN_ACTIVITY="fromMain";
-
-
-    public static final String MEDICINE_NAME="medicineName";
-    public static final String MORNING_TIME="mornTime";
-    public static final String NOON_TIME="noonTime";
-    public static final String NIGHT_TIME="nightTime";
-    public static final String DOCTOR_ID="doctorId";
-    public static final String DAY_SUNDAY="sunday";
-    public static final String DAY_MONDAY="monday";
-    public static final String DAY_TUESDAY="tuesday";
-    public static final String DAY_WEDNESDAY="wednesday";
-    public static final String DAY_THURSDAY="thursday";
-    public static final String DAY_FRIDAY="friday";
-    public static final String DAY_SATURDAY="saturday";
-    public static final String START_DATE="startDate";
-    public static final String END_DATE="endDate";
-    public static final String BREAKFAST="breakfast";
-    public static final String LUNCH="lunch";
-    public static final String DINNER="dinner";
-    public static final String ICON="icon";
-    public static final String CUSTOM_TIME_HOUR="custTimeH";
-    public static final String CUSTOM_TIME_MINUTE="custTimeM";
-    public static final String NOTES="note";
 
     public static final String INDEFINITE_SCHEDULE="indefinite";
 
@@ -89,6 +66,33 @@ public class Constants {
     public static final String BUNDLE_SEARCH_TERM="searchTerm";
     public static final String BUNDLE_WEB_DOCUMENT="webDocument";
     public static final String BUNDLE_DOCTOR="doctorBundle";
+
+
+    public static final String SETTING_PREF="settings";
+    public static final String THEME_COLOR="colorSelected";
+
+    public static final String INTERNAL_PREF="internal";
+    public static final String CUSTOM_TIME__ALARM_ID_LAST="stopAlarm";
+
+
+    public static int getThemeColor(Context context){
+        return context.getSharedPreferences(SETTING_PREF,Context.MODE_PRIVATE)
+                .getInt(Constants.THEME_COLOR,context.getResources().getColor(R.color.color_default));
+    }
+
+    private static int getFABColor(Context context){
+        int color=getThemeColor(context);
+        float[] hsv=new float[3];
+        Color.colorToHSV(color,hsv);
+        hsv[0]=(hsv[0]+180)%360;
+        return Color.HSVToColor(hsv);
+    }
+
+    public static ColorStateList getFabBackground(Context context){
+        return new ColorStateList(new int[][]{new int[]{0}}, new int[]{getFABColor(context)});
+    }
+
+
 
     /**
      * Check if phone is connected to internet
@@ -181,21 +185,25 @@ public class Constants {
      * @param editText
      * @param drawableImage
      */
-    public static void scaleEditTextImage(Context context, final EditText editText,@DrawableRes int drawableImage,@ColorRes int color) {
+    public static void scaleEditTextImage(Context context, final EditText editText,@DrawableRes int drawableImage,int color,final boolean scale, String leftRight) {
         final double IMAGE_SCALE_RATIO = 0.6;
         final ScaleDrawable icon = new ScaleDrawable(context.getResources().getDrawable(drawableImage).mutate(), Gravity.CENTER, 1F, 1F) {
             @Override
             public int getIntrinsicHeight() {
-                return (int) (editText.getHeight() * IMAGE_SCALE_RATIO);
+                return scale?((int) (editText.getHeight() * IMAGE_SCALE_RATIO)):super.getIntrinsicHeight();
             }
 
             @Override
             public int getIntrinsicWidth() {
-                return (int) (editText.getHeight() * IMAGE_SCALE_RATIO);
+                return scale?((int) (editText.getHeight() * IMAGE_SCALE_RATIO)):super.getIntrinsicWidth();
             }
         };
         icon.setLevel(10000);
-        editText.setCompoundDrawables(null, null, icon, null);
+        if(leftRight.equalsIgnoreCase("right")) {
+            editText.setCompoundDrawables(null, null, icon, null);
+        }else{
+            editText.setCompoundDrawables(icon,null,null,null);
+        }
         editText.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
             @TargetApi(Build.VERSION_CODES.JELLY_BEAN_MR1)
             @Override
@@ -207,11 +215,20 @@ public class Constants {
                 }
             }
         });
-        editText.getCompoundDrawables()[2].setColorFilter(context.getResources()
-                .getColor(color), PorterDuff.Mode.SRC_ATOP);
+        editText.getCompoundDrawables()[2].setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
     }
     public static void scaleEditTextImage(Context context, final EditText editText,@DrawableRes int drawableImage) {
-        scaleEditTextImage(context,editText,drawableImage,R.color.editTextIconColor);
+        scaleEditTextImage(context, editText, drawableImage, context.getResources().getColor(R.color.editTextIconColor));
+    }
+
+    public static void scaleEditTextImage(Context context, final EditText editText,@DrawableRes int drawableImage,int color) {
+        scaleEditTextImage(context,editText,drawableImage,color,true,"right");
+    }
+    public static void scaleEditTextImage(Context context, final EditText editText,@DrawableRes int drawableImage,int color,String leftRight) {
+        scaleEditTextImage(context,editText,drawableImage,color,true,leftRight);
+    }
+    public static void scaleEditTextImage(Context context, final EditText editText,@DrawableRes int drawableImage,int color,boolean scale) {
+        scaleEditTextImage(context,editText,drawableImage,color,scale,"right");
     }
 
 

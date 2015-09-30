@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Random;
 
+import architect.jazzy.medicinereminder.HelperClasses.Constants;
 import architect.jazzy.medicinereminder.Models.Doctor;
 import architect.jazzy.medicinereminder.Models.MedTime;
 import architect.jazzy.medicinereminder.Models.Medicine;
@@ -204,13 +205,6 @@ public class DataHandler {
             return db.insertOrThrow(MedicineTable.TABLE_NAME, null, content);
         }
 
-        private String getBeforeAfterNone(String s) {
-            if (s.equals("before"))
-                return String.valueOf(MedicineTable.TIME_BEFORE);
-            if (s.equals("after"))
-                return String.valueOf(MedicineTable.TIME_AFTER);
-            return String.valueOf(MedicineTable.TIME_NONE);
-        }
 
         private String getId() {
             long id = System.currentTimeMillis();
@@ -271,6 +265,10 @@ public class DataHandler {
         return db.insertOrThrow(MedicineTable.TABLE_NAME, null, getMedicineContentValues(medicine));
     }
 
+    public long insertMedicine(Medicine medicine){
+        return insertData(medicine);
+    }
+
     private ContentValues getMedicineContentValues(Medicine medicine){
         ContentValues content = new ContentValues();
         content.put(MedicineTable.COL_ID, String.valueOf(medicine.getId() == 0 ? getId() : String.valueOf(medicine.getId())));
@@ -305,6 +303,12 @@ public class DataHandler {
         return String.valueOf(id);
     }
 
+    public boolean doesMedicineExists(Medicine medicine){
+        Cursor c=db.query(MedicineTable.TABLE_NAME,null,MedicineTable.COL_ID+"=?",new String[]{medicine.getId().toString()},null,null,null);
+        boolean b=c.moveToFirst();
+        c.close();
+        return b;
+    }
 
     public ArrayList<Medicine> getMedicineList() {
 
@@ -357,7 +361,7 @@ public class DataHandler {
         if(c.moveToFirst()){
             medicines=new ArrayList<>();
             do {
-                Log.e(TAG,"getting Medicine By Doctor");
+//                Log.e(TAG,"getting Medicine By Doctor");
                 medicines.add(getMedicine(c));
             }while (c.moveToNext());
         }
@@ -377,15 +381,39 @@ public class DataHandler {
 
     public ArrayList<Medicine> getTodaysMedicine(){
         ArrayList<Medicine> medicines=new ArrayList<>();
+        ArrayList<Medicine> medicinesTemp=new ArrayList<>();
         Calendar calendar=Calendar.getInstance();
         String colName=getTodayColoumName(calendar);
         Cursor c=db.query(MedicineTable.TABLE_NAME,null,colName+"=?",new String[]{"true"},null,null,null);
         if(c.moveToFirst()){
             do{
-                medicines.add(getMedicine(c));
+                medicinesTemp.add(getMedicine(c));
             }while (c.moveToNext());
         }
         c.close();
+
+        for(Medicine medicine:medicinesTemp){
+            if(medicine.getEndDate().equalsIgnoreCase(Constants.INDEFINITE_SCHEDULE)){
+                medicines.add(medicine);
+                continue;
+            }
+            String[] date=medicine.getEndDate().split("-");
+            int dd=Integer.parseInt(date[0]);
+            int mm=Integer.parseInt(date[1]);
+            int yyyy=Integer.parseInt(date[2]);
+
+            calendar.set(Calendar.DATE,dd);
+            calendar.set(Calendar.MONTH,mm-1);
+            calendar.set(Calendar.YEAR,yyyy);
+
+            Calendar todayCalendar=Calendar.getInstance();
+            if(calendar.before(todayCalendar)){
+//                Log.e(TAG,"MedicineEndDate in Past: "+medicine.getMedName()+" "+medicine.getEndDate());
+                continue;
+            }
+            medicines.add(medicine);
+        }
+
         return medicines;
     }
 
@@ -552,7 +580,7 @@ public class DataHandler {
         Cursor c = db.query(DoctorTable.TABLE_DOCTOR, null, null, null, null, null, DoctorTable.COL_NAME + " ASC");
         if (c.moveToFirst()) {
             do {
-                Log.e(TAG,"Getting doctor loop");
+//                Log.e(TAG,"Getting doctor loop");
                 doctors.add(getDoctor(c.getString(c.getColumnIndex(DoctorTable.COL_ID))));
             } while (c.moveToNext());
         }

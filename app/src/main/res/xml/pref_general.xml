@@ -12,4 +12,7 @@
             android:targetClass="architect.jazzy.medicinereminder.Activities.Credits"/>
     </Preference>
 
+    <Preference android:title="Theme Color"
+        android:key="colorSelected" />
+
 </PreferenceScreen>

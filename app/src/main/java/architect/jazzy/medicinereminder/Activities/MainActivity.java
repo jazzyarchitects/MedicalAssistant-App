@@ -6,6 +6,7 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.AnimRes;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -27,11 +28,13 @@ import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import architect.jazzy.medicinereminder.Adapters.NewsListAdapter;
 import architect.jazzy.medicinereminder.CustomComponents.FragmentBackStack;
+import architect.jazzy.medicinereminder.CustomViews.ColorSelectorFragment;
 import architect.jazzy.medicinereminder.CustomViews.DaySelectorFragmentDialog;
 import architect.jazzy.medicinereminder.Fragments.AddDoctorFragment;
 import architect.jazzy.medicinereminder.Fragments.AddMedicineFragment;
@@ -60,7 +63,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         NewsListAdapter.FeedClickListener, DoctorListFragment.OnMenuItemClickListener,
         DoctorMedicineListFragment.FragmentInteractionListener, DoctorListFragment.OnFragmentInteractionListenr,
         DoctorDetailFragment.ImageChangeListener, DashboardFragment.OnFragmentInteractionListener,
-        AddDoctorFragment.OnFragmentInteractionListener{
+        AddDoctorFragment.OnFragmentInteractionListener, ColorSelectorFragment.OnColorChangeListener{
 
     public static final String TAG="MainActivity";
 
@@ -72,14 +75,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     ActivityResultListener activityResultListener;
     EditText searchQuery;
     NavigationView navigationView;
+    Toolbar toolbar;
     private InterstitialAd interstitialAd;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Toolbar toolbar=(Toolbar)findViewById(R.id.toolbar);
+        toolbar = (Toolbar)findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        toolbar.setBackgroundColor(Constants.getThemeColor(this));
 
         drawerLayout=(DrawerLayout)findViewById(R.id.drawerLayout);
         ActionBarDrawerToggle drawerToggle=new ActionBarDrawerToggle(this, drawerLayout,toolbar,R.string.open,R.string.close);
@@ -88,11 +93,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         frameLayout=(FrameLayout)findViewById(R.id.frame);
 
-
-
         Intent startAlarmServiceIntent=new Intent(this, AlarmSetterService.class);
-        startAlarmServiceIntent.setAction("CANCEL");
-        startService(startAlarmServiceIntent);
         startAlarmServiceIntent.setAction("CREATE");
         startService(startAlarmServiceIntent);
 
@@ -116,9 +117,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         navigationView = (NavigationView)findViewById(R.id.navigationView);
         searchQuery=(EditText)navigationView.findViewById(R.id.searchQuery);
+        navigationView.findViewById(R.id.searchButton).setVisibility(View.GONE);
         navigationView.setNavigationItemSelectedListener(this);
 //        navigationView.getMenu().findItem(R.id.add).setChecked(true);
 
+        findViewById(R.id.back).setBackgroundColor(Constants.getThemeColor(this));
         searchQuery.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -131,13 +134,38 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-
-
         dimNotificationBar();
-
         displayFragment(new DashboardFragment(), true);
+//        testCalendar();
     }
 
+
+    @Override
+    public void onThemeColorChange(int color) {
+        toolbar.setBackgroundColor(color);
+        getSharedPreferences(Constants.SETTING_PREF,MODE_PRIVATE)
+                .edit()
+                .putInt(Constants.THEME_COLOR,color)
+                .apply();
+//        if(color==getResources().getColor(R.color.themeColorLight)){
+//            toolbar.setTitleTextColor(Color.parseColor("#111111"));
+//        }
+        findViewById(R.id.back).setBackgroundColor(Constants.getThemeColor(this));
+        try{
+            setSupportActionBar(toolbar);
+            ActionBarDrawerToggle drawerToggle=new ActionBarDrawerToggle(this, drawerLayout,toolbar,R.string.open,R.string.close);
+            drawerLayout.setDrawerListener(drawerToggle);
+            drawerToggle.syncState();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+
+    private void testCalendar(){
+        Calendar calendar=Calendar.getInstance();
+        Log.e(TAG,"Calendar Test: "+calendar.toString());
+    }
 
     private void dimNotificationBar() {
         final View decorView = getWindow().getDecorView();
@@ -276,7 +304,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     void showSettings(){
 //        Intent prefIntent = new Intent(this, BasicPreferences.class);
 //        startActivity(prefIntent);
-        displayFragment(new SettingsFragment(),true);
+        displayFragment(new SettingsFragment(), true);
     }
 
     void showMedicines(){
@@ -295,20 +323,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         displayFragment(fragment, false);
     }
 
-    public void displayFragment(Fragment fragment, boolean add){
-        try {
-            getSupportActionBar().show();
-        }catch (NullPointerException e){
-            e.printStackTrace();
-        }
+    public void displayFragment(Fragment fragment,boolean add){
+        displayFragment(fragment,add,R.anim.fragment_in_from_left,R.anim.fragment_out_from_right);
+    }
+
+    public void displayFragment(Fragment fragment, boolean add, @AnimRes int enterAnim,@AnimRes int exitAnim){
         Log.e(TAG, "display fragment");
         if(add) {
             addToBackStack();
         }
         FragmentManager fragmentManager=getFragmentManager();
         FragmentTransaction transaction=fragmentManager.beginTransaction();
+//        transaction.setCustomAnimations(enterAnim,exitAnim);
         transaction.replace(R.id.frame, fragment);
         transaction.commit();
+
+//        try {
+//            getSupportActionBar().show();
+//        }catch (NullPointerException e){
+//            e.printStackTrace();
+//        }
 //        Log.e("MainActivity", "Back Stack Count after Push:" + getFragmentManager().getBackStackEntryCount());
     }
 
@@ -329,13 +363,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-
     public void displaySupportFragment(android.support.v4.app.Fragment fragment, boolean add){
-        try {
-            getSupportActionBar().show();
-        }catch (NullPointerException e){
-            e.printStackTrace();
-        }
+        displaySupportFragment(fragment,add,R.anim.fragment_in_from_left,R.anim.fragment_out_from_left);
+    }
+
+
+    public void displaySupportFragment(android.support.v4.app.Fragment fragment, boolean add, @AnimRes int enterAnim, @AnimRes int exitAnim){
         if(fragment==null){
             return;
         }
@@ -356,7 +389,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         android.support.v4.app.FragmentManager fragmentManager=getSupportFragmentManager();
         android.support.v4.app.FragmentTransaction transaction=fragmentManager.beginTransaction();
+//        transaction.setCustomAnimations(enterAnim,exitAnim);
         transaction.replace(R.id.frame,fragment).commit();
+
+//        try {
+//            getSupportActionBar().show();
+//        }catch (NullPointerException e){
+//            e.printStackTrace();
+//        }
 
     }
 
@@ -367,8 +407,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public static void setAlarm(Context context) {
         Intent startAlarmServiceIntent = new Intent(context, AlarmSetterService.class);
-        startAlarmServiceIntent.setAction("CANCEL");
-        context.startService(startAlarmServiceIntent);
+//        startAlarmServiceIntent.setAction("CANCEL");
+//        context.startService(startAlarmServiceIntent);
         startAlarmServiceIntent.setAction("CREATE");
         context.startService(startAlarmServiceIntent);
     }
@@ -510,7 +550,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void setActivityClickListener(ActivityClickListener activityClickListener){
         this.activityClickListener=activityClickListener;
     }
-
 
 
     public interface ActivityClickListener{

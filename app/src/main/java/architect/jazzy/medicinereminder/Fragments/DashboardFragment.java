@@ -3,7 +3,6 @@ package architect.jazzy.medicinereminder.Fragments;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
@@ -34,11 +33,10 @@ import com.google.android.gms.analytics.Tracker;
 import java.util.ArrayList;
 
 import architect.jazzy.medicinereminder.CustomComponents.CyclicTransitionDrawable;
-import architect.jazzy.medicinereminder.CustomComponents.TimingClass;
 import architect.jazzy.medicinereminder.CustomViews.CircleView;
 import architect.jazzy.medicinereminder.Handlers.DataHandler;
 import architect.jazzy.medicinereminder.HelperClasses.Constants;
-import architect.jazzy.medicinereminder.Models.Doctor;
+import architect.jazzy.medicinereminder.Models.MedTime;
 import architect.jazzy.medicinereminder.Models.Medicine;
 import architect.jazzy.medicinereminder.R;
 import architect.jazzy.medicinereminder.ThisApplication;
@@ -52,7 +50,7 @@ public class DashboardFragment extends Fragment {
     FloatingActionButton floatingActionButton;
     RelativeLayout relativeLayout;
     boolean isMenuOpen = false;
-    int bbh, bbm, abh, abm, alh, alm, blh, blm, adh, adm, bdh, bdm;
+    //    int bbh, bbm, abh, abm, alh, alm, blh, blm, adh, adm, bdh, bdm;
     boolean is24hr;
 
     CircleView circleSearch, circleAddDoctor, circleAddMedicine, circleMedicineList, circleDoctorList;
@@ -63,6 +61,7 @@ public class DashboardFragment extends Fragment {
 
     public static final int ADD_DOCTOR_FAB_ID = 305;
     public static final int ADD_MEDICINE_FAB_ID = 218;
+    MedTime[][] medTimes = new MedTime[3][2];
 
     public DashboardFragment() {
         // Required empty public constructor
@@ -78,7 +77,7 @@ public class DashboardFragment extends Fragment {
         t.setScreenName("Dashboard");
         t.enableAdvertisingIdCollection(true);
         t.send(new HitBuilders.AppViewBuilder().build());
-        Log.e(TAG,"onCreate");
+        Log.e(TAG, "onCreate");
 
     }
 
@@ -88,23 +87,23 @@ public class DashboardFragment extends Fragment {
         // Inflate the layout for this fragment
         v = inflater.inflate(R.layout.fragment_dashboard, container, false);
 
-        getDefaultTime();
+        medTimes = MedTime.getDefaultTimes(getActivity());
         isMenuOpen = false;
 
 
-        try{
-            DataHandler handler=new DataHandler(getActivity());
-            ArrayList<Medicine> medicines=handler.getMedicineList();
-            ArrayList<Doctor> doctors=handler.getDoctorList();
-            for(Medicine medicine:medicines) {
-                Log.e(TAG, "Medicine:--> "+medicine.getJSON());
-            }
-            for(Doctor doctor: doctors){
-                Log.e(TAG,"Doctors:--> "+doctor.getJSON());
-            }
-        }catch (Exception e){
-            e.printStackTrace();
-        }
+//        try{
+//            DataHandler handler=new DataHandler(getActivity());
+//            ArrayList<Medicine> medicines=handler.getMedicineList();
+//            ArrayList<Doctor> doctors=handler.getDoctorList();
+//            for(Medicine medicine:medicines) {
+//                Log.e(TAG, "Medicine:--> "+medicine.getJSON());
+//            }
+//            for(Doctor doctor: doctors){
+//                Log.e(TAG,"Doctors:--> "+doctor.getJSON());
+//            }
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
 
         return v;
     }
@@ -113,16 +112,21 @@ public class DashboardFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        int color2 = Constants.getThemeColor(getActivity());
+        int color = Color.argb(0xCC, Color.red(color2), Color.green(color2), Color.blue(color2));
+        ((LinearLayout) view.findViewById(R.id.countBack)).setBackgroundColor(color);
+
         floatingActionButton = (FloatingActionButton) v.findViewById(R.id.floatingActionButton);
         relativeLayout = (RelativeLayout) v.findViewById(R.id.r1);
         medicineCountView = (TextView) v.findViewById(R.id.medicineCount);
         backParent = (ImageView) v.findViewById(R.id.backParent);
 
-        circleAddDoctor=(CircleView)v.findViewById(R.id.circleAddDoctor);
-        circleAddMedicine=(CircleView)v.findViewById(R.id.circleAddMedicine);
-        circleDoctorList=(CircleView)v.findViewById(R.id.circleDoctorList);
-        circleMedicineList=(CircleView)v.findViewById(R.id.circleMedicineList);
-        circleSearch=(CircleView)v.findViewById(R.id.circleSearch);
+        circleAddDoctor = (CircleView) v.findViewById(R.id.circleAddDoctor);
+        circleAddMedicine = (CircleView) v.findViewById(R.id.circleAddMedicine);
+        circleDoctorList = (CircleView) v.findViewById(R.id.circleDoctorList);
+        circleMedicineList = (CircleView) v.findViewById(R.id.circleMedicineList);
+        circleSearch = (CircleView) v.findViewById(R.id.circleSearch);
 
         circleSearch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -162,8 +166,7 @@ public class DashboardFragment extends Fragment {
 
         Drawable[] drawables = {getResources().getDrawable(R.drawable.back_car),
                 getResources().getDrawable(R.drawable.back_city),
-                getResources().getDrawable(R.drawable.back_street),
-                getResources().getDrawable(R.drawable.back_clinic)};
+                getResources().getDrawable(R.drawable.back_street)};
         CyclicTransitionDrawable transitionDrawable = new CyclicTransitionDrawable(drawables);
         transitionDrawable.startTransition(3000, 10000);
         backParent.setImageDrawable(transitionDrawable);
@@ -295,20 +298,25 @@ public class DashboardFragment extends Fragment {
     }
 
     String getMedicineDetailDisplayString(Medicine medicine, int viewIndex) {
-        String a = getBreakfastTime(medicine.getBreakfast());
-        String b = getLunchTime(medicine.getLunch());
-        String c = getDinnerTime(medicine.getDinner());
+        MedTime breakfast = getBreakfastTime(medicine.getBreakfast());
+        MedTime lunch = getLunchTime(medicine.getLunch());
+        MedTime dinner = getDinnerTime(medicine.getDinner());
+        MedTime customTime = medicine.getCustomTime();
 
-        String s = "<b>" + medicine.getMedName() + "</b>" + "\n";
-        if (a != null) {
-            s += a + "\n";
+        String s = "<b>" + medicine.getMedName() + "</b>" + "\n<small>";
+        if (breakfast != null && !MedTime.hasPassed(breakfast)) {
+            s += breakfast.toString(is24hr) + "<br />";
         }
-        if (b != null) {
-            s += b + "\n";
+        if (lunch != null && !MedTime.hasPassed(lunch)) {
+            s += lunch.toString(is24hr) + "<br />";
         }
-        if (c != null) {
-            s += c + "\n";
+        if (dinner != null && !MedTime.hasPassed(dinner)) {
+            s += dinner.toString(is24hr) + "<br />";
         }
+        if (customTime != null && !MedTime.hasPassed(customTime)) {
+            s += customTime.toString(is24hr);
+        }
+        s += "</small>";
         return s;
     }
 
@@ -388,9 +396,13 @@ public class DashboardFragment extends Fragment {
 
     public interface OnFragmentInteractionListener {
         void addMedicine();
+
         void showMedicineList();
+
         void showDoctors();
+
         void showSearch();
+
         void addDoctor();
     }
 
@@ -400,51 +412,29 @@ public class DashboardFragment extends Fragment {
         onFragmentInteractionListener = (OnFragmentInteractionListener) activity;
     }
 
-    public void getDefaultTime() {
-        SharedPreferences inputPref;
-        inputPref = getActivity().getSharedPreferences(Constants.INPUT_SHARED_PREFS, Context.MODE_PRIVATE);
-
-        bbh = inputPref.getInt(Constants.BEFORE_BREAKFAST_HOUR, 8);
-        bbm = inputPref.getInt(Constants.BEFORE_BREAKFAST_MINUTE, 0);
-        abh = inputPref.getInt(Constants.AFTER_BREAKFAST_HOUR, 10);
-        abm = inputPref.getInt(Constants.AFTER_BREAKFAST_MINUTE, 0);
-
-        blh = inputPref.getInt(Constants.BEFORE_LUNCH_HOUR, 12);
-        blm = inputPref.getInt(Constants.BEFORE_LUNCH_MINUTE, 0);
-        alh = inputPref.getInt(Constants.AFTER_LUNCH_HOUR, 14);
-        alm = inputPref.getInt(Constants.AFTER_LUNCH_MINUTE, 0);
-
-        bdh = inputPref.getInt(Constants.BEFORE_DINNER_HOUR, 20);
-        bdm = inputPref.getInt(Constants.BEFORE_DINNER_MINUTE, 0);
-        adh = inputPref.getInt(Constants.AFTER_DINNER_HOUR, 22);
-        adm = inputPref.getInt(Constants.AFTER_DINNER_MINUTE, 0);
-
-        is24hr = inputPref.getBoolean(Constants.IS_24_HOURS_FORMAT, false);
-    }
-
-    private String getBreakfastTime(String beforeOrAfter) {
+    private MedTime getBreakfastTime(String beforeOrAfter) {
         if (beforeOrAfter.equalsIgnoreCase("before")) {
-            return TimingClass.getTime(bbh, bbm, is24hr);
+            return medTimes[0][0];
         } else if (beforeOrAfter.equalsIgnoreCase("after")) {
-            return TimingClass.getTime(abh, abm, is24hr);
+            return medTimes[0][1];
         }
         return null;
     }
 
-    private String getLunchTime(String beforeOrAfter) {
+    private MedTime getLunchTime(String beforeOrAfter) {
         if (beforeOrAfter.equalsIgnoreCase("before")) {
-            return TimingClass.getTime(blh, blm, is24hr);
+            return medTimes[1][0];
         } else if (beforeOrAfter.equalsIgnoreCase("after")) {
-            return TimingClass.getTime(alh, alm, is24hr);
+            return medTimes[1][1];
         }
         return null;
     }
 
-    private String getDinnerTime(String beforeOrAfter) {
+    private MedTime getDinnerTime(String beforeOrAfter) {
         if (beforeOrAfter.equalsIgnoreCase("before")) {
-            return TimingClass.getTime(bdh, bdm, is24hr);
+            return medTimes[2][0];
         } else if (beforeOrAfter.equalsIgnoreCase("after")) {
-            return TimingClass.getTime(adh, adm, is24hr);
+            return medTimes[2][1];
         }
         return null;
     }

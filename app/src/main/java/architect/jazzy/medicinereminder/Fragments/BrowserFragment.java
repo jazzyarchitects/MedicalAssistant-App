@@ -75,12 +75,6 @@ public class BrowserFragment extends Fragment {
         // Inflate the layout for this fragment
         v = inflater.inflate(R.layout.fragment_news_detail, container, false);
 
-
-        try {
-            ((AppCompatActivity) getActivity()).getSupportActionBar().show();
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
         boolean b = getArguments().getBoolean("isNews");
         try {
             String title="";
@@ -116,6 +110,16 @@ public class BrowserFragment extends Fragment {
         return v;
     }
 
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        try{
+            ((AppCompatActivity)getActivity()).getSupportActionBar().show();
+        }catch (NullPointerException e){
+            e.printStackTrace();
+        }
+    }
 
     class NewsClient extends WebViewClient {
         @Override

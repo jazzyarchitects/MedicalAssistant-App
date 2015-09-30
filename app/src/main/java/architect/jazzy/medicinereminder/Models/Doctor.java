@@ -7,6 +7,8 @@ import android.os.Parcelable;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import architect.jazzy.medicinereminder.Handlers.DataHandler;
+
 /**
  * Created by Jibin_ism on 14-Aug-15.
  */
@@ -80,18 +82,31 @@ public class Doctor implements Parcelable {
     public JSONObject getJSON(){
         JSONObject jsonObject=new JSONObject();
         try {
-            jsonObject.put("id", id);
-            jsonObject.put("name",name);
-            jsonObject.put("mobileNo",phone_1);
-            jsonObject.put("officeNo",phone_2);
-            jsonObject.put("address",address);
-            jsonObject.put("hospital",hospital);
-            jsonObject.put("notes",notes);
+            jsonObject.put(DataHandler.DoctorTable.COL_ID, id);
+            jsonObject.put(DataHandler.DoctorTable.COL_NAME,name);
+            jsonObject.put(DataHandler.DoctorTable.COL_PHONE_1,phone_1);
+            jsonObject.put(DataHandler.DoctorTable.COL_PHONE_2,phone_2);
+            jsonObject.put(DataHandler.DoctorTable.COL_ADDRESS,address);
+            jsonObject.put(DataHandler.DoctorTable.COL_HOSPITAL,hospital);
+            jsonObject.put(DataHandler.DoctorTable.COL_NOTES,notes);
         }catch (JSONException e){
             e.printStackTrace();
         }
         return jsonObject;
     }
+
+    public static  Doctor parseJSON(JSONObject jsonObject){
+        Doctor doctor=new Doctor();
+        doctor.setId(jsonObject.optString(DataHandler.DoctorTable.COL_ID));
+        doctor.setName(jsonObject.optString(DataHandler.DoctorTable.COL_NAME));
+        doctor.setPhone_1(jsonObject.optString(DataHandler.DoctorTable.COL_PHONE_1));
+        doctor.setPhone_2(jsonObject.optString(DataHandler.DoctorTable.COL_PHONE_2));
+        doctor.setAddress(jsonObject.optString(DataHandler.DoctorTable.COL_ADDRESS));
+        doctor.setHospital(jsonObject.optString(DataHandler.DoctorTable.COL_HOSPITAL));
+        doctor.setNotes(jsonObject.optString(DataHandler.DoctorTable.COL_NOTES));
+        return doctor;
+    }
+
 
     public JSONObject toJSON(){
         return getJSON();

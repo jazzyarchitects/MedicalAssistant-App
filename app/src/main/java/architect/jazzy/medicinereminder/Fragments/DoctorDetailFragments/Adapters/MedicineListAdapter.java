@@ -71,7 +71,7 @@ public class MedicineListAdapter extends RecyclerView.Adapter<MedicineListAdapte
         return medicines==null?0:medicines.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder{
+    public class ViewHolder extends RecyclerView.ViewHolder{
 
         public TextView medName;
         public ImageView medIcon, goIcon;

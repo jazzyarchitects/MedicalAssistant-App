@@ -17,6 +17,8 @@ import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 
 import java.util.ArrayList;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import architect.jazzy.medicinereminder.Adapters.MedicineDetailsViewPagerAdapter;
 import architect.jazzy.medicinereminder.CustomViews.CustomViewPager;
@@ -58,6 +60,7 @@ public class MedicineDetails extends AppCompatActivity implements EmojiSelectFra
         delete=(LinearLayout)findViewById(R.id.deleteMedicine);
         toolbar=(Toolbar)findViewById(R.id.toolBar);
         setSupportActionBar(toolbar);
+        toolbar.setBackgroundColor(Constants.getThemeColor(this));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
 
@@ -100,6 +103,7 @@ public class MedicineDetails extends AppCompatActivity implements EmojiSelectFra
             }
         });
 
+        dimNotificationBar();
     }
 
     private void deleteMedicine(){
@@ -229,4 +233,27 @@ public class MedicineDetails extends AppCompatActivity implements EmojiSelectFra
     public void setEmojiSetListener(onEmojiSetListener onEmojiSetListener){
         this.emojiSetListener=onEmojiSetListener;
     }
+
+            private void dimNotificationBar() {
+                final View decorView = getWindow().getDecorView();
+                int uiOptions = View.SYSTEM_UI_FLAG_LOW_PROFILE;
+                decorView.setSystemUiVisibility(uiOptions);
+                decorView.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
+                    @Override
+                    public void onSystemUiVisibilityChange(int visibility) {
+                        Timer timer = new Timer();
+                        timer.schedule(new TimerTask() {
+                            @Override
+                            public void run() {
+                                MedicineDetails.this.runOnUiThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
+                                    }
+                                });
+                            }
+                        }, 5000);
+                    }
+                });
+            }
 }

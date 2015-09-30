@@ -142,4 +142,13 @@
     <color name="dashboardMedicineTextColor">#EEFFFFFF</color>
     <color name="dashboardMedicineColor2">#88000000</color>
     <color name="editTextIconColor">#444</color>
+
+
+
+
+    <color name="themeColorDefault">@color/actionBackground</color>
+    <color name="themeColorGreen">#256320</color>
+    <color name="themeColorRed">#9d1c10</color>
+    <color name="themeColorDark">#333333</color>
+    <color name="themeColorLight">#de9800</color>
 </resources>

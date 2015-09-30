@@ -114,6 +114,22 @@ public class Medicine implements Parcelable{
         return jsonObject;
     }
 
+    public static Medicine parseJSON(JSONObject jsonObject){
+        Medicine medicine=new Medicine();
+        medicine.setId(jsonObject.optLong(DataHandler.MedicineTable.COL_ID));
+        medicine.setMedName(jsonObject.optString(DataHandler.MedicineTable.COL_NAME));
+        medicine.setIcon(jsonObject.optInt(DataHandler.MedicineTable.COL_ICON));
+        medicine.setNote(jsonObject.optString(DataHandler.MedicineTable.COL_NOTES));
+        medicine.setEndDate(jsonObject.optString(DataHandler.MedicineTable.COL_END_DATE));
+        medicine.setDoctorId(jsonObject.optString(DataHandler.MedicineTable.COL_DOCTOR));
+        medicine.setCustomTime(MedTime.parseJSON(jsonObject.optJSONObject(DataHandler.MedicineTable.COL_CUSTOM_TIME)));
+        medicine.setBreakfast(jsonObject.optString(DataHandler.MedicineTable.COL_BREAKFAST));
+        medicine.setLunch(jsonObject.optString(DataHandler.MedicineTable.COL_LUNCH));
+        medicine.setDinner(jsonObject.optString(DataHandler.MedicineTable.COL_DINNER));
+        medicine.setDays(Medicine.parseDaysFromJSON(jsonObject.optJSONObject(DataHandler.MedicineTable.DAYS)));
+        return medicine;
+    }
+
     public JSONObject toJSON(){
         return getJSON();
     }
@@ -134,6 +150,28 @@ public class Medicine implements Parcelable{
         return object;
     }
 
+    private static boolean[] parseDaysFromJSON(JSONObject jsonObject){
+        boolean[] days=new boolean[6];
+        days[0]=jsonObject.optBoolean("sunday");
+        days[1]=jsonObject.optBoolean("monday");
+        days[2]=jsonObject.optBoolean("tuesday");
+        days[3]=jsonObject.optBoolean("wednesday");
+        days[4]=jsonObject.optBoolean("thursday");
+        days[5]=jsonObject.optBoolean("friday");
+        days[6]=jsonObject.optBoolean("saturday");
+        return days;
+    }
+
+
+    public void setDays(boolean[] day){
+        this.sun=day[0];
+        this.mon=day[1];
+        this.tue=day[2];
+        this.wed=day[3];
+        this.thu=day[4];
+        this.fri=day[5];
+        this.sat=day[6];
+    }
 
     public Long getId() {
         return id;
@@ -232,7 +270,7 @@ public class Medicine implements Parcelable{
     }
 
     public MedTime getCustomTime() {
-        return customTime;
+        return customTime.getHour()>=0?customTime:null;
     }
 
     public void setCustomTime(MedTime customTime) {

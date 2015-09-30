@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#FFF"
+    android:orientation="vertical"
+    android:layout_height="170dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:background="#efefef"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:id="@+id/textView"
+            android:textColor="#000"
+            android:gravity="center_vertical"
+            android:text="Selected Color: "
+            android:textSize="16sp"/>
+        <architect.jazzy.medicinereminder.CustomViews.CircleView
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:id="@+id/circleSelected"
+            app:fillColor="@color/actionBackground"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp"
+        android:weightSum="5">
+
+
+        <architect.jazzy.medicinereminder.CustomViews.CircleView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:id="@+id/circleDefault"
+            app:isButton="true"
+            app:fillColor="@color/actionBackground"/>
+
+        <architect.jazzy.medicinereminder.CustomViews.CircleView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:id="@+id/circleRed"
+            app:isButton="true"
+            app:fillColor="@color/themeColorRed"/>
+
+        <architect.jazzy.medicinereminder.CustomViews.CircleView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:id="@+id/circleGreen"
+            app:isButton="true"
+            app:fillColor="@color/themeColorGreen"/>
+
+        <architect.jazzy.medicinereminder.CustomViews.CircleView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:id="@+id/circleDark"
+            app:isButton="true"
+            app:fillColor="@color/themeColorDark"/>
+
+        <architect.jazzy.medicinereminder.CustomViews.CircleView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            app:isButton="true"
+            android:layout_weight="1"
+            android:id="@+id/circleLight"
+            app:fillColor="@color/themeColorLight"
+            app:strokeColor="#222"/>
+
+
+    </LinearLayout>
+
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:background="@drawable/find_now_button"
+        android:text="Save"
+        android:id="@+id/saveButton"
+        android:layout_gravity="center"
+        android:layout_marginTop="15dp"/>
+
+</LinearLayout>

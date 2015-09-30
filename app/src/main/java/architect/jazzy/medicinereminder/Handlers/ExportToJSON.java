@@ -1,11 +1,14 @@
 package architect.jazzy.medicinereminder.Handlers;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.Environment;
+import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
@@ -58,6 +61,8 @@ public class ExportToJSON {
                 backupObject.put("doctors", doctorsArray);
             }
 
+            backupObject.put("settings",getSettings());
+
             File outputFile = new File(PATH,FILE_NAME);
             FileOutputStream fileOutputStream = new FileOutputStream(outputFile);
             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(fileOutputStream);
@@ -77,6 +82,19 @@ public class ExportToJSON {
             return false;
         }
         return true;
+    }
+
+
+    private static JSONObject getSettings(){
+        JSONObject jsonObject=new JSONObject();
+        SharedPreferences sharedPreferences= PreferenceManager.getDefaultSharedPreferences(activity);
+        try {
+            jsonObject.put("show_notification", sharedPreferences.getBoolean("show_notification", true));
+            jsonObject.put("show_popup", sharedPreferences.getBoolean("show_popup", true));
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+        return jsonObject;
     }
 
 

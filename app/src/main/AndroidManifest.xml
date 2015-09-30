@@ -43,7 +43,7 @@
         </activity>
 
         <receiver
-            android:name=".BroadcastRecievers.AlarmReciever"
+            android:name=".BroadcastRecievers.AlarmReceiver"
             android:enabled="true"
             android:exported="true" >
         </receiver>
@@ -84,19 +84,6 @@
             android:exported="true" >
         </receiver>
 
-        <activity
-            android:name=".Activities.Credits"
-            android:label="Credits"
-            android:parentActivityName=".Activities.BasicPreferences"
-            android:screenOrientation="portrait" >
-        </activity>
-        <activity
-            android:name=".Activities.BasicPreferences"
-            android:label="@string/title_activity_preferences"
-            android:parentActivityName=".Activities.MainActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" >
-        </activity>
         <activity
             android:name=".Activities.PopupWindow"
             android:label="@string/title_activity_popup_window"

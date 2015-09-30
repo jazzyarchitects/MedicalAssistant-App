@@ -13,9 +13,9 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
@@ -39,10 +39,10 @@ import architect.jazzy.medicinereminder.Activities.MainActivity;
 import architect.jazzy.medicinereminder.Adapters.SearchListAdapter;
 import architect.jazzy.medicinereminder.Fragments.BrowserFragment;
 import architect.jazzy.medicinereminder.HelperClasses.Constants;
-import architect.jazzy.medicinereminder.Parsers.SearchResultParser;
 import architect.jazzy.medicinereminder.Models.SearchQuery;
 import architect.jazzy.medicinereminder.Models.SearchResult;
 import architect.jazzy.medicinereminder.Models.WebDocument;
+import architect.jazzy.medicinereminder.Parsers.SearchResultParser;
 import architect.jazzy.medicinereminder.R;
 
 /**
@@ -83,6 +83,7 @@ public class SearchFragment extends Fragment {
         // Inflate the layout for this fragment
         v = inflater.inflate(R.layout.fragment_search, container, false);
 
+        v.findViewById(R.id.searchLayout).setBackgroundColor(Constants.getThemeColor(getActivity()));
         searchQuery = (EditText) v.findViewById(R.id.searchLayout).findViewById(R.id.searchQuery);
         spellingView = (TextView) v.findViewById(R.id.suggestion);
         searchQuery.setOnEditorActionListener(new TextView.OnEditorActionListener() {
@@ -105,16 +106,19 @@ public class SearchFragment extends Fragment {
             term = "";
         }
         recyclerView = (RecyclerView) v.findViewById(R.id.recyclerView);
-        if (searchListAdapter != null) {
-            if (!term.isEmpty())
-                searchWeb(term);
+        if(recyclerView.getAdapter()==null){
+            recyclerView.setVisibility(View.GONE);
         }
-//        try {
+//        if (searchListAdapter != null) {
 //            if (!term.isEmpty())
 //                searchWeb(term);
-//        } catch (NullPointerException e) {
-//            e.printStackTrace();
 //        }
+        try {
+            if (!term.isEmpty())
+                searchWeb(term);
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
 
 
         searchQuery.setText(term);
@@ -160,7 +164,7 @@ public class SearchFragment extends Fragment {
 
             try {
                 URL url = SearchQuery.getSearchQueryURL(params[0]);
-                Log.e(TAG, "Search URL: " + url.toString());
+//                Log.e(TAG, "Search URL: " + url.toString());
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.setDoOutput(false);
                 connection.setReadTimeout(15000);
@@ -170,7 +174,7 @@ public class SearchFragment extends Fragment {
                 if (inputStream == null)
                     return null;
 
-                File folder = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/tmpMR");
+                File folder = new File(Environment.getDownloadCacheDirectory().getAbsolutePath() + "/tmpMR");
                 if (inputStream != null) {
 //                    Log.e("FeedParser","In not null");
                     folder.mkdirs();
@@ -262,6 +266,12 @@ public class SearchFragment extends Fragment {
 
                 recyclerView.setVisibility(View.VISIBLE);
                 recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                recyclerView.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View v, MotionEvent event) {
+                        return false;
+                    }
+                });
                 if (result.getRetstart() > result.getRetmax()) {
                     documents.addAll(result.getWebDocuments());
                 } else {

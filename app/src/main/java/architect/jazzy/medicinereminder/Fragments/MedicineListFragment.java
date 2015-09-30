@@ -42,6 +42,7 @@ import java.util.ArrayList;
 import architect.jazzy.medicinereminder.Activities.MainActivity;
 import architect.jazzy.medicinereminder.Adapters.MedicineListAdapter;
 import architect.jazzy.medicinereminder.Handlers.DataHandler;
+import architect.jazzy.medicinereminder.HelperClasses.Constants;
 import architect.jazzy.medicinereminder.Models.Medicine;
 import architect.jazzy.medicinereminder.R;
 import architect.jazzy.medicinereminder.ThisApplication;
@@ -87,14 +88,10 @@ public class MedicineListFragment extends Fragment {
         t.enableAdvertisingIdCollection(true);
         t.send(new HitBuilders.AppViewBuilder().build());
 
-        try {
-            ((AppCompatActivity) getActivity()).getSupportActionBar().show();
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
         medicineList = (RecyclerView) v.findViewById(R.id.recyclerView);
         root = (RelativeLayout) v.findViewById(R.id.rl);
         floatingActionButton=(FloatingActionButton)v.findViewById(R.id.floatingActionButton);
+        floatingActionButton.setBackgroundTintList(Constants.getFabBackground(getActivity()));
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -110,9 +107,17 @@ public class MedicineListFragment extends Fragment {
         }
 
         createOptionalView();
-
-
         return v;
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        try{
+            ((AppCompatActivity)getActivity()).getSupportActionBar().show();
+        }catch (NullPointerException e){
+            e.printStackTrace();
+        }
     }
 
 

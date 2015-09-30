@@ -15,6 +15,7 @@ import java.util.ArrayList;
 
 import architect.jazzy.medicinereminder.Adapters.MedicineListAdapter;
 import architect.jazzy.medicinereminder.Handlers.DataHandler;
+import architect.jazzy.medicinereminder.HelperClasses.Constants;
 import architect.jazzy.medicinereminder.Models.Medicine;
 import architect.jazzy.medicinereminder.R;
 import architect.jazzy.medicinereminder.ThisApplication;
@@ -48,23 +49,20 @@ public class NotificationOpen extends AppCompatActivity {
 
         bundle=new Bundle();
         bundle=getIntent().getExtras();
-        ArrayList<String> medicineList;
-        medicineList=bundle.getStringArrayList("medicineList");
-
+        ArrayList<Medicine> medicineList;
+        medicineList=bundle.getParcelableArrayList(Constants.MEDICINE_NAME_LIST);
         medicineListView=(RecyclerView)findViewById(R.id.medicineList);
         RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(this);
         medicineListView.setHasFixedSize(true);
         medicineListView.setLayoutManager(layoutManager);
-        ArrayList<Medicine> dataSet=NotificationOpen.getMedicineData(this, medicineList);
-        MedicineListAdapter listAdapter=new MedicineListAdapter(this,dataSet);
+        MedicineListAdapter listAdapter=new MedicineListAdapter(this,medicineList);
         medicineListView.setAdapter(listAdapter);
 
     }
 
-    public static ArrayList<Medicine> getMedicineData(Context context, ArrayList<String> list)
+    public static ArrayList<Medicine> getMedicineData(Context context, ArrayList<Medicine> list)
     {
         ArrayList<Medicine> dataSet=new ArrayList<>();
-
         ArrayList<String> name,imageId;
         DataHandler dataHandler=new DataHandler(context);
         ArrayList<Medicine> medicines=dataHandler.getMedicineList();

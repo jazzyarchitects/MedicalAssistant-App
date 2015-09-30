@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.ListView;
@@ -22,15 +23,17 @@ import com.balysv.materialripple.MaterialRippleLayout;
 import java.util.ArrayList;
 
 import architect.jazzy.medicinereminder.Adapters.PopupListAdapter;
+import architect.jazzy.medicinereminder.BroadcastRecievers.AlarmReceiver;
 import architect.jazzy.medicinereminder.Handlers.DataHandler;
-import architect.jazzy.medicinereminder.BroadcastRecievers.AlarmReciever;
+import architect.jazzy.medicinereminder.HelperClasses.Constants;
 import architect.jazzy.medicinereminder.Models.Medicine;
 import architect.jazzy.medicinereminder.R;
 
 
 public class PopupWindow extends AppCompatActivity implements MediaPlayer.OnPreparedListener{
 
-    ArrayList<String> medicineList;
+    private static final String TAG="PopupWindow";
+    ArrayList<Medicine> medicines;
     Uri toneUri;
     SharedPreferences sharedPreferences;
     ListView list;
@@ -41,8 +44,7 @@ public class PopupWindow extends AppCompatActivity implements MediaPlayer.OnPrep
         getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_popup_window);
-        medicineList = new ArrayList<>();
-        medicineList=getIntent().getStringArrayListExtra("MedicineList");
+        medicines=getIntent().getExtras().getParcelableArrayList(Constants.MEDICINE_NAME_LIST);
         list=(ListView)findViewById(R.id.list);
         snooze=(MaterialRippleLayout)findViewById(R.id.snooze);
         snooze.setOnClickListener(new View.OnClickListener() {
@@ -69,12 +71,12 @@ public class PopupWindow extends AppCompatActivity implements MediaPlayer.OnPrep
         {
 
             Intent i=new Intent(this, FullScreenLockScreen.class);
-            i.putStringArrayListExtra("medicineList",medicineList);
+            Bundle bundle=new Bundle();
+            bundle.putParcelableArrayList(Constants.MEDICINE_NAME_LIST,medicines);
+            i.putExtras(bundle);
             int id=getIntent().getIntExtra("NotificationId",0);
             i.putExtra("NotificationId",id);
-
             startActivity(i);
-
             finish();
         }
 
@@ -94,24 +96,26 @@ public class PopupWindow extends AppCompatActivity implements MediaPlayer.OnPrep
 
     public void populateMedicineList()
     {
-        ArrayList<Medicine> dataSet=new ArrayList<>();
-        //medicineList contains the medicine Name  16 0
         DataHandler handler=new DataHandler(this);
-        for(int i=0;i<medicineList.size();i++){
-            Medicine medicine=handler.findRow(medicineList.get(i));
-            dataSet.add(medicine);
+        for(Medicine medicine:medicines){
+            if(!handler.doesMedicineExists(medicine)){
+                medicines.remove(medicine);
+            }
         }
         handler.close();
-        PopupListAdapter adapter=new PopupListAdapter(this,dataSet);
+        for(Medicine medicine:medicines){
+            Log.e(TAG, "Medicine: "+medicine.toJSON());
+        }
+        PopupListAdapter adapter=new PopupListAdapter(this,medicines);
         list.setAdapter(adapter);
     }
 
     public void snooze10(View v)
     {
         AlarmManager alarmManager=(AlarmManager)getSystemService(Context.ALARM_SERVICE);
-        Intent i=new Intent(this, AlarmReciever.class);
+        Intent i=new Intent(this, AlarmReceiver.class);
         Bundle bundle=new Bundle();
-        bundle.putStringArrayList("MedicineList",medicineList);
+        bundle.putParcelableArrayList(Constants.MEDICINE_NAME_LIST,medicines);
         i.putExtras(bundle);
         PendingIntent alarmservice=PendingIntent.getBroadcast(getApplicationContext(),12532,i,PendingIntent.FLAG_UPDATE_CURRENT);
         alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 10 * 60 * 1000, alarmservice);
@@ -125,7 +129,19 @@ public class PopupWindow extends AppCompatActivity implements MediaPlayer.OnPrep
     }
 
     @Override
-    public void onPrepared(MediaPlayer mp) {
+    public void onPrepared(final MediaPlayer mp) {
         mp.start();
+        Thread thread=new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Thread.sleep(60 * 1000);
+                    mp.stop();
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+            }
+        });
+        thread.start();
     }
 }

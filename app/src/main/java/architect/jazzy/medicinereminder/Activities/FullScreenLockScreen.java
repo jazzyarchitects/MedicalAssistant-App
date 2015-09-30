@@ -29,7 +29,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -42,8 +44,8 @@ import com.google.android.gms.analytics.Tracker;
 
 import java.util.ArrayList;
 
-import architect.jazzy.medicinereminder.Adapters.MedicineListAdapter;
-import architect.jazzy.medicinereminder.BroadcastRecievers.AlarmReciever;
+import architect.jazzy.medicinereminder.BroadcastRecievers.AlarmReceiver;
+import architect.jazzy.medicinereminder.HelperClasses.Constants;
 import architect.jazzy.medicinereminder.Models.Medicine;
 import architect.jazzy.medicinereminder.R;
 import architect.jazzy.medicinereminder.ThisApplication;
@@ -53,7 +55,7 @@ public class FullScreenLockScreen extends AppCompatActivity {
 
     Cursor c;
     LinearLayout[] displayViews;
-    ArrayList<String> medicineList;
+    ArrayList<Medicine> medicineList;
     PowerManager.WakeLock wl;
     SharedPreferences sharedPreferences;
     Uri toneUri;
@@ -93,7 +95,7 @@ public class FullScreenLockScreen extends AppCompatActivity {
 
         medicineList = new ArrayList<>();
 
-        medicineList=getIntent().getStringArrayListExtra("medicineList");
+        medicineList=getIntent().getExtras().getParcelableArrayList(Constants.MEDICINE_NAME_LIST);
 
         notificationId=getIntent().getIntExtra("NotificationId",0);
 
@@ -153,11 +155,26 @@ public class FullScreenLockScreen extends AppCompatActivity {
         RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(this);
         medicineListView.setHasFixedSize(true);
         medicineListView.setLayoutManager(layoutManager);
-        ArrayList<Medicine> dataSet=NotificationOpen.getMedicineData(this, medicineList);
-        MedicineListAdapter listAdapter=new MedicineListAdapter(this,dataSet);
-        listAdapter.setLayout(R.layout.listitem_lock_screen);
+        MedicineListAdapter listAdapter=new MedicineListAdapter(this, medicineList);
         medicineListView.setAdapter(listAdapter);
 
+    }
+
+    class MedicineListAdapter extends architect.jazzy.medicinereminder.Adapters.MedicineListAdapter{
+
+        Context context;
+
+        public MedicineListAdapter(Context context, ArrayList<Medicine> medicines) {
+            super(context, medicines);
+            this.context=context;
+        }
+
+        @Override
+        public architect.jazzy.medicinereminder.Adapters.MedicineListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            LayoutInflater inflater=(LayoutInflater)context.getSystemService(LAYOUT_INFLATER_SERVICE);
+            View v=inflater.inflate(R.layout.listitem_lock_screen,parent,false);
+            return new ViewHolder(v);
+        }
     }
 
 
@@ -166,11 +183,11 @@ public class FullScreenLockScreen extends AppCompatActivity {
 
         if(keyCode==KeyEvent.KEYCODE_VOLUME_UP || keyCode==KeyEvent.KEYCODE_VOLUME_DOWN || keyCode==KeyEvent.KEYCODE_VOLUME_MUTE)
         {
-
             if(r!=null && r.isPlaying())
                 r.stop();
+            return true;
         }
-        return true;
+        return super.onKeyDown(keyCode,event);
     }
 
     @Override
@@ -184,6 +201,12 @@ public class FullScreenLockScreen extends AppCompatActivity {
         if(r!=null && r.isPlaying())
             r.stop();
         super.onDestroy();
+    }
+
+    @Override
+    public void onBackPressed() {
+        stopTone(null);
+        super.onBackPressed();
     }
 
     public void stopTone(View v)
@@ -206,11 +229,11 @@ public class FullScreenLockScreen extends AppCompatActivity {
             player.release();
             player = null;
         }
-        if(r!=null && r.isPlaying()) r.stop();
+        stopTone(v);
         AlarmManager alarmManager=(AlarmManager)getSystemService(Context.ALARM_SERVICE);
-        Intent i=new Intent(this, AlarmReciever.class);
+        Intent i=new Intent(this, AlarmReceiver.class);
         Bundle bundle=new Bundle();
-        bundle.putStringArrayList("MedicineList",medicineList);
+        bundle.putParcelableArrayList(Constants.MEDICINE_NAME_LIST,medicineList);
         i.putExtras(bundle);
         PendingIntent alarmservice=PendingIntent.getBroadcast(getApplicationContext(),12531,i,PendingIntent.FLAG_UPDATE_CURRENT);
         alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 10 * 60 * 1000, alarmservice);
@@ -225,8 +248,7 @@ public class FullScreenLockScreen extends AppCompatActivity {
             player.release();
             player = null;
         }
-        if(r!=null && r.isPlaying())
-            r.stop();
+        stopTone(v);
         NotificationManager notificationManager=(NotificationManager)getSystemService(NOTIFICATION_SERVICE);
         notificationManager.cancel(notificationId);
         finish();

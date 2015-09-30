@@ -6,10 +6,14 @@ import android.app.Fragment;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.graphics.Palette;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -79,12 +83,6 @@ public class AddDoctorFragment extends Fragment {
         // Inflate the layout for this fragment
         v = inflater.inflate(R.layout.fragment_add_doctor, container, false);
 
-        try {
-            ((AppCompatActivity) getActivity()).getSupportActionBar().show();
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
-        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Add Doctor");
 
 
         imageView = (ImageView) v.findViewById(R.id.docPic);
@@ -102,6 +100,8 @@ public class AddDoctorFragment extends Fragment {
             }
         });
 
+        setEditTextIcons(Constants.getThemeColor(getActivity()));
+        
         try {
             doctor = getArguments().getParcelable(Constants.BUNDLE_DOCTOR);
         } catch (NullPointerException e) {
@@ -127,10 +127,20 @@ public class AddDoctorFragment extends Fragment {
                 return false;
             }
         });
-
         return v;
     }
 
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        try {
+            ((AppCompatActivity) getActivity()).getSupportActionBar().show();
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Add Doctor");
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -147,6 +157,23 @@ public class AddDoctorFragment extends Fragment {
                 String path=DoctorDetailFragment.getImagePath(data, getActivity());
                 imageView.setImageBitmap(Constants.getScaledBitmap(path, imageView.getMeasuredWidth(), imageView.getMeasuredHeight()));
                 doctor.setPhoto(path);
+
+                try{
+                    BitmapDrawable drawable=(BitmapDrawable)imageView.getDrawable();
+                    Bitmap bitmap=drawable.getBitmap();
+                    Palette.Builder builder = Palette.from(bitmap);
+                    Palette palette = builder.generate();
+
+                    try {
+                        int color = Color.HSVToColor(palette.getSwatches().get(0).getHsl());
+                        setEditTextIcons(color);
+                    } catch (NullPointerException e) {
+                        e.printStackTrace();
+                    }
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
+
             }
         }
     }
@@ -166,6 +193,29 @@ public class AddDoctorFragment extends Fragment {
         docNotes.setText(doctor.getNotes());
         try{
             imageView.setImageURI(doctor.getPhotoUri());
+            BitmapDrawable drawable=(BitmapDrawable)imageView.getDrawable();
+            Bitmap bitmap=drawable.getBitmap();
+            Palette.Builder builder = Palette.from(bitmap);
+            Palette palette = builder.generate();
+            
+            try {
+                int color = Color.HSVToColor(palette.getSwatches().get(0).getHsl());
+                setEditTextIcons(color);
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+    
+    void setEditTextIcons(int color){
+        try {
+            Constants.scaleEditTextImage(getActivity(), docPhone1, R.drawable.ic_call_black_24dp, color);
+            Constants.scaleEditTextImage(getActivity(), docPhone2, R.drawable.ic_call_black_24dp, color);
+            Constants.scaleEditTextImage(getActivity(), docAddress, R.drawable.ic_location_city_black_24dp, color, false);
+            Constants.scaleEditTextImage(getActivity(), docHospital, R.drawable.ic_business_black_24dp, color, false);
+            Constants.scaleEditTextImage(getActivity(), docNotes, R.drawable.ic_action_edit, color);
         }catch (Exception e){
             e.printStackTrace();
         }

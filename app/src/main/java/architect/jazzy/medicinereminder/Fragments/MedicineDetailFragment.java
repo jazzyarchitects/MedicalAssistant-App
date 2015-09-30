@@ -199,15 +199,17 @@ public class MedicineDetailFragment extends Fragment {
 
 
 
-        this.customTimeHour = String.valueOf(medicine.getCustomTime().getHour());
-        this.customTimeMinute = String.valueOf(medicine.getCustomTime().getMinute());
-        custom.setNormalColor();
+        if(medicine.getCustomTime()!=null) {
+            this.customTimeHour = String.valueOf(medicine.getCustomTime().getHour());
+            this.customTimeMinute = String.valueOf(medicine.getCustomTime().getMinute());
+            custom.setNormalColor();
 //        Log.e("MedicineDetailFragment", "Custom Hour: " + this.customTimeHour + " Custom Minute: " + this.customTimeMinute);
-        if (!this.customTimeHour.equals("-1")) {
+            if (!this.customTimeHour.equals("-1")) {
 //                Log.e("MedicineDetailFragment", "Integer Custom Hour: " + Integer.parseInt(ch) + " Custom Minute: " + Integer.parseInt(cm));
                 custom.setText(TimingClass.getTime(Integer.parseInt(this.customTimeHour), Integer.parseInt(this.customTimeMinute), is24hr), "Custom Time");
-        }else
-            custom.setGrayScale();
+            } else
+                custom.setGrayScale();
+        }
 
 
         this.icon = String.valueOf(medicine.getIcon());

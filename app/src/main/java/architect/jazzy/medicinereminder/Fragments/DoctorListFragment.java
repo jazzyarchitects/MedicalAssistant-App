@@ -21,6 +21,7 @@ import java.util.ArrayList;
 
 import architect.jazzy.medicinereminder.Adapters.DoctorListAdapter;
 import architect.jazzy.medicinereminder.Handlers.DataHandler;
+import architect.jazzy.medicinereminder.HelperClasses.Constants;
 import architect.jazzy.medicinereminder.Models.Doctor;
 import architect.jazzy.medicinereminder.R;
 import architect.jazzy.medicinereminder.ThisApplication;
@@ -67,6 +68,7 @@ public class DoctorListFragment extends Fragment {
         doctorList.setLayoutManager(new GridLayoutManager(getActivity(), 2));
 
         floatingActionButton=(FloatingActionButton)v.findViewById(R.id.floatingActionButton);
+        floatingActionButton.setBackgroundTintList(Constants.getFabBackground(getActivity()));
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -76,6 +78,16 @@ public class DoctorListFragment extends Fragment {
         refreshLayout();
         setHasOptionsMenu(false);
         return  v;
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        try{
+            ((AppCompatActivity)getActivity()).getSupportActionBar().show();
+        }catch (NullPointerException e){
+            e.printStackTrace();
+        }
     }
 
     void refreshLayout(){

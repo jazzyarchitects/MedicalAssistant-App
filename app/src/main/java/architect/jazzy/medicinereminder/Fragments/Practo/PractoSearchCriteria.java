@@ -55,10 +55,10 @@ public class PractoSearchCriteria extends Fragment {
             case SearchCriteriaAdapter.OPTION_SORT_BY:
                 break;
             case SearchCriteriaAdapter.OPTION_SEARCH_FOR:
-                backgroundId=R.drawable.back_clinic;
+//                backgroundId=R.drawable.back_clinic;
                 break;
             case SearchCriteriaAdapter.OPTION_SPECIALIZATION:
-                backgroundId=R.drawable.back_doc;
+//                backgroundId=R.drawable.back_doc;
                 break;
             default:
                 backgroundId=R.drawable.back_city;

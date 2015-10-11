@@ -9,7 +9,6 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -79,7 +78,7 @@ public class AlarmSetterService extends IntentService {
             alarmManager.cancel(pi);
         }
         getSharedPreferences(Constants.INTERNAL_PREF,MODE_PRIVATE).edit().putInt(Constants.CUSTOM_TIME__ALARM_ID_LAST,1);
-        Log.e("AlarmSetterService", "Cancelled Alarm");
+//        Log.e("AlarmSetterService", "Cancelled Alarm");
 
 
 //        hours = new int[]{bbh, abh, blh, alh, bdh, adh};
@@ -161,7 +160,7 @@ public class AlarmSetterService extends IntentService {
                     alarmIntent.putExtras(bundle);
                     PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(this, ALARM_REQUEST_CODE[i][j], alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
                     Calendar alarmCalendar = getCalendar(medTimes[i][j]);
-                    Log.e(TAG, "Alarm Setting for: " + alarmCalendar.toString());
+//                    Log.e(TAG, "Alarm Setting for: " + alarmCalendar.toString());
                     Long timeMillis = (alarmCalendar.getTimeInMillis() - System.currentTimeMillis()) / 1000;
 //                Log.e(TAG,"Time Left: "+timeMillis/3600 +" "+timeMillis/60+" ");
                     alarmManager.set(AlarmManager.RTC_WAKEUP, alarmCalendar.getTimeInMillis(), alarmPendingIntent);

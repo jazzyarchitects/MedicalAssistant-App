@@ -1,7 +1,6 @@
 package architect.jazzy.medicinereminder.CustomComponents;
 
 import android.app.Fragment;
-import android.util.Log;
 
 import java.util.Stack;
 
@@ -19,13 +18,13 @@ public class FragmentBackStack {
     Stack<Integer> indicatorStack=new Stack<>();
 
     public void push(Fragment fragment){
-        Log.e(TAG,"Pushing fragment ");
+//        Log.e(TAG,"Pushing fragment ");
         fragmentStack.push(fragment);
         indicatorStack.push(FRAGMENT);
     }
 
     public void push(android.support.v4.app.Fragment fragment){
-        Log.e(TAG,"pushing support fragment ");
+//        Log.e(TAG,"pushing support fragment ");
         supportFragmentStack.push(fragment);
         indicatorStack.push(SUPPORT);
     }
@@ -38,7 +37,7 @@ public class FragmentBackStack {
         if(empty()){
             return null;
         }
-        Log.e(TAG,"pop fragment: ");
+//        Log.e(TAG,"pop fragment: ");
         if(indicatorStack.get(indicatorStack.size()-1)==FRAGMENT){
             indicatorStack.pop();
             return fragmentStack.pop();

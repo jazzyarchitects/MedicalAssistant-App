@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:id="@+id/root"
     android:background="@color/deafaultFragmentBackground"
     tools:context="architect.jazzy.medicinereminder.Fragments.SearchFragments.SearchFragment">
 
@@ -10,6 +11,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/searchLayout" />
+
+
+
 
     <TextView
         android:layout_width="match_parent"
@@ -28,6 +32,29 @@
         android:layout_width="match_parent"
         android:padding="5dp"
         android:layout_height="match_parent">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/emptySearch">
+
+            <ImageView
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:id="@+id/could"
+                android:layout_centerInParent="true"
+                android:src="@drawable/cloud_icon_big"/>
+
+            <ImageView
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:src="@drawable/ic_action_search"
+                android:layout_centerInParent="true"
+                android:id="@+id/searchIcon"
+                android:scaleType="fitCenter"
+                android:paddingTop="10dp"/>
+
+        </RelativeLayout>
 
         <android.support.v7.widget.RecyclerView
             android:layout_width="match_parent"

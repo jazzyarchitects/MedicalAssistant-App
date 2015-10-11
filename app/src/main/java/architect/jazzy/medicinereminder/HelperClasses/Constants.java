@@ -73,18 +73,21 @@ public class Constants {
 
     public static final String INTERNAL_PREF="internal";
     public static final String CUSTOM_TIME__ALARM_ID_LAST="stopAlarm";
+    public static final String NEWS_LIST_LOADED="loaded";
+    public static final String SEARCH_RESULT="searchList";
 
 
     public static int getThemeColor(Context context){
         return context.getSharedPreferences(SETTING_PREF,Context.MODE_PRIVATE)
-                .getInt(Constants.THEME_COLOR,context.getResources().getColor(R.color.color_default));
+                .getInt(Constants.THEME_COLOR,context.getResources().getColor(R.color.themeColorDefault));
     }
 
-    private static int getFABColor(Context context){
+    public static int getFABColor(Context context){
         int color=getThemeColor(context);
         float[] hsv=new float[3];
         Color.colorToHSV(color,hsv);
-        hsv[0]=(hsv[0]+180)%360;
+        hsv[2]=hsv[2]>0.5?hsv[2]:hsv[2]+0.5f;
+        hsv[0]=(hsv[0]+90)%360;
         return Color.HSVToColor(hsv);
     }
 

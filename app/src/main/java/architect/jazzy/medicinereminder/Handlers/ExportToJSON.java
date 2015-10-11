@@ -61,7 +61,11 @@ public class ExportToJSON {
                 backupObject.put("doctors", doctorsArray);
             }
 
-            backupObject.put("settings",getSettings());
+            try {
+                backupObject.put("settings", getSettings());
+            }catch (Exception e){
+                e.printStackTrace();
+            }
 
             File outputFile = new File(PATH,FILE_NAME);
             FileOutputStream fileOutputStream = new FileOutputStream(outputFile);
@@ -87,8 +91,8 @@ public class ExportToJSON {
 
     private static JSONObject getSettings(){
         JSONObject jsonObject=new JSONObject();
-        SharedPreferences sharedPreferences= PreferenceManager.getDefaultSharedPreferences(activity);
         try {
+            SharedPreferences sharedPreferences= PreferenceManager.getDefaultSharedPreferences(activity);
             jsonObject.put("show_notification", sharedPreferences.getBoolean("show_notification", true));
             jsonObject.put("show_popup", sharedPreferences.getBoolean("show_popup", true));
         }catch (JSONException e){

@@ -79,6 +79,7 @@ public class DoctorDetailFragment extends Fragment implements ViewPagerAdapter.V
                              Bundle savedInstanceState) {
         v=inflater.inflate(R.layout.doctor_detail_layout,container,false);
 
+        setHasOptionsMenu(true);
         Log.e(TAG,"OnCreateView" );
         doctorNameView=(TextView)v.findViewById(R.id.doctorName);
         doctorImageView=(ImageView)v.findViewById(R.id.doctorImage);
@@ -94,8 +95,19 @@ public class DoctorDetailFragment extends Fragment implements ViewPagerAdapter.V
             }
         });
 
+        doctorImageView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                doctorImageView.setImageResource(R.drawable.userlogin);
+                doctor.setPhoto("");
+                DataHandler handler=new DataHandler(getActivity());
+                handler.updateDoctor(doctor);
+                handler.close();
+                return false;
+            }
+        });
+
         setup();
-        setHasOptionsMenu(true);
         return v;
     }
 
@@ -121,7 +133,7 @@ public class DoctorDetailFragment extends Fragment implements ViewPagerAdapter.V
         viewPager.setAdapter(adapter);
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.setTabsFromPagerAdapter(adapter);
-        Log.e(TAG,"Setup finished");
+//        Log.e(TAG,"Setup finished");
     }
 
     @Override
@@ -129,8 +141,13 @@ public class DoctorDetailFragment extends Fragment implements ViewPagerAdapter.V
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==COVER_PIC_REQUEST_CODE){
             if(resultCode==Activity.RESULT_OK){
-                imageChangeListener.onDoctorImageChange(resultCode,data);
-                doctorImageView.setImageBitmap(Constants.getScaledBitmap(getImagePath(data,getActivity()), doctorImageView.getMeasuredWidth(), doctorImageView.getMeasuredHeight()));
+                imageChangeListener.onDoctorImageChange(resultCode, data);
+                String path=getImagePath(data,getActivity());
+                doctorImageView.setImageBitmap(Constants.getScaledBitmap(path, doctorImageView.getMeasuredWidth(), doctorImageView.getMeasuredHeight()));
+                doctor.setPhoto(path);
+                DataHandler handler=new DataHandler(getActivity());
+                handler.updateDoctor(doctor);
+                handler.close();
             }
         }
     }
@@ -181,7 +198,7 @@ public class DoctorDetailFragment extends Fragment implements ViewPagerAdapter.V
         if(item.getItemId()==R.id.deleteDoctor){
             deleteDoctor();
         }
-        return super.onOptionsItemSelected(item);
+        return true;
     }
 
     void deleteDoctor(){

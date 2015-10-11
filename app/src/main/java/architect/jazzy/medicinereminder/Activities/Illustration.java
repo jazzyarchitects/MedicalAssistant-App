@@ -13,8 +13,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.Locale;
+import java.io.File;
 
+import architect.jazzy.medicinereminder.Handlers.ExportToJSON;
 import architect.jazzy.medicinereminder.R;
 
 public class Illustration extends AppCompatActivity {
@@ -72,22 +73,9 @@ public class Illustration extends AppCompatActivity {
         @Override
         public int getCount() {
             // Show 3 total pages.
-            return 3;
+            return 5;
         }
 
-        @Override
-        public CharSequence getPageTitle(int position) {
-            Locale l = Locale.getDefault();
-            switch (position) {
-                case 0:
-                    return getString(R.string.title_section1).toUpperCase(l);
-                case 1:
-                    return getString(R.string.title_section2).toUpperCase(l);
-                case 2:
-                    return getString(R.string.title_section3).toUpperCase(l);
-            }
-            return null;
-        }
     }
 
     /**
@@ -95,7 +83,7 @@ public class Illustration extends AppCompatActivity {
      */
     public static class PlaceholderFragment extends Fragment {
 
-        int[] images=new int[]{R.drawable.p1, R.drawable.p2, R.drawable.p3};
+        int[] images=new int[]{R.drawable.dashboard, R.drawable.search, R.drawable.news, R.drawable.medicines, R.drawable.doctor};
         /**
          * The fragment argument representing the section number for this
          * fragment.
@@ -125,12 +113,21 @@ public class Illustration extends AppCompatActivity {
             TextView text=(TextView)rootView.findViewById(R.id.t1);
             int i=getArguments().getInt(ARG_SECTION_NUMBER);
             imageView.setImageResource(images[i-1]);
-            if(i==3){
+            if(i==5){
                 text.setText("Got it");
                 text.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        getActivity().getSharedPreferences("illustration",MODE_PRIVATE).edit().putBoolean("shown",true).apply();
+                        getActivity().getSharedPreferences("illustration",MODE_PRIVATE).edit().putBoolean("shown1",true).apply();
+                        try{
+                            File file=new File(new File(ExportToJSON.PATH),ExportToJSON.FILE_NAME);
+                            file.mkdirs();
+                            if(!file.exists()) {
+                                ExportToJSON.ExportData(getActivity());
+                            }
+                        }catch (Exception e){
+                            e.printStackTrace();
+                        }
                         startActivity(new Intent(getActivity(), MainActivity.class));
                         getActivity().finish();
                     }

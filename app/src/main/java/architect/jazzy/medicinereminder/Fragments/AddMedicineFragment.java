@@ -9,9 +9,15 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
+import android.graphics.drawable.StateListDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -19,6 +25,8 @@ import android.support.v7.widget.CardView;
 import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -32,6 +40,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -57,22 +66,21 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import architect.jazzy.medicinereminder.Activities.Illustration;
 import architect.jazzy.medicinereminder.Activities.MainActivity;
 import architect.jazzy.medicinereminder.Adapters.DoctorSpinnerAdapter;
 import architect.jazzy.medicinereminder.Adapters.FeedAdapter;
 import architect.jazzy.medicinereminder.Adapters.ImageAdapter;
+import architect.jazzy.medicinereminder.CustomComponents.TimingClass;
 import architect.jazzy.medicinereminder.CustomViews.DaySelectorFragmentDialog;
 import architect.jazzy.medicinereminder.CustomViews.LabelledImage;
 import architect.jazzy.medicinereminder.Handlers.DataHandler;
-import architect.jazzy.medicinereminder.Services.AlarmSetterService;
 import architect.jazzy.medicinereminder.HelperClasses.Constants;
-import architect.jazzy.medicinereminder.Parsers.FeedParser;
-import architect.jazzy.medicinereminder.CustomComponents.TimingClass;
 import architect.jazzy.medicinereminder.Models.Doctor;
 import architect.jazzy.medicinereminder.Models.FeedItem;
 import architect.jazzy.medicinereminder.Models.Medicine;
+import architect.jazzy.medicinereminder.Parsers.FeedParser;
 import architect.jazzy.medicinereminder.R;
+import architect.jazzy.medicinereminder.Services.AlarmSetterService;
 import architect.jazzy.medicinereminder.ThisApplication;
 
 /**
@@ -81,7 +89,7 @@ import architect.jazzy.medicinereminder.ThisApplication;
 public class AddMedicineFragment extends Fragment {
 
     public static final String MEDICINE_NAME = "medName";
-    private static final String TAG="AddMedicineFragment";
+    private static final String TAG = "AddMedicineFragment";
 
     View v;
     private Context context;
@@ -96,7 +104,7 @@ public class AddMedicineFragment extends Fragment {
     Button addButton;
     ViewPager feedPager;
     int pos = 54;
-    String doctorId="0";
+    String doctorId = "0";
     ArrayList<Doctor> doctors;
 
 
@@ -130,17 +138,16 @@ public class AddMedicineFragment extends Fragment {
         t.send(new HitBuilders.AppViewBuilder().build());
     }
 
+    TextView scheduleText;
+    RelativeLayout newsHolder;
+    TextInputLayout t1, t2;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         v = inflater.inflate(R.layout.fragment_add_medicine, container, false);
-        context=getActivity();
-
-        if (!context.getSharedPreferences("illustration", Context.MODE_PRIVATE).getBoolean("shown", false)) {
-            startActivity(new Intent(context, Illustration.class));
-            getActivity().finish();
-        }
+        context = getActivity();
         getDefaultTime();
 
         medName = (AutoCompleteTextView) v.findViewById(R.id.medName);
@@ -154,19 +161,24 @@ public class AddMedicineFragment extends Fragment {
         mainScrollView = (ScrollView) v.findViewById(R.id.scrollView);
         feedPager = (ViewPager) v.findViewById(R.id.newsFeedPager);
         progressCard = (CardView) v.findViewById(R.id.progressCard);
-        addButton=(Button)v.findViewById(R.id.but_add_medicine);
-        spinner=(Spinner)v.findViewById(R.id.doctorSpinner);
+        addButton = (Button) v.findViewById(R.id.but_add_medicine);
+        spinner = (Spinner) v.findViewById(R.id.doctorSpinner);
+        scheduleText = (TextView) v.findViewById(R.id.emojis_rl);
+        newsHolder = (RelativeLayout) v.findViewById(R.id.newsHolder);
+        t1 = (TextInputLayout) v.findViewById(R.id.textInput1);
+        t2 = (TextInputLayout) v.findViewById(R.id.textInput2);
+
 
         dataHandler = new DataHandler(context);
-        doctors=dataHandler.getDoctorList();
-        DoctorSpinnerAdapter adapter=new DoctorSpinnerAdapter(getActivity(),doctors);
+        doctors = dataHandler.getDoctorList();
+        DoctorSpinnerAdapter adapter = new DoctorSpinnerAdapter(getActivity(), doctors);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if(position==0){
-                    doctorId="0";
-                }else {
+                if (position == 0) {
+                    doctorId = "0";
+                } else {
                     doctorId = doctors.get(position - 1).getId();
                 }
             }
@@ -186,7 +198,7 @@ public class AddMedicineFragment extends Fragment {
 
         try {
             ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Add Medicine");
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -213,7 +225,7 @@ public class AddMedicineFragment extends Fragment {
             TextView correspondingText = (TextView) v.findViewById(textBoxIds[position]);
             String s = correspondingText.getText().toString();
             if (daySelected[position]) {
-                correspondingText.setTextColor(getResources().getColor(R.color.selectedDay));
+                correspondingText.setTextColor(Constants.getThemeColor(getActivity()));
                 correspondingText.setText(Html.fromHtml("<b>" + s + "</b>"));
             }
         }
@@ -306,7 +318,8 @@ public class AddMedicineFragment extends Fragment {
         none(noon, noon.getTag());
         none(night, night.getTag());
 
-        Constants.scaleEditTextImage(getActivity(),endDose,R.drawable.ic_action_calendar_month);
+        Constants.scaleEditTextImage(getActivity(), endDose, R.drawable.ic_action_calendar_month, Constants.getThemeColor(getActivity()));
+
         endDose.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -345,16 +358,70 @@ public class AddMedicineFragment extends Fragment {
             }
         });
 
+        setColorScheme();
 
         return v;
+    }
+
+    void setColorScheme() {
+        int color = Constants.getThemeColor(getActivity());
+        if(color==getResources().getColor(R.color.themeColorDefault)){
+            t1.setBackgroundDrawable(getResources().getDrawable(R.drawable.edit_text_background));
+            notes.setBackgroundDrawable(getResources().getDrawable(R.drawable.edit_text_background2));
+            scheduleText.setBackgroundDrawable(getResources().getDrawable(R.drawable.schedule_background));
+            addButton.setBackgroundDrawable(getResources().getDrawable(R.drawable.button_background_states));
+            addButton.setPadding(10,0,10,0);
+        }else {
+            float[] hsv = new float[3];
+            Color.colorToHSV(color, hsv);
+            hsv[1] = 0.05f;
+            if (hsv[2] > 0.2) {
+                hsv[2] = 0.95f;
+            } else {
+                hsv[1] = 0.01f;
+                hsv[2] = 0.5f;
+            }
+            int lightColor = Color.HSVToColor(hsv);
+            GradientDrawable medNoteBackground = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{Color.WHITE, lightColor, Color.WHITE});
+            GradientDrawable medNameBackground = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{lightColor, Color.WHITE});
+            medName.setBackgroundColor(Color.TRANSPARENT);
+            notes.setBackgroundColor(Color.TRANSPARENT);
+            t1.setBackgroundDrawable(medNameBackground);
+            t2.setBackgroundDrawable(medNoteBackground);
+
+            hsv[1] = 0.4f;
+            int accentColor = Constants.getFABColor(getActivity());
+            Drawable scheduleBackground = scheduleText.getBackground().mutate();
+            scheduleBackground.setColorFilter(accentColor, PorterDuff.Mode.SRC_ATOP);
+            if (hsv[2] <= 0.3) {
+                scheduleText.setTextColor(Color.WHITE);
+            } else {
+                scheduleText.setTextColor(Color.parseColor("#15152f"));
+            }
+            newsHolder.setBackgroundColor(color);
+
+
+            Color.colorToHSV(accentColor, hsv);
+            hsv[2] -= 0.2f;
+            if (hsv[2] <= 0.3) {
+                addButton.setTextColor(Color.WHITE);
+            }
+            int buttonColorNormal = Color.HSVToColor(hsv);
+            hsv[2] -= 0.2f;
+            int buttonColorPressed = Color.HSVToColor(hsv);
+            StateListDrawable stateListDrawable = new StateListDrawable();
+            stateListDrawable.addState(new int[]{android.R.attr.state_pressed}, new ColorDrawable(buttonColorPressed));
+            stateListDrawable.addState(new int[]{}, new ColorDrawable(buttonColorNormal));
+            addButton.setBackgroundDrawable(stateListDrawable);
+        }
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        try{
-            ((AppCompatActivity)getActivity()).getSupportActionBar().show();
-        }catch (NullPointerException e){
+        try {
+            ((AppCompatActivity) getActivity()).getSupportActionBar().show();
+        } catch (NullPointerException e) {
             e.printStackTrace();
         }
     }
@@ -453,7 +520,6 @@ public class AddMedicineFragment extends Fragment {
 
     }
 
-
     public void TimeDialog(final int id) {
         Calendar c = Calendar.getInstance();
         customHour = c.get(Calendar.HOUR_OF_DAY);
@@ -478,7 +544,6 @@ public class AddMedicineFragment extends Fragment {
         TimePickerDialog.newInstance(onTimeSetListener, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), is24hr).show(getFragmentManager(), "TIME_PICKER");
     }
 
-
     public void addMedicine(View view) {
         getData();
         if (medicineName.isEmpty()) {
@@ -496,7 +561,6 @@ public class AddMedicineFragment extends Fragment {
         setAlarm(getActivity());
     }
 
-
     public void getData() {
         medicineName = medName.getText().toString();
         noteValue = notes.getText().toString();
@@ -505,7 +569,7 @@ public class AddMedicineFragment extends Fragment {
     public void writeToFile() {
         getData();
         Medicine medicine = dataHandler.findRow(medicineName);
-        if (medicine!=null) {
+        if (medicine != null) {
             startDate = Calendar.getInstance().get(Calendar.DATE) + "-" + (Calendar.getInstance().get(Calendar.MONTH) + 1) + "-" + Calendar.getInstance().get(Calendar.YEAR);
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             builder.setTitle("Confirm Modify");
@@ -513,7 +577,7 @@ public class AddMedicineFragment extends Fragment {
             builder.setPositiveButton("Yes,\n Update it", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    dataHandler.updateData(medicineName, medicineName, bk, ln, dn, String.valueOf(daySelected[0]), String.valueOf(daySelected[1]), String.valueOf(daySelected[2]), String.valueOf(daySelected[3]), String.valueOf(daySelected[4]), String.valueOf(daySelected[5]), String.valueOf(daySelected[6]), endDate,  String.valueOf(pos), customTimeHour+","+customTimeMinute, noteValue);
+                    dataHandler.updateData(medicineName, medicineName, bk, ln, dn, String.valueOf(daySelected[0]), String.valueOf(daySelected[1]), String.valueOf(daySelected[2]), String.valueOf(daySelected[3]), String.valueOf(daySelected[4]), String.valueOf(daySelected[5]), String.valueOf(daySelected[6]), endDate, String.valueOf(pos), customTimeHour + "," + customTimeMinute, noteValue);
                     Toast.makeText(context, "Medicine details modified", Toast.LENGTH_SHORT).show();
                 }
             });
@@ -527,7 +591,7 @@ public class AddMedicineFragment extends Fragment {
                             i++;
                         } while (temp.moveToNext());
                     }
-                    dataHandler.insertData(medicineName + " (" + i + ")", doctorId,String.valueOf(daySelected[0]), String.valueOf(daySelected[1]), String.valueOf(daySelected[2]), String.valueOf(daySelected[3]), String.valueOf(daySelected[4]), String.valueOf(daySelected[5]), String.valueOf(daySelected[6]), endDate, bk, ln, dn, String.valueOf(pos), customTimeHour, customTimeMinute, noteValue);
+                    dataHandler.insertData(medicineName + " (" + i + ")", doctorId, String.valueOf(daySelected[0]), String.valueOf(daySelected[1]), String.valueOf(daySelected[2]), String.valueOf(daySelected[3]), String.valueOf(daySelected[4]), String.valueOf(daySelected[5]), String.valueOf(daySelected[6]), endDate, bk, ln, dn, String.valueOf(pos), customTimeHour, customTimeMinute, noteValue);
                     Toast.makeText(context, "Medicine Added", Toast.LENGTH_SHORT).show();
                 }
             });
@@ -535,9 +599,9 @@ public class AddMedicineFragment extends Fragment {
 
         } else {
             Log.e("MainActivity", "Create " + medicineName + " Custom hour: " + customTimeHour + " Custom Minute: " + customTimeMinute);
-            dataHandler.insertData(medicineName,doctorId, String.valueOf(daySelected[0]), String.valueOf(daySelected[1]), String.valueOf(daySelected[2]), String.valueOf(daySelected[3]), String.valueOf(daySelected[4]), String.valueOf(daySelected[5]), String.valueOf(daySelected[6]), endDate, bk, ln, dn, String.valueOf(pos), customTimeHour, customTimeMinute, noteValue);
+            dataHandler.insertData(medicineName, doctorId, String.valueOf(daySelected[0]), String.valueOf(daySelected[1]), String.valueOf(daySelected[2]), String.valueOf(daySelected[3]), String.valueOf(daySelected[4]), String.valueOf(daySelected[5]), String.valueOf(daySelected[6]), endDate, bk, ln, dn, String.valueOf(pos), customTimeHour, customTimeMinute, noteValue);
             Toast.makeText(context, "Medicine Added", Toast.LENGTH_SHORT).show();
-           fragmentInteractionListener.addMedicine(false);
+            fragmentInteractionListener.addMedicine(false);
         }
         setAlarm(getActivity());
     }
@@ -559,12 +623,13 @@ public class AddMedicineFragment extends Fragment {
     }
 
     public void onDaySelectionChanged(int position, Boolean isChecked) {
-        Log.e("MainActivity", "Fragment Day Clicked " + position + isChecked);
+//        Log.e("MainActivity", "Fragment Day Clicked " + position + isChecked);
         daySelected[position] = isChecked;
         TextView correspondingText = (TextView) v.findViewById(textBoxIds[position]);
         String s = correspondingText.getText().toString();
         if (isChecked) {
-            correspondingText.setTextColor(getResources().getColor(R.color.selectedDay));
+//            correspondingText.setTextColor(getResources().getColor(R.color.selectedDay));
+            correspondingText.setTextColor(Constants.getFabBackground(getActivity()));
             correspondingText.setText(Html.fromHtml("<b>" + s + "</b>"));
         } else {
             correspondingText.setTextColor(Color.GRAY);
@@ -640,8 +705,8 @@ public class AddMedicineFragment extends Fragment {
             FeedAdapter adapter = new FeedAdapter(getFragmentManager(), items);
             try {
                 feedPager.setAdapter(adapter);
-            }catch (NullPointerException e){
-                Log.e("AddMedicine","Null Adapter");
+            } catch (NullPointerException e) {
+                Log.e("AddMedicine", "Null Adapter");
             }
         }
     }
@@ -671,10 +736,10 @@ public class AddMedicineFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        ((MainActivity)activity).setActivityClickListener(new MainActivity.ActivityClickListener() {
+        ((MainActivity) activity).setActivityClickListener(new MainActivity.ActivityClickListener() {
             @Override
             public void daySelectionChanged(int position, boolean isCheck) {
-                onDaySelectionChanged(position,isCheck);
+                onDaySelectionChanged(position, isCheck);
             }
 
             @Override
@@ -689,16 +754,17 @@ public class AddMedicineFragment extends Fragment {
 
 
         });
-        fragmentInteractionListener=(FragmentInteractionListener)activity;
+        fragmentInteractionListener = (FragmentInteractionListener) activity;
     }
 
     FragmentInteractionListener fragmentInteractionListener;
 
-    public interface FragmentInteractionListener{
+    public interface FragmentInteractionListener {
         void addMedicine(boolean addToBackStack);
     }
 
-    public void setFragmentInteractionListener(FragmentInteractionListener fragmentInteractionListener){
-        this.fragmentInteractionListener=fragmentInteractionListener;
+    public void setFragmentInteractionListener(FragmentInteractionListener fragmentInteractionListener) {
+        this.fragmentInteractionListener = fragmentInteractionListener;
     }
+
 }

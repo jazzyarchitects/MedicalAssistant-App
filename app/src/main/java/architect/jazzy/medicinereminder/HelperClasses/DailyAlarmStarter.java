@@ -14,6 +14,12 @@ public class DailyAlarmStarter extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+
+        context.getSharedPreferences(Constants.INTERNAL_PREF, Context.MODE_PRIVATE)
+                .edit()
+                .putBoolean(Constants.NEWS_LIST_LOADED,false)
+                .apply();
+
         SharedPreferences appUpdate = context.getSharedPreferences("Widget", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = appUpdate.edit();
         editor.putString("medicineList", "No medicines to be taken.");

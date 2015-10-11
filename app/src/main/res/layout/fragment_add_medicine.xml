@@ -16,13 +16,14 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="#FFF"
             android:orientation="vertical">
 
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                style="@style/SignInEditText">
+                android:id="@+id/textInput1">
                 <AutoCompleteTextView
                     android:id="@+id/medName"
                     style="@style/SignInEditText"
@@ -41,6 +42,7 @@
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
+                android:id="@+id/textInput2"
                 android:layout_height="50dp">
 
                 <EditText
@@ -295,6 +297,7 @@
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
                 android:paddingTop="0dp"
+                android:layout_marginBottom="10dp"
                 android:text="Add Medicine"
                 android:textColor="#FFF" />
 
@@ -305,17 +308,21 @@
                 android:layout_marginTop="10dp"
                 android:padding="5dp"
                 android:text="News"
+                android:visibility="gone"
                 android:textColor="#000"
                 android:textSize="16sp" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
+                android:visibility="gone"
                 android:background="#000" />
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:id="@+id/newsHolder"
+                android:visibility="gone"
                 android:background="@color/actionBackground"
                 android:padding="10dp">
 

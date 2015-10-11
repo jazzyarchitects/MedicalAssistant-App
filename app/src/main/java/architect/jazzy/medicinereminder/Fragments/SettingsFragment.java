@@ -2,6 +2,7 @@ package architect.jazzy.medicinereminder.Fragments;
 
 
 import android.app.Fragment;
+import android.graphics.Color;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -21,11 +22,9 @@ import android.view.ViewGroup;
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 
-import architect.jazzy.medicinereminder.CustomViews.ColorSelectorFragment;
 import architect.jazzy.medicinereminder.Handlers.DeleteAllMedicines;
 import architect.jazzy.medicinereminder.Handlers.ExportToJSON;
 import architect.jazzy.medicinereminder.Handlers.ImportBackup;
-import architect.jazzy.medicinereminder.HelperClasses.Constants;
 import architect.jazzy.medicinereminder.R;
 import architect.jazzy.medicinereminder.ThisApplication;
 
@@ -47,6 +46,7 @@ public class SettingsFragment extends PreferenceFragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        view.setBackgroundColor(Color.WHITE);
 
         try{
             ((AppCompatActivity)getActivity()).getSupportActionBar().show();
@@ -99,15 +99,15 @@ public class SettingsFragment extends PreferenceFragment {
             }
         });
 
-        final Preference colorPref=findPreference(Constants.THEME_COLOR);
-        colorPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                ColorSelectorFragment colorSelectorFragment=new ColorSelectorFragment();
-                colorSelectorFragment.show(getFragmentManager(),"Color Selector");
-                return false;
-            }
-        });
+//        final Preference colorPref=findPreference(Constants.THEME_COLOR);
+//        colorPref.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+//            @Override
+//            public boolean onPreferenceClick(Preference preference) {
+//                ColorSelectorFragment colorSelectorFragment=new ColorSelectorFragment();
+//                colorSelectorFragment.show(getFragmentManager(),"Color Selector");
+//                return false;
+//            }
+//        });
 
 
     }

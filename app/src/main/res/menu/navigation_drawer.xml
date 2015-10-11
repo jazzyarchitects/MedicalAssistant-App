@@ -39,10 +39,10 @@
                 android:orderInCategory="100"
                 android:title="@string/action_settings" />
 
-            <item
-                android:id="@+id/credits"
-                android:icon="@drawable/ic_action_emo_basic"
-                android:title="About Us" />
+            <!--<item-->
+                <!--android:id="@+id/credits"-->
+                <!--android:icon="@drawable/ic_action_emo_basic"-->
+                <!--android:title="About Us" />-->
         </menu>
     </item>
 

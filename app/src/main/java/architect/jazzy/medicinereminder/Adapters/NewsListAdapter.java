@@ -26,7 +26,6 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.ViewHo
     public NewsListAdapter(Context context, ArrayList<FeedItem> news, Activity activity) {
         this.news=news;
         this.context=context;
-        feedClickListener=(FeedClickListener)activity;
     }
 
     @Override
@@ -53,7 +52,7 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.ViewHo
 
     @Override
     public int getItemCount() {
-        return news.size();
+        return news==null?0:news.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{

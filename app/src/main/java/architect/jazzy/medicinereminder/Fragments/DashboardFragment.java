@@ -3,15 +3,19 @@ package architect.jazzy.medicinereminder.Fragments;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
 import android.util.Log;
+import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,7 +35,9 @@ import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 
 import java.util.ArrayList;
+import java.util.Random;
 
+import architect.jazzy.medicinereminder.Activities.MedicineDetails;
 import architect.jazzy.medicinereminder.CustomComponents.CyclicTransitionDrawable;
 import architect.jazzy.medicinereminder.CustomViews.CircleView;
 import architect.jazzy.medicinereminder.Handlers.DataHandler;
@@ -53,7 +59,10 @@ public class DashboardFragment extends Fragment {
     //    int bbh, bbm, abh, abm, alh, alm, blh, blm, adh, adm, bdh, bdm;
     boolean is24hr;
 
-    CircleView circleSearch, circleAddDoctor, circleAddMedicine, circleMedicineList, circleDoctorList;
+    Drawable[] drawables;
+
+
+    CircleView circleSearch, circleNews, circleAddMedicine, circleMedicineList, circleDoctorList;
 
     int[] medicineViewIds = {R.id.medicine1, R.id.medicine2, R.id.medicine3, R.id.medicine4, R.id.medicine5, R.id.medicine6};
 
@@ -86,9 +95,16 @@ public class DashboardFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         v = inflater.inflate(R.layout.fragment_dashboard, container, false);
-
         medTimes = MedTime.getDefaultTimes(getActivity());
         isMenuOpen = false;
+        ImageView appIcon = (ImageView) v.findViewById(R.id.appIcon);
+        appIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((DrawerLayout) getActivity().findViewById(R.id.drawerLayout)).openDrawer(GravityCompat.START);
+            }
+        });
+
 
 
 //        try{
@@ -122,7 +138,7 @@ public class DashboardFragment extends Fragment {
         medicineCountView = (TextView) v.findViewById(R.id.medicineCount);
         backParent = (ImageView) v.findViewById(R.id.backParent);
 
-        circleAddDoctor = (CircleView) v.findViewById(R.id.circleAddDoctor);
+        circleNews = (CircleView) v.findViewById(R.id.circleNews);
         circleAddMedicine = (CircleView) v.findViewById(R.id.circleAddMedicine);
         circleDoctorList = (CircleView) v.findViewById(R.id.circleDoctorList);
         circleMedicineList = (CircleView) v.findViewById(R.id.circleMedicineList);
@@ -156,18 +172,27 @@ public class DashboardFragment extends Fragment {
             }
         });
 
-        circleAddDoctor.setOnClickListener(new View.OnClickListener() {
+        circleNews.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onFragmentInteractionListener.addDoctor();
+                onFragmentInteractionListener.showNews();
             }
         });
 
 
-        Drawable[] drawables = {getResources().getDrawable(R.drawable.back_car),
-                getResources().getDrawable(R.drawable.back_city),
+        drawables = new Drawable[]{getResources().getDrawable(R.drawable.back_car),
+                getResources().getDrawable(R.drawable.back_night),
                 getResources().getDrawable(R.drawable.back_street)};
-        CyclicTransitionDrawable transitionDrawable = new CyclicTransitionDrawable(drawables);
+        int ra = getRandomDrawableIndex();
+        int ra2 = getNextIndex(ra);
+        int ra3 = getNextIndex(ra2);
+        Drawable[] toDisplayDrawables = new Drawable[]{
+                drawables[ra],
+                drawables[ra2],
+                drawables[ra3]
+        };
+
+        CyclicTransitionDrawable transitionDrawable = new CyclicTransitionDrawable(toDisplayDrawables);
         transitionDrawable.startTransition(3000, 10000);
         backParent.setImageDrawable(transitionDrawable);
 
@@ -189,7 +214,22 @@ public class DashboardFragment extends Fragment {
                 break;
             }
             TextView view1 = (TextView) v.findViewById(medicineViewIds[i]);
-            view1.setText(Html.fromHtml(getMedicineDetailDisplayString(medicines.get(i), i)));
+            final Pair<Medicine, String> pair = getMedicineDetailDisplayString(medicines.get(i), i);
+            view1.setText(Html.fromHtml(pair.second));
+            view1.setTag(pair.first);
+            view1.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i = new Intent(getActivity(), MedicineDetails.class);
+                    ArrayList<Medicine> medicines1=new ArrayList<Medicine>();
+                    medicines1.add(pair.first);
+                    Bundle bundle = new Bundle();
+                    bundle.putParcelableArrayList(Constants.MEDICINE_NAME_LIST, medicines1);
+                    i.putExtra(Constants.MEDICINE_POSITION, 0);
+                    i.putExtras(bundle);
+                    startActivity(i);
+                }
+            });
             i++;
         }
 
@@ -204,6 +244,16 @@ public class DashboardFragment extends Fragment {
                 addNewItems();
             }
         });
+    }
+
+    int getRandomDrawableIndex() {
+        Random random = new Random();
+        int i = random.nextInt(3);
+        return i;
+    }
+
+    int getNextIndex(int i) {
+        return i >= 2 ? 0 : i + 1;
     }
 
 
@@ -297,27 +347,27 @@ public class DashboardFragment extends Fragment {
 
     }
 
-    String getMedicineDetailDisplayString(Medicine medicine, int viewIndex) {
+    private Pair<Medicine, String> getMedicineDetailDisplayString(Medicine medicine, int viewIndex) {
         MedTime breakfast = getBreakfastTime(medicine.getBreakfast());
         MedTime lunch = getLunchTime(medicine.getLunch());
         MedTime dinner = getDinnerTime(medicine.getDinner());
         MedTime customTime = medicine.getCustomTime();
 
-        String s = "<b>" + medicine.getMedName() + "</b>" + "\n<small>";
+        String s = "<b>" + medicine.getMedName() + "</b>" + "<small>";
         if (breakfast != null && !MedTime.hasPassed(breakfast)) {
-            s += breakfast.toString(is24hr) + "<br />";
+            s +=  "<br />"+breakfast.toString(is24hr);
         }
         if (lunch != null && !MedTime.hasPassed(lunch)) {
-            s += lunch.toString(is24hr) + "<br />";
+            s += "<br />"+lunch.toString(is24hr);
         }
         if (dinner != null && !MedTime.hasPassed(dinner)) {
-            s += dinner.toString(is24hr) + "<br />";
+            s += "<br />"+dinner.toString(is24hr);
         }
         if (customTime != null && !MedTime.hasPassed(customTime)) {
-            s += customTime.toString(is24hr);
+            s += "<br />"+customTime.toString(is24hr);
         }
         s += "</small>";
-        return s;
+        return Pair.create(medicine, s);
     }
 
     void addNewItems() {
@@ -400,6 +450,8 @@ public class DashboardFragment extends Fragment {
         void showMedicineList();
 
         void showDoctors();
+
+        void showNews();
 
         void showSearch();
 

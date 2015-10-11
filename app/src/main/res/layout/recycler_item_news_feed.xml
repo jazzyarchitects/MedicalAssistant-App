@@ -10,10 +10,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="@dimen/newsItemHeight"
-        app:cardCornerRadius="5dp"
-        app:elevation="5dp"
         android:gravity="center_vertical"
         android:background="@color/newsItemBackgroundColor"
+        app:cardCornerRadius="5dp"
+        app:elevation="5dp"
+        app:cardElevation="5dp"
+        app:cardPreventCornerOverlap="true"
+        app:cardUseCompatPadding="true"
         app:cardMaxElevation="5dp">
 
         <RelativeLayout

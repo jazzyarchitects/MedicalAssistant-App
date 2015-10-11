@@ -54,6 +54,15 @@ public class DoctorListAdapter extends RecyclerView.Adapter<DoctorListAdapter.Vi
                 itemClickListener.onItemClick(position, doctor);
             }
         });
+
+        holder.linearLayout.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                itemClickListener.onItemLongClick(position,doctor);
+                return true;
+            }
+        });
+
         holder.nameView.setBackgroundColor(Constants.getThemeColor(context));
         try {
             Bitmap bitmap=null;
@@ -127,6 +136,7 @@ public class DoctorListAdapter extends RecyclerView.Adapter<DoctorListAdapter.Vi
 
     public interface ItemClickListener {
         void onItemClick(int position, Doctor doctor);
+        void onItemLongClick(int position, Doctor doctor);
     }
 
     public void setItemClickListener(ItemClickListener itemClickListener) {

@@ -32,7 +32,7 @@ public class SearchResultParser {
     private static XmlPullParser xmlPullParser;
 
     public static SearchResult parse() {
-        Log.e(TAG, "Parsing Started");
+//        Log.e(TAG, "Parsing Started");
 
         SearchResult searchResult = new SearchResult();
 
@@ -82,7 +82,7 @@ public class SearchResultParser {
 
             try{
             Node countNode=document.getElementsByTagName("count").item(0).getChildNodes().item(0);
-                Log.e(TAG, "Count: " + countNode.getNodeValue());
+//                Log.e(TAG, "Count: " + countNode.getNodeValue());
             searchResult.setCount(Integer.parseInt(countNode.getNodeValue()));
             }catch (NullPointerException e){
                 Log.i(TAG, "No count");
@@ -93,7 +93,7 @@ public class SearchResultParser {
             try{
             Node retstartNode=document.getElementsByTagName("retstart").item(0).getChildNodes().item(0);
             searchResult.setRetstart(Integer.parseInt(retstartNode.getNodeValue()));
-                Log.e(TAG, "Retstart: " + retstartNode.getNodeValue());
+//                Log.e(TAG, "Retstart: " + retstartNode.getNodeValue());
             }catch (NullPointerException e){
                 Log.i(TAG, "No Retstart");
             }catch (NumberFormatException ne){
@@ -103,17 +103,17 @@ public class SearchResultParser {
             try{
             Node retmaxNode=document.getElementsByTagName("retmax").item(0).getChildNodes().item(0);
             searchResult.setRetmax(Integer.parseInt(retmaxNode.getNodeValue()));
-                Log.e(TAG, "Retmax: " + String.valueOf(retmaxNode.getNodeValue()));
+//                Log.e(TAG, "Retmax: " + String.valueOf(retmaxNode.getNodeValue()));
             }catch (NullPointerException e){
-                Log.i(TAG, "No Retmax");
+//                Log.i(TAG, "No Retmax");
             }catch (NumberFormatException ne){
-                Log.i(TAG, "Invalid Retmax");
+//                Log.i(TAG, "Invalid Retmax");
             }
 
 
             NodeList nodeList=document.getElementsByTagName("document");
 
-            Log.e(TAG,"Node Parsing");
+//            Log.e(TAG,"Node Parsing");
 
             for(int i=0;i<nodeList.getLength();i++){
                 Node node=nodeList.item(i);

@@ -1,72 +1,50 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/toolbar_background"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="architect.jazzy.medicinereminder.Activities.AboutUs"
-    android:background="@color/actionBackground">
+    tools:context="architect.jazzy.medicinereminder.Activities.AboutUs">
 
-    <ScrollView
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appBar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true">
+        android:layout_height="wrap_content">
 
-        <RelativeLayout
+        <!--android:background="@drawable/toolbar_background"-->
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:background="@color/actionBackground"
+            android:theme="@style/Theme.AppCompat" />
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:text="Jazzy Architects"
-                android:textColor="#FFF"
-                android:id="@+id/txt1"
-                android:textSize="30sp"
-               />
+    </android.support.design.widget.AppBarLayout>
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/ic_launcher"
-                android:layout_below="@id/txt1"
-                android:id="@+id/img1"
-                android:layout_marginTop="25dp"
-                android:layout_centerHorizontal="true"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_below="@id/appBar"
+        android:layout_height="match_parent">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#FFF"
-                android:layout_below="@id/img1"
-                android:text="Email us at:\n jazzy.architects@gmail.com"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="25dp"
-                android:gravity="center"
-                android:id="@+id/emailus"
-                android:textSize="24sp"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"></LinearLayout>
 
+        <TextView
+            android:id="@+id/emailus"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:gravity="center"
+            android:text="Email us at:\n jazzy.architects@gmail.com"
+            android:textColor="#FFF"
+            android:textSize="18sp" />
 
-
-            </RelativeLayout>
-
-
-        </ScrollView>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    </LinearLayout>
 
 </RelativeLayout>

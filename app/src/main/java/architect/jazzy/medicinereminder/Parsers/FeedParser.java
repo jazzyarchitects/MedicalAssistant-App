@@ -58,7 +58,7 @@ public class FeedParser {
     public static final String TAG_DESCRIPTION = "description";
 
     public static ArrayList<FeedItem> parse(){
-        Log.e("FeedParser", "Parsing Started");
+//        Log.e("FeedParser", "Parsing Started");
 
 
 

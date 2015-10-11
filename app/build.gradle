@@ -6,9 +6,9 @@ android {
     defaultConfig {
         applicationId "architect.jazzy.medicinereminder"
         minSdkVersion 14
-        targetSdkVersion 22
-        versionName '2.1'
-        versionCode 6
+        targetSdkVersion 23
+        versionName '3.01'
+        versionCode 8
 
 
         repositories {

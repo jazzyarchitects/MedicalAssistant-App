@@ -51,7 +51,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         bundle = intent.getExtras();
         medicines=bundle.getParcelableArrayList(Constants.MEDICINE_NAME_LIST);
 //        medicineList = bundle.getStringArrayList("MedicineList");
-        Log.e(TAG,"Alarm going off at: "+Calendar.getInstance().getTime().toString());
+//        Log.e(TAG,"Alarm going off at: "+Calendar.getInstance().getTime().toString());
 //        try{
 //            logAlarm();
 //        }catch (IOException e){

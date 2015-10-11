@@ -14,10 +14,11 @@ import architect.jazzy.medicinereminder.Services.AlarmSetterService;
 public class DeleteAllMedicines {
 
     private Context mcontext;
-    DataHandler dataHandler=new DataHandler(mcontext);
+    DataHandler dataHandler;
 
     public DeleteAllMedicines(Context context) {
         mcontext=context;
+        dataHandler=new DataHandler(mcontext);
     }
 
     public void deleteMedicines(){

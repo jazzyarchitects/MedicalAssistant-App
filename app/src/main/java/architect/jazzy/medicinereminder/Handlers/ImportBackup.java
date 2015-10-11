@@ -37,6 +37,7 @@ public class ImportBackup {
                 fileContent += line;
             }
             JSONObject jsonObject = new JSONObject(fileContent);
+            activity.deleteDatabase(DataHandler.DATABASE_NAME);
             DataHandler handler=new DataHandler(activity);
 
             try {

@@ -14,6 +14,9 @@
         app:cardElevation="3dp"
         android:gravity="center_vertical"
         android:background="@color/newsItemBackgroundColor"
+        app:cardCornerRadius="5dp"
+        app:cardPreventCornerOverlap="true"
+        app:cardUseCompatPadding="true"
         app:cardMaxElevation="5dp">
 
         <RelativeLayout

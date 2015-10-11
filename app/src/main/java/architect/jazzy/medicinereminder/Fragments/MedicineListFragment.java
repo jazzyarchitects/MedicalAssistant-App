@@ -24,6 +24,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -81,6 +82,9 @@ public class MedicineListFragment extends Fragment {
         v=inflater.inflate(R.layout.fragment_list, container, false);
         context=getActivity();
 
+        LinearLayout emptyList = (LinearLayout)v.findViewById(R.id.emptyList);
+
+        emptyList.setVisibility(View.GONE);
         /**Analytics Code*/
         Tracker t = ((ThisApplication) getActivity().getApplication()).getTracker(
                 ThisApplication.TrackerName.APP_TRACKER);
@@ -270,6 +274,12 @@ public class MedicineListFragment extends Fragment {
     private boolean supportsViewElevation() {
         return (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP);
     }
+
+//    @Override
+//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+//        super.onCreateOptionsMenu(menu, inflater);
+//        inflater.inflate(R.menu.menu_common,menu);
+//    }
 
     public void itemRemoved(final int position, final Medicine item) {
         final String name = item.getMedName();

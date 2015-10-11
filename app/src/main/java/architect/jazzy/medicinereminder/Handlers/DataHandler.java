@@ -284,7 +284,11 @@ public class DataHandler {
         content.put(MedicineTable.COL_THURSDAY, String.valueOf(medicine.getThu()));
         content.put(MedicineTable.COL_FRIDAY, String.valueOf(medicine.getFri()));
         content.put(MedicineTable.COL_SATURDAY, String.valueOf(medicine.getSat()));
-        content.put(MedicineTable.COL_CUSTOM_TIME, medicine.getCustomTime().getHour() + "," + medicine.getCustomTime().getMinute());
+        try {
+            content.put(MedicineTable.COL_CUSTOM_TIME, medicine.getCustomTime().getHour() + "," + medicine.getCustomTime().getMinute());
+        }catch (NullPointerException e){
+            content.put(MedicineTable.COL_CUSTOM_TIME,",");
+        }
         content.put(MedicineTable.COL_NOTES, medicine.getNote());
         content.put(MedicineTable.COL_END_DATE, medicine.getEndDate());
         content.put(MedicineTable.COL_ICON, medicine.getIcon());

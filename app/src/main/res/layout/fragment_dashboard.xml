@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="#FFF"
     tools:context="architect.jazzy.medicinereminder.Fragments.DashboardFragment">
 
     <ImageView
@@ -30,16 +31,6 @@
             android:orientation="horizontal"
             android:weightSum="3">
 
-            <architect.jazzy.medicinereminder.CustomViews.CircleView
-                android:id="@+id/circleSearch"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                app:isButton="true"
-                app:text="Search"
-                app:textColor="#000"
-                app:textSize="12sp" />
-
 
             <architect.jazzy.medicinereminder.CustomViews.CircleView
                 android:id="@+id/circleMedicineList"
@@ -51,13 +42,25 @@
                 app:textSize="12sp" />
 
 
+
             <architect.jazzy.medicinereminder.CustomViews.CircleView
-                android:id="@+id/circleAddMedicine"
+                android:id="@+id/circleSearch"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 app:isButton="true"
-                app:text="Add\nMedicines"
+                app:text="Search"
+                app:textColor="#000"
+                app:textSize="12sp" />
+
+            <architect.jazzy.medicinereminder.CustomViews.CircleView
+                android:id="@+id/circleDoctorList"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                app:isButton="true"
+                app:text="My\nDoctors"
+                app:textColor="#000"
                 app:textSize="12sp" />
 
 
@@ -73,15 +76,13 @@
             android:orientation="horizontal"
             android:weightSum="3">
 
-
             <architect.jazzy.medicinereminder.CustomViews.CircleView
-                android:id="@+id/circleDoctorList"
+                android:id="@+id/circleAddMedicine"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 app:isButton="true"
-                app:text="My\nDoctors"
-                app:textColor="#000"
+                app:text="Add\nMedicines"
                 app:textSize="12sp" />
 
 
@@ -90,16 +91,17 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:padding="20dp"
+                android:id="@+id/appIcon"
                 android:scaleType="centerInside"
                 android:src="@mipmap/ic_launcher" />
 
             <architect.jazzy.medicinereminder.CustomViews.CircleView
-                android:id="@+id/circleAddDoctor"
+                android:id="@+id/circleNews"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 app:isButton="true"
-                app:text="Add\nDoctors"
+                app:text="News"
                 app:textSize="12sp" />
 
 

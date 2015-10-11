@@ -25,6 +25,12 @@ public class MedTime {
         this.minute = minute;
     }
     public MedTime(String hour, String minute) {
+        if(hour==null){
+            hour="-1";
+        }
+        if(minute==null){
+            minute="-1";
+        }
         this.hour = Integer.parseInt(hour);
         this.minute = Integer.parseInt(minute);
     }

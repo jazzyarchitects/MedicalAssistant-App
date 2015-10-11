@@ -100,6 +100,8 @@ public class AddDoctorFragment extends Fragment {
             }
         });
 
+        docName.setSelected(true);
+
         setEditTextIcons(Constants.getThemeColor(getActivity()));
         
         try {
@@ -178,6 +180,7 @@ public class AddDoctorFragment extends Fragment {
         }
     }
 
+
     void retrieveContactDetails() {
         retrieveContactNumber();
     }
@@ -243,6 +246,7 @@ public class AddDoctorFragment extends Fragment {
         dataHandler.insertDoctor(doctor);
         dataHandler.close();
         Toast.makeText(getActivity(), "Doctor details saved", Toast.LENGTH_SHORT).show();
+        onFragmentInteractionListener.showDoctors();
     }
 
 
@@ -280,8 +284,8 @@ public class AddDoctorFragment extends Fragment {
                 phoneCursor.close();
             }
             cursor.close();
-            onFragmentInteractionListener.showDoctors();
         }
+        updateForm();
     }
 
     Uri retrieveContactUri(Cursor cursor) {
@@ -316,11 +320,6 @@ public class AddDoctorFragment extends Fragment {
         startActivityForResult(i, CONTACT_PICK_REQUEST_CODE);
     }
 
-
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {

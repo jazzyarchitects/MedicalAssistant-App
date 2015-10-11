@@ -70,7 +70,7 @@ public class Medicine implements Parcelable{
         dest.writeString(lunch);
         dest.writeString(dinner);
     }
-    public static Parcelable.Creator<Medicine> CREATOR=new Parcelable.Creator<Medicine>(){
+    public static final Creator<Medicine> CREATOR = new Creator<Medicine>() {
 
         @Override
         public Medicine createFromParcel(Parcel source) {
@@ -151,7 +151,7 @@ public class Medicine implements Parcelable{
     }
 
     private static boolean[] parseDaysFromJSON(JSONObject jsonObject){
-        boolean[] days=new boolean[6];
+        boolean[] days=new boolean[7];
         days[0]=jsonObject.optBoolean("sunday");
         days[1]=jsonObject.optBoolean("monday");
         days[2]=jsonObject.optBoolean("tuesday");

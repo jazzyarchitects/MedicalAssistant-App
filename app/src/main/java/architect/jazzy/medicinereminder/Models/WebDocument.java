@@ -5,6 +5,9 @@ import android.os.Parcelable;
 import android.text.Html;
 import android.text.Spanned;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
 /**
@@ -54,22 +57,6 @@ public class WebDocument implements Parcelable {
         this.fullSummary = fullSummary;
     }
 
-    public void setMesh(ArrayList<String> mesh) {
-        this.mesh = mesh;
-    }
-
-    public void setGroupName(ArrayList<String> groupName) {
-        this.groupName = groupName;
-    }
-
-    public void setAltTitle(ArrayList<String> altTitle) {
-        this.altTitle = altTitle;
-    }
-
-    public String getSnippet() {
-        return snippet;
-    }
-
     public void setSnippet(String snippet) {
         this.snippet = snippet;
     }
@@ -82,16 +69,43 @@ public class WebDocument implements Parcelable {
         this.url = url;
     }
 
-    public ArrayList<String> getMesh() {
-        return mesh;
-    }
 
     public void addMesh(String mesh) {
         this.mesh.add(mesh);
     }
 
-    public ArrayList<String> getGroupName() {
-        return groupName;
+    public JSONObject toJSON(){
+        JSONObject jsonObject=new JSONObject();
+        try{
+            jsonObject.put("title",getTitle());
+            jsonObject.put("url",getUrl());
+            jsonObject.put("organization",getOrganizationName());
+            jsonObject.put("alt",getAltTitle().get(0));
+            jsonObject.put("full",getFullSummary());
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
+        return jsonObject;
+    }
+
+    public static WebDocument parse(JSONObject jsonObject){
+        WebDocument webDocument=new WebDocument();
+        try{
+            webDocument.setTitle(jsonObject.optString("title"));
+            webDocument.setUrl(jsonObject.optString("url"));
+            webDocument.setAltTitle(jsonObject.optString("alt"));
+            webDocument.setOrganizationName(jsonObject.optString("organization"));
+            webDocument.setFullSummary(jsonObject.optString("full"));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return webDocument;
+    }
+
+
+    public void setAltTitle(String string){
+        this.altTitle=new ArrayList<>();
+        this.altTitle.add(string);
     }
 
     public void addGroupName(String groupName) {

@@ -6,6 +6,7 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.annotation.AnimRes;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -27,12 +28,12 @@ import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import architect.jazzy.medicinereminder.Adapters.NewsListAdapter;
 import architect.jazzy.medicinereminder.CustomComponents.FragmentBackStack;
 import architect.jazzy.medicinereminder.CustomViews.ColorSelectorFragment;
 import architect.jazzy.medicinereminder.CustomViews.DaySelectorFragmentDialog;
@@ -60,7 +61,7 @@ import architect.jazzy.medicinereminder.Services.AlarmSetterService;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
         EmojiSelectFragment.OnFragmentInteractionListener,  DaySelectorFragmentDialog.OnFragmentInteractionListener,
         MedicineListFragment.FragmentInteractionListener, AddMedicineFragment.FragmentInteractionListener,
-        NewsListAdapter.FeedClickListener, DoctorListFragment.OnMenuItemClickListener,
+        NewsListFragment.FeedClickListener, DoctorListFragment.OnMenuItemClickListener,
         DoctorMedicineListFragment.FragmentInteractionListener, DoctorListFragment.OnFragmentInteractionListenr,
         DoctorDetailFragment.ImageChangeListener, DashboardFragment.OnFragmentInteractionListener,
         AddDoctorFragment.OnFragmentInteractionListener, ColorSelectorFragment.OnColorChangeListener{
@@ -80,6 +81,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        if(!getSharedPreferences("illustration",MODE_PRIVATE).getBoolean("shown1",false)){
+            startActivity(new Intent(this, Illustration.class));
+            finish();
+        }
+
         setContentView(R.layout.activity_main);
 
         toolbar = (Toolbar)findViewById(R.id.toolbar);
@@ -106,11 +113,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //.addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
         //.addTestDevice("8143FD5F7B003AB85585893D768C3142");
 
-//        interstitialAd.loadAd(adRequest);
+        interstitialAd.loadAd(adRequest);
         interstitialAd.setAdListener(new AdListener() {
             public void onAdLoaded() {
                 // Call displayInterstitial() function
-//               displayInterstitial();
+               displayInterstitial();
             }
         });
 
@@ -139,7 +146,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //        testCalendar();
     }
 
-
     @Override
     public void onThemeColorChange(int color) {
         toolbar.setBackgroundColor(color);
@@ -164,7 +170,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void testCalendar(){
         Calendar calendar=Calendar.getInstance();
-        Log.e(TAG,"Calendar Test: "+calendar.toString());
+        Log.e(TAG, "Calendar Test: " + calendar.toString());
     }
 
     private void dimNotificationBar() {
@@ -220,11 +226,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     super.onBackPressed();
                     return;
                 }
-                Log.e(TAG,"popping support fragment: "+fragment1.toString());
+//                Log.e(TAG,"popping support fragment: "+fragment1.toString());
                 displaySupportFragment(fragment1,false);
                 return;
             }
-            Log.e(TAG,"popping fragment");
+//            Log.e(TAG,"popping fragment");
             displayFragment(fragment,false);
         }
         else{
@@ -243,6 +249,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
+        getSharedPreferences(Constants.INTERNAL_PREF, Context.MODE_PRIVATE)
+                .edit()
+                .putBoolean(Constants.SEARCH_RESULT,false)
+                .apply();
+
+        Thread thread=new Thread(new Runnable() {
+            @Override
+            public void run() {
+                File folder = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/tmpMR");
+                File file=new File(folder,Constants.SEARCH_FILE_NAME);
+                if(file.exists()){
+                    try{
+                        file.delete();
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+        thread.start();
+
     }
 
     @Override
@@ -270,9 +298,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //            case R.id.add:
 //                addMedicine(false);
 //                break;
-            case R.id.credits:
-                showCredits();
-                break;
+//            case R.id.credits:
+//                showCredits();
+//                break;
             case R.id.news:
                 if(!(fragment instanceof NewsListFragment)) {
                     displayFragment(new NewsListFragment(), true);
@@ -332,6 +360,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if(add) {
             addToBackStack();
         }
+        toolbar.getMenu().clear();
         FragmentManager fragmentManager=getFragmentManager();
         FragmentTransaction transaction=fragmentManager.beginTransaction();
 //        transaction.setCustomAnimations(enterAnim,exitAnim);
@@ -353,7 +382,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             if(fragment==null){
                 throw new Exception();
             }
-            fragmentBackStack.push(fragment);
+            if(!(fragment instanceof SearchFragment))
+                fragmentBackStack.push(fragment);
+            toolbar.getMenu().clear();
         }catch (Exception e){
             android.support.v4.app.Fragment fragment=getSupportFragmentManager().findFragmentById(R.id.frame);
             if(fragment==null){
@@ -368,36 +399,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-    public void displaySupportFragment(android.support.v4.app.Fragment fragment, boolean add, @AnimRes int enterAnim, @AnimRes int exitAnim){
-        if(fragment==null){
+    public void displaySupportFragment(android.support.v4.app.Fragment fragment, boolean add, @AnimRes int enterAnim, @AnimRes int exitAnim) {
+        if (fragment == null) {
             return;
         }
-
-
-        if(add){
+        toolbar.getMenu().clear();
+        if (add) {
             addToBackStack();
         }
 
-        try{
+        try {
             getFragmentManager().beginTransaction().remove(getFragmentManager().findFragmentById(R.id.frame)).commit();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
 
-        Log.e(TAG,"display Support fragment: "+fragment.toString());
+//        Log.e(TAG,"display Support fragment: "+fragment.toString());
 
-        android.support.v4.app.FragmentManager fragmentManager=getSupportFragmentManager();
-        android.support.v4.app.FragmentTransaction transaction=fragmentManager.beginTransaction();
+        android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
+        android.support.v4.app.FragmentTransaction transaction = fragmentManager.beginTransaction();
 //        transaction.setCustomAnimations(enterAnim,exitAnim);
-        transaction.replace(R.id.frame,fragment).commit();
-
-//        try {
-//            getSupportActionBar().show();
-//        }catch (NullPointerException e){
-//            e.printStackTrace();
-//        }
-
+        transaction.replace(R.id.frame, fragment).commit();
     }
 
     void showCredits(){
@@ -484,6 +507,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
+    public void showNews() {
+        displayFragment(new NewsListFragment(), true);
+    }
+
+    @Override
     public void showSearch() {
         displayFragment(new SearchFragment(), true);
     }
@@ -506,6 +534,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onFeedClick(FeedItem item) {
         showFeed(item.getUrl());
     }
+
 
 
     @Override

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="architect.jazzy.medicinereminder" >
+    package="architect.jazzy.medicinereminder">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
@@ -11,33 +11,34 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <supports-screens
         android:anyDensity="true"
         android:resizeable="true" />
 
-    <!--<uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />-->
+    <!-- <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" /> -->
     <!--
  The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but are recommended.
     -->
-    <!--<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />-->
-    <!--<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />-->
-
+    <!-- <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> -->
+    <!-- <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> -->
     <application
         android:name=".ThisApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
         <activity
             android:name=".Activities.MainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|stateHidden" >
+            android:windowSoftInputMode="adjustPan|stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -45,23 +46,20 @@
         <receiver
             android:name=".BroadcastRecievers.AlarmReceiver"
             android:enabled="true"
-            android:exported="true" >
-        </receiver>
+            android:exported="true" />
 
         <activity
             android:name=".Activities.NotificationOpen"
             android:label="@string/title_activity_notification_open"
-            android:parentActivityName=".Activities.MainActivity" >
-        </activity>
+            android:parentActivityName=".Activities.MainActivity" />
         <activity
             android:name=".Activities.AboutUs"
             android:label="About Us"
             android:parentActivityName=".Activities.MainActivity"
-            android:screenOrientation="portrait">
-        </activity>
+            android:screenOrientation="portrait" />
 
         <!-- This service is only used on devices with API v17+ -->
-        <receiver android:name=".Activities.AppWidget" >
+        <receiver android:name=".Activities.AppWidget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -73,13 +71,12 @@
 
         <service
             android:name=".Services.AlarmSetterService"
-            android:exported="false" >
-        </service>
+            android:exported="false" />
 
         <receiver
             android:name=".BroadcastRecievers.BootCompleteReciever"
             android:enabled="true"
-            android:exported="true" >
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
@@ -87,23 +84,20 @@
         <receiver
             android:name=".HelperClasses.DailyAlarmStarter"
             android:enabled="true"
-            android:exported="true" >
-        </receiver>
+            android:exported="true" />
 
         <activity
             android:name=".Activities.PopupWindow"
             android:label="@string/title_activity_popup_window"
             android:screenOrientation="portrait"
             android:showOnLockScreen="true"
-            android:theme="@style/popup_style" >
-        </activity>
+            android:theme="@style/popup_style" />
         <activity
             android:name=".Activities.FullScreenLockScreen"
             android:label="@string/title_activity_full_screen_lock_screen"
             android:screenOrientation="portrait"
             android:showOnLockScreen="true"
-            android:theme="@style/FullscreenTheme" >
-        </activity>
+            android:theme="@style/FullscreenTheme" />
 
         <meta-data
             android:name="com.google.android.gms.version"
@@ -112,29 +106,24 @@
         <activity
             android:name="com.google.android.gms.ads.AdActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize" />
-
         <activity
             android:name=".Activities.MedicineDetails"
             android:label="@string/title_activity_medicine_details"
             android:parentActivityName=".Activities.MainActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|stateHidden" >
-        </activity>
+            android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
             android:name=".Activities.TimeSettingPreference"
             android:label="Default Timings"
             android:parentActivityName=".Activities.MainActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|stateHidden" >
-        </activity>
+            android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
             android:name=".Activities.Illustration"
-            android:label="@string/title_activity_illustration" >
-        </activity>
+            android:label="@string/title_activity_illustration" />
         <activity
             android:name=".Activities.GoogleDriveActivity"
-            android:label="@string/title_activity_google_drive" >
-        </activity>
+            android:label="@string/title_activity_google_drive" />
 
         <meta-data
             android:name="com.google.android.maps.v2.API_KEY"
@@ -142,8 +131,25 @@
 
         <activity
             android:name=".Activities.BackupRestore"
-            android:label="@string/title_activity_backup_restore" >
+            android:label="@string/title_activity_backup_restore"
+            android:parentActivityName=".Activities.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+
+                <data
+                    android:host="*"
+                    android:mimeType="*/*"
+                    android:pathPattern=".*\\.medBackup"
+                    android:scheme="file" />
+            </intent-filter>
         </activity>
+        <activity android:name=".Activities.RegistrationActivity" />
+        <activity
+            android:name=".Activities.OnlineActivity"
+            android:label="@string/title_activity_online"
+            android:theme="@style/AppTheme" />
     </application>
 
 </manifest>

@@ -22,8 +22,8 @@ import java.util.TimerTask;
 
 import architect.jazzy.medicinereminder.Adapters.MedicineDetailsViewPagerAdapter;
 import architect.jazzy.medicinereminder.CustomViews.CustomViewPager;
-import architect.jazzy.medicinereminder.Fragments.EmojiSelectFragment;
-import architect.jazzy.medicinereminder.Fragments.MedicineDetailFragment;
+import architect.jazzy.medicinereminder.Fragments.OfflineActivity.EmojiSelectFragment;
+import architect.jazzy.medicinereminder.Fragments.OfflineActivity.MedicineDetailFragment;
 import architect.jazzy.medicinereminder.Handlers.DataHandler;
 import architect.jazzy.medicinereminder.HelperClasses.Constants;
 import architect.jazzy.medicinereminder.Models.Medicine;

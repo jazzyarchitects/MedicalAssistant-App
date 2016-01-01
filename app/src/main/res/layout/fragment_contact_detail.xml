@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:padding="5dp"
     android:background="@color/doctorDetailFragmentsColor"
-    tools:context="architect.jazzy.medicinereminder.Fragments.DoctorDetailFragments.ContactDetailFragment">
+    tools:context=".Fragments.OfflineActivity.DoctorDetailFragments.ContactDetailFragment">
 
     <ScrollView
         android:layout_width="match_parent"

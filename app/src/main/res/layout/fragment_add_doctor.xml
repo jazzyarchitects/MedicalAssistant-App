@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/deafaultFragmentBackground"
-    tools:context="architect.jazzy.medicinereminder.Fragments.AddDoctorFragment">
+    tools:context=".Fragments.OfflineActivity.AddDoctorFragment">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -122,13 +122,14 @@
             android:paddingRight="5dp"
             android:paddingStart="5dp"
             android:paddingEnd="5dp"
+            android:gravity="center_vertical"
             android:weightSum="1">
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:layout_weight="1">
+                android:layout_weight="0.80">
 
                 <EditText
                     android:id="@+id/docAddress"
@@ -142,6 +143,12 @@
                     android:drawableLeft="@drawable/ic_location_city_black_24dp"
                     android:inputType="textMultiLine" />
             </android.support.design.widget.TextInputLayout>
+
+            <ImageButton
+                android:layout_weight="0.2"
+                android:layout_width="0dp"
+                android:src="@drawable/ic_action_map"
+                android:layout_height="wrap_content"/>
         </TableRow>
 
 

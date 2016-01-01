@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="60dp"
+    android:orientation="horizontal"
+    android:paddingBottom="2dp"
+    android:paddingLeft="5dp"
+    android:paddingRight="5dp"
+    android:paddingTop="2dp"
+    android:background="#FFF"
+    android:id="@+id/linearLayout">
+
+    <ImageView
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp"
+        android:src="@drawable/userlogin"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="3">
+
+        <TextView
+            android:id="@+id/doctorName"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.5"
+            android:gravity="center_vertical"
+            android:text="Medicine Nagme"
+            android:textColor="#000"
+            android:textSize="15sp" />
+        <TextView
+            android:id="@+id/doctorContact"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1.5"
+            android:gravity="center_vertical"
+            android:text="Medicine Nagme"
+            android:textColor="#222"
+            android:textSize="14sp" />
+
+
+    </LinearLayout>
+
+
+
+</LinearLayout>

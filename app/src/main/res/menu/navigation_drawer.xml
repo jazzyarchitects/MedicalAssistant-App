@@ -5,6 +5,10 @@
         <!--android:icon="@drawable/ic_action_new"-->
         <!--android:title="Add Medicine" />-->
 
+    <item android:id="@+id/myAccount"
+        android:title="My Account"
+        android:icon="@drawable/ic_action_key"/>
+
     <item android:id="@+id/circularTest"
         android:title="Dashboard"
         android:icon="@drawable/ic_action_calendar_month"/>
@@ -18,11 +22,6 @@
         android:icon="@drawable/ic_action_user"
         android:title="My Doctors" />
 
-    <item android:id="@+id/practoSearch"
-        android:icon="@drawable/ic_action_search"
-        android:visible="false"
-        android:title="Find me a doctor" />
-    
     <item
         android:id="@+id/news"
         android:icon="@drawable/ic_action_coffee"

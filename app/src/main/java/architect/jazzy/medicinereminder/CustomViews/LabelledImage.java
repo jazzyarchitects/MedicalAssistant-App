@@ -5,8 +5,9 @@ import android.graphics.Color;
 import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.util.AttributeSet;
-import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -32,6 +33,7 @@ public class LabelledImage extends LinearLayout {
     private int color;
     private LabelledImage thisView;
     private int textColor;
+    private boolean noAuxillaryText = false;
     public LabelledImage(Context context) {
         this(context, null);
     }
@@ -75,6 +77,7 @@ public class LabelledImage extends LinearLayout {
             imageSrcResource = attrs.getAttributeResourceValue(NAMESPACE, "src", 0);
             textStringResource = attrs.getAttributeValue(NAMESPACE,"text");
             color=attrs.getAttributeResourceValue(NAMESPACE,"textColor",Color.BLACK);
+            noAuxillaryText=attrs.getAttributeBooleanValue(NAMESPACE,"keepScreenOn",false);
             this.textColor=color;
             viewInitialState=attrs.getAttributeBooleanValue(NAMESPACE,"saveEnabled",false);
 
@@ -90,6 +93,15 @@ public class LabelledImage extends LinearLayout {
                 state=false;
                 this.setGrayScale();
             }
+        }
+
+        if(noAuxillaryText){
+            textViewAuxillary.setVisibility(View.GONE);
+            LinearLayout.LayoutParams layoutParams=new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 5);
+            textView.setLayoutParams(layoutParams);
+            textView.setGravity(Gravity.CENTER);
+            textView.setText(textStringResource);
+            textView.setTextSize(14);
         }
     }
 

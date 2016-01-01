@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/screen_background"
-    tools:context="architect.jazzy.medicinereminder.Fragments.NewsFragments.NewsListFragment">
+    tools:context=".Fragments.OfflineActivity.NewsFragments.NewsListFragment">
 
     <ProgressBar
         android:id="@+id/progressBar"

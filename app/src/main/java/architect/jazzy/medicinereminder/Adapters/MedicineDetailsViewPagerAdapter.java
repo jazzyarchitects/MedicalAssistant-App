@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import architect.jazzy.medicinereminder.Fragments.MedicineDetailFragment;
+import architect.jazzy.medicinereminder.Fragments.OfflineActivity.MedicineDetailFragment;
 import architect.jazzy.medicinereminder.Models.Medicine;
 
 /**

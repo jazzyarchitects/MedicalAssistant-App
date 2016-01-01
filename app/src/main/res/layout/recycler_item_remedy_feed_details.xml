@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="3dp"
+    android:weightSum="10"
+    tools:showIn="@layout/recycler_item_remedyfeed">
+
+    <TextView
+        android:id="@+id/remedyDescription"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="5.5"
+        android:ellipsize="end"
+        android:maxLines="3"
+        android:text="@string/lorem_ipsum"
+        android:textColor="#222"
+        android:textSize="13sp" />
+
+    <TextView
+        android:id="@+id/remedyDiseases"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:gravity="center_vertical"
+        android:textSize="12sp"
+        android:text="Diseases......."
+        android:layout_weight="2" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="2.5"
+        android:orientation="horizontal"
+        android:weightSum="4">
+
+            <ImageButton android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:textSize="12sp"
+                android:id="@+id/likeButton"
+                android:background="#00000000"
+                android:src="@drawable/ic_action_like"/>
+
+            <ImageButton android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:textSize="12sp"
+                android:id="@+id/dislikeButton"
+                android:background="#00000000"
+                android:src="@drawable/ic_action_dontlike"/>
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textSize="12sp"
+            android:id="@+id/viewButton"
+            android:background="#FFF"
+            android:text="View"/>
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:textSize="12sp"
+            android:id="@+id/shareButton"
+            android:background="#FFF"
+            android:text="Share"/>
+
+
+    </LinearLayout>
+
+</LinearLayout>

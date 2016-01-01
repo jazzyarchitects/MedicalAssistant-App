@@ -12,7 +12,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:cardUseCompatPadding="true"
-    tools:context="architect.jazzy.medicinereminder.Fragments.MedicineDetailFragment">
+    tools:context=".Fragments.OfflineActivity.MedicineDetailFragment">
 
     <ScrollView
         android:layout_width="match_parent"

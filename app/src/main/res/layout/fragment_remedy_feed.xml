@@ -1,0 +1,23 @@
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="architect.jazzy.medicinereminder.Fragments.OnlineActivity.RemedyFeedFragment">
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical"
+        android:clipToPadding="true"
+        android:id="@+id/recyclerView" />
+
+    <!--<android.support.design.widget.FloatingActionButton-->
+        <!--android:layout_width="@dimen/floatingActionButtonSize"-->
+        <!--android:layout_height="@dimen/floatingActionButtonSize"-->
+        <!--android:layout_gravity="bottom|right|end"-->
+        <!--android:layout_margin="5dp"-->
+        <!--app:elevation="8dp"-->
+        <!--app:pressedTranslationZ="3dp"/>-->
+
+</android.support.design.widget.CoordinatorLayout>

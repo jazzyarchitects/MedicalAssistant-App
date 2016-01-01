@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="200dp"
+    app:cardBackgroundColor="#FFF"
+    app:cardElevation="3dp">
+
+    <ImageView
+        android:id="@+id/background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/stethoscope" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:minHeight="150dp">
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/cardView"
+            android:layout_marginBottom="3dp"
+            android:paddingLeft="5dp"
+            android:text="Remedy Title"
+            android:textColor="#FFF"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            tools:textColor="#FFF" />
+
+        <android.support.v7.widget.CardView
+            android:id="@+id/cardView"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:layout_alignParentBottom="true"
+            app:cardCornerRadius="3dp"
+            app:cardElevation="5dp"
+            app:cardMaxElevation="5dp">
+
+            <include
+                layout="@layout/recycler_item_remedy_feed_details"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+
+        </android.support.v7.widget.CardView>
+
+
+    </RelativeLayout>
+
+
+</android.support.v7.widget.CardView>

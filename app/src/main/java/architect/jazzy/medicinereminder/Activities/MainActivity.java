@@ -24,8 +24,6 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
-import com.google.android.gms.ads.AdListener;
-import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
 
 import java.io.File;
@@ -37,23 +35,23 @@ import java.util.TimerTask;
 import architect.jazzy.medicinereminder.CustomComponents.FragmentBackStack;
 import architect.jazzy.medicinereminder.CustomViews.ColorSelectorFragment;
 import architect.jazzy.medicinereminder.CustomViews.DaySelectorFragmentDialog;
-import architect.jazzy.medicinereminder.Fragments.AddDoctorFragment;
-import architect.jazzy.medicinereminder.Fragments.AddMedicineFragment;
-import architect.jazzy.medicinereminder.Fragments.BrowserFragment;
-import architect.jazzy.medicinereminder.Fragments.DashboardFragment;
-import architect.jazzy.medicinereminder.Fragments.DoctorDetailFragments.DoctorDetailFragment;
-import architect.jazzy.medicinereminder.Fragments.DoctorDetailFragments.DoctorMedicineListFragment;
-import architect.jazzy.medicinereminder.Fragments.DoctorListFragment;
-import architect.jazzy.medicinereminder.Fragments.EmojiSelectFragment;
-import architect.jazzy.medicinereminder.Fragments.MedicineListFragment;
-import architect.jazzy.medicinereminder.Fragments.NewsFragments.NewsListFragment;
-import architect.jazzy.medicinereminder.Fragments.Practo.DoctorSearch;
-import architect.jazzy.medicinereminder.Fragments.SearchFragments.SearchFragment;
-import architect.jazzy.medicinereminder.Fragments.SettingsFragment;
+import architect.jazzy.medicinereminder.Fragments.OfflineActivity.AddDoctorFragment;
+import architect.jazzy.medicinereminder.Fragments.OfflineActivity.AddMedicineFragment;
+import architect.jazzy.medicinereminder.Fragments.OfflineActivity.BrowserFragment;
+import architect.jazzy.medicinereminder.Fragments.OfflineActivity.DashboardFragment;
+import architect.jazzy.medicinereminder.Fragments.OfflineActivity.DoctorDetailFragments.DoctorDetailFragment;
+import architect.jazzy.medicinereminder.Fragments.OfflineActivity.DoctorDetailFragments.DoctorMedicineListFragment;
+import architect.jazzy.medicinereminder.Fragments.OfflineActivity.DoctorListFragment;
+import architect.jazzy.medicinereminder.Fragments.OfflineActivity.EmojiSelectFragment;
+import architect.jazzy.medicinereminder.Fragments.OfflineActivity.MedicineListFragment;
+import architect.jazzy.medicinereminder.Fragments.OfflineActivity.NewsFragments.NewsListFragment;
+import architect.jazzy.medicinereminder.Fragments.OfflineActivity.SearchFragments.SearchFragment;
+import architect.jazzy.medicinereminder.Fragments.OfflineActivity.SettingsFragment;
 import architect.jazzy.medicinereminder.HelperClasses.Constants;
 import architect.jazzy.medicinereminder.Models.Doctor;
 import architect.jazzy.medicinereminder.Models.FeedItem;
 import architect.jazzy.medicinereminder.Models.Medicine;
+import architect.jazzy.medicinereminder.Models.User;
 import architect.jazzy.medicinereminder.R;
 import architect.jazzy.medicinereminder.Services.AlarmSetterService;
 
@@ -85,6 +83,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if(!getSharedPreferences("illustration",MODE_PRIVATE).getBoolean("shown1",false)){
             startActivity(new Intent(this, Illustration.class));
             finish();
+            return;
         }
 
         setContentView(R.layout.activity_main);
@@ -107,28 +106,30 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         //TODO: uncomment ad
 
-        interstitialAd=new InterstitialAd(MainActivity.this);
-        interstitialAd.setAdUnitId("ca-app-pub-6208186273505028/3306536191");
-        AdRequest adRequest=new AdRequest.Builder().build();
+//        interstitialAd=new InterstitialAd(MainActivity.this);
+//        interstitialAd.setAdUnitId("ca-app-pub-6208186273505028/3306536191");
+//        AdRequest adRequest=new AdRequest.Builder().build();
         //.addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
         //.addTestDevice("8143FD5F7B003AB85585893D768C3142");
 
-        interstitialAd.loadAd(adRequest);
-        interstitialAd.setAdListener(new AdListener() {
-            public void onAdLoaded() {
+//        interstitialAd.loadAd(adRequest);
+//        interstitialAd.setAdListener(new AdListener() {
+//            public void onAdLoaded() {
                 // Call displayInterstitial() function
-               displayInterstitial();
-            }
-        });
+//               displayInterstitial();
+//            }
+//        });
 
 
         navigationView = (NavigationView)findViewById(R.id.navigationView);
-        searchQuery=(EditText)navigationView.findViewById(R.id.searchQuery);
-        navigationView.findViewById(R.id.searchButton).setVisibility(View.GONE);
+        View headerLayout=navigationView.getHeaderView(0);
+        searchQuery=(EditText)headerLayout.findViewById(R.id.searchQuery);
+//        Log.e(TAG, navigationView.getChildCount()+" "+navigationView.getChildAt(0).toString());
+        headerLayout.findViewById(R.id.searchButton).setVisibility(View.GONE);
         navigationView.setNavigationItemSelectedListener(this);
 //        navigationView.getMenu().findItem(R.id.add).setChecked(true);
 
-        findViewById(R.id.back).setBackgroundColor(Constants.getThemeColor(this));
+        headerLayout.findViewById(R.id.back).setBackgroundColor(Constants.getThemeColor(this));
         searchQuery.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -142,6 +143,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
 
         dimNotificationBar();
+//        displayFragment(new AddAppointmentFragment(), true);
         displayFragment(new DashboardFragment(), true);
 //        testCalendar();
     }
@@ -292,6 +294,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     showMedicines();
                 }
                 break;
+            case R.id.myAccount:
+                if(!User.isUserLoggedIn(this)) {
+                    startActivity(new Intent(this, RegistrationActivity.class));
+                }else{
+                    startActivity(new Intent(this, OnlineActivity.class));
+                }
+                break;
             case R.id.action_settings:
                 showSettings();
                 break;
@@ -314,11 +323,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.circularTest:
                 if(!(fragment instanceof DashboardFragment)) {
                     displayFragment(new DashboardFragment(), true);
-                }
-                break;
-            case R.id.practoSearch:
-                if(!(supportFragment instanceof DoctorSearch)){
-                    displaySupportFragment(new DoctorSearch(), true);
                 }
                 break;
             default:

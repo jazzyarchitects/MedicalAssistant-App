@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/deafaultFragmentBackground"
-    tools:context="architect.jazzy.medicinereminder.Fragments.Practo.DoctorSearch">
+    tools:context=".Fragments.OfflineActivity.Practo.DoctorSearch">
 
     <RelativeLayout
         android:layout_width="match_parent"

@@ -4,7 +4,7 @@
     android:orientation="vertical"
     android:id="@+id/root"
     android:background="@color/deafaultFragmentBackground"
-    tools:context="architect.jazzy.medicinereminder.Fragments.SearchFragments.SearchFragment">
+    tools:context=".Fragments.OfflineActivity.SearchFragments.SearchFragment">
 
     <include
         layout="@layout/navigation_drawer_header"

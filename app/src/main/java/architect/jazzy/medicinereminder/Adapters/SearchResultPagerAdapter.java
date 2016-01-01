@@ -6,7 +6,7 @@ import android.support.v13.app.FragmentStatePagerAdapter;
 
 import java.util.ArrayList;
 
-import architect.jazzy.medicinereminder.Fragments.SearchFragments.SearchDetailFragment;
+import architect.jazzy.medicinereminder.Fragments.OfflineActivity.SearchFragments.SearchDetailFragment;
 import architect.jazzy.medicinereminder.Models.WebDocument;
 
 /**

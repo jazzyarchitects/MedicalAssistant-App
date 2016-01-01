@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="#FFF"
-    tools:context="architect.jazzy.medicinereminder.Fragments.DashboardFragment">
+    tools:context=".Fragments.OfflineActivity.DashboardFragment">
 
     <ImageView
         android:id="@+id/backParent"

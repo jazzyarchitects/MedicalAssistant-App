@@ -47,26 +47,26 @@ import architect.jazzy.medicinereminder.Fragments.OfflineActivity.MedicineListFr
 import architect.jazzy.medicinereminder.Fragments.OfflineActivity.NewsFragments.NewsListFragment;
 import architect.jazzy.medicinereminder.Fragments.OfflineActivity.SearchFragments.SearchFragment;
 import architect.jazzy.medicinereminder.Fragments.OfflineActivity.SettingsFragment;
+import architect.jazzy.medicinereminder.Fragments.OnlineActivity.UserDetailsFragment;
 import architect.jazzy.medicinereminder.HelperClasses.Constants;
 import architect.jazzy.medicinereminder.Models.Doctor;
 import architect.jazzy.medicinereminder.Models.FeedItem;
 import architect.jazzy.medicinereminder.Models.Medicine;
-import architect.jazzy.medicinereminder.Models.User;
 import architect.jazzy.medicinereminder.R;
 import architect.jazzy.medicinereminder.Services.AlarmSetterService;
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
-        EmojiSelectFragment.OnFragmentInteractionListener,  DaySelectorFragmentDialog.OnFragmentInteractionListener,
+        EmojiSelectFragment.OnFragmentInteractionListener, DaySelectorFragmentDialog.OnFragmentInteractionListener,
         MedicineListFragment.FragmentInteractionListener, AddMedicineFragment.FragmentInteractionListener,
         NewsListFragment.FeedClickListener, DoctorListFragment.OnMenuItemClickListener,
         DoctorMedicineListFragment.FragmentInteractionListener, DoctorListFragment.OnFragmentInteractionListenr,
         DoctorDetailFragment.ImageChangeListener, DashboardFragment.OnFragmentInteractionListener,
         AddDoctorFragment.OnFragmentInteractionListener, ColorSelectorFragment.OnColorChangeListener{
 
-    public static final String TAG="MainActivity";
+    public static final String TAG = "MainActivity";
 
-    FragmentBackStack fragmentBackStack=new FragmentBackStack();
+    FragmentBackStack fragmentBackStack = new FragmentBackStack();
     final int SHOW_LIST_REQUEST_CODE = 123;
     FrameLayout frameLayout;
     DrawerLayout drawerLayout;
@@ -76,11 +76,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     NavigationView navigationView;
     Toolbar toolbar;
     private InterstitialAd interstitialAd;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if(!getSharedPreferences("illustration",MODE_PRIVATE).getBoolean("shown1",false)){
+        if (!getSharedPreferences("illustration", MODE_PRIVATE).getBoolean("shown1", false)) {
             startActivity(new Intent(this, Illustration.class));
             finish();
             return;
@@ -88,18 +89,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         setContentView(R.layout.activity_main);
 
-        toolbar = (Toolbar)findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setBackgroundColor(Constants.getThemeColor(this));
 
-        drawerLayout=(DrawerLayout)findViewById(R.id.drawerLayout);
-        ActionBarDrawerToggle drawerToggle=new ActionBarDrawerToggle(this, drawerLayout,toolbar,R.string.open,R.string.close);
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
+        ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open, R.string.close);
         drawerLayout.setDrawerListener(drawerToggle);
         drawerToggle.syncState();
 
-        frameLayout=(FrameLayout)findViewById(R.id.frame);
+        frameLayout = (FrameLayout) findViewById(R.id.frame);
 
-        Intent startAlarmServiceIntent=new Intent(this, AlarmSetterService.class);
+        Intent startAlarmServiceIntent = new Intent(this, AlarmSetterService.class);
         startAlarmServiceIntent.setAction("CREATE");
         startService(startAlarmServiceIntent);
 
@@ -115,15 +116,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //        interstitialAd.loadAd(adRequest);
 //        interstitialAd.setAdListener(new AdListener() {
 //            public void onAdLoaded() {
-                // Call displayInterstitial() function
+        // Call displayInterstitial() function
 //               displayInterstitial();
 //            }
 //        });
 
 
-        navigationView = (NavigationView)findViewById(R.id.navigationView);
-        View headerLayout=navigationView.getHeaderView(0);
-        searchQuery=(EditText)headerLayout.findViewById(R.id.searchQuery);
+        navigationView = (NavigationView) findViewById(R.id.navigationView);
+        View headerLayout = navigationView.getHeaderView(0);
+        searchQuery = (EditText) headerLayout.findViewById(R.id.searchQuery);
 //        Log.e(TAG, navigationView.getChildCount()+" "+navigationView.getChildAt(0).toString());
         headerLayout.findViewById(R.id.searchButton).setVisibility(View.GONE);
         navigationView.setNavigationItemSelectedListener(this);
@@ -151,27 +152,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void onThemeColorChange(int color) {
         toolbar.setBackgroundColor(color);
-        getSharedPreferences(Constants.SETTING_PREF,MODE_PRIVATE)
+        getSharedPreferences(Constants.SETTING_PREF, MODE_PRIVATE)
                 .edit()
-                .putInt(Constants.THEME_COLOR,color)
+                .putInt(Constants.THEME_COLOR, color)
                 .apply();
 //        if(color==getResources().getColor(R.color.themeColorLight)){
 //            toolbar.setTitleTextColor(Color.parseColor("#111111"));
 //        }
         findViewById(R.id.back).setBackgroundColor(Constants.getThemeColor(this));
-        try{
+        try {
             setSupportActionBar(toolbar);
-            ActionBarDrawerToggle drawerToggle=new ActionBarDrawerToggle(this, drawerLayout,toolbar,R.string.open,R.string.close);
+            ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open, R.string.close);
             drawerLayout.setDrawerListener(drawerToggle);
             drawerToggle.syncState();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
 
-    private void testCalendar(){
-        Calendar calendar=Calendar.getInstance();
+    private void testCalendar() {
+        Calendar calendar = Calendar.getInstance();
         Log.e(TAG, "Calendar Test: " + calendar.toString());
     }
 
@@ -199,43 +200,42 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-    public void displayInterstitial()
-    {
+    public void displayInterstitial() {
         if (interstitialAd.isLoaded()) {
             interstitialAd.show();
         }
 
     }
-    private void performSearch(String s){
+
+    private void performSearch(String s) {
         displayFragment(SearchFragment.initiate(s), true);
         drawerLayout.closeDrawers();
     }
 
     @Override
     public void onBackPressed() {
-        if(activityKeyClickListener!=null){
-            if(activityKeyClickListener.onBackKeyPressed()){
+        if (activityKeyClickListener != null) {
+            if (activityKeyClickListener.onBackKeyPressed()) {
                 return;
             }
         }
-        if(drawerLayout.isDrawerOpen(GravityCompat.START)){
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawers();
-        }else if(!fragmentBackStack.empty()){
-            Fragment fragment=fragmentBackStack.pop();
-            if(fragment==null){
-                android.support.v4.app.Fragment fragment1=fragmentBackStack.popSupport();
-                if(fragment1==null){
+        } else if (!fragmentBackStack.empty()) {
+            Fragment fragment = fragmentBackStack.pop();
+            if (fragment == null) {
+                android.support.v4.app.Fragment fragment1 = fragmentBackStack.popSupport();
+                if (fragment1 == null) {
                     super.onBackPressed();
                     return;
                 }
 //                Log.e(TAG,"popping support fragment: "+fragment1.toString());
-                displaySupportFragment(fragment1,false);
+                displaySupportFragment(fragment1, false);
                 return;
             }
 //            Log.e(TAG,"popping fragment");
-            displayFragment(fragment,false);
-        }
-        else{
+            displayFragment(fragment, false);
+        } else {
             super.onBackPressed();
         }
     }
@@ -254,18 +254,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         getSharedPreferences(Constants.INTERNAL_PREF, Context.MODE_PRIVATE)
                 .edit()
-                .putBoolean(Constants.SEARCH_RESULT,false)
+                .putBoolean(Constants.SEARCH_RESULT, false)
                 .apply();
 
-        Thread thread=new Thread(new Runnable() {
+        Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
                 File folder = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/tmpMR");
-                File file=new File(folder,Constants.SEARCH_FILE_NAME);
-                if(file.exists()){
-                    try{
+                File file = new File(folder, Constants.SEARCH_FILE_NAME);
+                if (file.exists()) {
+                    try {
                         file.delete();
-                    }catch (Exception e){
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
@@ -277,32 +277,33 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public boolean onNavigationItemSelected(MenuItem menuItem) {
-        int id=menuItem.getItemId();
+        int id = menuItem.getItemId();
 
-        Fragment fragment=null;
-        android.support.v4.app.Fragment supportFragment=null;
+        Fragment fragment = null;
+        android.support.v4.app.Fragment supportFragment = null;
         try {
             fragment = getFragmentManager().findFragmentById(R.id.frame);
-        }catch (Exception e){
-            supportFragment=getSupportFragmentManager().findFragmentById(R.id.frame);
+        } catch (Exception e) {
+            supportFragment = getSupportFragmentManager().findFragmentById(R.id.frame);
         }
         menuItem.setChecked(true);
         drawerLayout.closeDrawers();
-        switch (id){
+        switch (id) {
             case R.id.showMedicineList:
-                if(!(fragment instanceof MedicineListFragment)) {
+                if (!(fragment instanceof MedicineListFragment)) {
                     showMedicines();
                 }
                 break;
             case R.id.myAccount:
-                if(!User.isUserLoggedIn(this)) {
-                    startActivity(new Intent(this, RegistrationActivity.class));
-                }else{
-                    startActivity(new Intent(this, OnlineActivity.class));
-                }
+                Intent i=new Intent(this, OnlineActivity.class);
+                i.putExtra("fragment", UserDetailsFragment.TAG);
+                startActivity(i);
                 break;
             case R.id.action_settings:
                 showSettings();
+                break;
+            case R.id.remedies:
+                startActivity(new Intent(this, OnlineActivity.class));
                 break;
 //            case R.id.add:
 //                addMedicine(false);
@@ -311,17 +312,17 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                showCredits();
 //                break;
             case R.id.news:
-                if(!(fragment instanceof NewsListFragment)) {
+                if (!(fragment instanceof NewsListFragment)) {
                     displayFragment(new NewsListFragment(), true);
                 }
                 break;
             case R.id.addDoctor:
-                if(!(fragment instanceof DoctorListFragment)) {
+                if (!(fragment instanceof DoctorListFragment)) {
                     displayFragment(new DoctorListFragment(), true);
                 }
                 break;
             case R.id.circularTest:
-                if(!(fragment instanceof DashboardFragment)) {
+                if (!(fragment instanceof DashboardFragment)) {
                     displayFragment(new DashboardFragment(), true);
                 }
                 break;
@@ -333,73 +334,66 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-    void showSettings(){
+    void showSettings() {
 //        Intent prefIntent = new Intent(this, BasicPreferences.class);
 //        startActivity(prefIntent);
         displayFragment(new SettingsFragment(), true);
     }
 
-    void showMedicines(){
-        Fragment fragment=new MedicineListFragment();
+    void showMedicines() {
+        Fragment fragment = new MedicineListFragment();
         displayFragment(fragment, true);
     }
 
 
-    void addMedicineToView(boolean add){
-        Fragment fragment=new AddMedicineFragment();
+    void addMedicineToView(boolean add) {
+        Fragment fragment = new AddMedicineFragment();
         displayFragment(fragment, add);
 
     }
 
-    public void displayFragment(Fragment fragment){
+    public void displayFragment(Fragment fragment) {
         displayFragment(fragment, false);
     }
 
-    public void displayFragment(Fragment fragment,boolean add){
-        displayFragment(fragment,add,R.anim.fragment_in_from_left,R.anim.fragment_out_from_right);
+    public void displayFragment(Fragment fragment, boolean add) {
+        displayFragment(fragment, add, R.anim.fragment_in_from_left, R.anim.fragment_out_from_right);
     }
 
-    public void displayFragment(Fragment fragment, boolean add, @AnimRes int enterAnim,@AnimRes int exitAnim){
+    public void displayFragment(Fragment fragment, boolean add, @AnimRes int enterAnim, @AnimRes int exitAnim) {
         Log.e(TAG, "display fragment");
-        if(add) {
+        if (add) {
             addToBackStack();
         }
         toolbar.getMenu().clear();
-        FragmentManager fragmentManager=getFragmentManager();
-        FragmentTransaction transaction=fragmentManager.beginTransaction();
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
 //        transaction.setCustomAnimations(enterAnim,exitAnim);
         transaction.replace(R.id.frame, fragment);
         transaction.commit();
-
-//        try {
-//            getSupportActionBar().show();
-//        }catch (NullPointerException e){
-//            e.printStackTrace();
-//        }
-//        Log.e("MainActivity", "Back Stack Count after Push:" + getFragmentManager().getBackStackEntryCount());
     }
 
 
-    void addToBackStack(){
+    void addToBackStack() {
         try {
             Fragment fragment = getFragmentManager().findFragmentById(R.id.frame);
-            if(fragment==null){
+            if (fragment == null) {
                 throw new Exception();
             }
-            if(!(fragment instanceof SearchFragment))
+            if (!(fragment instanceof SearchFragment))
                 fragmentBackStack.push(fragment);
             toolbar.getMenu().clear();
-        }catch (Exception e){
-            android.support.v4.app.Fragment fragment=getSupportFragmentManager().findFragmentById(R.id.frame);
-            if(fragment==null){
+        } catch (Exception e) {
+            android.support.v4.app.Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.frame);
+            if (fragment == null) {
                 return;
             }
             fragmentBackStack.push(fragment);
         }
     }
 
-    public void displaySupportFragment(android.support.v4.app.Fragment fragment, boolean add){
-        displaySupportFragment(fragment,add,R.anim.fragment_in_from_left,R.anim.fragment_out_from_left);
+    public void displaySupportFragment(android.support.v4.app.Fragment fragment, boolean add) {
+        displaySupportFragment(fragment, add, R.anim.fragment_in_from_left, R.anim.fragment_out_from_left);
     }
 
 
@@ -427,7 +421,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         transaction.replace(R.id.frame, fragment).commit();
     }
 
-    void showCredits(){
+    void showCredits() {
         startActivity(new Intent(this, AboutUs.class));
     }
 
@@ -441,20 +435,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-
     public void showDaySelection(View v) {
         activityClickListener.daySelectionClick();
     }
 
 
-    public void showFeed(String url){
+    public void showFeed(String url) {
         displayFragment(BrowserFragment.getInstance(url), true);
     }
 
-    public void showFeed(String url, boolean isNews){
+    public void showFeed(String url, boolean isNews) {
         displayFragment(BrowserFragment.getInstance(url, isNews), true);
     }
-
 
 
     @Override
@@ -490,7 +482,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void addDoctor() {
-        AddDoctorFragment fragment=new AddDoctorFragment();
+        AddDoctorFragment fragment = new AddDoctorFragment();
         displayFragment(fragment, true);
     }
 
@@ -498,10 +490,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void addMedicine(boolean addToBackStack) {
         addMedicineToView(addToBackStack);
     }
+
     @Override
     public void onDoctorImageChange(int resultCode, Intent data) {
-        if(doctorDetailImageChangeListener!=null){
-            doctorDetailImageChangeListener.onDoctorImageChanged(resultCode,data);
+        if (doctorDetailImageChangeListener != null) {
+            doctorDetailImageChangeListener.onDoctorImageChanged(resultCode, data);
         }
     }
 
@@ -526,8 +519,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //        for(Medicine medicine:medicines){
 //            Log.e(TAG,"Starting Intent with Medicines: "+medicine.toJSON());
 //        }
-        Bundle bundle=new Bundle();
-        bundle.putParcelableArrayList(Constants.MEDICINE_NAME_LIST,medicines);
+        Bundle bundle = new Bundle();
+        bundle.putParcelableArrayList(Constants.MEDICINE_NAME_LIST, medicines);
 //        i.putExtra(Constants.MEDICINE_NAME_LIST, medicines);
         i.putExtra(Constants.MEDICINE_POSITION, position);
         i.putExtras(bundle);
@@ -540,16 +533,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Log.e(TAG, "Activity Result " + requestCode);
         if (requestCode == SHOW_LIST_REQUEST_CODE) {
-            activityResultListener.medicineListActivityResult(requestCode,resultCode,data);
+            activityResultListener.medicineListActivityResult(requestCode, resultCode, data);
         }
     }
-
 
 
     public void hideKeyboard() {
@@ -566,40 +557,39 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     DoctorDetailImageChangeListener doctorDetailImageChangeListener;
 
 
-
-
-    public void setDoctorDetailImageChangeListener(DoctorDetailImageChangeListener doctorDetailImageChangeListener){
-        this.doctorDetailImageChangeListener=doctorDetailImageChangeListener;
+    public void setDoctorDetailImageChangeListener(DoctorDetailImageChangeListener doctorDetailImageChangeListener) {
+        this.doctorDetailImageChangeListener = doctorDetailImageChangeListener;
     }
 
-    public void setActivityKeyClickListener(ActivityKeyClickListener activityKeyClickListener){
-        this.activityKeyClickListener=activityKeyClickListener;
+    public void setActivityKeyClickListener(ActivityKeyClickListener activityKeyClickListener) {
+        this.activityKeyClickListener = activityKeyClickListener;
     }
 
-    public void setActivityResultListener(ActivityResultListener activityResultListener){
-        this.activityResultListener=activityResultListener;
+    public void setActivityResultListener(ActivityResultListener activityResultListener) {
+        this.activityResultListener = activityResultListener;
     }
 
-    public void setActivityClickListener(ActivityClickListener activityClickListener){
-        this.activityClickListener=activityClickListener;
+    public void setActivityClickListener(ActivityClickListener activityClickListener) {
+        this.activityClickListener = activityClickListener;
     }
 
-
-    public interface ActivityClickListener{
+    public interface ActivityClickListener {
         void daySelectionChanged(int position, boolean isCheck);
+
         void daySelectionClick();
+
         void emojiClick(int position);
     }
 
-    public interface ActivityResultListener{
+    public interface ActivityResultListener {
         void medicineListActivityResult(int requestCode, int resultCode, Intent data);
     }
 
-    public interface DoctorDetailImageChangeListener{
+    public interface DoctorDetailImageChangeListener {
         void onDoctorImageChanged(int resultCode, Intent data);
     }
 
-    public interface ActivityKeyClickListener{
+    public interface ActivityKeyClickListener {
         boolean onBackKeyPressed();
     }
 }

@@ -2,6 +2,7 @@ package architect.jazzy.medicinereminder.Fragments.OnlineActivity;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
+import architect.jazzy.medicinereminder.Activities.RegistrationActivity;
 import architect.jazzy.medicinereminder.Models.User;
 import architect.jazzy.medicinereminder.R;
 
@@ -21,6 +23,7 @@ import architect.jazzy.medicinereminder.R;
  */
 public class UserDetailsFragment extends Fragment {
 
+    public static final String TAG="UserDetailsTag";
     EditText etUserName, etUserMobile, etUserEmail, etDD, etMM, etYYYY;
     Context mContex;
     AppCompatActivity parentActivity;
@@ -35,6 +38,13 @@ public class UserDetailsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
+        if(!User.isUserLoggedIn(getActivity())){
+            startActivity(new Intent(getActivity(), RegistrationActivity.class));
+            getActivity().finish();
+            return null;
+        }
+
         mContex=getActivity();
         return inflater.inflate(R.layout.fragment_user_details, container, false);
     }

@@ -4,5 +4,7 @@
     <integer name="splash_screen_hide_duration">300</integer>
     <integer name="main_show_duration">500</integer>
     <integer name="fabAnimDuration">350</integer>
-    <integer name="fragmentTransitionDuration">250</integer>
+    <integer name="fragmentTransitionDuration">500</integer>
+    <integer name="fragmentTransitionDuration2">300</integer>
+    <integer name="tranisitionAnimationDuration">500</integer>
 </resources>

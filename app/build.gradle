@@ -39,4 +39,7 @@ dependencies {
     compile 'com.github.citux:datetimepicker:0.1.2'
     compile 'com.android.support:design:23.1.1'
     compile 'com.squareup.picasso:picasso:2.3.3'
+    compile 'com.google.android.gms:play-services-ads:8.3.0'
+    compile 'com.google.android.gms:play-services-auth:8.3.0'
+    compile 'com.google.android.gms:play-services-gcm:8.3.0'
 }

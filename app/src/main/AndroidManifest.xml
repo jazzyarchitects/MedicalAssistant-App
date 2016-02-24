@@ -150,6 +150,11 @@
             android:name=".Activities.OnlineActivity"
             android:label="@string/title_activity_online"
             android:theme="@style/AppTheme" />
+        <activity
+            android:name=".Fragments.OnlineActivity.RemedyDetailsAcitvity"
+            android:label="@string/title_activity_remedy_details_acitvity"
+            android:windowSoftInputMode="adjustPan|adjustResize|stateHidden"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

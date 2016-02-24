@@ -151,4 +151,6 @@
     <color name="themeColorRed">#9d1c10</color>
     <color name="themeColorDark">#333333</color>
     <color name="themeColorLight">#de9800</color>
+
+    <color name="buttonVoted">#f700ff</color>
 </resources>

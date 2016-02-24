@@ -1,5 +1,6 @@
 package architect.jazzy.medicinereminder.Services;
 
+import android.content.Context;
 import android.os.AsyncTask;
 
 import java.io.BufferedReader;
@@ -26,7 +27,7 @@ public class BackendInterfacer extends AsyncTask<Void, Void, String> {
     Client client;
     HashMap<String, String> mDataSet;
 
-    public BackendInterfacer(String url, String method, HashMap<String, String> dataSet, Client client){
+    public BackendInterfacer(Context context, String url, String method, HashMap<String, String> dataSet) {
         try {
             this.mUrl = new URL(url);
         } catch (MalformedURLException e) {
@@ -37,11 +38,13 @@ public class BackendInterfacer extends AsyncTask<Void, Void, String> {
         if (!method.equalsIgnoreCase("PUT") && !method.equalsIgnoreCase("POST") && !method.equalsIgnoreCase("GET") && !method.equalsIgnoreCase("DELETE")) {
             throw new RuntimeException("Unexpected Backend interfacer method: " + method);
         }
-        this.client=client;
+        if(context!=null) {
+            this.client = Client.getClient(context);
+        }
     }
 
     public BackendInterfacer(String url, String method, HashMap<String, String> dataSet) {
-        this(url, method, dataSet, null);
+        this(null,url, method, dataSet);
     }
 
     @Override
@@ -49,6 +52,9 @@ public class BackendInterfacer extends AsyncTask<Void, Void, String> {
         super.onPreExecute();
         if (backendListener != null) {
             backendListener.onPreExecute();
+        }
+        if(simpleBackendListener!=null){
+            simpleBackendListener.onPreExecute();
         }
     }
 
@@ -60,21 +66,23 @@ public class BackendInterfacer extends AsyncTask<Void, Void, String> {
             urlConnection.setConnectTimeout(30000);
             urlConnection.setReadTimeout(45000);
             urlConnection.setDoInput(true);
-            urlConnection.setDoOutput(true);
 
-            if(client!=null){
+            if (client != null) {
                 urlConnection.setRequestProperty("x-access-id", client.getId());
                 urlConnection.setRequestProperty("x-access-key", client.getKey());
             }
             urlConnection.setRequestProperty("x-service-id", "androidApp1958-2013JE0305");
 
 
-            OutputStream os = urlConnection.getOutputStream();
-            OutputStreamWriter osw = new OutputStreamWriter(os);
-            osw.write(Constants.getPostDataString(mDataSet));
-            osw.flush();
-            osw.close();
-            os.close();
+            if (mDataSet != null) {
+                urlConnection.setDoOutput(true);
+                OutputStream os = urlConnection.getOutputStream();
+                OutputStreamWriter osw = new OutputStreamWriter(os);
+                osw.write(Constants.getPostDataString(mDataSet));
+                osw.flush();
+                osw.close();
+                os.close();
+            }
 
             BufferedReader reader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
             String s = "";
@@ -98,8 +106,11 @@ public class BackendInterfacer extends AsyncTask<Void, Void, String> {
     @Override
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
-        if (backendListener == null && resultListener == null) {
-            throw new RuntimeException("Result not passed to calling function...");
+//        if (backendListener == null && resultListener == null) {
+//            throw new RuntimeException("Result not passed to calling function...");
+//        }
+        if(simpleBackendListener!=null){
+            simpleBackendListener.onResult(s);
         }
         if (resultListener != null) {
             resultListener.onResult(s);
@@ -109,9 +120,11 @@ public class BackendInterfacer extends AsyncTask<Void, Void, String> {
         }
     }
 
+
     BackendListener backendListener;
     ResultListener resultListener;
     ErrorListener errorListener;
+    SimpleBackendListener simpleBackendListener;
 
     public interface BackendListener {
         void onPreExecute();
@@ -129,6 +142,11 @@ public class BackendInterfacer extends AsyncTask<Void, Void, String> {
         void onError(Exception e);
     }
 
+    public interface SimpleBackendListener{
+        void onPreExecute();
+        void onResult(String result);
+    }
+
     public void setBackendListener(BackendListener backendListener) {
         this.backendListener = backendListener;
     }
@@ -139,5 +157,9 @@ public class BackendInterfacer extends AsyncTask<Void, Void, String> {
 
     public void setErrorListener(ErrorListener errorListener) {
         this.errorListener = errorListener;
+    }
+
+    public void setSimpleBackendListener(SimpleBackendListener simpleBackendListener) {
+        this.simpleBackendListener = simpleBackendListener;
     }
 }

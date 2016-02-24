@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.GridView;
 
 import architect.jazzy.medicinereminder.Adapters.ImageAdapter;
@@ -50,13 +51,15 @@ public class EmojiSelectFragment extends DialogFragment {
                 fragment.dismiss();
             }
         });
+
         getDialog().setTitle("Select Medicine Icon");
         return v;
     }
 
     @Override
     public void onAttach(Activity activity) {
-        super.onAttach(activity);
+        super.onAttach(activity)
+        ;
         try {
             mListener = (OnFragmentInteractionListener) activity;
         } catch (ClassCastException e) {

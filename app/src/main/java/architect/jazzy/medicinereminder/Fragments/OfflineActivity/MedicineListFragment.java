@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
-import android.graphics.drawable.NinePatchDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
@@ -32,7 +31,6 @@ import com.google.android.gms.analytics.HitBuilders;
 import com.google.android.gms.analytics.Tracker;
 import com.h6ah4i.android.widget.advrecyclerview.animator.GeneralItemAnimator;
 import com.h6ah4i.android.widget.advrecyclerview.animator.SwipeDismissItemAnimator;
-import com.h6ah4i.android.widget.advrecyclerview.decoration.ItemShadowDecorator;
 import com.h6ah4i.android.widget.advrecyclerview.decoration.SimpleListDividerDecorator;
 import com.h6ah4i.android.widget.advrecyclerview.swipeable.RecyclerViewSwipeManager;
 import com.h6ah4i.android.widget.advrecyclerview.touchguard.RecyclerViewTouchActionGuardManager;
@@ -248,11 +246,6 @@ public class MedicineListFragment extends Fragment {
 
             // additional decorations
             //noinspection StatementWithEmptyBody
-            if (supportsViewElevation()) {
-                // Lollipop or later has native drop shadow feature. ItemShadowDecorator is not required.
-            } else {
-                medicineList.addItemDecoration(new ItemShadowDecorator((NinePatchDrawable) getResources().getDrawable(R.drawable.material_shadow_z1)));
-            }
             medicineList.addItemDecoration(new SimpleListDividerDecorator(getResources().getDrawable(R.drawable.list_divider), true));
             medicineList.getAdapter().notifyDataSetChanged();
 
@@ -302,6 +295,7 @@ public class MedicineListFragment extends Fragment {
 
     private void getMedicineData() {
         dataHandler = new DataHandler(context);
+
         medicines = dataHandler.getMedicineList();
         dataHandler.close();
 

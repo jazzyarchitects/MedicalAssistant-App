@@ -69,6 +69,26 @@
             android:id="@+id/registerNow"
             android:text="Not registered yet? Register here..."/>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="OR"
+            android:textColor="#FFF"
+            android:textSize="14sp"
+            android:layout_marginTop="5dp"
+            android:textStyle="bold"
+            android:gravity="center"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#EEE"
+            android:textSize="14sp"
+            android:id="@+id/skip"
+            android:gravity="center"
+            android:layout_marginTop="5dp"
+            android:text="Skip login..."/>
+
 
     </LinearLayout>
 

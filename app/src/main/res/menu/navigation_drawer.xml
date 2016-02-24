@@ -5,9 +5,11 @@
         <!--android:icon="@drawable/ic_action_new"-->
         <!--android:title="Add Medicine" />-->
 
-    <item android:id="@+id/myAccount"
-        android:title="My Account"
-        android:icon="@drawable/ic_action_key"/>
+    <item android:id="@+id/remedies"
+        android:title="Remedies"
+        android:icon="@drawable/ic_action_news" />
+
+
 
     <item android:id="@+id/circularTest"
         android:title="Dashboard"
@@ -30,14 +32,17 @@
 
     <item
         android:id="@+id/section2"
-        android:title="User Management">
+        android:title="User">
         <menu>
+
+            <item android:id="@+id/myAccount"
+                android:title="My Account"
+                android:icon="@drawable/ic_action_key"/>
+
             <item
                 android:id="@+id/action_settings"
                 android:icon="@drawable/ic_action_settings"
-                android:orderInCategory="100"
                 android:title="@string/action_settings" />
-
             <!--<item-->
                 <!--android:id="@+id/credits"-->
                 <!--android:icon="@drawable/ic_action_emo_basic"-->

@@ -6,6 +6,7 @@
     android:orientation="vertical"
     android:padding="3dp"
     android:weightSum="10"
+    android:background="#FFF"
     tools:showIn="@layout/recycler_item_remedyfeed">
 
     <TextView
@@ -15,6 +16,8 @@
         android:layout_weight="5.5"
         android:ellipsize="end"
         android:maxLines="3"
+        android:padding="2dp"
+        android:background="#F8F8F8"
         android:text="@string/lorem_ipsum"
         android:textColor="#222"
         android:textSize="13sp" />
@@ -38,9 +41,8 @@
             <ImageButton android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="match_parent"
-                android:textSize="12sp"
                 android:id="@+id/likeButton"
-                android:background="#00000000"
+                android:background="@drawable/login_button_no_stroke"
                 android:src="@drawable/ic_action_like"/>
 
             <ImageButton android:layout_width="0dp"
@@ -48,7 +50,7 @@
                 android:layout_height="match_parent"
                 android:textSize="12sp"
                 android:id="@+id/dislikeButton"
-                android:background="#00000000"
+                android:background="@drawable/login_button_no_stroke"
                 android:src="@drawable/ic_action_dontlike"/>
 
         <Button
@@ -57,7 +59,7 @@
             android:layout_weight="1"
             android:textSize="12sp"
             android:id="@+id/viewButton"
-            android:background="#FFF"
+            android:background="@drawable/login_button_no_stroke"
             android:text="View"/>
 
         <Button
@@ -66,7 +68,7 @@
             android:layout_weight="1"
             android:textSize="12sp"
             android:id="@+id/shareButton"
-            android:background="#FFF"
+            android:background="@drawable/login_button_no_stroke"
             android:text="Share"/>
 
 

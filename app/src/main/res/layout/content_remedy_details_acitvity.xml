@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F8F8F8"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="architect.jazzy.medicinereminder.Fragments.OnlineActivity.RemedyDetailsAcitvity"
+    tools:showIn="@layout/activity_remedy_details_acitvity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="15dp"
+        android:paddingBottom="10dp"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp">
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lines="1"
+            android:text="Title"
+            android:textSize="18sp"
+            android:id="@+id/title"
+            android:textStyle="bold"
+            android:singleLine="true"
+            android:scrollHorizontally="true"
+            tools:background="@drawable/login_edit_text"
+            android:textColor="#222222"
+            android:maxLines="1"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Description"
+            android:minHeight="75dp"
+            android:id="@+id/remedyDescription"
+            android:layout_marginTop="5dp"
+            android:textSize="14sp"
+            tools:background="@drawable/login_edit_text"
+            android:textColor="#222222"/>
+
+
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:lines="1"
+            android:text="References"
+            android:layout_marginTop="5dp"
+            android:singleLine="true"
+            tools:background="@drawable/login_edit_text"
+            android:textSize="14sp"
+            android:id="@+id/references"
+            android:scrollHorizontally="true"
+            android:textColor="#222222"
+            android:maxLines="1"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:lines="1"
+            android:id="@+id/remedyDiseases"
+            android:text="Diseases"
+            android:textSize="14sp"
+            android:scrollHorizontally="true"
+            android:textColor="#222222"
+            android:singleLine="true"
+            tools:background="@drawable/login_edit_text"
+            android:maxLines="1"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:lines="1"
+            android:text="Tags"
+            android:id="@+id/tags"
+            android:textSize="14sp"
+            android:scrollHorizontally="true"
+            tools:background="@drawable/login_edit_text"
+            android:singleLine="true"
+            android:textColor="#222222"
+            android:maxLines="1"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:orientation="vertical"
+            android:id="@+id/stats">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:id="@+id/upVoteLayout"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_action_like"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:id="@+id/upVoteCount"
+                        android:text="0 Upvotes"/>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:id="@+id/downVoteLayout"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/ic_action_dontlike"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:id="@+id/downVoteCount"
+                        android:text="0 Downvotes"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!--TODO: Comments Section-->
+
+        </LinearLayout>
+
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:text="Save"
+            android:id="@+id/saveButton"
+            android:layout_marginTop="5dp"
+            android:enabled="false"
+            android:background="@drawable/login_button_no_stroke"
+            android:layout_gravity="center_horizontal"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Comments (0)"
+            android:textSize="16sp"
+            android:textColor="#222"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="vertical"
+            android:background="#EEEEF4"
+            android:padding="5dp"
+            android:layout_height="300dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="10">
+
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_weight="8"
+                    android:layout_height="wrap_content"
+                    android:maxLines="2"
+                    android:gravity="center_vertical"
+                    android:hint="Add Comment"
+                    android:id="@+id/comment"
+                    android:layout_marginRight="3dp"
+                    android:textColor="#444"
+                    android:textSize="14sp"
+                    android:background="@drawable/login_edit_text"/>
+                <Button
+                    android:layout_width="0dp"
+                    android:layout_weight="2"
+                    android:id="@+id/addComment"
+                    android:layout_height="wrap_content"
+                    android:textSize="14sp"
+                    android:textColor="#FFF"
+                    android:background="@drawable/button_add_comment"
+                    android:text="Add"/>
+            </LinearLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/recyclerView"
+                android:layout_marginTop="5dp"/>
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+</android.support.v4.widget.NestedScrollView>

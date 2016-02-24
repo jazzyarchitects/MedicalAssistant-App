@@ -26,7 +26,6 @@ import java.util.TimerTask;
 
 import architect.jazzy.medicinereminder.Fragments.OnlineActivity.Registration.LoginFragment;
 import architect.jazzy.medicinereminder.Fragments.OnlineActivity.Registration.SignupFragment;
-import architect.jazzy.medicinereminder.Models.Client;
 import architect.jazzy.medicinereminder.Models.User;
 import architect.jazzy.medicinereminder.R;
 
@@ -41,14 +40,22 @@ public class RegistrationActivity extends AppCompatActivity implements LoginFrag
     ImageView backgroundView;
     @Override
     protected void onResume() {
-        overridePendingTransition(R.anim.fragment_in_from_left, R.anim.fragment_out_from_right);
+//        overridePendingTransition(R.anim.fragment_in_from_left, R.anim.fragment_out_from_right);
         super.onResume();
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_registration);
+
+        if(User.isUserLoggedIn(this)){
+            onUserAuthenticated();
+            return;
+        }else {
+            setContentView(R.layout.activity_registration);
+            displayFragment(new LoginFragment(), false);
+        }
+
 
         backgroundView=(ImageView)findViewById(R.id.background);
         drawable = backgroundView.getDrawable().mutate();
@@ -96,14 +103,6 @@ public class RegistrationActivity extends AppCompatActivity implements LoginFrag
         }
         dimNotificationBar();
 
-        User user=User.getUser(this);
-        Client client=Client.getClient(this);
-
-        if(!user.getId().isEmpty() && user.getId().equalsIgnoreCase(client.getId()) && !user.getId().contains(" ")){
-            onUserAuthenticated();
-        }else {
-            displayFragment(new LoginFragment(), false);
-        }
     }
 
 

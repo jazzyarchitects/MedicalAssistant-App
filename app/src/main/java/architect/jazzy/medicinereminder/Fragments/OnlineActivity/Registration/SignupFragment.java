@@ -98,7 +98,7 @@ public class SignupFragment extends Fragment {
             HashMap<String, String> dataSet = new HashMap<>();
             dataSet.put("name", name);
 //            dataSet.put("age", String.valueOf(age));
-            dataSet.put("dob",String.valueOf(dd)+","+String.valueOf(mm)+","+String.valueOf(yyyy));
+            dataSet.put("dob",String.valueOf(dd)+"-"+String.valueOf(mm)+"-"+String.valueOf(yyyy));
             dataSet.put("password", password);
             dataSet.put("sex", sex);
             dataSet.put("mobile", mobile);
@@ -259,7 +259,7 @@ public class SignupFragment extends Fragment {
                 try{
                     Integer mm=Integer.parseInt(charSequence.toString());
                     if(mm>12 || mm<1){
-                        etDD.setError("Invalid Month");
+                        etMM.setError("Invalid Month");
                     }
                 }catch (Exception e){
                     Log.d("Signup", "Invalid Int mm");
@@ -285,7 +285,7 @@ public class SignupFragment extends Fragment {
                 try{
                     Integer yyyy=Integer.parseInt(charSequence.toString());
                     if(yyyy<1890 || yyyy> Calendar.getInstance().get(Calendar.YEAR)){
-                        etDD.setError("Invalid Year");
+                        etYYYY.setError("Invalid Year");
                     }
                 }catch (Exception e){
                     Log.d("Signup", "Invalid Int yyyy");

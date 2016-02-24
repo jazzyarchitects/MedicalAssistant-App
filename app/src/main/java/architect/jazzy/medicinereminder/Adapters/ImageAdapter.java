@@ -20,7 +20,7 @@ public class ImageAdapter extends BaseAdapter{
             R.drawable.ic_action_search,R.drawable.ic_action_new,R.drawable.ic_action_edit,
             R.drawable.ic_action_delete};*/
 
-    public static Integer[] emojis = new Integer[]{ R.drawable.ic_action_star_10, R.drawable.ic_action_pill,R.drawable.ic_action_picker,
+    public static Integer[] emojis = new Integer[]{ R.drawable.ic_action_star_10_yellow, R.drawable.ic_action_pill,R.drawable.ic_action_picker,
             R.drawable.ic_action_eye_open,R.drawable.ic_action_contrast,R.drawable.ic_action_pie_chart,
             R.drawable.ic_action_heart, R.drawable.ic_action_sun,R.drawable.ic_action_temperature,
 

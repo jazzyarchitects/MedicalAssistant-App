@@ -4,6 +4,7 @@ package architect.jazzy.medicinereminder.Fragments.OnlineActivity.Registration;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -22,6 +23,7 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 
+import architect.jazzy.medicinereminder.Activities.OnlineActivity;
 import architect.jazzy.medicinereminder.HelperClasses.BackendUrls;
 import architect.jazzy.medicinereminder.Models.Client;
 import architect.jazzy.medicinereminder.Models.User;
@@ -33,7 +35,7 @@ import architect.jazzy.medicinereminder.Services.BackendInterfacer;
  */
 public class LoginFragment extends Fragment {
 
-    TextView registerNow;
+    TextView registerNow, skipLogin;
     EditText ETemail, ETpassword;
     Button Blogin;
     Context mContext;
@@ -59,6 +61,7 @@ public class LoginFragment extends Fragment {
         ETemail=(EditText)view.findViewById(R.id.et_email);
         ETpassword=(EditText)view.findViewById(R.id.et_password);
         Blogin=(Button)view.findViewById(R.id.loginButton);
+        skipLogin=(TextView)view.findViewById(R.id.skip);
 
 
 
@@ -68,6 +71,14 @@ public class LoginFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 fragmentInteractionListener.onRegisterNow();
+            }
+        });
+
+        skipLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(mContext, OnlineActivity.class));
+                getActivity().finish();
             }
         });
 

@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import architect.jazzy.medicinereminder.HelperClasses.BackendUrls;
+import architect.jazzy.medicinereminder.Services.BackendInterfacer;
 
 /**
  * Created by Jibin_ism on 25-Dec-15.
@@ -26,8 +27,15 @@ public class Remedy implements Parcelable {
     
     private String id, title, description, publishedOn;
     private ArrayList<String> diseases, tags, references;
+    private ArrayList<Comment> comments;
     private Stats stats;
     private Image image;
+
+    boolean upvoted=false;
+    boolean downvoted=false;
+
+
+    boolean bookmarked=false;
 
     boolean checked=false;
 
@@ -38,6 +46,7 @@ public class Remedy implements Parcelable {
         tags=new ArrayList<>();
         author=new User();
         references=new ArrayList<>();
+        comments=new ArrayList<>();
     }
 
 
@@ -70,6 +79,12 @@ public class Remedy implements Parcelable {
         stats.setUpvote(in.readInt());
         stats.setViews(in.readInt());
 
+        boolean[] arr=new boolean[3];
+        in.readBooleanArray(arr);
+        this.setUpvoted(arr[0]);
+        this.setDownvoted(arr[1]);
+        this.setBookmarked(arr[2]);
+
     }
 
     public static final Creator<Remedy> CREATOR = new Creator<Remedy>() {
@@ -88,6 +103,7 @@ public class Remedy implements Parcelable {
     public int describeContents() {
         return 0;
     }
+
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
@@ -115,9 +131,16 @@ public class Remedy implements Parcelable {
         parcel.writeInt(this.getStats().getViews());
 
 
+        boolean[] booleen=new boolean[3];
+        booleen[0]=this.isUpvoted();
+        booleen[1]=this.isDownvoted();
+        booleen[2]=this.isBookmarked();
+        parcel.writeBooleanArray(booleen);
+
+
     }
 
-    public static Remedy parseFeedData(Context context,JSONObject jsonObject){
+    public static Remedy parseRemedy(Context context,JSONObject jsonObject){
         Remedy remedy=new Remedy();
         try{
             User author = remedy.getAuthor();
@@ -145,7 +168,7 @@ public class Remedy implements Parcelable {
             JSONArray tagsArray= jsonObject.optJSONArray("tags");
             if(tagsArray!=null && tagsArray.length()!=0){
                 for (int i = 0; i < tagsArray.length(); i++) {
-                    diseases.add(tagsArray.getString(i));
+                    tags.add(tagsArray.getString(i));
                 }
             }
             remedy.setTags(tags);
@@ -154,7 +177,7 @@ public class Remedy implements Parcelable {
             JSONArray referencesArray= jsonObject.optJSONArray("references");
             if(referencesArray!=null && referencesArray.length()!=0){
                 for (int i = 0; i < referencesArray.length(); i++) {
-                    diseases.add(referencesArray.getString(i));
+                    references.add(referencesArray.getString(i));
                 }
             }
             remedy.setReferences(references);
@@ -175,6 +198,10 @@ public class Remedy implements Parcelable {
             stats.setUpvote(statsObject.optInt("upvote"));
             stats.setViews(statsObject.optInt("views"));
 
+            remedy.setUpvoted(jsonObject.optBoolean("upvoted"));
+            remedy.setDownvoted(jsonObject.optBoolean("downvoted"));
+            remedy.setBookmarked(jsonObject.optBoolean("bookmarked"));
+
             remedy.setStats(stats);
 
         }catch (JSONException e){
@@ -184,11 +211,25 @@ public class Remedy implements Parcelable {
         return remedy;
     }
 
+    public boolean isBookmarked() {
+        return bookmarked;
+    }
+
+    public void setBookmarked(boolean bookmarked) {
+        this.bookmarked = bookmarked;
+    }
+
     public void loadRemedyImage(Context context){
         this.getImage().setFileName(context, this.getImage().getFileName());
     }
 
+    public ArrayList<Comment> getComments() {
+        return comments;
+    }
 
+    public void setComments(ArrayList<Comment> comments) {
+        this.comments = comments;
+    }
 
     /**Getter Setter methods**/
     public String getId() {
@@ -264,6 +305,22 @@ public class Remedy implements Parcelable {
     }
 
 
+    public boolean isDownvoted() {
+        return downvoted;
+    }
+
+    public void setDownvoted(boolean downvoted) {
+        this.downvoted = downvoted;
+    }
+
+    public boolean isUpvoted() {
+        return upvoted;
+    }
+
+    public void setUpvoted(boolean upvoted) {
+        this.upvoted = upvoted;
+    }
+
     public Stats getStats() {
         return stats;
     }
@@ -280,16 +337,27 @@ public class Remedy implements Parcelable {
         this.image = image;
     }
 
-    public String getDiseasesString(){
+
+    private String arrayToString(ArrayList<String> strings){
         String s="";
-        if(diseases.size()==0){
+        if(strings==null || strings.size()==0){
             return "";
         }
-        s=diseases.get(0);
-        for(int i=1;i<diseases.size();i++){
-            s+=", "+diseases.get(i);
+        s=strings.get(0);
+        for(int i=1;i<strings.size();i++){
+            s+=", "+strings.get(i);
         }
         return s;
+    }
+
+    public String getReferencesString(){
+        return arrayToString(references);
+    }
+    public String getTagsString(){
+        return arrayToString(tags);
+    }
+    public String getDiseasesString(){
+        return arrayToString(diseases);
     }
 
     public class Image{
@@ -311,7 +379,7 @@ public class Remedy implements Parcelable {
                     public void run() {
                         try {
                             remedyImage=Picasso.with(context)
-                                    .load(BackendUrls.REMEDY_IMAGE+fileName)
+                                    .load(BackendUrls.getRemedyImage(fileName))
                                     .get();
                             if(imageLoadListener!=null){
                                 imageLoadListener.onImageDownloaded(remedyImage);
@@ -396,5 +464,23 @@ public class Remedy implements Parcelable {
     public void setImageLoadListener(ImageLoadListener imageLoadListener){
         this.imageLoadListener=imageLoadListener;
     }
+
+
+
+    public void upvote(Context context){
+        BackendInterfacer interfacer = new BackendInterfacer(context, BackendUrls.getUpvoteUrl(this.getId()), "PUT", null);
+        interfacer.execute();
+    }
+
+    public void downvote(Context context){
+        BackendInterfacer interfacer = new BackendInterfacer(context, BackendUrls.getDownvoteUrl(this.getId()), "PUT", null);
+        interfacer.execute();
+    }
+
+    public void bookmark(Context context){
+        BackendInterfacer interfacer = new BackendInterfacer(context, BackendUrls.getBookmarkUrl(this.getId()), "PUT", null);
+        interfacer.execute();
+    }
+
 
 }

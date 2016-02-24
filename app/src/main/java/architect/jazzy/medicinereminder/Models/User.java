@@ -31,6 +31,12 @@ public class User implements Parcelable {
     private ArrayList<String> medicineIds, commentIds, remedyIds;
     private DOB dob;
 
+
+    public User(String id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     public User() {
         stats = new Stats();
         dob=new DOB();
@@ -212,6 +218,13 @@ public class User implements Parcelable {
     public static boolean isUserLoggedIn(Context context){
         SharedPreferences sharedPreferences=context.getSharedPreferences("UserPrefs", Context.MODE_PRIVATE);
         return sharedPreferences.getBoolean("loggedIn", false);
+    }
+
+    public static void logout(Context context){
+        SharedPreferences sharedPreferences=context.getSharedPreferences("UserPrefs",Context.MODE_PRIVATE);
+        sharedPreferences.edit()
+                .clear()
+                .apply();
     }
 
 

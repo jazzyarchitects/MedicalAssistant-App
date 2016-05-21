@@ -2,81 +2,51 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:padding="5dp"
-    android:weightSum="1"
-    android:background="#FAFAFA"
+    android:gravity="center"
+    android:weightSum="10"
+    android:background="#FFF"
+    tools:showIn="@layout/activity_backup_restore"
     tools:context="architect.jazzy.medicinereminder.Fragments.OfflineActivity.ImportFragment">
 
-
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Import the following?"
-        android:textColor="#000"
-        android:textSize="18sp" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginBottom="5dp"
-        android:layout_marginTop="5dp"
-        android:layout_weight="0.80"
-        android:orientation="vertical"
-        android:weightSum="2">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Medicines"
-            android:textColor="#000"
-            android:textSize="16sp" />
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/medicineRecycler"
-            android:layout_width="match_parent"
-            android:layout_marginRight="3dp"
-            android:layout_height="0dp"
-            android:layout_weight="1.2" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Doctors"
-            android:textColor="#000"
-            android:textSize="16sp" />
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/doctorRecycler"
-            android:layout_width="match_parent"
-            android:layout_marginLeft="3dp"
-            android:layout_height="0dp"
-            android:layout_weight="0.8" />
-
-    </LinearLayout>
-
-    <CheckBox
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="14sp"
-        android:textColor="#222"
-        android:id="@+id/checkbox"
-        android:text="@string/importWarning"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.20"
-        android:gravity="center"
+        android:layout_weight="5"
+        android:weightSum="10"
         android:orientation="horizontal">
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/importButton"
-            android:text="Import"/>
+        <architect.jazzy.medicinereminder.CustomViews.CircleView
+            android:layout_width="0dp"
+            android:layout_weight="5"
+            app:bigText="0"
+            app:text="Medicines"
+            app:textColor="#FFF"
+            app:textSize="18sp"
+            app:bigTextSize="25sp"
+            app:isButton="true"
+            app:fillColor="@color/bg_swipe_item_right"
+            android:layout_height="match_parent" />
+
+        <architect.jazzy.medicinereminder.CustomViews.CircleView
+            android:layout_width="0dp"
+            android:layout_weight="5"
+            app:bigText="0"
+            app:text="Doctors"
+            app:textColor="#FFF"
+            app:textSize="18sp"
+            app:bigTextSize="25sp"
+            app:isButton="true"
+            app:fillColor="@color/themeColorRed"
+            android:layout_height="match_parent" />
 
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3"></LinearLayout>
 
 </LinearLayout>

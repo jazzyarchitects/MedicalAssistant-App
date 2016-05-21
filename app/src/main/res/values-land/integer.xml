@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
-    <item name="gridViewCol">2</item>
+    <integer name="gridViewCol">2</integer>
 </resources>

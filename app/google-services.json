@@ -1,0 +1,58 @@
+{
+  "project_info": {
+    "project_number": "377780864885",
+    "project_id": "sapient-forest-94210"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:377780864885:android:f3f905b951298f0f",
+        "android_client_info": {
+          "package_name": "architect.jazzy.medicinereminder"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "377780864885-4dq4ldeiem9q396ff0enpd5kskmjpegg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "architect.jazzy.medicinereminder",
+            "certificate_hash": "AA37A6ABFCE0F2352B499978AFB9AFA65E29AD6C"
+          }
+        },
+        {
+          "client_id": "377780864885-bvcbbqukivh9099s1nd0ce3bjterdp8g.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAllhNUuKNjlwP5Wa9HT-JaEttXBga5TFc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 2,
+          "analytics_property": {
+            "tracking_id": "UA-58087731-2"
+          }
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "377780864885-bvcbbqukivh9099s1nd0ce3bjterdp8g.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2,
+          "test_banner_ad_unit_id": "ca-app-pub-3940256099942544/6300978111",
+          "test_interstitial_ad_unit_id": "ca-app-pub-3940256099942544/1033173712"
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

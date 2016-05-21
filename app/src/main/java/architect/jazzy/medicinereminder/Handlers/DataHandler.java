@@ -26,7 +26,7 @@ public class DataHandler {
     public static final String DATABASE_NAME = "MedicineList";
     public static final String TABLE_NAME = "Reminders";
 
-    public static class MedicineTable {
+    public static class MedicineTable  {
         public static final int TIME_BEFORE = -1;
         public static final int TIME_AFTER = 1;
         public static final int TIME_NONE = 0;
@@ -54,12 +54,15 @@ public class DataHandler {
     }
 
     public static final int DATABASE_VERSION = 3;
-    public static final String TABLE_ISSUED_CREATE = "CREATE TABLE IF NOT EXISTS Reminders(medName varchar(255)," +
-            " mornTime varchar(255), noonTime varchar(255), nightTime varchar(255), Sunday varchar(255)," +
-            " Monday varchar(255), Tuesday varchar(255), Wednesday varchar(255), Thursday varchar(255)," +
-            " Friday varchar(255), Saturday varchar(255), startDate varchar(255), endDate varchar(255)," +
-            " breakfast varchar(255), lunch varchar(255), dinner varchar(255), icon varchar(255), " +
-            "customTimeHour varchar(255), customTimeMinute varchar(255),note varchar(2550))";
+
+    public static class RemediesTable{
+        public static final String ID="_id";
+        public static final String TITLE="title";
+        public static final String DESCRIPTION="description";
+        public static final String TAGS = "tags";
+        public static final String DISEASES = "diseases";
+        public static final String REFERENCES = "references";
+    }
 
     public static final String CREATE_NEW_MEDICINE_TABLE = "CREATE TABLE IF NOT EXISTS " + MedicineTable.TABLE_NAME + "(" +
             MedicineTable.COL_ID + " TEXT, " +

@@ -2,14 +2,23 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/actionBackgroundDarker"
     tools:context="architect.jazzy.medicinereminder.Fragments.OfflineActivity.ExportFragment">
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/cloud_icon_big"
+        android:tintMode="src_atop"
+        tools:targetApi="LOLLIPOP"
+        android:layout_centerInParent="true"
+        android:tint="#FFFFFF"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:id="@+id/exportButton"
-        android:text="Export"/>
+        android:text="Save to Cloud"/>
 
 </RelativeLayout>

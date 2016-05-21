@@ -6,7 +6,6 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -61,26 +60,26 @@ public class ImportFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        medicineRecycler = (RecyclerView) view.findViewById(R.id.medicineRecycler);
-        doctorRecycler = (RecyclerView) view.findViewById(R.id.doctorRecycler);
-        importConfirm=(Button)view.findViewById(R.id.importButton);
-
-        medicineRecycler.setLayoutManager(new LinearLayoutManager(mContext));
-        doctorRecycler.setLayoutManager(new LinearLayoutManager(mContext));
-
-        medicineRecycler.setHasFixedSize(true);
-        doctorRecycler.setHasFixedSize(true);
-
-        medicineRecycler.setAdapter(new ImportMedicineRecyclerAdapter(mContext, medicines));
-        doctorRecycler.setAdapter(new ImportDoctorRecyclerAdapter(mContext, doctors));
-
-        importConfirm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                importConfirmListener.onImportConfirmed();
-            }
-        });
+//
+//        medicineRecycler = (RecyclerView) view.findViewById(R.id.medicineRecycler);
+//        doctorRecycler = (RecyclerView) view.findViewById(R.id.doctorRecycler);
+//        importConfirm=(Button)view.findViewById(R.id.importButton);
+//
+//        medicineRecycler.setLayoutManager(new LinearLayoutManager(mContext));
+//        doctorRecycler.setLayoutManager(new LinearLayoutManager(mContext));
+//
+//        medicineRecycler.setHasFixedSize(true);
+//        doctorRecycler.setHasFixedSize(true);
+//
+//        medicineRecycler.setAdapter(new ImportMedicineRecyclerAdapter(mContext, medicines));
+//        doctorRecycler.setAdapter(new ImportDoctorRecyclerAdapter(mContext, doctors));
+//
+//        importConfirm.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                importConfirmListener.onImportConfirmed();
+//            }
+//        });
     }
 
 

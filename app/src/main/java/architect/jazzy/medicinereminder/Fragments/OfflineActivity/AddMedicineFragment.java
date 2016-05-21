@@ -148,6 +148,71 @@ public class AddMedicineFragment extends Fragment {
         context = getActivity();
         getDefaultTime();
 
+        for(int id: textBoxIds){
+            ((TextView)v.findViewById(id)).setTextColor(Constants.getThemeColor(getActivity()));
+        }
+
+        return v;
+    }
+
+
+
+    void setColorScheme() {
+        int color = Constants.getThemeColor(getActivity());
+        if(color==getResources().getColor(R.color.themeColorDefault)){
+            t1.setBackgroundDrawable(getResources().getDrawable(R.drawable.edit_text_background));
+            notes.setBackgroundDrawable(getResources().getDrawable(R.drawable.edit_text_background2));
+            scheduleText.setBackgroundDrawable(getResources().getDrawable(R.drawable.schedule_background));
+            addButton.setBackgroundDrawable(getResources().getDrawable(R.drawable.button_background_states));
+            addButton.setPadding(10,0,10,0);
+        }else {
+            float[] hsv = new float[3];
+            Color.colorToHSV(color, hsv);
+            hsv[1] = 0.05f;
+            if (hsv[2] > 0.2) {
+                hsv[2] = 0.95f;
+            } else {
+                hsv[1] = 0.01f;
+                hsv[2] = 0.5f;
+            }
+            int lightColor = Color.HSVToColor(hsv);
+            GradientDrawable medNoteBackground = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{Color.WHITE, lightColor, Color.WHITE});
+            GradientDrawable medNameBackground = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{lightColor, Color.WHITE});
+            medName.setBackgroundColor(Color.TRANSPARENT);
+            notes.setBackgroundColor(Color.TRANSPARENT);
+            t1.setBackgroundDrawable(medNameBackground);
+            t2.setBackgroundDrawable(medNoteBackground);
+
+            hsv[1] = 0.4f;
+            int accentColor = Constants.getFABColor(getActivity());
+            Drawable scheduleBackground = scheduleText.getBackground().mutate();
+            scheduleBackground.setColorFilter(accentColor, PorterDuff.Mode.SRC_ATOP);
+            if (hsv[2] <= 0.3) {
+                scheduleText.setTextColor(Color.WHITE);
+            } else {
+                scheduleText.setTextColor(Color.parseColor("#15152f"));
+            }
+            newsHolder.setBackgroundColor(color);
+
+
+            Color.colorToHSV(accentColor, hsv);
+            hsv[2] -= 0.2f;
+            if (hsv[2] <= 0.3) {
+                addButton.setTextColor(Color.WHITE);
+            }
+            int buttonColorNormal = Color.HSVToColor(hsv);
+            hsv[2] -= 0.2f;
+            int buttonColorPressed = Color.HSVToColor(hsv);
+            StateListDrawable stateListDrawable = new StateListDrawable();
+            stateListDrawable.addState(new int[]{android.R.attr.state_pressed}, new ColorDrawable(buttonColorPressed));
+            stateListDrawable.addState(new int[]{}, new ColorDrawable(buttonColorNormal));
+            addButton.setBackgroundDrawable(stateListDrawable);
+        }
+    }
+
+    @Override
+    public void onViewCreated(View v, Bundle savedInstanceState) {
+        super.onViewCreated(v, savedInstanceState);
         medName = (AutoCompleteTextView) v.findViewById(R.id.medName);
         morning = (LabelledImage) v.findViewById(R.id.morning);
         night = (LabelledImage) v.findViewById(R.id.night);
@@ -186,6 +251,9 @@ public class AddMedicineFragment extends Fragment {
 
             }
         });
+
+
+
 
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -358,65 +426,6 @@ public class AddMedicineFragment extends Fragment {
 
         setColorScheme();
 
-        return v;
-    }
-
-    void setColorScheme() {
-        int color = Constants.getThemeColor(getActivity());
-        if(color==getResources().getColor(R.color.themeColorDefault)){
-            t1.setBackgroundDrawable(getResources().getDrawable(R.drawable.edit_text_background));
-            notes.setBackgroundDrawable(getResources().getDrawable(R.drawable.edit_text_background2));
-            scheduleText.setBackgroundDrawable(getResources().getDrawable(R.drawable.schedule_background));
-            addButton.setBackgroundDrawable(getResources().getDrawable(R.drawable.button_background_states));
-            addButton.setPadding(10,0,10,0);
-        }else {
-            float[] hsv = new float[3];
-            Color.colorToHSV(color, hsv);
-            hsv[1] = 0.05f;
-            if (hsv[2] > 0.2) {
-                hsv[2] = 0.95f;
-            } else {
-                hsv[1] = 0.01f;
-                hsv[2] = 0.5f;
-            }
-            int lightColor = Color.HSVToColor(hsv);
-            GradientDrawable medNoteBackground = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{Color.WHITE, lightColor, Color.WHITE});
-            GradientDrawable medNameBackground = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, new int[]{lightColor, Color.WHITE});
-            medName.setBackgroundColor(Color.TRANSPARENT);
-            notes.setBackgroundColor(Color.TRANSPARENT);
-            t1.setBackgroundDrawable(medNameBackground);
-            t2.setBackgroundDrawable(medNoteBackground);
-
-            hsv[1] = 0.4f;
-            int accentColor = Constants.getFABColor(getActivity());
-            Drawable scheduleBackground = scheduleText.getBackground().mutate();
-            scheduleBackground.setColorFilter(accentColor, PorterDuff.Mode.SRC_ATOP);
-            if (hsv[2] <= 0.3) {
-                scheduleText.setTextColor(Color.WHITE);
-            } else {
-                scheduleText.setTextColor(Color.parseColor("#15152f"));
-            }
-            newsHolder.setBackgroundColor(color);
-
-
-            Color.colorToHSV(accentColor, hsv);
-            hsv[2] -= 0.2f;
-            if (hsv[2] <= 0.3) {
-                addButton.setTextColor(Color.WHITE);
-            }
-            int buttonColorNormal = Color.HSVToColor(hsv);
-            hsv[2] -= 0.2f;
-            int buttonColorPressed = Color.HSVToColor(hsv);
-            StateListDrawable stateListDrawable = new StateListDrawable();
-            stateListDrawable.addState(new int[]{android.R.attr.state_pressed}, new ColorDrawable(buttonColorPressed));
-            stateListDrawable.addState(new int[]{}, new ColorDrawable(buttonColorNormal));
-            addButton.setBackgroundDrawable(stateListDrawable);
-        }
-    }
-
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
         try {
             ((AppCompatActivity) getActivity()).getSupportActionBar().show();
         } catch (NullPointerException e) {

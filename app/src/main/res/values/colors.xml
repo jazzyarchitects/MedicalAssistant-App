@@ -153,4 +153,5 @@
     <color name="themeColorLight">#de9800</color>
 
     <color name="buttonVoted">#f700ff</color>
+    <color name="remedyCardBackground">#FFF</color>
 </resources>

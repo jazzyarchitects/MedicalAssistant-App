@@ -9,6 +9,8 @@
     <dimen name="widget_margin">8dp</dimen>
     <dimen name="navigation_drawer_width">240dp</dimen>
 
+
+    <dimen name="loginButtonRadius">0dp</dimen>
     <dimen name="fab_elevation">5dp</dimen>
 
     <dimen name="listCardElevation">1dp</dimen>

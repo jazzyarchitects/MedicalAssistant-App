@@ -6,19 +6,20 @@
     android:orientation="vertical"
     android:padding="3dp"
     android:weightSum="10"
-    android:background="#FFF"
+    android:background="@color/remedyCardBackground"
     tools:showIn="@layout/recycler_item_remedyfeed">
 
     <TextView
         android:id="@+id/remedyDescription"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="5.5"
+        android:layout_weight="7.5"
         android:ellipsize="end"
-        android:maxLines="3"
+        android:maxLines="4"
         android:padding="2dp"
+        android:gravity="center_vertical"
         android:background="#F8F8F8"
-        android:text="@string/lorem_ipsum"
+        tools:text="@string/large_text"
         android:textColor="#222"
         android:textSize="13sp" />
 
@@ -26,6 +27,7 @@
         android:id="@+id/remedyDiseases"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:visibility="gone"
         android:gravity="center_vertical"
         android:textSize="12sp"
         android:text="Diseases......."
@@ -36,22 +38,24 @@
         android:layout_height="0dp"
         android:layout_weight="2.5"
         android:orientation="horizontal"
-        android:weightSum="4">
+        android:weightSum="3">
 
             <ImageButton android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="match_parent"
                 android:id="@+id/likeButton"
+                android:contentDescription="upvote"
                 android:background="@drawable/login_button_no_stroke"
                 android:src="@drawable/ic_action_like"/>
 
-            <ImageButton android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="match_parent"
-                android:textSize="12sp"
-                android:id="@+id/dislikeButton"
-                android:background="@drawable/login_button_no_stroke"
-                android:src="@drawable/ic_action_dontlike"/>
+            <!--<ImageButton android:id="@+id/dislikeButton"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_weight="1"-->
+                <!--android:background="@drawable/login_button_no_stroke"-->
+                <!--android:contentDescription="Downvote"-->
+                <!--android:src="@drawable/ic_action_dontlike"-->
+                <!--android:textSize="12sp" />-->
 
         <Button
             android:layout_width="0dp"
@@ -62,14 +66,27 @@
             android:background="@drawable/login_button_no_stroke"
             android:text="View"/>
 
-        <Button
+
+
+        <ImageButton
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:textSize="12sp"
+            android:padding="3dp"
+            android:src="@drawable/ic_menu_share"
             android:id="@+id/shareButton"
             android:background="@drawable/login_button_no_stroke"
-            android:text="Share"/>
+            android:scaleType="fitCenter"/>
+
+        <!--<Button-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight="1"-->
+            <!--android:textSize="12sp"-->
+            <!--android:id="@+id/shareButton"-->
+            <!--android:background="@drawable/login_button_no_stroke"-->
+            <!--android:text="Share"/>-->
 
 
     </LinearLayout>

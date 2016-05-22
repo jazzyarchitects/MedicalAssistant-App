@@ -8,7 +8,6 @@
     android:gravity="center"
     android:weightSum="10"
     android:background="#FFF"
-    tools:showIn="@layout/activity_backup_restore"
     tools:context="architect.jazzy.medicinereminder.Fragments.OfflineActivity.ImportFragment">
 
     <LinearLayout

@@ -37,6 +37,17 @@
             android:textStyle="bold"
             tools:textColor="#FFF" />
 
+        <View android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignLeft="@+id/checkboxBookmarked"
+            android:layout_alignStart="@+id/checkboxBookmarked"
+            android:layout_alignTop="@+id/checkboxBookmarked"
+            android:paddingTop="3dp"
+            android:background="@color/remedyCardBackground"
+            android:layout_above="@+id/cardView"/>
+
         <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -52,8 +63,7 @@
             android:layout_width="match_parent"
             android:layout_height="120dp"
             android:layout_alignParentBottom="true"
-            app:cardCornerRadius="3dp"
-            app:cardElevation="5dp"
+            app:cardElevation="1dp"
             app:cardMaxElevation="5dp">
 
             <include

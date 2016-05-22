@@ -105,23 +105,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         startService(startAlarmServiceIntent);
 
 
-        //TODO: uncomment ad
-
-//        interstitialAd=new InterstitialAd(MainActivity.this);
-//        interstitialAd.setAdUnitId("ca-app-pub-6208186273505028/3306536191");
-//        AdRequest adRequest=new AdRequest.Builder().build();
-        //.addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-        //.addTestDevice("8143FD5F7B003AB85585893D768C3142");
-
-//        interstitialAd.loadAd(adRequest);
-//        interstitialAd.setAdListener(new AdListener() {
-//            public void onAdLoaded() {
-        // Call displayInterstitial() function
-//               displayInterstitial();
-//            }
-//        });
-
-
         navigationView = (NavigationView) findViewById(R.id.navigationView);
         View headerLayout = navigationView.getHeaderView(0);
         searchQuery = (EditText) headerLayout.findViewById(R.id.searchQuery);

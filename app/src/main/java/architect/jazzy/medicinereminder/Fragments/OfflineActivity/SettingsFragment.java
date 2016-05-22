@@ -19,8 +19,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
 
 import architect.jazzy.medicinereminder.Handlers.DeleteAllMedicines;
 import architect.jazzy.medicinereminder.R;
@@ -52,10 +50,6 @@ public class SettingsFragment extends PreferenceFragment {
         }catch (NullPointerException e){
             e.printStackTrace();
         }
-        Tracker t = ((ThisApplication) getActivity().getApplication()).getTracker(
-                ThisApplication.TrackerName.APP_TRACKER);
-        t.setScreenName("Basic Preferences");
-        t.send(new HitBuilders.AppViewBuilder().build());
 
 
         addPreferencesFromResource(R.xml.pref_general);

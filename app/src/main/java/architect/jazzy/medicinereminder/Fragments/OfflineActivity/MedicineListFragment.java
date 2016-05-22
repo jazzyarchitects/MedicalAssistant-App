@@ -27,8 +27,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
 import com.h6ah4i.android.widget.advrecyclerview.animator.GeneralItemAnimator;
 import com.h6ah4i.android.widget.advrecyclerview.animator.SwipeDismissItemAnimator;
 import com.h6ah4i.android.widget.advrecyclerview.decoration.SimpleListDividerDecorator;
@@ -83,12 +81,6 @@ public class MedicineListFragment extends Fragment {
         LinearLayout emptyList = (LinearLayout)v.findViewById(R.id.emptyList);
 
         emptyList.setVisibility(View.GONE);
-        /**Analytics Code*/
-        Tracker t = ((ThisApplication) getActivity().getApplication()).getTracker(
-                ThisApplication.TrackerName.APP_TRACKER);
-        t.setScreenName("Medicine List");
-        t.enableAdvertisingIdCollection(true);
-        t.send(new HitBuilders.AppViewBuilder().build());
 
         medicineList = (RecyclerView) v.findViewById(R.id.recyclerView);
         root = (RelativeLayout) v.findViewById(R.id.rl);

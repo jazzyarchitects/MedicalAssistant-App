@@ -25,8 +25,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -74,13 +72,6 @@ public class DashboardFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        /**Analytics Code*/
-        Tracker t = ((ThisApplication) getActivity().getApplication()).getTracker(
-                ThisApplication.TrackerName.APP_TRACKER);
-        t.setScreenName("Dashboard");
-        t.enableAdvertisingIdCollection(true);
-        t.send(new HitBuilders.AppViewBuilder().build());
-        Log.e(TAG, "onCreate");
 
     }
 

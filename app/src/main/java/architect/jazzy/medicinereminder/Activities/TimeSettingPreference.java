@@ -15,8 +15,6 @@ import android.widget.Toast;
 
 import com.android.datetimepicker.time.RadialPickerLayout;
 import com.android.datetimepicker.time.TimePickerDialog;
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
 
 import java.util.Calendar;
 import java.util.HashMap;
@@ -34,7 +32,6 @@ public class TimeSettingPreference extends AppCompatActivity {
     int bbh,bbm,abh,abm,blh,blm,alh,alm,bdh,bdm,adh,adm;
     Boolean is24hrs=false;
     RadioButton is12,is24;
-    Tracker t;
 
 
 
@@ -48,11 +45,6 @@ public class TimeSettingPreference extends AppCompatActivity {
         getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-
-        t = ((ThisApplication) this.getApplication()).getTracker(
-                ThisApplication.TrackerName.APP_TRACKER);
-        t.setScreenName("Time Change Preference");
-        t.enableAdvertisingIdCollection(true);
 
         bb=(EditText)findViewById(R.id.pref_beforeBreakfast);
         ab=(EditText)findViewById(R.id.pref_afterBreakfast);
@@ -246,8 +238,6 @@ public class TimeSettingPreference extends AppCompatActivity {
         timingTracker.put("Lunch",blh+":"+blm+"  and "+alh+":"+alm);
         timingTracker.put("Dinner",bdh+":"+bdm+"  and "+adh+":"+adm);
         timingTracker.put("Is24Hour",String.valueOf(is24hrs));
-        t.send(timingTracker);
-        t.send(new HitBuilders.AppViewBuilder().build());
         finish();
         super.onStop();
     }

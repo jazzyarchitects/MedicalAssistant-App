@@ -13,8 +13,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
 
 import java.util.ArrayList;
 import java.util.Timer;
@@ -48,12 +46,6 @@ public class MedicineDetails extends AppCompatActivity implements EmojiSelectFra
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_medicine_details);
 
-
-        Tracker t = ((ThisApplication) this.getApplication()).getTracker(
-                ThisApplication.TrackerName.APP_TRACKER);
-        t.setScreenName("Medicine Details");
-        t.enableAdvertisingIdCollection(true);
-        t.send(new HitBuilders.AppViewBuilder().build());
 
         edit = (LinearLayout) findViewById(R.id.editMedicine);
         delete = (LinearLayout) findViewById(R.id.deleteMedicine);

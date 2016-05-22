@@ -23,9 +23,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
-
 import architect.jazzy.medicinereminder.Fragments.OfflineActivity.DoctorDetailFragments.Adapters.ViewPagerAdapter;
 import architect.jazzy.medicinereminder.Handlers.DataHandler;
 import architect.jazzy.medicinereminder.HelperClasses.Constants;
@@ -65,13 +62,6 @@ public class DoctorDetailFragment extends Fragment implements ViewPagerAdapter.V
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         doctor=getArguments().getParcelable(Constants.BUNDLE_DOCTOR);
-
-        /**Analytics Code*/
-        Tracker t = ((ThisApplication) getActivity().getApplication()).getTracker(
-                ThisApplication.TrackerName.APP_TRACKER);
-        t.setScreenName("Doctor Detail");
-        t.enableAdvertisingIdCollection(true);
-        t.send(new HitBuilders.AppViewBuilder().build());
     }
 
     @Override

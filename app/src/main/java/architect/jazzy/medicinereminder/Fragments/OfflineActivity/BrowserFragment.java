@@ -17,8 +17,6 @@ import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
 
 import architect.jazzy.medicinereminder.Activities.MainActivity;
 import architect.jazzy.medicinereminder.HelperClasses.Constants;
@@ -63,12 +61,6 @@ public class BrowserFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        /**Analytics Code*/
-        Tracker t = ((ThisApplication) getActivity().getApplication()).getTracker(
-                ThisApplication.TrackerName.APP_TRACKER);
-        t.setScreenName("Browser");
-        t.enableAdvertisingIdCollection(true);
-        t.send(new HitBuilders.AppViewBuilder().build());
     }
 
     @Override

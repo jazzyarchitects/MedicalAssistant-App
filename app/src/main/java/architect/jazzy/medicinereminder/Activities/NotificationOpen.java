@@ -6,10 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
 
 import java.util.ArrayList;
 
@@ -30,21 +26,12 @@ public class NotificationOpen extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notification_open);
 
-
-        Tracker t = ((ThisApplication) this.getApplication()).getTracker(
-                ThisApplication.TrackerName.APP_TRACKER);
-        t.setScreenName("NotificationOpen");
-        t.enableAdvertisingIdCollection(true);
-        t.send(new HitBuilders.AppViewBuilder().build());
-
-
-
-        AdView bannerAd=(AdView)this.findViewById(R.id.bannerAdNO);
-        AdRequest adRequest=new AdRequest.Builder().build();
-              //  .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
-               // .addTestDevice("8143FD5F7B003AB85585893D768C3142")
-
-        bannerAd.loadAd(adRequest);
+//        AdView bannerAd=(AdView)this.findViewById(R.id.bannerAdNO);
+//        AdRequest adRequest=new AdRequest.Builder().build();
+//              //  .addTestDevice(AdRequest.DEVICE_ID_EMULATOR)
+//               // .addTestDevice("8143FD5F7B003AB85585893D768C3142")
+//
+//        bannerAd.loadAd(adRequest);
 
 
         bundle=new Bundle();

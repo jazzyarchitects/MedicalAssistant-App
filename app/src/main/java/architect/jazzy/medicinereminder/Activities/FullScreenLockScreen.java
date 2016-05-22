@@ -38,11 +38,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.balysv.materialripple.MaterialRippleLayout;
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
-
 import java.util.ArrayList;
+
+import com.balysv.materialripple.MaterialRippleLayout;
 
 import architect.jazzy.medicinereminder.BroadcastRecievers.AlarmReceiver;
 import architect.jazzy.medicinereminder.HelperClasses.Constants;
@@ -71,14 +69,6 @@ public class FullScreenLockScreen extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_full_screen_lock_screen);
-
-
-        Tracker t = ((ThisApplication) this.getApplication()).getTracker(
-                ThisApplication.TrackerName.APP_TRACKER);
-        t.setScreenName("FullScreenLockScreen");
-        t.enableAdvertisingIdCollection(true);
-        t.enableExceptionReporting(true);
-        t.send(new HitBuilders.AppViewBuilder().build());
 
 
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED);

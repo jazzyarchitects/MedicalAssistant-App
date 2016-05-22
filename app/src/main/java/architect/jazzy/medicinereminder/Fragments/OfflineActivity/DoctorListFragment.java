@@ -24,9 +24,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
-
 import java.util.ArrayList;
 
 import architect.jazzy.medicinereminder.Adapters.DoctorListAdapter;
@@ -55,11 +52,6 @@ public class DoctorListFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        /**Analytics Code*/
-        Tracker t = ((ThisApplication) getActivity().getApplication()).getTracker(
-                ThisApplication.TrackerName.APP_TRACKER);
-        t.setScreenName("Doctor List");
-        t.send(new HitBuilders.AppViewBuilder().build());
     }
     LinearLayout emptyList;
 

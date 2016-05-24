@@ -363,7 +363,8 @@ public class RemedyFeedFragment extends Fragment {
             TextView title, description, diseases;
             ImageView background;
             ImageButton upVoteButton, downVoteButton;
-            Button viewButton, shareButton;
+            Button viewButton;
+            ImageButton shareButton;
             CheckBox bookmark;
 
             public ViewHolder(View itemView) {
@@ -375,7 +376,7 @@ public class RemedyFeedFragment extends Fragment {
                 upVoteButton = (ImageButton) itemView.findViewById(R.id.likeButton);
                 downVoteButton = (ImageButton) itemView.findViewById(R.id.dislikeButton);
                 viewButton = (Button) itemView.findViewById(R.id.viewButton);
-                shareButton = (Button) itemView.findViewById(R.id.shareButton);
+                shareButton = (ImageButton) itemView.findViewById(R.id.shareButton);
                 bookmark=(CheckBox)itemView.findViewById(R.id.checkboxBookmarked);
 
 

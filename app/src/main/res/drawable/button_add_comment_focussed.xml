@@ -6,5 +6,5 @@
         android:width="1dp"
         android:color="#5c6aab" />
 
-    <padding android:top="5dp" android:bottom="5dp" android:left="7dp" android:right="7dp" />
+    <!--<padding android:top="5dp" android:bottom="5dp" android:left="7dp" android:right="7dp" />-->
 </shape>

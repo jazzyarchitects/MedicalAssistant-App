@@ -2,6 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="architect.jazzy.medicinereminder.Fragments.OnlineActivity.RemedyFeedFragment">
 
@@ -9,6 +10,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/actionBackgroundDarker"
         android:id="@+id/loading">
 
         <LinearLayout
@@ -24,14 +26,14 @@
                 style="?android:attr/progressBarStyleLarge"
                 android:indeterminate="true"/>
 
-            <TextView
+            <architect.jazzy.medicinereminder.CustomViews.GraduallyTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:textSize="16sp"
-                android:textColor="#222"
+                android:textColor="#FFF"
                 android:id="@+id/loadingText"
-                android:text="Loading"/>
+                android:text="Loading..."/>
 
         </LinearLayout>
     </RelativeLayout>
@@ -43,12 +45,5 @@
         android:clipToPadding="true"
         android:id="@+id/recyclerView" />
 
-    <!--<android.support.design.widget.FloatingActionButton-->
-        <!--android:layout_width="@dimen/floatingActionButtonSize"-->
-        <!--android:layout_height="@dimen/floatingActionButtonSize"-->
-        <!--android:layout_gravity="bottom|right|end"-->
-        <!--android:layout_margin="5dp"-->
-        <!--app:elevation="8dp"-->
-        <!--app:pressedTranslationZ="3dp"/>-->
 
 </android.support.design.widget.CoordinatorLayout>

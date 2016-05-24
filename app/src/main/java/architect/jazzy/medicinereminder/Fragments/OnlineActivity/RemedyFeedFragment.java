@@ -2,19 +2,14 @@ package architect.jazzy.medicinereminder.Fragments.OnlineActivity;
 
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.graphics.Palette;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -29,15 +24,13 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.squareup.picasso.Picasso;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Random;
 
-import architect.jazzy.medicinereminder.Activities.RegistrationActivity;
+import architect.jazzy.medicinereminder.CustomViews.GraduallyTextView;
 import architect.jazzy.medicinereminder.HelperClasses.BackendUrls;
 import architect.jazzy.medicinereminder.HelperClasses.Constants;
 import architect.jazzy.medicinereminder.Models.Remedy;
@@ -54,9 +47,10 @@ public class RemedyFeedFragment extends Fragment {
     RecyclerView recyclerView;
     Context mContext;
     RemedyFeedResult remedyFeedResult;
-    public static final String TAG="RemedyFeedFragment";
+    public static final String TAG = "RemedyFeedFragment";
     RelativeLayout loadingView;
     ArrayList<Remedy> remedies;
+    GraduallyTextView graduallyTextView;
     boolean isUserLoggedIn = false;
 
     private static final int REMEDY_DETAIL_CODE = 1564;
@@ -84,6 +78,7 @@ public class RemedyFeedFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         loadingView = (RelativeLayout) view.findViewById(R.id.loading);
+        graduallyTextView = (GraduallyTextView) loadingView.findViewById(R.id.loadingText);
         recyclerView.setLayoutManager(new LinearLayoutManager(mContext));
         recyclerView.setHasFixedSize(false);
 
@@ -95,7 +90,7 @@ public class RemedyFeedFragment extends Fragment {
             @Override
             public void onPreExecute() {
                 if (recyclerView.getAdapter() == null || recyclerView.getAdapter().getItemCount() == 0) {
-                    Constants.setColoredProgressText((TextView) loadingView.findViewById(R.id.loadingText), null, 1500);
+                    graduallyTextView.startLoading();
                 } else {
                     Snackbar.make(recyclerView, "Loading...", Snackbar.LENGTH_LONG)
                             .show();
@@ -104,6 +99,7 @@ public class RemedyFeedFragment extends Fragment {
 
             @Override
             public void onResult(String result) {
+                graduallyTextView.stopLoading();
                 loadingView.setVisibility(View.GONE);
                 try {
                     JSONObject responseObject = new JSONObject(result);
@@ -144,7 +140,7 @@ public class RemedyFeedFragment extends Fragment {
         if (requestCode == REMEDY_DETAIL_CODE) {
             Remedy remedy = data.getParcelableExtra("remedy");
             for (int i = 0; i < remedyFeedResult.getRemedies().size(); i++) {
-                Log.e(TAG,"Checking remedy :"+remedyFeedResult.getRemedies().get(i).getId()+" for: "+remedy.getId());
+                Log.e(TAG, "Checking remedy :" + remedyFeedResult.getRemedies().get(i).getId() + " for: " + remedy.getId());
                 if (remedyFeedResult.getRemedies().get(i).getId().equalsIgnoreCase(remedy.getId())) {
                     remedyFeedResult.getRemedies().set(i, remedy);
                 }
@@ -163,10 +159,12 @@ public class RemedyFeedFragment extends Fragment {
      */
     class RemedyFeedListAdapter extends RecyclerView.Adapter<RemedyFeedListAdapter.ViewHolder> {
 
+
         Context mContext;
         ArrayList<Remedy> remedies;
         int TYPE_NO_IMAGE = 0;
         int TYPE_IMAGE = 1;
+
 
         public RemedyFeedListAdapter(Context context, ArrayList<Remedy> remedies) {
             this.mContext = context;
@@ -193,11 +191,13 @@ public class RemedyFeedFragment extends Fragment {
             holder.description.setText(remedy.getDescription());
             holder.diseases.setText(remedy.getDiseasesString());
 
+            final int random = (new Random()).nextInt(Constants.backgroundImages.length);
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(mContext, RemedyDetailsAcitvity.class);
                     intent.putExtra("remedy", remedy);
+                    intent.putExtra("image", random);
                     startActivityForResult(intent, REMEDY_DETAIL_CODE);
                 }
             });
@@ -207,6 +207,8 @@ public class RemedyFeedFragment extends Fragment {
                 public void onClick(View view) {
                     Intent intent = new Intent(mContext, RemedyDetailsAcitvity.class);
                     intent.putExtra("remedy", remedy);
+                    ;
+                    intent.putExtra("image", random);
                     startActivityForResult(intent, REMEDY_DETAIL_CODE);
                 }
             });
@@ -214,7 +216,7 @@ public class RemedyFeedFragment extends Fragment {
             final Drawable upvoteDrawable = getResources().getDrawable(R.drawable.ic_action_like).mutate();
             final Drawable downvoteDrawable = getResources().getDrawable(R.drawable.ic_action_dontlike).mutate();
 
-            if(isUserLoggedIn) {
+            if (isUserLoggedIn) {
                 if (remedy.isUpvoted()) {
                     upvoteDrawable.setColorFilter(selectionColor, PorterDuff.Mode.SRC_ATOP);
                 }
@@ -226,110 +228,8 @@ public class RemedyFeedFragment extends Fragment {
 
             holder.upVoteButton.setImageDrawable(upvoteDrawable);
             holder.downVoteButton.setImageDrawable(downvoteDrawable);
+            holder.background.setImageResource(Constants.backgroundImages[random]);
 
-            if (isUserLoggedIn) {
-                holder.upVoteButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        remedy.setUpvoted(!remedy.isUpvoted());
-                        remedy.setDownvoted(false);
-                        holder.downVoteButton.setImageResource(R.drawable.ic_action_dontlike);
-                        if (remedy.isUpvoted()) {
-                            upvoteDrawable.setColorFilter(selectionColor, PorterDuff.Mode.SRC_ATOP);
-                            holder.upVoteButton.setImageDrawable(upvoteDrawable);
-                        } else {
-                            holder.upVoteButton.setImageResource(R.drawable.ic_action_like);
-                        }
-                        remedy.upvote(mContext);
-                    }
-                });
-
-                holder.downVoteButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        remedy.setDownvoted(!remedy.isDownvoted());
-                        remedy.setUpvoted(false);
-                        holder.upVoteButton.setImageResource(R.drawable.ic_action_like);
-                        if (remedy.isDownvoted()) {
-                            downvoteDrawable.setColorFilter(selectionColor, PorterDuff.Mode.SRC_ATOP);
-                            holder.downVoteButton.setImageDrawable(downvoteDrawable);
-                        } else {
-                            holder.downVoteButton.setImageResource(R.drawable.ic_action_dontlike);
-                        }
-                        remedy.downvote(mContext);
-                    }
-                });
-                holder.bookmark.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-
-                        remedy.setBookmarked(!remedy.isBookmarked());
-                        remedy.bookmark(mContext);
-                    }
-                });
-            } else {
-                holder.upVoteButton.setOnClickListener(notLoggedInListener);
-                holder.downVoteButton.setOnClickListener(notLoggedInListener);
-                holder.bookmark.setOnClickListener(notLoggedInListener);
-            }
-
-            if (holder.background != null) {
-                holder.background.setImageResource(R.drawable.stethoscope);
-                if (remedy.getRemedyImage() != null) {
-                    holder.background.setImageBitmap(remedy.getRemedyImage());
-                } else {
-                    Thread thread = new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            try {
-                                Bitmap bitmap = Picasso.with(mContext)
-                                        .load(BackendUrls.getRemedyImage(remedy.getImage().getFileName()))
-                                        .get();
-
-                                try {
-                                    ImageView imageView = holder.background;
-                                    Log.e("RemedyFeedAdapter", imageView.getWidth() + " " + imageView.getHeight() + " " + imageView.getLayoutParams().width + " " + imageView.getLayoutParams().height);
-                                    Bitmap upperBitmap = Bitmap.createBitmap(bitmap, 0, 0, 480, 150);
-                                    Palette.Builder paletteBuilder = Palette.from(upperBitmap);
-                                    Palette palette = paletteBuilder.generate();
-                                    Palette.Swatch swatch = palette.getVibrantSwatch();
-                                    int textColor;
-                                    try {
-                                        textColor = swatch.getTitleTextColor();
-                                        float[] hsv = new float[3];
-                                        Color.colorToHSV(textColor, hsv);
-                                        hsv[2] = hsv[2] >= 0.5 ? 0 : 1;
-                                        textColor = Color.HSVToColor(hsv);
-                                    } catch (NullPointerException e) {
-                                        e.printStackTrace();
-                                        textColor = Color.BLACK;
-                                    }
-                                    final int finalTextColor = textColor;
-                                    holder.title.post(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            holder.title.setTextColor(finalTextColor);
-                                        }
-                                    });
-
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
-
-                            } catch (IOException e) {
-                                holder.background.post(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        holder.background.setImageResource(R.drawable.stethoscope);
-                                    }
-                                });
-                                e.printStackTrace();
-                            }
-                        }
-                    });
-                    thread.start();
-                }
-            }
         }
 
         @Override
@@ -337,27 +237,6 @@ public class RemedyFeedFragment extends Fragment {
             return (remedies == null || remedies.size() == 0) ? 1 : remedies.size();
         }
 
-        View.OnClickListener notLoggedInListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-                builder.setTitle("Login Required")
-                        .setMessage("You need to login to be able to vote or comment")
-                        .setPositiveButton("Dismiss", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                dialogInterface.dismiss();
-                            }
-                        }).setNegativeButton("Login", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        startActivity(new Intent(mContext, RegistrationActivity.class));
-                        dialogInterface.dismiss();
-                    }
-                })
-                        .show();
-            }
-        };
 
         class ViewHolder extends RecyclerView.ViewHolder {
             TextView title, description, diseases;
@@ -377,7 +256,7 @@ public class RemedyFeedFragment extends Fragment {
                 downVoteButton = (ImageButton) itemView.findViewById(R.id.dislikeButton);
                 viewButton = (Button) itemView.findViewById(R.id.viewButton);
                 shareButton = (ImageButton) itemView.findViewById(R.id.shareButton);
-                bookmark=(CheckBox)itemView.findViewById(R.id.checkboxBookmarked);
+                bookmark = (CheckBox) itemView.findViewById(R.id.checkboxBookmarked);
 
 
             }

@@ -37,6 +37,8 @@ public class Constants {
 
     public static final String BUNDLE_SELECTED_NEWS = "selected";
 
+    public static int[] backgroundImages = {R.drawable.ayurvedic, R.drawable.doc, R.drawable.fruits, R.drawable.leaf_pills, R.drawable.pill_fruits, R.drawable.pills};
+
     public Constants() {
         super();
     }

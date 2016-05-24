@@ -77,7 +77,8 @@
                     android:scheme="file" />
             </intent-filter>
         </activity>
-        <activity android:name=".Activities.RegistrationActivity" />
+        <activity android:name=".Activities.RegistrationActivity"
+            android:parentActivityName=".Activities.MainActivity"/>
         <activity
             android:name=".Activities.OnlineActivity"
             android:label="@string/title_activity_online"

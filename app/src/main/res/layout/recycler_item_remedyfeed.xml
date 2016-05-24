@@ -45,14 +45,23 @@
             android:layout_alignStart="@+id/checkboxBookmarked"
             android:layout_alignTop="@+id/checkboxBookmarked"
             android:paddingTop="3dp"
+            android:visibility="gone"
+            android:layout_marginRight="3dp"
+            android:layout_marginEnd="3dp"
+            android:layout_marginTop="-3dp"
+            android:layout_marginBottom="15dp"
             android:background="@color/remedyCardBackground"
-            android:layout_above="@+id/cardView"/>
+            android:layout_alignBottom="@+id/cardView"/>
 
         <CheckBox
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_above="@+id/cardView"
             android:layout_marginBottom="3dp"
+            android:layout_marginRight="3dp"
+            android:layout_marginEnd="3dp"
+            android:paddingTop="2dp"
+            android:visibility="gone"
             android:id="@+id/checkboxBookmarked"
             android:button="@drawable/checkbox_bookmark"
             android:layout_alignParentRight="true"
@@ -64,7 +73,7 @@
             android:layout_height="120dp"
             android:layout_alignParentBottom="true"
             app:cardElevation="1dp"
-            app:cardMaxElevation="5dp">
+            app:cardMaxElevation="2dp">
 
             <include
                 layout="@layout/recycler_item_remedy_feed_details"

@@ -41,6 +41,9 @@ public class CapitalTextView extends TextView {
 //            thisText = "My Name is Jibin";
 //            thisText =
             thisText= attributeSet.getAttributeValue("http://schemas.android.com/apk/res/android","text");
+            if(thisText == null){
+                thisText = "Empty Text";
+            }
             if(thisText.isEmpty()){
                 a.recycle();
                 return;

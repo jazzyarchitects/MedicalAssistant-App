@@ -90,13 +90,20 @@ public class Constants {
                 .getInt(Constants.THEME_COLOR, context.getResources().getColor(R.color.themeColorDefault));
     }
 
-    public static int getFABColor(Context context) {
-        int color = getThemeColor(context);
+    private static int getFAB(int color){
         float[] hsv = new float[3];
         Color.colorToHSV(color, hsv);
         hsv[2] = hsv[2] > 0.5 ? hsv[2] : hsv[2] + 0.5f;
         hsv[0] = (hsv[0] + 90) % 360;
         return Color.HSVToColor(hsv);
+    }
+
+    public static int getFABColor(Context context) {
+        return getFAB(getThemeColor(context));
+    }
+
+    public static int getFABColor(int color){
+        return getFAB(color);
     }
 
     public static ColorStateList getFabBackground(Context context) {

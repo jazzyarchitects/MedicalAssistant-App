@@ -3,11 +3,16 @@ package architect.jazzy.medicinereminder.Fragments.OnlineActivity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.PorterDuff;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.view.Menu;
@@ -37,8 +42,11 @@ public class RemedyDetailsAcitvity extends AppCompatActivity {
     TextView upvoteCount, downvoteCount;
     LinearLayout upVoteLayout, downVoteLayout;
     ImageView remedyImage;
+    FloatingActionButton fab;
+    CollapsingToolbarLayout appBarLayout;
     int imageIndex = 0;
     boolean isUserLoggedIn=false;
+    Drawable backgroundImage;
 
     @Override
     protected void onResume() {
@@ -72,6 +80,8 @@ public class RemedyDetailsAcitvity extends AppCompatActivity {
         upvoteCount = (TextView) upVoteLayout.findViewById(R.id.upVoteCount);
         downvoteCount = (TextView) downVoteLayout.findViewById(R.id.downVoteCount);
         remedyImage = (ImageView)findViewById(R.id.remedyImage);
+        fab = (FloatingActionButton)findViewById(R.id.fab);
+        appBarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
 
         if(isUserLoggedIn) {
             upVoteLayout.setOnClickListener(voteClickListener);
@@ -87,8 +97,14 @@ public class RemedyDetailsAcitvity extends AppCompatActivity {
         remedy = in.getParcelableExtra("remedy");
         imageIndex = in.getIntExtra("image",0);
         remedyImage.setImageResource(Constants.backgroundImages[imageIndex]);
+        backgroundImage = getResources().getDrawable(Constants.backgroundImages[imageIndex]);
 
-
+        Palette.Builder builder = Palette.from(((BitmapDrawable)backgroundImage).getBitmap());
+        Palette palette = builder.generate();
+        selectionColor = palette.getVibrantColor(0);
+        fab.setBackgroundTintList(new ColorStateList(new int[][]{new int[]{0}}, new int[]{Constants.getFABColor(selectionColor)}));
+        appBarLayout.setContentScrimColor(selectionColor);
+        appBarLayout.setStatusBarScrimColor(selectionColor);
         if (remedy == null) {
             newRemedy();
             return;
@@ -163,7 +179,7 @@ public class RemedyDetailsAcitvity extends AppCompatActivity {
         statsLayout.setVisibility(View.GONE);
         remedyDescription.setFocusable(true);
         remedyTags.setFocusable(true);
-        remedyTitle.setFocusable(true);
+//        remedyTitle.setFocusable(true);
         remedyReferences.setFocusable(true);
         remedyDiseases.setFocusable(true);
     }
@@ -221,7 +237,7 @@ public class RemedyDetailsAcitvity extends AppCompatActivity {
 
         remedyDescription.setFocusable(false);
         remedyTags.setFocusable(false);
-        remedyTitle.setFocusable(false);
+//        remedyTitle.setFocusable(false);
         remedyReferences.setFocusable(false);
         remedyDiseases.setFocusable(false);
     }

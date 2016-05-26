@@ -192,7 +192,6 @@ public class RemedyFeedFragment extends Fragment {
             holder.diseases.setText(remedy.getDiseasesString());
 
             final int random = remedy.getImageIndex()<0?(new Random()).nextInt(Constants.backgroundImages.length):remedy.getImageIndex();
-
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

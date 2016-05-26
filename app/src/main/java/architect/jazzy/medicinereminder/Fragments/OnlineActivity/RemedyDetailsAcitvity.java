@@ -195,7 +195,7 @@ public class RemedyDetailsAcitvity extends AppCompatActivity {
         statsLayout.setVisibility(View.VISIBLE);
 
         remedyTitle.setRawText(remedy.getTitle());
-        
+
         int editTextBackgroundId =R.drawable.login_edit_text;
         remedyTitle.setBackgroundResource(editTextBackgroundId);
 

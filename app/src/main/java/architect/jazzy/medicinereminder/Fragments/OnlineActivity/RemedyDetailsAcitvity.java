@@ -35,10 +35,10 @@ public class RemedyDetailsAcitvity extends AppCompatActivity {
 
     EditText remedyDescription, remedyReferences, remedyDiseases, remedyTags;
     CapitalTextView remedyTitle;
-    Button saveButton;
+    Button saveButton, addComment;
     Remedy remedy;
     Context mContext;
-    LinearLayout statsLayout;
+    LinearLayout statsLayout, commentLayout;
     TextView upvoteCount, downvoteCount;
     LinearLayout upVoteLayout, downVoteLayout;
     ImageView remedyImage;
@@ -82,6 +82,8 @@ public class RemedyDetailsAcitvity extends AppCompatActivity {
         remedyImage = (ImageView)findViewById(R.id.remedyImage);
         fab = (FloatingActionButton)findViewById(R.id.fab);
         appBarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
+        commentLayout = (LinearLayout)findViewById(R.id.commentLayout);
+        addComment = (Button) commentLayout.findViewById(R.id.addComment);
 
         if(isUserLoggedIn) {
             upVoteLayout.setOnClickListener(voteClickListener);
@@ -105,6 +107,7 @@ public class RemedyDetailsAcitvity extends AppCompatActivity {
         fab.setBackgroundTintList(new ColorStateList(new int[][]{new int[]{0}}, new int[]{Constants.getFABColor(selectionColor)}));
         appBarLayout.setContentScrimColor(selectionColor);
         appBarLayout.setStatusBarScrimColor(selectionColor);
+        commentLayout.setBackgroundColor(selectionColor);
         if (remedy == null) {
             newRemedy();
             return;

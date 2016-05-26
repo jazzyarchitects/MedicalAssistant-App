@@ -191,7 +191,8 @@ public class RemedyFeedFragment extends Fragment {
             holder.description.setText(remedy.getDescription());
             holder.diseases.setText(remedy.getDiseasesString());
 
-            final int random = (new Random()).nextInt(Constants.backgroundImages.length);
+            final int random = remedy.getImageIndex()<0?(new Random()).nextInt(Constants.backgroundImages.length):remedy.getImageIndex();
+
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -228,6 +229,7 @@ public class RemedyFeedFragment extends Fragment {
 
             holder.upVoteButton.setImageDrawable(upvoteDrawable);
             holder.downVoteButton.setImageDrawable(downvoteDrawable);
+            remedies.get(position).setImageIndex(random);
             holder.background.setImageResource(Constants.backgroundImages[random]);
 
         }

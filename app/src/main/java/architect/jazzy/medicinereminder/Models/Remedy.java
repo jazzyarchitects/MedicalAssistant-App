@@ -30,6 +30,7 @@ public class Remedy implements Parcelable {
     private ArrayList<Comment> comments;
     private Stats stats;
     private Image image;
+    private int imageIndex =-1;
 
     boolean upvoted=false;
     boolean downvoted=false;
@@ -209,6 +210,14 @@ public class Remedy implements Parcelable {
             return null;
         }
         return remedy;
+    }
+
+    public int getImageIndex() {
+        return imageIndex;
+    }
+
+    public void setImageIndex(int imageIndex) {
+        this.imageIndex = imageIndex;
     }
 
     public boolean isBookmarked() {

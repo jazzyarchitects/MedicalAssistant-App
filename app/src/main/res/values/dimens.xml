@@ -65,4 +65,6 @@
     <dimen name="leftRightSpaceUserEditText">20dp</dimen>
     <dimen name="app_bar_height">180dp</dimen>
     <dimen name="text_margin">16dp</dimen>
+    <dimen name="commentLayoutHeight">42dp</dimen>
+    <dimen name="commentLayoutElementHeight">35dp</dimen>
 </resources>

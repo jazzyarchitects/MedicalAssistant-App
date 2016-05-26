@@ -22,13 +22,12 @@
         <architect.jazzy.medicinereminder.CustomViews.CapitalTextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:lines="1"
             tools:text="Title"
+            app:focusAllWords="true"
             android:textSize="18sp"
             android:id="@+id/title"
             android:marqueeRepeatLimit="marquee_forever"
             android:textStyle="bold"
-            android:singleLine="true"
             android:scrollHorizontally="true"
             tools:background="@drawable/login_edit_text"
             android:textColor="#222222"
@@ -38,6 +37,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Description"
+            android:hint="Description"
             android:minHeight="75dp"
             android:id="@+id/remedyDescription"
             android:layout_marginTop="5dp"
@@ -52,6 +52,7 @@
             android:layout_height="wrap_content"
             android:lines="1"
             android:text="References"
+            android:hint="References"
             android:layout_marginTop="5dp"
             android:singleLine="true"
             tools:background="@drawable/login_edit_text"
@@ -68,6 +69,7 @@
             android:lines="1"
             android:id="@+id/remedyDiseases"
             android:text="Diseases"
+            android:hint="Diseases"
             android:textSize="15sp"
             android:scrollHorizontally="true"
             android:textColor="#222222"
@@ -81,6 +83,7 @@
             android:layout_marginTop="5dp"
             android:lines="1"
             android:text="Tags"
+            android:hint="Tags"
             android:id="@+id/tags"
             android:textSize="15sp"
             android:scrollHorizontally="true"
@@ -164,55 +167,56 @@
             android:layout_gravity="center_horizontal"/>
 
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Comments (0)"
-            android:textSize="16sp"
-            android:textColor="#222"/>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:orientation="vertical"
-            android:background="#EEEEF4"
-            android:padding="5dp"
-            android:layout_height="300dp">
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="Comments (0)"-->
+            <!--android:textSize="16sp"-->
+            <!--android:visibility="gone"-->
+            <!--android:textColor="#222"/>-->
+        <!--<LinearLayout-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:orientation="vertical"-->
+            <!--android:background="#EEEEF4"-->
+            <!--android:padding="5dp"-->
+            <!--android:layout_height="300dp">-->
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:weightSum="10">
+            <!--<LinearLayout-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:orientation="horizontal"-->
+                <!--android:weightSum="10">-->
 
-                <EditText
-                    android:layout_width="0dp"
-                    android:layout_weight="8"
-                    android:layout_height="wrap_content"
-                    android:maxLines="2"
-                    android:gravity="center_vertical"
-                    android:hint="Add Comment"
-                    android:id="@+id/comment"
-                    android:layout_marginRight="3dp"
-                    android:textColor="#444"
-                    android:textSize="14sp"
-                    android:background="@drawable/login_edit_text"/>
-                <Button
-                    android:layout_width="0dp"
-                    android:layout_weight="2"
-                    android:id="@+id/addComment"
-                    android:layout_height="wrap_content"
-                    android:textSize="14sp"
-                    android:textColor="#FFF"
-                    android:background="@drawable/button_add_comment"
-                    android:text="Add"/>
-            </LinearLayout>
+                <!--<EditText-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_weight="8"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:maxLines="2"-->
+                    <!--android:gravity="center_vertical"-->
+                    <!--android:hint="Add Comment"-->
+                    <!--android:id="@+id/comment"-->
+                    <!--android:layout_marginRight="3dp"-->
+                    <!--android:textColor="#444"-->
+                    <!--android:textSize="14sp"-->
+                    <!--android:background="@drawable/login_edit_text"/>-->
+                <!--<Button-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_weight="2"-->
+                    <!--android:id="@+id/addComment"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:textSize="14sp"-->
+                    <!--android:textColor="#FFF"-->
+                    <!--android:background="@drawable/button_add_comment"-->
+                    <!--android:text="Add"/>-->
+            <!--</LinearLayout>-->
 
-            <android.support.v7.widget.RecyclerView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/recyclerView"
-                android:layout_marginTop="5dp"/>
+            <!--<android.support.v7.widget.RecyclerView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:id="@+id/recyclerView"-->
+                <!--android:layout_marginTop="5dp"/>-->
 
-        </LinearLayout>
+        <!--</LinearLayout>-->
     </LinearLayout>
 
 

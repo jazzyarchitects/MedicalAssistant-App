@@ -25,7 +25,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -37,7 +36,6 @@ import architect.jazzy.medicinereminder.HelperClasses.Constants;
 import architect.jazzy.medicinereminder.Models.MedTime;
 import architect.jazzy.medicinereminder.Models.Medicine;
 import architect.jazzy.medicinereminder.R;
-import architect.jazzy.medicinereminder.ThisApplication;
 
 public class DashboardFragment extends Fragment {
 
@@ -48,7 +46,6 @@ public class DashboardFragment extends Fragment {
     FloatingActionButton floatingActionButton;
     RelativeLayout relativeLayout;
     boolean isMenuOpen = false;
-    //    int bbh, bbm, abh, abm, alh, alm, blh, blm, adh, adm, bdh, bdm;
     boolean is24hr;
 
     Drawable[] drawables;
@@ -71,8 +68,6 @@ public class DashboardFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
     }
 
     @Override
@@ -89,22 +84,6 @@ public class DashboardFragment extends Fragment {
                 ((DrawerLayout) getActivity().findViewById(R.id.drawerLayout)).openDrawer(GravityCompat.START);
             }
         });
-
-
-
-//        try{
-//            DataHandler handler=new DataHandler(getActivity());
-//            ArrayList<Medicine> medicines=handler.getMedicineList();
-//            ArrayList<Doctor> doctors=handler.getDoctorList();
-//            for(Medicine medicine:medicines) {
-//                Log.e(TAG, "Medicine:--> "+medicine.getJSON());
-//            }
-//            for(Doctor doctor: doctors){
-//                Log.e(TAG,"Doctors:--> "+doctor.getJSON());
-//            }
-//        }catch (Exception e){
-//            e.printStackTrace();
-//        }
 
         return v;
     }

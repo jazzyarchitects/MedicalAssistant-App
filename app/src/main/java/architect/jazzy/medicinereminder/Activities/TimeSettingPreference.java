@@ -15,15 +15,14 @@ import android.widget.Toast;
 
 import com.android.datetimepicker.time.RadialPickerLayout;
 import com.android.datetimepicker.time.TimePickerDialog;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
 
 import architect.jazzy.medicinereminder.CustomComponents.TimingClass;
 import architect.jazzy.medicinereminder.HelperClasses.Constants;
+import architect.jazzy.medicinereminder.HelperClasses.FirebaseConstants;
 import architect.jazzy.medicinereminder.R;
-import architect.jazzy.medicinereminder.ThisApplication;
 
 
 public class TimeSettingPreference extends AppCompatActivity {
@@ -129,6 +128,18 @@ public class TimeSettingPreference extends AppCompatActivity {
         bd.setText(TimingClass.getTime(bdh,bdm,is24hrs));
         ad.setText(TimingClass.getTime(adh,adm,is24hrs));
 
+
+        /**
+         * Analytics Code
+         */
+        FirebaseAnalytics firebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        Bundle bundle = new Bundle();
+        bundle.putString("Breakfast",bbh+":"+bbm+"  and "+abh+":"+abm);
+        bundle.putString("Lunch",blh+":"+blm+"  and "+alh+":"+alm);
+        bundle.putString("Dinner",bdh+":"+bdm+"  and "+adh+":"+adm);
+        bundle.putString("Is24Hour",String.valueOf(is24hrs));
+        firebaseAnalytics.logEvent(FirebaseConstants.Analytics.EVENT_TIME_SETTINGS, bundle);
+
     }
 
     public void TimeDialog(View v)
@@ -233,11 +244,6 @@ public class TimeSettingPreference extends AppCompatActivity {
 
     @Override
     protected void onStop() {
-        Map<String, String> timingTracker=new HashMap<>();
-        timingTracker.put("Breakfast",bbh+":"+bbm+"  and "+abh+":"+abm);
-        timingTracker.put("Lunch",blh+":"+blm+"  and "+alh+":"+alm);
-        timingTracker.put("Dinner",bdh+":"+bdm+"  and "+adh+":"+adm);
-        timingTracker.put("Is24Hour",String.valueOf(is24hrs));
         finish();
         super.onStop();
     }

@@ -25,6 +25,7 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.ads.InterstitialAd;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -49,11 +50,13 @@ import architect.jazzy.medicinereminder.Fragments.OfflineActivity.SearchFragment
 import architect.jazzy.medicinereminder.Fragments.OfflineActivity.SettingsFragment;
 import architect.jazzy.medicinereminder.Fragments.OnlineActivity.UserDetailsFragment;
 import architect.jazzy.medicinereminder.HelperClasses.Constants;
+import architect.jazzy.medicinereminder.HelperClasses.FirebaseConstants;
 import architect.jazzy.medicinereminder.Models.Doctor;
 import architect.jazzy.medicinereminder.Models.FeedItem;
 import architect.jazzy.medicinereminder.Models.Medicine;
 import architect.jazzy.medicinereminder.R;
 import architect.jazzy.medicinereminder.Services.AlarmSetterService;
+
 
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
@@ -76,6 +79,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     NavigationView navigationView;
     Toolbar toolbar;
     private InterstitialAd interstitialAd;
+    FirebaseAnalytics firebaseAnalytics;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,7 +90,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             finish();
             return;
         }
-
         setContentView(R.layout.activity_main);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -103,8 +106,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Intent startAlarmServiceIntent = new Intent(this, AlarmSetterService.class);
         startAlarmServiceIntent.setAction("CREATE");
         startService(startAlarmServiceIntent);
-
-
         navigationView = (NavigationView) findViewById(R.id.navigationView);
         View headerLayout = navigationView.getHeaderView(0);
         searchQuery = (EditText) headerLayout.findViewById(R.id.searchQuery);
@@ -274,18 +275,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         switch (id) {
             case R.id.showMedicineList:
                 if (!(fragment instanceof MedicineListFragment)) {
+                    FirebaseConstants.Analytics.logCurrentScreen(this, "MedicineList");
                     showMedicines();
                 }
                 break;
             case R.id.myAccount:
+                FirebaseConstants.Analytics.logCurrentScreen(this, "OnlineActivity");
                 Intent i=new Intent(this, OnlineActivity.class);
                 i.putExtra("fragment", UserDetailsFragment.TAG);
                 startActivity(i);
                 break;
             case R.id.action_settings:
+                FirebaseConstants.Analytics.logCurrentScreen(this, "Settings");
                 showSettings();
                 break;
             case R.id.remedies:
+                FirebaseConstants.Analytics.logCurrentScreen(this, "RemedyList");
                 startActivity(new Intent(this, OnlineActivity.class));
                 break;
 //            case R.id.add:
@@ -296,16 +301,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 //                break;
             case R.id.news:
                 if (!(fragment instanceof NewsListFragment)) {
+                    FirebaseConstants.Analytics.logCurrentScreen(this, "NewsList");
                     displayFragment(new NewsListFragment(), true);
                 }
                 break;
             case R.id.addDoctor:
                 if (!(fragment instanceof DoctorListFragment)) {
+                    FirebaseConstants.Analytics.logCurrentScreen(this, "DoctorList");
                     displayFragment(new DoctorListFragment(), true);
                 }
                 break;
             case R.id.circularTest:
                 if (!(fragment instanceof DashboardFragment)) {
+                    FirebaseConstants.Analytics.logCurrentScreen(this, "Dashboard");
                     displayFragment(new DashboardFragment(), true);
                 }
                 break;

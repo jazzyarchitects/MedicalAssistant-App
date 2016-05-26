@@ -18,8 +18,11 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.analytics.FirebaseAnalytics;
+
 import architect.jazzy.medicinereminder.Fragments.OnlineActivity.RemedyFeedFragment;
 import architect.jazzy.medicinereminder.Fragments.OnlineActivity.UserDetailsFragment;
+import architect.jazzy.medicinereminder.HelperClasses.FirebaseConstants;
 import architect.jazzy.medicinereminder.Models.User;
 import architect.jazzy.medicinereminder.R;
 
@@ -107,9 +110,11 @@ public class OnlineActivity extends AppCompatActivity
 
         switch (id) {
             case R.id.remedyFeed:
+                FirebaseConstants.Analytics.logCurrentScreen(this, "RemedyFeed");
                 displayFragment(new RemedyFeedFragment(), true);
                 break;
             case R.id.myDetails:
+                FirebaseConstants.Analytics.logCurrentScreen(this, "UserDetails");
                 if (isUserLoggedIn) {
                     displayFragment(new UserDetailsFragment(), true);
                 } else {
@@ -118,6 +123,7 @@ public class OnlineActivity extends AppCompatActivity
                 break;
             case R.id.logout:
                 if (isUserLoggedIn) {
+                    FirebaseConstants.Analytics.logCurrentScreen(this, "Logout");
                     User.logout(this);
                     Toast.makeText(getApplicationContext(), "Logged out Successfully", Toast.LENGTH_LONG).show();
                 }
@@ -131,22 +137,43 @@ public class OnlineActivity extends AppCompatActivity
         return true;
     }
 
+    FirebaseAnalytics firebaseAnalytics;
+    Bundle loginAlertAnalyticsBundle;
     void showLoginAlert() {
+        firebaseAnalytics = FirebaseAnalytics.getInstance(this);
+        loginAlertAnalyticsBundle = new Bundle();
+        loginAlertAnalyticsBundle.putString(FirebaseConstants.Analytics.BUNDLE_LOGIN_ALERT_SHOWN, "OnlineActivity");
         AlertDialog.Builder builder = new AlertDialog.Builder(OnlineActivity.this);
         builder.setTitle("Login Required")
                 .setMessage("You need to login to be able to vote or comment")
                 .setPositiveButton("Dismiss", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+                        loginAlertAnalyticsBundle.putString(FirebaseConstants.Analytics.BUNDLE_LOGIN_ALERT_ACTION, "Dismiss");
                         dialogInterface.dismiss();
                     }
                 }).setNegativeButton("Login", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                startActivity(new Intent(OnlineActivity.this, RegistrationActivity.class));
-                dialogInterface.dismiss();
-            }
-        })
-        .show();
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        loginAlertAnalyticsBundle.putString(FirebaseConstants.Analytics.BUNDLE_LOGIN_ALERT_ACTION, "Loggin In");
+                        dialogInterface.dismiss();
+                        startActivity(new Intent(OnlineActivity.this, RegistrationActivity.class));
+                    }
+                })
+                .setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialogInterface) {
+                        loginAlertAnalyticsBundle.putString(FirebaseConstants.Analytics.BUNDLE_LOGIN_ALERT_ACTION_METHOD, "Dismiss");
+                        firebaseAnalytics.logEvent(FirebaseConstants.Analytics.EVENT_LOGIN_ALERT, loginAlertAnalyticsBundle);
+                    }
+                })
+                .setOnCancelListener(new DialogInterface.OnCancelListener() {
+                    @Override
+                    public void onCancel(DialogInterface dialogInterface) {
+                        loginAlertAnalyticsBundle.putString(FirebaseConstants.Analytics.BUNDLE_LOGIN_ALERT_ACTION_METHOD, "Cancel");
+                        firebaseAnalytics.logEvent(FirebaseConstants.Analytics.EVENT_LOGIN_ALERT, loginAlertAnalyticsBundle);
+                    }
+                })
+                .show();
     }
 }

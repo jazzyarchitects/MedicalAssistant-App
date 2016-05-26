@@ -24,10 +24,7 @@
                 android:layout_height="match_parent"
                 app:contentScrim="?attr/colorPrimary"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed"
-                android:scaleType="centerCrop"
-                android:id="@+id/remedyImage"
-                android:src="@drawable/stethoscope"
-                app:layout_collapseMode="parallax">
+                android:scaleType="centerCrop">
 
                 <ImageView
                     android:layout_width="match_parent"

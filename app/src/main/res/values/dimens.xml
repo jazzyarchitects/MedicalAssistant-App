@@ -67,4 +67,7 @@
     <dimen name="text_margin">16dp</dimen>
     <dimen name="commentLayoutHeight">42dp</dimen>
     <dimen name="commentLayoutElementHeight">35dp</dimen>
+
+    <dimen name="hover_icon_width">45dp</dimen>
+    <dimen name="hover_icon_height">@dimen/hover_icon_width</dimen>
 </resources>

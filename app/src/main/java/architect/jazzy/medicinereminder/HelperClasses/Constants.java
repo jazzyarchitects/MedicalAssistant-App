@@ -94,7 +94,7 @@ public class Constants {
         float[] hsv = new float[3];
         Color.colorToHSV(color, hsv);
         hsv[2] = hsv[2] > 0.5 ? hsv[2] : hsv[2] + 0.5f;
-        hsv[0] = (hsv[0] + 90) % 360;
+        hsv[0] = (hsv[0] + 180) % 360;
         return Color.HSVToColor(hsv);
     }
 

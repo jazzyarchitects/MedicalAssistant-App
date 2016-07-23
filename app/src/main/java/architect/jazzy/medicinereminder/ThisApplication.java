@@ -2,25 +2,14 @@ package architect.jazzy.medicinereminder;
 
 import android.app.Application;
 import android.content.Context;
-import java.util.HashMap;
+
+import com.google.android.gms.ads.MobileAds;
 
 /**
  * Created by Jibin_ism on 30-Dec-14.
  */
 public class ThisApplication extends Application {
 
-    /**
-     * Enum used to identify the tracker that needs to be used for tracking.
-     *
-     * A single tracker is usually enough for most purposes. In case you do need multiple trackers,
-     * storing them all in Application object helps ensure that they are created only once per
-     * application instance.
-     */
-    public enum TrackerName {
-        APP_TRACKER, // Tracker used only in this app.
-        GLOBAL_TRACKER, // Tracker used by all the apps from a company. eg: roll-up tracking.
-        ECOMMERCE_TRACKER, // Tracker used by all ecommerce transactions from a company.
-    }
 
     public ThisApplication() {
         super();
@@ -36,6 +25,8 @@ public class ThisApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        //TODO: Change publisher id
+        MobileAds.initialize(getApplicationContext(), "ca-app-pub-3940256099942544~3347511713");
         exceptionHandler=Thread.getDefaultUncaughtExceptionHandler();
         Thread.setDefaultUncaughtExceptionHandler(uncaughtExceptionHandler);
     }

@@ -9,10 +9,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.widget.Button;
 import android.widget.Toast;
-
 
 import java.util.ArrayList;
 import java.util.Timer;
@@ -26,7 +24,6 @@ import architect.jazzy.medicinereminder.Handlers.DataHandler;
 import architect.jazzy.medicinereminder.HelperClasses.Constants;
 import architect.jazzy.medicinereminder.Models.Medicine;
 import architect.jazzy.medicinereminder.R;
-import architect.jazzy.medicinereminder.ThisApplication;
 
 public class MedicineDetails extends AppCompatActivity implements EmojiSelectFragment.OnFragmentInteractionListener {
 
@@ -35,8 +32,9 @@ public class MedicineDetails extends AppCompatActivity implements EmojiSelectFra
 
     ArrayList<Medicine> dataSet;
     MedicineDetailsViewPagerAdapter pagerAdapter;
-    LinearLayout edit, delete;
-    TextView editTextView, deleteTextView;
+    Button edit, delete;
+//    LinearLayout edit, delete;
+//    TextView editTextView, deleteTextView;
     Toolbar toolbar;
     Boolean isScrollingEnabled = true;
     onEmojiSetListener emojiSetListener = null;
@@ -47,20 +45,21 @@ public class MedicineDetails extends AppCompatActivity implements EmojiSelectFra
         setContentView(R.layout.activity_medicine_details);
 
 
-        edit = (LinearLayout) findViewById(R.id.editMedicine);
-        delete = (LinearLayout) findViewById(R.id.deleteMedicine);
+        edit = (Button) findViewById(R.id.editMedicine);
+        delete = (Button) findViewById(R.id.deleteMedicine);
+
+//        edit = (LinearLayout) findViewById(R.id.editMedicine);
+//        delete = (LinearLayout) findViewById(R.id.deleteMedicine);
+//        dataSet=getIntent().getParcelableArrayListExtra(Constants.MEDICINE_NAME_LIST);
+
         toolbar = (Toolbar) findViewById(R.id.toolBar);
         setSupportActionBar(toolbar);
         toolbar.setBackgroundColor(Constants.getThemeColor(this));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
 
-//        dataSet=getIntent().getParcelableArrayListExtra(Constants.MEDICINE_NAME_LIST);
         Bundle bundle = getIntent().getExtras();
         dataSet = bundle.getParcelableArrayList(Constants.MEDICINE_NAME_LIST);
-//        for(Medicine medicine:dataSet){
-//            Log.e(TAG,"Recieved Medicines: "+medicine.toJSON());
-//        }
 
         int currentPosition;
         try {
@@ -76,8 +75,8 @@ public class MedicineDetails extends AppCompatActivity implements EmojiSelectFra
         viewPager.setEnabledSwipe(true);
 
 
-        editTextView = (TextView) findViewById(R.id.editButtonText);
-        deleteTextView = (TextView) findViewById(R.id.deleteButtonText);
+//        editTextView = (TextView) findViewById(R.id.editButtonText);
+//        deleteTextView = (TextView) findViewById(R.id.deleteButtonText);
         edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -142,16 +141,16 @@ public class MedicineDetails extends AppCompatActivity implements EmojiSelectFra
             medFragment.edit();
             viewPager.setEnabledSwipe(false);
             isScrollingEnabled = false;
-            editTextView.setText("Save");
-            deleteTextView.setText("Discard");
+            edit.setText("Save");
+            delete.setText("Discard");
             delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     medFragment.discard(dataSet.get(currentIndex));
                     isScrollingEnabled = true;
                     viewPager.setEnabledSwipe(true);
-                    editTextView.setText("Edit");
-                    deleteTextView.setText("Delete");
+                    edit.setText("Edit");
+                    delete.setText("Delete");
                     Toast.makeText(getApplicationContext(), "Changes Discarded", Toast.LENGTH_LONG).show();
                 }
             });
@@ -159,8 +158,8 @@ public class MedicineDetails extends AppCompatActivity implements EmojiSelectFra
             /*save mode exit*/
             medFragment.save();
             viewPager.setEnabledSwipe(true);
-            editTextView.setText("Edit");
-            deleteTextView.setText("Delete");
+            edit.setText("Edit");
+            delete.setText("Delete");
             delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

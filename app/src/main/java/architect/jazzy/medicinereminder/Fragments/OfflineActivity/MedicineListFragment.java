@@ -27,13 +27,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.h6ah4i.android.widget.advrecyclerview.animator.GeneralItemAnimator;
-import com.h6ah4i.android.widget.advrecyclerview.animator.SwipeDismissItemAnimator;
-import com.h6ah4i.android.widget.advrecyclerview.decoration.SimpleListDividerDecorator;
-import com.h6ah4i.android.widget.advrecyclerview.swipeable.RecyclerViewSwipeManager;
-import com.h6ah4i.android.widget.advrecyclerview.touchguard.RecyclerViewTouchActionGuardManager;
-import com.h6ah4i.android.widget.advrecyclerview.utils.WrapperAdapterUtils;
-
 import java.util.ArrayList;
 
 import architect.jazzy.medicinereminder.Activities.MainActivity;
@@ -42,7 +35,6 @@ import architect.jazzy.medicinereminder.Handlers.DataHandler;
 import architect.jazzy.medicinereminder.HelperClasses.Constants;
 import architect.jazzy.medicinereminder.Models.Medicine;
 import architect.jazzy.medicinereminder.R;
-import architect.jazzy.medicinereminder.ThisApplication;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -51,17 +43,13 @@ public class MedicineListFragment extends Fragment {
 
     final int SHOW_LIST_REQUEST_CODE = 123;
     DataHandler dataHandler;
-//    ArrayList<HashMap<String, ArrayList<String>>> dataSet;
+    //    ArrayList<HashMap<String, ArrayList<String>>> dataSet;
     ArrayList<Medicine> medicines;
     RecyclerView medicineList;
     MedicineListAdapter listAdaptor;
     RelativeLayout root;
     FloatingActionButton floatingActionButton;
     ArrayList<String> removedItems = new ArrayList<>();
-    private RecyclerView.Adapter mAdapter;
-    private RecyclerView.Adapter mWrappedAdapter;
-    private RecyclerViewSwipeManager mRecyclerViewSwipeManager;
-    private RecyclerViewTouchActionGuardManager mRecyclerViewTouchActionGuardManager;
     FragmentInteractionListener fragmentInteractionListener;
     View v;
     Context context;
@@ -75,16 +63,16 @@ public class MedicineListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        v=inflater.inflate(R.layout.fragment_list, container, false);
-        context=getActivity();
+        v = inflater.inflate(R.layout.fragment_list, container, false);
+        context = getActivity();
 
-        LinearLayout emptyList = (LinearLayout)v.findViewById(R.id.emptyList);
+        LinearLayout emptyList = (LinearLayout) v.findViewById(R.id.emptyList);
 
         emptyList.setVisibility(View.GONE);
 
         medicineList = (RecyclerView) v.findViewById(R.id.recyclerView);
         root = (RelativeLayout) v.findViewById(R.id.rl);
-        floatingActionButton=(FloatingActionButton)v.findViewById(R.id.floatingActionButton);
+        floatingActionButton = (FloatingActionButton) v.findViewById(R.id.floatingActionButton);
         floatingActionButton.setBackgroundTintList(Constants.getFabBackground(getActivity()));
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,7 +84,7 @@ public class MedicineListFragment extends Fragment {
 
         try {
             ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Medicine List");
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
@@ -107,9 +95,9 @@ public class MedicineListFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        try{
-            ((AppCompatActivity)getActivity()).getSupportActionBar().show();
-        }catch (NullPointerException e){
+        try {
+            ((AppCompatActivity) getActivity()).getSupportActionBar().show();
+        } catch (NullPointerException e) {
             e.printStackTrace();
         }
     }
@@ -118,9 +106,9 @@ public class MedicineListFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        fragmentInteractionListener=(FragmentInteractionListener)activity;
+        fragmentInteractionListener = (FragmentInteractionListener) activity;
 
-        ((MainActivity)activity).setActivityResultListener(new MainActivity.ActivityResultListener() {
+        ((MainActivity) activity).setActivityResultListener(new MainActivity.ActivityResultListener() {
             @Override
             public void medicineListActivityResult(int requestCode, int resultCode, Intent data) {
                 getMedicineData();
@@ -134,33 +122,16 @@ public class MedicineListFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
 
-        if (mRecyclerViewSwipeManager != null) {
-            mRecyclerViewSwipeManager.release();
-            mRecyclerViewSwipeManager = null;
-        }
-
-        if (mRecyclerViewTouchActionGuardManager != null) {
-            mRecyclerViewTouchActionGuardManager.release();
-            mRecyclerViewTouchActionGuardManager = null;
-        }
-
         if (medicineList != null) {
             medicineList.setItemAnimator(null);
             medicineList.setAdapter(null);
             medicineList = null;
         }
-
-        if (mWrappedAdapter != null) {
-            WrapperAdapterUtils.releaseAll(mWrappedAdapter);
-            mWrappedAdapter = null;
-        }
-        mAdapter = null;
     }
 
 
-
     void createOptionalView() {
-        if (medicines==null || medicines.isEmpty()) {
+        if (medicines == null || medicines.isEmpty()) {
             root.removeAllViews();
             root.setBackgroundColor(getResources().getColor(R.color.actionBackground));
             TextView textView = new TextView(context);
@@ -204,15 +175,6 @@ public class MedicineListFragment extends Fragment {
             medicineList.setLayoutManager(layoutManager);
 
 
-            // touch guard manager  (this class is required to suppress scrolling while swipe-dismiss animation is running)
-            mRecyclerViewTouchActionGuardManager = new RecyclerViewTouchActionGuardManager();
-            mRecyclerViewTouchActionGuardManager.setInterceptVerticalScrollingWhileAnimationRunning(true);
-            mRecyclerViewTouchActionGuardManager.setEnabled(true);
-
-
-            // swipe manager
-            mRecyclerViewSwipeManager = new RecyclerViewSwipeManager();
-
             medicineList.setItemAnimator(new DefaultItemAnimator());
             listAdaptor = new MedicineListAdapter(context, medicines, getActivity());
             listAdaptor.setEventListener(new MedicineListAdapter.EventListener() {
@@ -227,28 +189,6 @@ public class MedicineListFragment extends Fragment {
                 }
             });
 
-            mAdapter = listAdaptor;
-            mWrappedAdapter = mRecyclerViewSwipeManager.createWrappedAdapter(listAdaptor);      // wrap for swiping
-
-            final GeneralItemAnimator animator = new SwipeDismissItemAnimator();
-
-
-            medicineList.setAdapter(mWrappedAdapter);  // requires *wrapped* adapter
-            medicineList.setItemAnimator(animator);
-
-            // additional decorations
-            //noinspection StatementWithEmptyBody
-            medicineList.addItemDecoration(new SimpleListDividerDecorator(getResources().getDrawable(R.drawable.list_divider), true));
-            medicineList.getAdapter().notifyDataSetChanged();
-
-            // NOTE:
-            // The initialization order is very important! This order determines the priority of touch event handling.
-            //
-            // priority: TouchActionGuard > Swipe > DragAndDrop
-            mRecyclerViewSwipeManager.attachRecyclerView(medicineList);
-            mRecyclerViewTouchActionGuardManager.attachRecyclerView(medicineList);
-
-//            medicineList.setAdapter(listAdaptor);
         }
     }
 
@@ -268,7 +208,7 @@ public class MedicineListFragment extends Fragment {
         removedItems.add(name);
         medicines.remove(item);
         Log.e("MedicineList", "To be deleted: " + name);
-        DataHandler handler=new DataHandler(context);
+        DataHandler handler = new DataHandler(context);
         handler.deleteRow(name);
         handler.close();
 //        createNoDataView();
@@ -278,11 +218,10 @@ public class MedicineListFragment extends Fragment {
             final CoordinatorLayout coordinatorView = (CoordinatorLayout) v.findViewById(R.id.snackbarPosition);
             Snackbar snackbar = Snackbar.make(coordinatorView, name + " has been removed from your list", Snackbar.LENGTH_LONG);
             snackbar.show();
-        }catch (NullPointerException e){
+        } catch (NullPointerException e) {
             e.printStackTrace();
         }
     }
-
 
 
     private void getMedicineData() {
@@ -295,14 +234,14 @@ public class MedicineListFragment extends Fragment {
 
 
     public void showDetails(int position, ArrayList<Medicine> medicines) {
-        fragmentInteractionListener.showDetails(position,medicines);
+        fragmentInteractionListener.showDetails(position, medicines);
     }
 
-    public interface FragmentInteractionListener{
+    public interface FragmentInteractionListener {
         void addMedicine();
+
         void showDetails(int position, ArrayList<Medicine> medicines);
     }
-
 
 
 }

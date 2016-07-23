@@ -13,82 +13,87 @@
         android:id="@+id/remedyDescription"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="7.5"
+        android:layout_weight="7.7"
         android:ellipsize="end"
-        android:maxLines="4"
-        android:padding="2dp"
-        android:gravity="center_vertical"
         android:background="#F8F8F8"
+        android:maxLines="4"
+        android:padding="3dp"
+        android:gravity="center_vertical"
         tools:text="@string/large_text"
         android:textColor="#222"
         android:textSize="13sp" />
 
-    <TextView
-        android:id="@+id/remedyDiseases"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:visibility="gone"
-        android:gravity="center_vertical"
-        android:textSize="12sp"
-        android:text="Diseases......."
-        android:layout_weight="2" />
+    <!--<TextView-->
+        <!--android:id="@+id/remedyDiseases"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="0dp"-->
+        <!--android:visibility="gone"-->
+        <!--android:gravity="center_vertical"-->
+        <!--android:textSize="12sp"-->
+        <!--android:text="Diseases......."-->
+        <!--android:layout_weight="2" />-->
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="2.5"
+        style="?android:attr/buttonBarStyle"
+        android:layout_weight="2.3"
         android:orientation="horizontal"
         android:weightSum="2">
 
-            <ImageButton android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="match_parent"
-                android:id="@+id/likeButton"
-                android:visibility="gone"
-                android:contentDescription="upvote"
-                android:background="@drawable/login_button_no_stroke"
-                android:src="@drawable/ic_action_like"/>
+            <!--<ImageButton android:layout_width="0dp"-->
+                <!--android:layout_weight="1"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:id="@+id/likeButton"-->
+                <!--android:visibility="gone"-->
+                <!--android:contentDescription="upvote"-->
+                <!--android:background="@drawable/login_button_no_stroke"-->
+                <!--android:src="@drawable/ic_action_like"/>-->
 
-            <ImageButton android:id="@+id/dislikeButton"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:visibility="gone"
-                android:background="@drawable/login_button_no_stroke"
-                android:contentDescription="Downvote"
-                android:src="@drawable/ic_action_dontlike"
-                android:textSize="12sp" />
+            <!--<ImageButton android:id="@+id/dislikeButton"-->
+                <!--android:layout_width="0dp"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:layout_weight="1"-->
+                <!--android:visibility="gone"-->
+                <!--android:background="@drawable/login_button_no_stroke"-->
+                <!--android:contentDescription="Downvote"-->
+                <!--android:src="@drawable/ic_action_dontlike"-->
+                <!--android:textSize="12sp" />-->
 
         <Button
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:textSize="12sp"
+            android:textColor="#000"
+            style="?android:attr/buttonBarButtonStyle"
             android:id="@+id/viewButton"
             android:background="@drawable/login_button_no_stroke"
             android:text="View"/>
 
 
 
-        <ImageButton
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:textSize="12sp"
-            android:padding="3dp"
-            android:src="@drawable/ic_menu_share"
-            android:id="@+id/shareButton"
-            android:background="@drawable/login_button_no_stroke"
-            android:scaleType="fitCenter"/>
-
-        <!--<Button-->
+        <!--<ImageButton-->
             <!--android:layout_width="0dp"-->
             <!--android:layout_height="match_parent"-->
             <!--android:layout_weight="1"-->
             <!--android:textSize="12sp"-->
+            <!--android:padding="3dp"-->
+            <!--android:src="@drawable/ic_menu_share"-->
             <!--android:id="@+id/shareButton"-->
             <!--android:background="@drawable/login_button_no_stroke"-->
-            <!--android:text="Share"/>-->
+            <!--android:scaleType="fitCenter"/>-->
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            style="?android:attr/buttonBarButtonStyle"
+            android:textSize="12sp"
+            android:textColor="#000"
+            android:id="@+id/shareButton"
+            android:background="@drawable/login_button_no_stroke"
+            android:text="Share"/>
 
 
     </LinearLayout>

@@ -12,13 +12,12 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.CheckBox;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -49,7 +48,6 @@ public class RemedyFeedFragment extends Fragment {
     RemedyFeedResult remedyFeedResult;
     public static final String TAG = "RemedyFeedFragment";
     RelativeLayout loadingView;
-    ArrayList<Remedy> remedies;
     GraduallyTextView graduallyTextView;
     boolean isUserLoggedIn = false;
 
@@ -182,16 +180,16 @@ public class RemedyFeedFragment extends Fragment {
             return new ViewHolder(view);
         }
 
-        int selectionColor = getResources().getColor(R.color.buttonVoted);
-
+//        int selectionColor = getResources().getColor(R.color.buttonVoted);
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
             final Remedy remedy = remedies.get(position);
             holder.title.setText(remedy.getTitle());
-            holder.description.setText(remedy.getDescription());
-            holder.diseases.setText(remedy.getDiseasesString());
+            holder.description.setText(Html.fromHtml(remedy.getDescription()).toString());
+//            holder.diseases.setText(Html.fromHtml(remedy.getDiseasesString()));
 
             final int random = remedy.getImageIndex()<0?(new Random()).nextInt(Constants.backgroundImages.length):remedy.getImageIndex();
+
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -207,27 +205,28 @@ public class RemedyFeedFragment extends Fragment {
                 public void onClick(View view) {
                     Intent intent = new Intent(mContext, RemedyDetailsAcitvity.class);
                     intent.putExtra("remedy", remedy);
-                    ;
                     intent.putExtra("image", random);
                     startActivityForResult(intent, REMEDY_DETAIL_CODE);
                 }
             });
 
-            final Drawable upvoteDrawable = getResources().getDrawable(R.drawable.ic_action_like).mutate();
-            final Drawable downvoteDrawable = getResources().getDrawable(R.drawable.ic_action_dontlike).mutate();
 
-            if (isUserLoggedIn) {
-                if (remedy.isUpvoted()) {
-                    upvoteDrawable.setColorFilter(selectionColor, PorterDuff.Mode.SRC_ATOP);
-                }
-                if (remedy.isDownvoted()) {
-                    downvoteDrawable.setColorFilter(selectionColor, PorterDuff.Mode.SRC_ATOP);
-                }
-            }
-            holder.bookmark.setChecked(remedy.isBookmarked());
+            //--------------------------------------------------------------------------------------------------------
+//            final Drawable upvoteDrawable = getResources().getDrawable(R.drawable.ic_action_like).mutate();
+//            final Drawable downvoteDrawable = getResources().getDrawable(R.drawable.ic_action_dontlike).mutate();
+//            if (isUserLoggedIn) {
+//                if (remedy.isUpvoted()) {
+//                    upvoteDrawable.setColorFilter(selectionColor, PorterDuff.Mode.SRC_ATOP);
+//                }
+//                if (remedy.isDownvoted()) {
+//                    downvoteDrawable.setColorFilter(selectionColor, PorterDuff.Mode.SRC_ATOP);
+//                }
+//            }
+//            holder.bookmark.setChecked(remedy.isBookmarked());
+//            holder.upVoteButton.setImageDrawable(upvoteDrawable);
+//            holder.downVoteButton.setImageDrawable(downvoteDrawable);
+            //---------------------------------------------------------------------------------------------------------
 
-            holder.upVoteButton.setImageDrawable(upvoteDrawable);
-            holder.downVoteButton.setImageDrawable(downvoteDrawable);
             remedies.get(position).setImageIndex(random);
             holder.background.setImageResource(Constants.backgroundImages[random]);
 
@@ -240,24 +239,34 @@ public class RemedyFeedFragment extends Fragment {
 
 
         class ViewHolder extends RecyclerView.ViewHolder {
-            TextView title, description, diseases;
+            TextView title, description;
             ImageView background;
-            ImageButton upVoteButton, downVoteButton;
             Button viewButton;
-            ImageButton shareButton;
-            CheckBox bookmark;
+            Button shareButton;
+
+
+            //--------------------------------------------------------------------------------------
+//            TextView diseases;
+//            ImageButton upVoteButton, downVoteButton;
+//            ImageButton shareButton;
+//            CheckBox bookmark;
+            //--------------------------------------------------------------------------------------
 
             public ViewHolder(View itemView) {
                 super(itemView);
                 title = (TextView) itemView.findViewById(R.id.title);
                 description = (TextView) itemView.findViewById(R.id.remedyDescription);
-                diseases = (TextView) itemView.findViewById(R.id.remedyDiseases);
                 background = (ImageView) itemView.findViewById(R.id.background);
-                upVoteButton = (ImageButton) itemView.findViewById(R.id.likeButton);
-                downVoteButton = (ImageButton) itemView.findViewById(R.id.dislikeButton);
                 viewButton = (Button) itemView.findViewById(R.id.viewButton);
-                shareButton = (ImageButton) itemView.findViewById(R.id.shareButton);
-                bookmark = (CheckBox) itemView.findViewById(R.id.checkboxBookmarked);
+                shareButton = (Button) itemView.findViewById(R.id.shareButton);
+
+                //----------------------------------------------------------------------------------
+//                diseases = (TextView) itemView.findViewById(R.id.remedyDiseases);
+//                shareButton = (ImageButton) itemView.findViewById(R.id.shareButton);
+//                bookmark = (CheckBox) itemView.findViewById(R.id.checkboxBookmarked);
+//                upVoteButton = (ImageButton) itemView.findViewById(R.id.likeButton);
+//                downVoteButton = (ImageButton) itemView.findViewById(R.id.dislikeButton);
+                //----------------------------------------------------------------------------------
 
 
             }

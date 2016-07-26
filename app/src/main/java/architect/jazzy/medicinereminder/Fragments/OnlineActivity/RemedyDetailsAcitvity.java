@@ -10,11 +10,15 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
+import android.util.DisplayMetrics;
+import android.util.Log;
+import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -38,7 +42,8 @@ public class RemedyDetailsAcitvity extends AppCompatActivity {
     Button saveButton, addComment;
     Remedy remedy;
     Context mContext;
-    LinearLayout statsLayout, commentLayout;
+    LinearLayout statsLayout, commentLayout, remedyDetails;
+    NestedScrollView nestedScrollView;
     TextView upvoteCount, downvoteCount;
     LinearLayout upVoteLayout, downVoteLayout;
     ImageView remedyImage;
@@ -47,6 +52,7 @@ public class RemedyDetailsAcitvity extends AppCompatActivity {
     int imageIndex = 0;
     boolean isUserLoggedIn=false;
     Drawable backgroundImage;
+
 
     @Override
     protected void onResume() {
@@ -84,6 +90,8 @@ public class RemedyDetailsAcitvity extends AppCompatActivity {
         appBarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
         commentLayout = (LinearLayout)findViewById(R.id.commentLayout);
         addComment = (Button) commentLayout.findViewById(R.id.addComment);
+        nestedScrollView = (NestedScrollView)findViewById(R.id.nestedScrollView);
+        remedyDetails = (LinearLayout) nestedScrollView.findViewById(R.id.remedyDetails);
 
         if(isUserLoggedIn) {
             upVoteLayout.setOnClickListener(voteClickListener);
@@ -114,6 +122,42 @@ public class RemedyDetailsAcitvity extends AppCompatActivity {
 
         }
         remedyDetails();
+
+        setupScrollListeners();
+    }
+
+    boolean commentLayoutShown = true;
+    private static final int SCROLL_THRESHOLD = 30;
+    void setupScrollListeners(){
+        nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
+            @Override
+            public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
+//                Log.e("RemedyDetailsActivity","Max: "+v.getMaxScrollAmount()+" current: "+scrollY+" LL Height: "+remedyDetails.getMeasuredHeight()+"  height: "+v.getHeight());
+                if(commentLayoutShown){
+                    if(scrollY > oldScrollY)
+                    hideCommentLayout(Math.abs(scrollY-oldScrollY));
+                }else{
+                    if(scrollY < oldScrollY)
+                        showCommentLayout(Math.abs(scrollY-oldScrollY));
+                }
+                if(scrollY==0){
+                    showCommentLayout(0);
+                }else if(scrollY+v.getHeight() >= remedyDetails.getMeasuredHeight() - 20){
+                    showCommentLayout(0);
+                }
+            }
+        });
+    }
+
+    void hideCommentLayout(int diff){
+        int height = commentLayout.getHeight();
+        commentLayout.animate().translationY(height).setDuration(300);
+        commentLayoutShown = false;
+    }
+
+    void showCommentLayout(int diff){
+        commentLayout.animate().translationY(0).setDuration(300);
+        commentLayoutShown = true;
     }
 
     int selectionColor;

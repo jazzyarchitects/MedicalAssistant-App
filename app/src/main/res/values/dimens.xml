@@ -70,4 +70,6 @@
 
     <dimen name="hover_icon_width">45dp</dimen>
     <dimen name="hover_icon_height">@dimen/hover_icon_width</dimen>
+    <dimen name="remedy_card_frame_width">0dp</dimen>
+    <dimen name="commentLayoutHeightAdded10">52dp</dimen>
 </resources>

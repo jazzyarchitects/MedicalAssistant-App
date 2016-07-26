@@ -7,7 +7,6 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_above="@+id/commentLayout"
         android:layout_height="match_parent"
         tools:context="architect.jazzy.medicinereminder.Fragments.OnlineActivity.RemedyDetailsAcitvity">
 
@@ -44,7 +43,7 @@
             </android.support.design.widget.CollapsingToolbarLayout>
         </android.support.design.widget.AppBarLayout>
 
-        <include layout="@layout/content_remedy_details_acitvity" />
+        <include layout="@layout/content_remedy_details_acitvity"/>
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/fab"
@@ -62,7 +61,7 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/commentLayoutHeight"
         android:orientation="horizontal"
-        android:id="@id/commentLayout"
+        android:id="@+id/commentLayout"
         android:gravity="center_vertical"
         android:background="#ABC"
         android:layout_alignParentBottom="true"

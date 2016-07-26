@@ -5,7 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="200dp"
     app:cardBackgroundColor="#FFF"
-    app:cardElevation="3dp">
+    android:layout_margin="@dimen/remedy_card_frame_width"
+    app:cardElevation="3dp"
+    app:cardMaxElevation="5dp">
 
     <ImageView
         android:id="@+id/background"

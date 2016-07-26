@@ -507,12 +507,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public void showDetails(int position, ArrayList<Medicine> medicines) {
         Intent i = new Intent(this, MedicineDetails.class);
-//        for(Medicine medicine:medicines){
-//            Log.e(TAG,"Starting Intent with Medicines: "+medicine.toJSON());
-//        }
         Bundle bundle = new Bundle();
         bundle.putParcelableArrayList(Constants.MEDICINE_NAME_LIST, medicines);
-//        i.putExtra(Constants.MEDICINE_NAME_LIST, medicines);
         i.putExtra(Constants.MEDICINE_POSITION, position);
         i.putExtras(bundle);
         startActivityForResult(i, SHOW_LIST_REQUEST_CODE);

@@ -1,13 +1,13 @@
 apply plugin: 'com.android.application'
 android {
-    compileSdkVersion 23
-    buildToolsVersion '23.0.3'
+    compileSdkVersion 24
+    buildToolsVersion '24.0.1'
     defaultConfig {
         applicationId "architect.jazzy.medicinereminder"
         minSdkVersion 14
-        targetSdkVersion 23
-        versionName '3.01'
-        versionCode 8
+        targetSdkVersion 24
+        versionName '4.00'
+        versionCode 9
 
 
         repositories {
@@ -27,21 +27,21 @@ android {
 }
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:support-v4:23.4.0'
-    compile 'com.android.support:cardview-v7:23.4.0'
-    compile 'com.android.support:palette-v7:23.4.0'
-    compile 'com.android.support:recyclerview-v7:23.4.0'
-    compile 'com.android.support:appcompat-v7:23.4.0'
+    compile 'com.android.support:support-v4:24.1.1'
+    compile 'com.android.support:cardview-v7:24.1.1'
+    compile 'com.android.support:palette-v7:24.1.1'
+    compile 'com.android.support:recyclerview-v7:24.1.1'
+    compile 'com.android.support:appcompat-v7:24.1.1'
     compile 'com.h6ah4i.android.widget.advrecyclerview:advrecyclerview:0.7.1'
     compile 'com.balysv:material-ripple:1.0.2'
     compile 'com.github.citux:datetimepicker:0.1.2'
-    compile 'com.android.support:design:23.4.0'
+    compile 'com.android.support:design:24.1.1'
     compile 'com.squareup.picasso:picasso:2.3.3'
-    compile "com.google.firebase:firebase-messaging:9.0.0"
-    compile "com.google.firebase:firebase-invites:9.0.0"
-    compile "com.google.firebase:firebase-ads:9.0.0"
-    compile 'com.google.firebase:firebase-auth:9.0.0'
-    compile 'com.google.android.gms:play-services-auth:9.0.0'
+    compile 'com.google.firebase:firebase-messaging:9.2.1'
+    compile 'com.google.firebase:firebase-invites:9.2.1'
+    compile 'com.google.firebase:firebase-ads:9.2.1'
+    compile 'com.google.firebase:firebase-auth:9.2.1'
+    compile 'com.google.android.gms:play-services-auth:9.2.1'
 }
 
 apply plugin: 'com.google.gms.google-services'

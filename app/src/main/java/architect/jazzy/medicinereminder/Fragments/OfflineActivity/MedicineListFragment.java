@@ -43,7 +43,6 @@ public class MedicineListFragment extends Fragment {
 
     final int SHOW_LIST_REQUEST_CODE = 123;
     DataHandler dataHandler;
-    //    ArrayList<HashMap<String, ArrayList<String>>> dataSet;
     ArrayList<Medicine> medicines;
     RecyclerView medicineList;
     MedicineListAdapter listAdaptor;
@@ -103,19 +102,32 @@ public class MedicineListFragment extends Fragment {
     }
 
 
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        fragmentInteractionListener = (FragmentInteractionListener) activity;
+//    @Override
+//    public void onAttach(Activity activity) {
+//        super.onAttach(activity);
+//        fragmentInteractionListener = (FragmentInteractionListener) activity;
+//
+//        ((MainActivity) activity).setActivityResultListener(new MainActivity.ActivityResultListener() {
+//            @Override
+//            public void medicineListActivityResult(int requestCode, int resultCode, Intent data) {
+//                getMedicineData();
+//                createOptionalView();
+//            }
+//        });
+//    }
 
-        ((MainActivity) activity).setActivityResultListener(new MainActivity.ActivityResultListener() {
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        fragmentInteractionListener = (FragmentInteractionListener) context;
+
+        ((MainActivity) context).setActivityResultListener(new MainActivity.ActivityResultListener() {
             @Override
             public void medicineListActivityResult(int requestCode, int resultCode, Intent data) {
                 getMedicineData();
                 createOptionalView();
             }
         });
-
     }
 
     @Override
@@ -171,37 +183,21 @@ public class MedicineListFragment extends Fragment {
             root.addView(addNew);
         } else {
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
+            MedicineListAdapter adapter = new MedicineListAdapter(context, medicines, getActivity());
+            adapter.setEventListener(new MedicineListAdapter.EventListener() {
+                @Override
+                public void onMedClick(int position, ArrayList<Medicine> medicines) {
+                    showDetails(position, medicines);
+                }
+            });
             medicineList.setHasFixedSize(true);
             medicineList.setLayoutManager(layoutManager);
 
+            medicineList.setAdapter(adapter);
 
             medicineList.setItemAnimator(new DefaultItemAnimator());
-            listAdaptor = new MedicineListAdapter(context, medicines, getActivity());
-            listAdaptor.setEventListener(new MedicineListAdapter.EventListener() {
-                @Override
-                public void onItemViewClicked(int position, ArrayList<Medicine> medicines) {
-                    showDetails(position, medicines);
-                }
-
-                @Override
-                public void onItemRemoved(int position, Medicine medicine) {
-                    itemRemoved(position, medicine);
-                }
-            });
-
         }
     }
-
-
-    private boolean supportsViewElevation() {
-        return (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP);
-    }
-
-//    @Override
-//    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-//        super.onCreateOptionsMenu(menu, inflater);
-//        inflater.inflate(R.menu.menu_common,menu);
-//    }
 
     public void itemRemoved(final int position, final Medicine item) {
         final String name = item.getMedName();
@@ -226,10 +222,10 @@ public class MedicineListFragment extends Fragment {
 
     private void getMedicineData() {
         dataHandler = new DataHandler(context);
-
         medicines = dataHandler.getMedicineList();
         dataHandler.close();
 
+        createOptionalView();
     }
 
 

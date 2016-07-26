@@ -10,9 +10,12 @@ import org.w3c.dom.NodeList;
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
 
+import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -46,9 +49,23 @@ public class SearchResultParser {
             DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
 
+            BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+            String line, s = "";
+            while((line = reader.readLine())!= null) {
+//                Log.e(TAG, line);
+                s+=line;
+//                String veryLongString = line;
+//                int maxLogSize = 1000;
+//                for(int i = 0; i <= veryLongString.length() / maxLogSize; i++) {
+//                    int start = i * maxLogSize;
+//                    int end = (i+1) * maxLogSize;
+//                    end = end > veryLongString.length() ? veryLongString.length() : end;
+////                    Log.v(TAG, veryLongString.substring(start, end));
+//                }
+            }
+            inputStream = new ByteArrayInputStream(s.getBytes());
             Document document=documentBuilder.parse(inputStream);
             Element element=document.getDocumentElement();
-            Log.e(TAG, document.toString());
             element.normalize();
 
             try{
@@ -244,7 +261,7 @@ public class SearchResultParser {
             }
         }
 
-        Log.e(TAG, webDocument.toString());
+//        Log.e(TAG, webDocument.toString());
         return webDocument;
     }
 }

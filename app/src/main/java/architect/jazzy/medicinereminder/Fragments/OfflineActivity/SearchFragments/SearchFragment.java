@@ -6,6 +6,7 @@ import android.app.Fragment;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
@@ -44,6 +45,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 
+import javax.net.ssl.HttpsURLConnection;
+
 import architect.jazzy.medicinereminder.Activities.MainActivity;
 import architect.jazzy.medicinereminder.Adapters.SearchListAdapter;
 import architect.jazzy.medicinereminder.Fragments.OfflineActivity.BrowserFragment;
@@ -61,6 +64,8 @@ import architect.jazzy.medicinereminder.R;
 public class SearchFragment extends Fragment {
 
     private static final String TAG = "SearchFragment";
+    SharedPreferences sharedPreferences;
+    public static final String SHARED_PREF_NAME="searchFragment";
     View v;
     EditText searchQuery;
     String term;
@@ -74,6 +79,7 @@ public class SearchFragment extends Fragment {
     LinearLayout rootView;
     String previousTerm = "";
     boolean showDialog = true;
+    boolean fromSide = false;
 
     RelativeLayout emptySearch;
 
@@ -97,7 +103,8 @@ public class SearchFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         v = inflater.inflate(R.layout.fragment_search, container, false);
-
+        sharedPreferences = getActivity().getSharedPreferences(SHARED_PREF_NAME,Context.MODE_PRIVATE);
+        Log.e(TAG,"Search term from pref: "+sharedPreferences.getString("SEARCH_QUERY", ""));
         ImageView searchIcon = (ImageView) v.findViewById(R.id.searchIcon);
         ImageButton searchButton = (ImageButton) v.findViewById(R.id.searchLayout).findViewById(R.id.searchButton);
         Drawable sIcon = searchIcon.getDrawable().mutate();
@@ -116,6 +123,8 @@ public class SearchFragment extends Fragment {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_SEARCH) {
                     initalSearch = true;
+                    showDialog = true;
+                    Log.e(TAG,"Search web from search button keyboard");
                     searchWeb(v.getText().toString());
                     hideSuggestion = true;
                 }
@@ -128,9 +137,12 @@ public class SearchFragment extends Fragment {
         try {
             term = getArguments().getString(Constants.BUNDLE_SEARCH_TERM);
             getArguments().clear();
+            if(!term.isEmpty())
+                fromSide = true;
         } catch (Exception e) {
             e.printStackTrace();
             term = "";
+//            searchQuery.setText(sharedPreferences.getString("SEARCH_QUERY",""));
             if (!searchQuery.getText().toString().isEmpty()) {
                 term = searchQuery.getText().toString();
             }
@@ -143,23 +155,46 @@ public class SearchFragment extends Fragment {
         }
 
         try {
-            if (getActivity().getSharedPreferences(Constants.INTERNAL_PREF, Context.MODE_PRIVATE).getBoolean(Constants.SEARCH_RESULT, false)) {
-                SearchResult searchResult = SearchResultParser.parse();
-                if (searchResult == null) {
-                    if (!term.isEmpty()) searchWeb(term);
-                } else {
-                    showResult(searchResult);
-                }
+            if(fromSide){
+                showDialog=true;
+                Log.e(TAG,"Search web from from side");
+                searchWeb(term);
+                fromSide = false;
+            }
+            else {
+                if (getActivity().getSharedPreferences(Constants.INTERNAL_PREF, Context.MODE_PRIVATE).getBoolean(Constants.SEARCH_RESULT, false)) {
+                    SearchResult searchResult = SearchResultParser.parse();
+                    if (searchResult == null) {
+                        if (!term.isEmpty()) {
+                            Log.e(TAG, "Search web from empty search result");
+                            searchWeb(term);
+                        }
+                    } else {
+                        showDialog = false;
+                        searchQuery.setText(sharedPreferences.getString("SEARCH_QUERY", ""));
+                        showResult(searchResult);
+                        rootView.setBackgroundDrawable(getResources().getDrawable(R.drawable.back_night));
+                    }
 
-            } else {
-                if (!term.isEmpty())
-                    showDialog=true;
-                    searchWeb(term);
+                } else {
+                    try {
+                        if (!term.isEmpty()) {
+                            showDialog = true;
+                            Log.e(TAG, "Search web from else");
+                            searchWeb(term);
+                        }else{
+                            searchQuery.setText(sharedPreferences.getString("SEARCH_QUERY", ""));
+                        }
+                    } catch (NullPointerException e) {
+                        searchQuery.setText(sharedPreferences.getString("SEARCH_QUERY", ""));
+                    }
+                }
             }
         } catch (NullPointerException e) {
             e.printStackTrace();
             if (!term.isEmpty()) {
                 showDialog=true;
+                Log.e(TAG,"Search web from catch");
                 searchWeb(term);
             }
         }
@@ -170,6 +205,7 @@ public class SearchFragment extends Fragment {
                 String s;
                 if (!(s = searchQuery.getText().toString()).isEmpty()) {
                     showDialog=true;
+                    Log.e(TAG,"Search web from search button");
                     searchWeb(s);
                 }
             }
@@ -213,14 +249,14 @@ public class SearchFragment extends Fragment {
             dialog.setIndeterminate(true);
             dialog.setMessage("Searching...");
 
-            try {
-                if (recyclerView.getAdapter().getItemCount() == 0 || !previousTerm.equals(term)) {
-                    showDialog = true;
-                }
-            } catch (NullPointerException e) {
-                dialog.show();
-                Log.d(TAG, "No Adapter");
-            }
+//            try {
+//                if (recyclerView.getAdapter().getItemCount() == 0 || !previousTerm.equals(term)) {
+//                    showDialog = true;
+//                }
+//            } catch (NullPointerException e) {
+//                dialog.show();
+//                Log.d(TAG, "No Adapter");
+//            }
             if (showDialog)
                 dialog.show();
         }
@@ -232,8 +268,9 @@ public class SearchFragment extends Fragment {
 
         try {
             URL url = SearchQuery.getSearchQueryURL(params[0]);
-//                Log.e(TAG, "Search URL: " + url.toString());
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            sharedPreferences.edit().putString("SEARCH_QUERY",params[0].getTerm()).apply();
+            Log.e(TAG, "Search term in background: " + params[0].getTerm());
+            HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
             connection.setDoOutput(false);
             connection.setReadTimeout(15000);
             connection.setConnectTimeout(10000);
@@ -247,7 +284,6 @@ public class SearchFragment extends Fragment {
                     byte[] buffer = new byte[1024];
                     int bufferLength = 0;
                     while ((bufferLength = inputStream.read(buffer)) > 0) {
-//                            Log.e("FeedParser","In While");
                         fileOutputStream.write(buffer, 0, bufferLength);
                     }
                     fileOutputStream.flush();
@@ -260,9 +296,11 @@ public class SearchFragment extends Fragment {
                     PrintWriter writer = new PrintWriter(new FileWriter(out));
                     String line = null;
                     while ((line = reader.readLine()) != null) {
+//                        Log.e("SearchFragment","line: "+line);
                         writer.write(line);
                     }
                     reader.close();
+                    writer.flush();
                     writer.close();
                 } catch (FileNotFoundException fe) {
                     fe.printStackTrace();
@@ -295,6 +333,7 @@ public class SearchFragment extends Fragment {
             previousTerm = term;
             showResult(result);
             if(result.getCount()>0){
+                showDialog = false;
                 rootView.setBackgroundDrawable(getResources().getDrawable(R.drawable.back_night));
             }
         } else {

@@ -85,7 +85,7 @@ public class SearchQuery {
     }
 
     private static class WebSearch{
-        private static final String baseURL="http://wsearch.nlm.nih.gov/ws/query";
+        private static final String baseURL="https://wsearch.nlm.nih.gov/ws/query";
 
 
         private static String getSearchURL(String term){

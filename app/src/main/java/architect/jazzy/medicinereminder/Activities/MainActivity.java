@@ -423,7 +423,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             if (fragment == null) {
                 throw new Exception();
             }
-            if (!(fragment instanceof SearchFragment))
+//            if (!(fragment instanceof SearchFragment))
                 fragmentBackStack.push(fragment);
             toolbar.getMenu().clear();
         } catch (Exception e) {

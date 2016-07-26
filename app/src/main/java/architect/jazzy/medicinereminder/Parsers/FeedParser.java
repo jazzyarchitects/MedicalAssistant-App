@@ -7,12 +7,16 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.StringReader;
+import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -58,19 +62,29 @@ public class FeedParser {
     public static final String TAG_DESCRIPTION = "description";
 
     public static ArrayList<FeedItem> parse(){
-//        Log.e("FeedParser", "Parsing Started");
+        return parse(null);
+    }
 
-
-
-        File folder = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+"/tmpMR");
+    public static ArrayList<FeedItem> parse(String response){
 
         ArrayList<FeedItem> feedItems = new ArrayList<>();
-
         try {
-            InputStream inputStream=new FileInputStream(new File(folder,"tmpMR00.tmp"));
+
+            Document document;
+
             DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-            Document document=documentBuilder.parse(inputStream);
+
+            InputStream inputStream;
+            if(response == null){
+                File folder = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+"/tmpMR");
+                inputStream=new FileInputStream(new File(folder,"tmpMR00.tmp"));
+                document = documentBuilder.parse(inputStream);
+            }else{
+                inputStream = new ByteArrayInputStream(response.getBytes());
+                document = documentBuilder.parse(inputStream);
+            }
+
 
             Element element=document.getDocumentElement();
             element.normalize();

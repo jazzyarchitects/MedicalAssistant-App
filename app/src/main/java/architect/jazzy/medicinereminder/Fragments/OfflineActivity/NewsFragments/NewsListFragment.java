@@ -32,6 +32,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -122,7 +123,7 @@ public class NewsListFragment extends Fragment {
             @Override
             public void onRefresh() {
                     Log.e(TAG, "OnSwipeRefreshListener");
-                    new FeedsRetriever().execute();;
+                    new FeedsRetriever().execute();
             }
         });
 
@@ -135,14 +136,13 @@ public class NewsListFragment extends Fragment {
             if (Constants.isNetworkAvailable(getActivity()))
                 new FeedsRetriever().execute();
             else {
-//                noNetworkImageView.setVisibility(View.VISIBLE);
                 progressBar.setVisibility(View.GONE);
                 Toast.makeText(getActivity(), "Error connecting... Please try again", Toast.LENGTH_LONG).show();
             }
         } else {
             progressBar.setVisibility(View.GONE);
             ArrayList<FeedItem> items = FeedParser.parse();
-            if (items == null) {
+            if (items == null || items.size()<=0 || items.isEmpty()) {
                 new FeedsRetriever().execute();
             } else {
                 NewsListAdapter adapter = new NewsListAdapter(getActivity(), items, getActivity());
@@ -187,7 +187,6 @@ public class NewsListFragment extends Fragment {
         @Override
         protected void onPreExecute() {
             progressBar.setVisibility(View.VISIBLE);
-//            noNetworkImageView.setVisibility(View.GONE);
             newsList.setVisibility(View.GONE);
             super.onPreExecute();
         }
@@ -196,7 +195,7 @@ public class NewsListFragment extends Fragment {
         @Override
         protected ArrayList<FeedItem> doInBackground(Void... params) {
             try {
-                Log.e("MainActivity", "DoInBackground");
+                Log.e("NewsListFragment", "DoInBackground");
                 URL url = new URL(feedUrl);
                 HttpURLConnection connection = (HttpURLConnection) url.openConnection();
                 connection.setDoInput(true);
@@ -208,14 +207,11 @@ public class NewsListFragment extends Fragment {
                     return null;
 
                 File folder = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/tmpMR");
-                if (inputStream != null) {
-//                    Log.e("FeedParser","In not null");
                     folder.mkdirs();
                     try {
                         FileOutputStream fileOutputStream = new FileOutputStream(new File(folder, "tmpMR00.tmp"));
                         byte[] buffer = new byte[1024];
                         int bufferLength = 0;
-//                        Log.e("FeedParser","Try 1");
                         while ((bufferLength = inputStream.read(buffer)) > 0) {
 //                            Log.e("FeedParser","In While");
                             fileOutputStream.write(buffer, 0, bufferLength);
@@ -235,11 +231,17 @@ public class NewsListFragment extends Fragment {
                         reader.close();
                         writer.close();
                     } catch (FileNotFoundException fe) {
+                        String s = "";
+                        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+                        String line = null;
+                        while((line = reader.readLine()) != null){
+                            s+=line.replace("&lt;", "<").replace("&gt;", ">");
+                        }
                         fe.printStackTrace();
+                        return FeedParser.parse(s);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                }
                 return FeedParser.parse();
             } catch (Exception e) {
                 e.getStackTrace();

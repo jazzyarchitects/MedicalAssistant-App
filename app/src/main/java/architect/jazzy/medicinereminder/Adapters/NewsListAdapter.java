@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -58,12 +59,12 @@ public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.ViewHo
     public class ViewHolder extends RecyclerView.ViewHolder{
 
         TextView textView, dateView;
-        RelativeLayout holderLayout;
+        LinearLayout holderLayout;
         View colorIndicator;
         public ViewHolder(View itemView) {
             super(itemView);
             textView=(TextView)itemView.findViewById(R.id.textView);
-            holderLayout=(RelativeLayout)itemView.findViewById(R.id.ll);
+            holderLayout=(LinearLayout)itemView.findViewById(R.id.ll);
             colorIndicator=itemView.findViewById(R.id.colorIndicator);
             dateView=(TextView)itemView.findViewById(R.id.dateView);
         }

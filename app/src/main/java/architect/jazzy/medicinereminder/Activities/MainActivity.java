@@ -4,14 +4,21 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.AnimRes;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.content.ContextCompatApi24;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -23,6 +30,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.ads.InterstitialAd;
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -33,6 +41,7 @@ import java.util.Calendar;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import architect.jazzy.medicinereminder.BuildConfig;
 import architect.jazzy.medicinereminder.CustomComponents.FragmentBackStack;
 import architect.jazzy.medicinereminder.CustomViews.ColorSelectorFragment;
 import architect.jazzy.medicinereminder.CustomViews.DaySelectorFragmentDialog;
@@ -51,6 +60,7 @@ import architect.jazzy.medicinereminder.Fragments.OfflineActivity.SettingsFragme
 import architect.jazzy.medicinereminder.Fragments.OnlineActivity.UserDetailsFragment;
 import architect.jazzy.medicinereminder.HelperClasses.Constants;
 import architect.jazzy.medicinereminder.HelperClasses.FirebaseConstants;
+import architect.jazzy.medicinereminder.Manifest;
 import architect.jazzy.medicinereminder.Models.Doctor;
 import architect.jazzy.medicinereminder.Models.FeedItem;
 import architect.jazzy.medicinereminder.Models.Medicine;
@@ -68,6 +78,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         AddDoctorFragment.OnFragmentInteractionListener, ColorSelectorFragment.OnColorChangeListener{
 
     public static final String TAG = "MainActivity";
+    private static final int WRITE_PERMISSION_CODE = 8529;
 
     FragmentBackStack fragmentBackStack = new FragmentBackStack();
     final int SHOW_LIST_REQUEST_CODE = 123;
@@ -130,6 +141,47 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         dimNotificationBar();
 //        displayFragment(new AddAppointmentFragment(), true);
         displayFragment(new DashboardFragment(), true);
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+
+                    // Show an expanation to the user *asynchronously* -- don't block
+                    // this thread waiting for the user's response! After the user
+                    // sees the explanation, try again to request the permission.
+                    AlertDialog.Builder builder = new AlertDialog.Builder(this, 0);
+                    builder.setTitle("Permission required")
+                            .setMessage("WRITE_EXTERNAL_STORAGE permission is required for caching and reduce internet data usage.")
+                            .setPositiveButton("Grant", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    ActivityCompat.requestPermissions(MainActivity.this,
+                                            new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                            WRITE_PERMISSION_CODE);
+                                }
+                            })
+                            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    Toast.makeText(MainActivity.this, "Some features like search and news might not work without this permission", Toast.LENGTH_LONG).show();
+                                }
+                            })
+                    .show();
+
+                } else {
+
+                    // No explanation needed, we can request the permission.
+
+                    ActivityCompat.requestPermissions(MainActivity.this,
+                            new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                            WRITE_PERMISSION_CODE);
+
+                    // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
+                    // app-defined int constant. The callback method gets the
+                    // result of the request.
+                }
+            }
+        }
 //        testCalendar();
     }
 

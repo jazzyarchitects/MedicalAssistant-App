@@ -6,11 +6,13 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.AnimRes;
+import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -23,6 +25,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -33,13 +36,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.ads.InterstitialAd;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.logging.Handler;
 
 import architect.jazzy.medicinereminder.BuildConfig;
 import architect.jazzy.medicinereminder.CustomComponents.FragmentBackStack;
@@ -91,6 +100,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     Toolbar toolbar;
     private InterstitialAd interstitialAd;
     FirebaseAnalytics firebaseAnalytics;
+    FirebaseRemoteConfig mFirebaseRemoteConfig;
+    SharedPreferences firebasePrefs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +113,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             return;
         }
         setContentView(R.layout.activity_main);
+        firebasePrefs = getSharedPreferences(FirebaseConstants.RemoteConfig.PREFERENCE_NAME, MODE_PRIVATE);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -114,18 +126,33 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         frameLayout = (FrameLayout) findViewById(R.id.frame);
 
-        Intent startAlarmServiceIntent = new Intent(this, AlarmSetterService.class);
-        startAlarmServiceIntent.setAction("CREATE");
-        startService(startAlarmServiceIntent);
+        //Refresh Alarms on different thread to speedup process
+        Thread alarmStartThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Intent startAlarmServiceIntent = new Intent(MainActivity.this, AlarmSetterService.class);
+                startAlarmServiceIntent.setAction("CREATE");
+                startService(startAlarmServiceIntent);
+            }
+        });
+        alarmStartThread.start();
+
+        //View setup
         navigationView = (NavigationView) findViewById(R.id.navigationView);
+
+        Menu menu = navigationView.getMenu();
+        menu.getItem(0).setVisible(firebasePrefs.getBoolean(FirebaseConstants.RemoteConfig.REMEDY_ENABLED, BuildConfig.DEBUG));
+        menu.getItem(6).setVisible(firebasePrefs.getBoolean(FirebaseConstants.RemoteConfig.USER_LOGIN_ENABLED, BuildConfig.DEBUG));
+        menu.getItem(5).setVisible(!firebasePrefs.getBoolean(FirebaseConstants.RemoteConfig.USER_LOGIN_ENABLED, BuildConfig.DEBUG));
+
         View headerLayout = navigationView.getHeaderView(0);
         searchQuery = (EditText) headerLayout.findViewById(R.id.searchQuery);
-//        Log.e(TAG, navigationView.getChildCount()+" "+navigationView.getChildAt(0).toString());
         headerLayout.findViewById(R.id.searchButton).setVisibility(View.GONE);
         navigationView.setNavigationItemSelectedListener(this);
-//        navigationView.getMenu().findItem(R.id.add).setChecked(true);
 
         headerLayout.findViewById(R.id.back).setBackgroundColor(Constants.getThemeColor(this));
+
+        //Search from nav bar handling
         searchQuery.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -139,16 +166,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
 
         dimNotificationBar();
-//        displayFragment(new AddAppointmentFragment(), true);
         displayFragment(new DashboardFragment(), true);
 
+        //Ask runtime permission if android version above lollipop
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
-
-                    // Show an expanation to the user *asynchronously* -- don't block
-                    // this thread waiting for the user's response! After the user
-                    // sees the explanation, try again to request the permission.
                     AlertDialog.Builder builder = new AlertDialog.Builder(this, 0);
                     builder.setTitle("Permission required")
                             .setMessage("WRITE_EXTERNAL_STORAGE permission is required for caching and reduce internet data usage.")
@@ -169,20 +192,45 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     .show();
 
                 } else {
-
-                    // No explanation needed, we can request the permission.
-
                     ActivityCompat.requestPermissions(MainActivity.this,
                             new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE},
                             WRITE_PERMISSION_CODE);
-
-                    // MY_PERMISSIONS_REQUEST_READ_CONTACTS is an
-                    // app-defined int constant. The callback method gets the
-                    // result of the request.
                 }
             }
         }
-//        testCalendar();
+        mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
+        FirebaseRemoteConfigSettings configSettings = new FirebaseRemoteConfigSettings.Builder()
+                .setDeveloperModeEnabled(BuildConfig.DEBUG)
+                .build();
+        mFirebaseRemoteConfig.setConfigSettings(configSettings);
+        cacheExpiration = BuildConfig.DEBUG?0:12 * 60 * 60;
+    }
+
+    long cacheExpiration;
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        mFirebaseRemoteConfig.fetch(cacheExpiration)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if(task.isComplete()){
+                            Log.e(TAG,"Remote config task complete");
+                            mFirebaseRemoteConfig.activateFetched();
+                            setupFirebaseConfig();
+                            return;
+                        }
+                        Log.e(TAG,"Remote config task failed");
+                    }
+                })
+        .addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.e(TAG,"Remote config on failure: "+e.getMessage());
+                e.printStackTrace();
+            }
+        });
+
     }
 
     @Override
@@ -192,9 +240,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 .edit()
                 .putInt(Constants.THEME_COLOR, color)
                 .apply();
-//        if(color==getResources().getColor(R.color.themeColorLight)){
-//            toolbar.setTitleTextColor(Color.parseColor("#111111"));
-//        }
         findViewById(R.id.back).setBackgroundColor(Constants.getThemeColor(this));
         try {
             setSupportActionBar(toolbar);
@@ -204,6 +249,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void setupFirebaseConfig(){
+        firebasePrefs.edit()
+                .putBoolean(FirebaseConstants.RemoteConfig.USER_LOGIN_ENABLED, mFirebaseRemoteConfig.getBoolean("remedy_user_enabled"))
+                .putBoolean(FirebaseConstants.RemoteConfig.REMEDY_VOTE_ENABLED, mFirebaseRemoteConfig.getBoolean("remedy_vote_enabled"))
+                .putBoolean(FirebaseConstants.RemoteConfig.REMEDY_COMMENT_ENABLED, mFirebaseRemoteConfig.getBoolean("remedy_comment_enabled"))
+                .putBoolean(FirebaseConstants.RemoteConfig.REMEDY_ENABLED, mFirebaseRemoteConfig.getBoolean("remedy_enabled"))
+                .apply();
+        Log.e(TAG, "remedy_user_enabled: "+mFirebaseRemoteConfig.getBoolean("remedy_user_enabled"));
+        Log.e(TAG, "remedy_vote_enabled: "+mFirebaseRemoteConfig.getBoolean("remedy_vote_enabled"));
+        Log.e(TAG, "remedy_comment_enabled: "+mFirebaseRemoteConfig.getBoolean("remedy_comment_enabled"));
+        Log.e(TAG, "remedy_enabled: "+mFirebaseRemoteConfig.getBoolean("remedy_enabled"));
+        Menu menu = navigationView.getMenu();
+        menu.getItem(0).setVisible(firebasePrefs.getBoolean(FirebaseConstants.RemoteConfig.REMEDY_ENABLED, BuildConfig.DEBUG));
+        menu.getItem(6).setVisible(firebasePrefs.getBoolean(FirebaseConstants.RemoteConfig.USER_LOGIN_ENABLED, BuildConfig.DEBUG));
+        menu.getItem(5).setVisible(!firebasePrefs.getBoolean(FirebaseConstants.RemoteConfig.USER_LOGIN_ENABLED, BuildConfig.DEBUG));
     }
 
 
@@ -345,12 +407,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 FirebaseConstants.Analytics.logCurrentScreen(this, "RemedyList");
                 startActivity(new Intent(this, OnlineActivity.class));
                 break;
-//            case R.id.add:
-//                addMedicine(false);
-//                break;
-//            case R.id.credits:
-//                showCredits();
-//                break;
             case R.id.news:
                 if (!(fragment instanceof NewsListFragment)) {
                     FirebaseConstants.Analytics.logCurrentScreen(this, "NewsList");

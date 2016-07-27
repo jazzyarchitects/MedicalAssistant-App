@@ -1,7 +1,9 @@
 {
   "project_info": {
     "project_number": "377780864885",
-    "project_id": "sapient-forest-94210"
+    "firebase_url": "https://sapient-forest-94210.firebaseio.com",
+    "project_id": "sapient-forest-94210",
+    "storage_bucket": "sapient-forest-94210.appspot.com"
   },
   "client": [
     {
@@ -19,6 +21,10 @@
             "package_name": "architect.jazzy.medicinereminder",
             "certificate_hash": "AA37A6ABFCE0F2352B499978AFB9AFA65E29AD6C"
           }
+        },
+        {
+          "client_id": "377780864885-igh50ou1lau8u7os3s5gcfp3lh9n482i.apps.googleusercontent.com",
+          "client_type": 3
         },
         {
           "client_id": "377780864885-bvcbbqukivh9099s1nd0ce3bjterdp8g.apps.googleusercontent.com",
@@ -41,15 +47,13 @@
           "status": 2,
           "other_platform_oauth_client": [
             {
-              "client_id": "377780864885-bvcbbqukivh9099s1nd0ce3bjterdp8g.apps.googleusercontent.com",
+              "client_id": "377780864885-igh50ou1lau8u7os3s5gcfp3lh9n482i.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
         },
         "ads_service": {
-          "status": 2,
-          "test_banner_ad_unit_id": "ca-app-pub-3940256099942544/6300978111",
-          "test_interstitial_ad_unit_id": "ca-app-pub-3940256099942544/1033173712"
+          "status": 2
         }
       }
     }

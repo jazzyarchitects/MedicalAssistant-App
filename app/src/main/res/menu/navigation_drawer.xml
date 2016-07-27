@@ -31,6 +31,12 @@
 
 
     <item
+        android:id="@+id/action_settings_dev"
+        android:icon="@drawable/ic_action_settings"
+        android:visible="false"
+        android:title="@string/action_settings" />
+
+    <item
         android:id="@+id/section2"
         android:title="User">
         <menu>

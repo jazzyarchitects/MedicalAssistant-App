@@ -30,4 +30,12 @@ public class FirebaseConstants {
         public static final String EVENT_TIME_SETTINGS = "TimeSettings";
         public static final String EVENT_LOGIN_ALERT = "LoginAlert";
     }
+
+    public static class RemoteConfig{
+        public static final String PREFERENCE_NAME = "FirebaseRemoteConfigPrefs";
+        public static final String USER_LOGIN_ENABLED="userLoginEnabled";
+        public static final String REMEDY_VOTE_ENABLED="isRemedyVoteEnabled";
+        public static final String REMEDY_COMMENT_ENABLED="isRemedyCommentEnabled";
+        public static final String REMEDY_ENABLED="isRemedyEnabled";
+    }
 }

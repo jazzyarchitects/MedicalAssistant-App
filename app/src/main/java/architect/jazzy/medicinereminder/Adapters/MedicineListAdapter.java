@@ -16,7 +16,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.h6ah4i.android.widget.advrecyclerview.utils.AbstractSwipeableItemViewHolder;
 
 import java.util.ArrayList;
 
@@ -122,7 +121,7 @@ public class MedicineListAdapter extends RecyclerView.Adapter<MedicineListAdapte
         return i;
     }
 
-    public static class ViewHolder extends AbstractSwipeableItemViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
 
         public TextView medName;
         //        medDays;
@@ -140,11 +139,6 @@ public class MedicineListAdapter extends RecyclerView.Adapter<MedicineListAdapte
             cardView = (CardView) itemView.findViewById(R.id.cardView);
             medicineHolder = (LinearLayout) itemView.findViewById(R.id.medicineHolder);
             relativeLayout = (FrameLayout) itemView.findViewById(R.id.backParent);
-        }
-
-        @Override
-        public View getSwipeableContainerView() {
-            return cardView;
         }
     }
 

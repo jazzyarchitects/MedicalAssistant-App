@@ -15,3 +15,11 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
+-keep public class com.google.ads.**{
+       public *;
+    }
+-dontwarn com.squareup.okhttp.**
+-dontwarn android.support.v7.**
+-keep class android.support.v7.** { *; }
+-keep interface android.support.v7.** { *; }
+-dontwarn com.squareup.picasso.**

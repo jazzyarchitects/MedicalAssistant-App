@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "377780864885-1un6fgurj5dte72j0igfb88p1t8l2bbn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "architect.jazzy.medicinereminder",
+            "certificate_hash": "FC96F73979EE0097CB9FD7D24BBBD93B90A571ED"
+          }
+        },
+        {
           "client_id": "377780864885-4dq4ldeiem9q396ff0enpd5kskmjpegg.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {

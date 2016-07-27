@@ -2,33 +2,90 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="architect.jazzy.medicinereminder">
 
+    <!--Normal Permissions
+    ACCESS_LOCATION_EXTRA_COMMANDS
+    ACCESS_NOTIFICATION_POLICY
+    ACCESS_WIFI_STATE
+    BLUETOOTH
+    BLUETOOTH_ADMIN
+    BROADCAST_STICKY
+    CHANGE_NETWORK_STATE
+    CHANGE_WIFI_MULTICAST_STATE
+    CHANGE_WIFI_STATE
+    DISABLE_KEYGUARD
+    EXPAND_STATUS_BAR
+    GET_PACKAGE_SIZE
+    INSTALL_SHORTCUT
+    KILL_BACKGROUND_PROCESSES
+    MODIFY_AUDIO_SETTINGS
+    NFC
+    READ_SYNC_SETTINGS
+    READ_SYNC_STATS
+    REORDER_TASKS
+    REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
+    REQUEST_INSTALL_PACKAGES
+    SET_ALARM
+    SET_TIME_ZONE
+    SET_WALLPAPER
+    SET_WALLPAPER_HINTS
+    TRANSMIT_IR
+    UNINSTALL_SHORTCUT
+    USE_FINGERPRINT
+    WRITE_SYNC_SETTINGS
+
+    =========
+
+    INTERNET
+    RECEIVE_BOOT_COMPLETED
+    VIBRATE
+    WAKE_LOCK
+    ACCESS_NETWORK_STATE
+    -->
+
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
+    <!-- Dangerous Permissions
+    READ_CALENDAR
+    WRITE_CALENDAR
+    CAMERA
+    WRITE_CONTACTS
+    GET_ACCOUNTS
+    ACCESS_FINE_LOCATION
+    ACCESS_COARSE_LOCATION
+    RECORD_AUDIO
+    READ_PHONE_STATE
+    READ_CALL_LOG
+    WRITE_CALL_LOG
+    ADD_VOICEMAIL
+    USE_SIP
+    PROCESS_OUTGOING_CALLS
+    BODY_SENSORS
+    SEND_SMS
+    RECEIVE_SMS
+    READ_SMS
+    RECEIVE_WAP_PUSH
+    RECEIVE_MMS
+
+    =========
+    READ_EXTERNAL_STORAGE
+    WRITE_EXTERNAL_STORAGE
+    READ_CONTACTS
+    CALL_PHONE
+    -->
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.CALL_PHONE" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
     <supports-screens
         android:anyDensity="true"
         android:resizeable="true" />
 
-    <!--
-         The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
-         Google Maps Android API v2, but you must specify either coarse or fine
-         location permissions for the 'MyLocation' functionality. 
-    -->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> <!-- <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" /> -->
-    <!--
- The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
-         Google Maps Android API v2, but are recommended.
-    -->
-    <!-- <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" /> -->
-    <!-- <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" /> -->
     <application
         android:name=".ThisApplication"
         android:allowBackup="true"
@@ -148,22 +205,6 @@
         <activity
             android:name=".Activities.Illustration"
             android:label="@string/title_activity_illustration" />
-
-        <meta-data
-            android:name="com.google.android.maps.v2.API_KEY"
-            android:value="@string/google_maps_key" />
-
-        <!--
-             The API key for Google Maps-based APIs is defined as a string resource.
-             (See the file "res/values/google_maps_api.xml").
-             Note that the API key is linked to the encryption key used to sign the APK.
-             You need a different API key for each encryption key, including the release key that is used to
-             sign the APK for publishing.
-             You can define the keys for the debug and release targets in src/debug/ and src/release/. 
-        -->
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" />
 
     </application>
 

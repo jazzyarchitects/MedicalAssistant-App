@@ -247,15 +247,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private void setupFirebaseConfig(){
         firebasePrefs.edit()
-                .putBoolean(FirebaseConstants.RemoteConfig.USER_LOGIN_ENABLED, mFirebaseRemoteConfig.getBoolean("remedy_user_enabled"))
-                .putBoolean(FirebaseConstants.RemoteConfig.REMEDY_VOTE_ENABLED, mFirebaseRemoteConfig.getBoolean("remedy_vote_enabled"))
-                .putBoolean(FirebaseConstants.RemoteConfig.REMEDY_COMMENT_ENABLED, mFirebaseRemoteConfig.getBoolean("remedy_comment_enabled"))
-                .putBoolean(FirebaseConstants.RemoteConfig.REMEDY_ENABLED, mFirebaseRemoteConfig.getBoolean("remedy_enabled"))
+                .putBoolean(FirebaseConstants.RemoteConfig.USER_LOGIN_ENABLED, mFirebaseRemoteConfig.getBoolean(FirebaseConstants.RemoteConfig.ServerKeys.USER_ENABLED))
+                .putBoolean(FirebaseConstants.RemoteConfig.REMEDY_VOTE_ENABLED, mFirebaseRemoteConfig.getBoolean(FirebaseConstants.RemoteConfig.ServerKeys.VOTE_ENABLED))
+                .putBoolean(FirebaseConstants.RemoteConfig.REMEDY_COMMENT_ENABLED, mFirebaseRemoteConfig.getBoolean(FirebaseConstants.RemoteConfig.ServerKeys.COMMENT_ENABLED))
+                .putBoolean(FirebaseConstants.RemoteConfig.REMEDY_ENABLED, mFirebaseRemoteConfig.getBoolean(FirebaseConstants.RemoteConfig.ServerKeys.REMEDY_ENABLED))
                 .apply();
-        Log.e(TAG, "remedy_user_enabled: "+mFirebaseRemoteConfig.getBoolean("remedy_user_enabled"));
-        Log.e(TAG, "remedy_vote_enabled: "+mFirebaseRemoteConfig.getBoolean("remedy_vote_enabled"));
-        Log.e(TAG, "remedy_comment_enabled: "+mFirebaseRemoteConfig.getBoolean("remedy_comment_enabled"));
-        Log.e(TAG, "remedy_enabled: "+mFirebaseRemoteConfig.getBoolean("remedy_enabled"));
         Menu menu = navigationView.getMenu();
         menu.getItem(0).setVisible(firebasePrefs.getBoolean(FirebaseConstants.RemoteConfig.REMEDY_ENABLED, BuildConfig.DEBUG));
         menu.getItem(6).setVisible(firebasePrefs.getBoolean(FirebaseConstants.RemoteConfig.USER_LOGIN_ENABLED, BuildConfig.DEBUG));

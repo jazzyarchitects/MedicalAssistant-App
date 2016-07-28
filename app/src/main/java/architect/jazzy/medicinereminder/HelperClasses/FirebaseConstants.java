@@ -1,9 +1,12 @@
 package architect.jazzy.medicinereminder.HelperClasses;
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
+
+import architect.jazzy.medicinereminder.BuildConfig;
 
 /**
  * Created by Jibin_ism on 22-May-16.
@@ -37,5 +40,13 @@ public class FirebaseConstants {
         public static final String REMEDY_VOTE_ENABLED="isRemedyVoteEnabled";
         public static final String REMEDY_COMMENT_ENABLED="isRemedyCommentEnabled";
         public static final String REMEDY_ENABLED="isRemedyEnabled";
+
+        public static class ServerKeys{
+            public static final String USER_ENABLED= BuildConfig.DEBUG?"dev_remedy_user_enabled":"remedy_user_enabled";
+            public static final String VOTE_ENABLED=BuildConfig.DEBUG?"dev_remedy_vote_enabled":"remedy_vote_enabled";
+            public static final String COMMENT_ENABLED=BuildConfig.DEBUG?"dev_remedy_comment_enabled":"remedy_comment_enabled";
+            public static final String REMEDY_ENABLED=BuildConfig.DEBUG?"dev_remedy_enabled":"remedy_enabled";
+
+        }
     }
 }

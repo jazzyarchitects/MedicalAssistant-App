@@ -16,4 +16,20 @@
         <key>remedy_enabled</key>
         <value>false</value>
     </entry>
+    <entry>
+        <key>dev_remedy_comment_enabled</key>
+        <value>true</value>
+    </entry>
+    <entry>
+        <key>dev_remedy_vote_enabled</key>
+        <value>true</value>
+    </entry>
+    <entry>
+        <key>dev_remedy_user_enabled</key>
+        <value>true</value>
+    </entry>
+    <entry>
+        <key>dev_remedy_enabled</key>
+        <value>true</value>
+    </entry>
 </defaultsMap>

@@ -131,19 +131,19 @@ public class RemedyFeedFragment extends Fragment {
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (data == null) {
-            return;
-        }
-        if (requestCode == REMEDY_DETAIL_CODE) {
-            Remedy remedy = data.getParcelableExtra("remedy");
-            for (int i = 0; i < remedyFeedResult.getRemedies().size(); i++) {
-                Log.e(TAG, "Checking remedy :" + remedyFeedResult.getRemedies().get(i).getId() + " for: " + remedy.getId());
-                if (remedyFeedResult.getRemedies().get(i).getId().equalsIgnoreCase(remedy.getId())) {
-                    remedyFeedResult.getRemedies().set(i, remedy);
-                }
-            }
-        }
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if (data == null) {
+//            return;
+//        }
+//        if (requestCode == REMEDY_DETAIL_CODE) {
+//            Remedy remedy = data.getParcelableExtra("remedy");
+//            for (int i = 0; i < remedyFeedResult.getRemedies().size(); i++) {
+//                Log.e(TAG, "Checking remedy :" + remedyFeedResult.getRemedies().get(i).getId() + " for: " + remedy.getId());
+//                if (remedyFeedResult.getRemedies().get(i).getId().equalsIgnoreCase(remedy.getId())) {
+//                    remedyFeedResult.getRemedies().set(i, remedy);
+//                }
+//            }
+//        }
     }
 
     @Override

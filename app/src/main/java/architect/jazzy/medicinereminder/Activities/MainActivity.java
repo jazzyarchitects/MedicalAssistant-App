@@ -264,9 +264,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Log.e(TAG, "Calendar Test: " + calendar.toString());
     }
 
+    int uiOptions;
     private void dimNotificationBar() {
         final View decorView = getWindow().getDecorView();
-        int uiOptions = View.SYSTEM_UI_FLAG_LOW_PROFILE;
+        uiOptions = View.SYSTEM_UI_FLAG_LOW_PROFILE;
         decorView.setSystemUiVisibility(uiOptions);
         decorView.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
             @Override
@@ -278,7 +279,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         MainActivity.this.runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
-                                decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
+                                decorView.setSystemUiVisibility(uiOptions);
                             }
                         });
                     }
@@ -389,6 +390,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 i.putExtra("fragment", UserDetailsFragment.TAG);
                 startActivity(i);
                 break;
+            case R.id.action_settings_dev:
             case R.id.action_settings:
                 FirebaseConstants.Analytics.logCurrentScreen(this, "Settings");
                 showSettings();

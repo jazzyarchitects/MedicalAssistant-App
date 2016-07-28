@@ -3,10 +3,13 @@ package architect.jazzy.medicinereminder.Fragments.OnlineActivity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -22,15 +25,22 @@ import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 import architect.jazzy.medicinereminder.Activities.RegistrationActivity;
+import architect.jazzy.medicinereminder.BuildConfig;
 import architect.jazzy.medicinereminder.CustomViews.CapitalTextView;
 import architect.jazzy.medicinereminder.HelperClasses.Constants;
+import architect.jazzy.medicinereminder.HelperClasses.FirebaseConstants;
 import architect.jazzy.medicinereminder.Models.Remedy;
 import architect.jazzy.medicinereminder.Models.User;
 import architect.jazzy.medicinereminder.R;
@@ -50,8 +60,10 @@ public class RemedyDetailsAcitvity extends AppCompatActivity {
     FloatingActionButton fab;
     CollapsingToolbarLayout appBarLayout;
     int imageIndex = 0;
-    boolean isUserLoggedIn=false;
+    boolean isUserLoggedIn = false;
     Drawable backgroundImage;
+
+    SharedPreferences firebaseSharedPreferences;
 
 
     @Override
@@ -65,8 +77,11 @@ public class RemedyDetailsAcitvity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext = this;
-        isUserLoggedIn= User.isUserLoggedIn(mContext);
+        isUserLoggedIn = User.isUserLoggedIn(mContext);
         setContentView(R.layout.activity_remedy_details_acitvity);
+
+        firebaseSharedPreferences = getSharedPreferences(FirebaseConstants.RemoteConfig.PREFERENCE_NAME, MODE_PRIVATE);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Remedy");
@@ -85,77 +100,124 @@ public class RemedyDetailsAcitvity extends AppCompatActivity {
         downVoteLayout = (LinearLayout) findViewById(R.id.downVoteLayout);
         upvoteCount = (TextView) upVoteLayout.findViewById(R.id.upVoteCount);
         downvoteCount = (TextView) downVoteLayout.findViewById(R.id.downVoteCount);
-        remedyImage = (ImageView)findViewById(R.id.remedyImage);
-        fab = (FloatingActionButton)findViewById(R.id.fab);
+        remedyImage = (ImageView) findViewById(R.id.remedyImage);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
         appBarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
-        commentLayout = (LinearLayout)findViewById(R.id.commentLayout);
+        commentLayout = (LinearLayout) findViewById(R.id.commentLayout);
         addComment = (Button) commentLayout.findViewById(R.id.addComment);
-        nestedScrollView = (NestedScrollView)findViewById(R.id.nestedScrollView);
+        nestedScrollView = (NestedScrollView) findViewById(R.id.nestedScrollView);
         remedyDetails = (LinearLayout) nestedScrollView.findViewById(R.id.remedyDetails);
 
-        if(isUserLoggedIn) {
-            upVoteLayout.setOnClickListener(voteClickListener);
-            downVoteLayout.setOnClickListener(voteClickListener);
-        }else{
-            upVoteLayout.setOnClickListener(notLoggedInListener);
-            downVoteLayout.setOnClickListener(notLoggedInListener);
+        upVoteLayout.setVisibility(firebaseSharedPreferences.getBoolean(FirebaseConstants.RemoteConfig.REMEDY_VOTE_ENABLED, !BuildConfig.DEBUG) ? View.VISIBLE : View.GONE);
+        downVoteLayout.setVisibility(firebaseSharedPreferences.getBoolean(FirebaseConstants.RemoteConfig.REMEDY_VOTE_ENABLED, !BuildConfig.DEBUG) ? View.VISIBLE : View.GONE);
+        if (firebaseSharedPreferences.getBoolean(FirebaseConstants.RemoteConfig.REMEDY_VOTE_ENABLED, !BuildConfig.DEBUG)) {
+            if (isUserLoggedIn) {
+                upVoteLayout.setOnClickListener(voteClickListener);
+                downVoteLayout.setOnClickListener(voteClickListener);
+            } else {
+                upVoteLayout.setOnClickListener(notLoggedInListener);
+                downVoteLayout.setOnClickListener(notLoggedInListener);
+            }
         }
 
+        commentLayout.setVisibility(firebaseSharedPreferences.getBoolean(FirebaseConstants.RemoteConfig.REMEDY_COMMENT_ENABLED, !BuildConfig.DEBUG) ? View.VISIBLE : View.GONE);
+        if (commentLayout.getVisibility() == View.VISIBLE) {
+            setupScrollListeners();
+        }
         selectionColor = getResources().getColor(R.color.buttonVoted);
 
         Intent in = getIntent();
         remedy = in.getParcelableExtra("remedy");
-        imageIndex = in.getIntExtra("image",0);
+        imageIndex = in.getIntExtra("image", 0);
         remedyImage.setImageResource(Constants.backgroundImages[imageIndex]);
         backgroundImage = getResources().getDrawable(Constants.backgroundImages[imageIndex]);
 
-        Palette.Builder builder = Palette.from(((BitmapDrawable)backgroundImage).getBitmap());
+        Palette.Builder builder = Palette.from(((BitmapDrawable) backgroundImage).getBitmap());
         Palette palette = builder.generate();
         selectionColor = palette.getVibrantColor(0);
         fab.setBackgroundTintList(new ColorStateList(new int[][]{new int[]{0}}, new int[]{Constants.getFABColor(selectionColor)}));
         appBarLayout.setContentScrimColor(selectionColor);
         appBarLayout.setStatusBarScrimColor(selectionColor);
         commentLayout.setBackgroundColor(selectionColor);
+        float[] hsv = new float[3];
+        Color.colorToHSV(selectionColor, hsv);
+        hsv[2]-=(hsv[2]>=0.4f?0.4f:0.2f);
+        int darkSelectionColor = Color.HSVToColor(hsv);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Window window = getWindow();
+            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+            window.setStatusBarColor(darkSelectionColor);
+//            window.setNavigationBarColor(darkSelectionColor);
+        }
         if (remedy == null) {
             newRemedy();
             return;
 
         }
         remedyDetails();
+        dimNotificationBar();
+    }
 
-        setupScrollListeners();
+    int uiOptions;
+    private void dimNotificationBar() {
+        final View decorView = getWindow().getDecorView();
+        uiOptions = View.SYSTEM_UI_FLAG_LOW_PROFILE;
+        if( Build.VERSION.SDK_INT>=Build.VERSION_CODES.KITKAT){
+            uiOptions |= View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION;
+            uiOptions |= View.SYSTEM_UI_FLAG_IMMERSIVE;
+            uiOptions |= View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
+        }
+        decorView.setSystemUiVisibility(uiOptions);
+        decorView.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
+            @Override
+            public void onSystemUiVisibilityChange(int visibility) {
+                Timer timer = new Timer();
+                timer.schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        RemedyDetailsAcitvity.this.runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                decorView.setSystemUiVisibility(uiOptions);
+                            }
+                        });
+                    }
+                }, 2000);
+            }
+        });
     }
 
     boolean commentLayoutShown = true;
-    private static final int SCROLL_THRESHOLD = 30;
-    void setupScrollListeners(){
+    private static final int SCROLL_THRESHOLD = 140;
+
+    void setupScrollListeners() {
         nestedScrollView.setOnScrollChangeListener(new NestedScrollView.OnScrollChangeListener() {
             @Override
             public void onScrollChange(NestedScrollView v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
 //                Log.e("RemedyDetailsActivity","Max: "+v.getMaxScrollAmount()+" current: "+scrollY+" LL Height: "+remedyDetails.getMeasuredHeight()+"  height: "+v.getHeight());
-                if(commentLayoutShown){
-                    if(scrollY > oldScrollY)
-                    hideCommentLayout(Math.abs(scrollY-oldScrollY));
-                }else{
-                    if(scrollY < oldScrollY)
-                        showCommentLayout(Math.abs(scrollY-oldScrollY));
+                if (scrollY == 0 || scrollY + v.getHeight() >= remedyDetails.getMeasuredHeight() - 20) {
+                    showCommentLayout(0);
+                    return;
                 }
-                if(scrollY==0){
-                    showCommentLayout(0);
-                }else if(scrollY+v.getHeight() >= remedyDetails.getMeasuredHeight() - 20){
-                    showCommentLayout(0);
+                if (commentLayoutShown) {
+                    if (scrollY > oldScrollY || scrollY < oldScrollY) {
+                        hideCommentLayout(0);
+                    }
+                } else {
+                    if (scrollY < oldScrollY - SCROLL_THRESHOLD)
+                        showCommentLayout(0);
                 }
             }
         });
     }
 
-    void hideCommentLayout(int diff){
+    void hideCommentLayout(int diff) {
         int height = commentLayout.getHeight();
         commentLayout.animate().translationY(height).setDuration(300);
         commentLayoutShown = false;
     }
 
-    void showCommentLayout(int diff){
+    void showCommentLayout(int diff) {
         commentLayout.animate().translationY(0).setDuration(300);
         commentLayoutShown = true;
     }
@@ -164,56 +226,56 @@ public class RemedyDetailsAcitvity extends AppCompatActivity {
     View.OnClickListener voteClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            int factor=1;
+            int factor = 1;
             if (view.getId() == R.id.upVoteLayout) {
                 remedy.setDownvoted(false);
                 //Make Down vote icon to default
-                ((ImageView)downVoteLayout.getChildAt(0)).setImageResource(R.drawable.ic_action_dontlike);
+                ((ImageView) downVoteLayout.getChildAt(0)).setImageResource(R.drawable.ic_action_dontlike);
 
                 //id already upvoted then remove upvote
                 //else reduce downvote and increment upvote
-                if(remedy.isUpvoted()){
-                    ((ImageView)upVoteLayout.getChildAt(0)).setImageResource(R.drawable.ic_action_like);
-                    factor=-1;
+                if (remedy.isUpvoted()) {
+                    ((ImageView) upVoteLayout.getChildAt(0)).setImageResource(R.drawable.ic_action_like);
+                    factor = -1;
                     remedy.setUpvoted(false);
-                }else{
+                } else {
                     //Setting selected icon
-                    Drawable drawable=getResources().getDrawable(R.drawable.ic_action_like).mutate();
+                    Drawable drawable = getResources().getDrawable(R.drawable.ic_action_like).mutate();
                     drawable.setColorFilter(selectionColor, PorterDuff.Mode.SRC_ATOP);
-                    ((ImageView)upVoteLayout.getChildAt(0)).setImageDrawable(drawable);
+                    ((ImageView) upVoteLayout.getChildAt(0)).setImageDrawable(drawable);
                     remedy.setUpvoted(true);
-                    if(remedy.isDownvoted()){
-                        remedy.getStats().setDownvote(remedy.getStats().getDownvote()-1);
+                    if (remedy.isDownvoted()) {
+                        remedy.getStats().setDownvote(remedy.getStats().getDownvote() - 1);
                     }
                 }
-                remedy.getStats().setUpvote(remedy.getStats().getUpvote()+factor);
+                remedy.getStats().setUpvote(remedy.getStats().getUpvote() + factor);
                 remedy.upvote(mContext);
             } else if (view.getId() == R.id.downVoteLayout) {
                 remedy.setUpvoted(false);
-                ((ImageView)upVoteLayout.getChildAt(0)).setImageResource(R.drawable.ic_action_like);
-                if(remedy.isDownvoted()){
-                    factor=-1;
-                    ((ImageView)downVoteLayout.getChildAt(0)).setImageResource(R.drawable.ic_action_dontlike);
+                ((ImageView) upVoteLayout.getChildAt(0)).setImageResource(R.drawable.ic_action_like);
+                if (remedy.isDownvoted()) {
+                    factor = -1;
+                    ((ImageView) downVoteLayout.getChildAt(0)).setImageResource(R.drawable.ic_action_dontlike);
                     remedy.setDownvoted(false);
-                }else{
-                    Drawable drawable=getResources().getDrawable(R.drawable.ic_action_dontlike).mutate();
+                } else {
+                    Drawable drawable = getResources().getDrawable(R.drawable.ic_action_dontlike).mutate();
                     drawable.setColorFilter(selectionColor, PorterDuff.Mode.SRC_ATOP);
-                    ((ImageView)downVoteLayout.getChildAt(0)).setImageDrawable(drawable);
+                    ((ImageView) downVoteLayout.getChildAt(0)).setImageDrawable(drawable);
                     remedy.setDownvoted(true);
-                    if(remedy.isUpvoted()){
-                        remedy.getStats().setUpvote(remedy.getStats().getUpvote()-1);
+                    if (remedy.isUpvoted()) {
+                        remedy.getStats().setUpvote(remedy.getStats().getUpvote() - 1);
                     }
                 }
-                remedy.getStats().setDownvote(remedy.getStats().getDownvote()+factor);
+                remedy.getStats().setDownvote(remedy.getStats().getDownvote() + factor);
                 remedy.downvote(mContext);
             }
-            ((TextView)upVoteLayout.getChildAt(1)).setText(Html.fromHtml(remedy.getStats().getUpvote()+" Upvotes"));
-            ((TextView)downVoteLayout.getChildAt(1)).setText(Html.fromHtml(remedy.getStats().getDownvote()+" Downvotes"));
+            ((TextView) upVoteLayout.getChildAt(1)).setText(Html.fromHtml(remedy.getStats().getUpvote() + " Upvotes"));
+            ((TextView) downVoteLayout.getChildAt(1)).setText(Html.fromHtml(remedy.getStats().getDownvote() + " Downvotes"));
         }
     };
 
 
-    void newRemedy(){
+    void newRemedy() {
         clearLayout();
     }
 
@@ -221,7 +283,7 @@ public class RemedyDetailsAcitvity extends AppCompatActivity {
         clearLayout();
     }
 
-    void clearLayout(){
+    void clearLayout() {
         saveButton.setVisibility(View.VISIBLE);
         statsLayout.setVisibility(View.GONE);
         remedyDescription.setFocusable(true);
@@ -232,15 +294,13 @@ public class RemedyDetailsAcitvity extends AppCompatActivity {
     }
 
 
-
-
     void remedyDetails() {
         saveButton.setVisibility(View.GONE);
         statsLayout.setVisibility(View.VISIBLE);
 
         remedyTitle.setRawText(remedy.getTitle());
 
-        int editTextBackgroundId =R.drawable.login_edit_text;
+        int editTextBackgroundId = R.drawable.login_edit_text;
         remedyTitle.setBackgroundResource(editTextBackgroundId);
 
         remedyDescription.setText(Html.fromHtml(remedy.getDescription()));
@@ -249,37 +309,37 @@ public class RemedyDetailsAcitvity extends AppCompatActivity {
         upvoteCount.setText(Html.fromHtml("<b>" + remedy.getStats().getUpvote() + "</b> Upvotes"));
         downvoteCount.setText(Html.fromHtml("<b>" + remedy.getStats().getDownvote() + "</b> Downvotes"));
 
-        if(remedy.getTagsString().isEmpty()){
+        if (remedy.getTagsString().isEmpty()) {
             remedyTags.setVisibility(View.GONE);
-        }else {
+        } else {
             remedyTags.setText(Html.fromHtml("<i>Tags:</i> " + remedy.getTagsString()));
             remedyTags.setBackgroundResource(editTextBackgroundId);
         }
 
-        if(remedy.getDiseasesString().isEmpty()){
+        if (remedy.getDiseasesString().isEmpty()) {
             remedyDiseases.setVisibility(View.GONE);
-        }else {
+        } else {
             remedyDiseases.setText(Html.fromHtml("<i>Diseases:</i> " + remedy.getDiseasesString()));
             remedyDiseases.setBackgroundResource(editTextBackgroundId);
         }
 
-        if(remedy.getReferencesString().isEmpty()){
+        if (remedy.getReferencesString().isEmpty()) {
             remedyReferences.setVisibility(View.GONE);
-        }else {
+        } else {
             remedyReferences.setText(Html.fromHtml("<i>References:</i> " + remedy.getReferencesString()));
             remedyReferences.setBackgroundResource(editTextBackgroundId);
         }
 
-        if(remedy.isDownvoted()){
-            Drawable drawable=getResources().getDrawable(R.drawable.ic_action_dontlike).mutate();
+        if (remedy.isDownvoted()) {
+            Drawable drawable = getResources().getDrawable(R.drawable.ic_action_dontlike).mutate();
             drawable.setColorFilter(selectionColor, PorterDuff.Mode.SRC_ATOP);
-            ((ImageView)downVoteLayout.getChildAt(0)).setImageDrawable(drawable);
+            ((ImageView) downVoteLayout.getChildAt(0)).setImageDrawable(drawable);
         }
 
-        if(remedy.isUpvoted()){
-            Drawable drawable=getResources().getDrawable(R.drawable.ic_action_like).mutate();
+        if (remedy.isUpvoted()) {
+            Drawable drawable = getResources().getDrawable(R.drawable.ic_action_like).mutate();
             drawable.setColorFilter(selectionColor, PorterDuff.Mode.SRC_ATOP);
-            ((ImageView)upVoteLayout.getChildAt(0)).setImageDrawable(drawable);
+            ((ImageView) upVoteLayout.getChildAt(0)).setImageDrawable(drawable);
         }
 
         remedyDescription.setFocusable(false);

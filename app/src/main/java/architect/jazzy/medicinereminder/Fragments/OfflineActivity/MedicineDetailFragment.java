@@ -452,8 +452,8 @@ public class MedicineDetailFragment extends Fragment {
                     onTopTextClick(labelledImageView);
 
                 } else {
-//                    customTimeHour = ch;
-//                    customTimeMinute = cm;
+                    customTimeHour = "-1";
+                    customTimeMinute = "-1";
                     labelledImageView.setGrayScale();
                     none(labelledImageView, labelledImageView.getTag());
                 }

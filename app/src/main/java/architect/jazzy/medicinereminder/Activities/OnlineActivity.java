@@ -14,7 +14,9 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -33,9 +35,11 @@ import architect.jazzy.medicinereminder.R;
 public class OnlineActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    public static final String TAG="OnlineActivity";
     Toolbar toolbar;
     boolean isUserLoggedIn;
     DrawerLayout drawer;
+    ActionBarDrawerToggle drawerToggle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,11 +51,10 @@ public class OnlineActivity extends AppCompatActivity
 
         dimNotificationBar();
 
-        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
+        DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open, R.string.close);
+        drawerLayout.setDrawerListener(drawerToggle);
+        drawerToggle.syncState();
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -76,6 +79,14 @@ public class OnlineActivity extends AppCompatActivity
         } catch (Exception e) {
             displayFragment(new RemedyFeedFragment(), false);
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (drawerToggle.onOptionsItemSelected(item)) {
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     int uiOptions;
@@ -167,7 +178,7 @@ public class OnlineActivity extends AppCompatActivity
                 break;
         }
 
-        drawer.closeDrawer(GravityCompat.START);
+        drawer.closeDrawers();
         return true;
     }
 

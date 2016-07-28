@@ -77,14 +77,13 @@ import architect.jazzy.medicinereminder.R;
 import architect.jazzy.medicinereminder.Services.AlarmSetterService;
 
 
-
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener,
         EmojiSelectFragment.OnFragmentInteractionListener, DaySelectorFragmentDialog.OnFragmentInteractionListener,
         MedicineListFragment.FragmentInteractionListener, AddMedicineFragment.FragmentInteractionListener,
         NewsListFragment.FeedClickListener, DoctorListFragment.OnMenuItemClickListener,
         DoctorMedicineListFragment.FragmentInteractionListener, DoctorListFragment.OnFragmentInteractionListenr,
         DoctorDetailFragment.ImageChangeListener, DashboardFragment.OnFragmentInteractionListener,
-        AddDoctorFragment.OnFragmentInteractionListener, ColorSelectorFragment.OnColorChangeListener{
+        AddDoctorFragment.OnFragmentInteractionListener, ColorSelectorFragment.OnColorChangeListener {
 
     public static final String TAG = "MainActivity";
     private static final int WRITE_PERMISSION_CODE = 8529;
@@ -169,7 +168,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         displayFragment(new DashboardFragment(), true);
 
         //Ask runtime permission if android version above lollipop
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(this, 0);
@@ -183,7 +182,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                                             WRITE_PERMISSION_CODE);
                                 }
                             })
-                    .show();
+                            .show();
 
                 } else {
                     ActivityCompat.requestPermissions(MainActivity.this,
@@ -197,10 +196,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 .setDeveloperModeEnabled(BuildConfig.DEBUG)
                 .build();
         mFirebaseRemoteConfig.setConfigSettings(configSettings);
-        cacheExpiration = BuildConfig.DEBUG?0:12 * 60 * 60;
+        cacheExpiration = BuildConfig.DEBUG ? 0 : 12 * 60 * 60;
     }
 
     long cacheExpiration;
+
     @Override
     protected void onPostResume() {
         super.onPostResume();
@@ -208,22 +208,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        if(task.isComplete()){
-                            Log.e(TAG,"Remote config task complete");
+                        if (task.isComplete()) {
+                            Log.e(TAG, "Remote config task complete");
                             mFirebaseRemoteConfig.activateFetched();
                             setupFirebaseConfig();
                             return;
                         }
-                        Log.e(TAG,"Remote config task failed");
+                        Log.e(TAG, "Remote config task failed");
                     }
                 })
-        .addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                Log.e(TAG,"Remote config on failure: "+e.getMessage());
-                e.printStackTrace();
-            }
-        });
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.e(TAG, "Remote config on failure: " + e.getMessage());
+                        e.printStackTrace();
+                    }
+                });
 
     }
 
@@ -235,17 +235,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 .putInt(Constants.THEME_COLOR, color)
                 .apply();
         findViewById(R.id.back).setBackgroundColor(Constants.getThemeColor(this));
-        try {
-            setSupportActionBar(toolbar);
-            ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open, R.string.close);
-            drawerLayout.setDrawerListener(drawerToggle);
-            drawerToggle.syncState();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
+        setSupportActionBar(toolbar);
+        ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open, R.string.close);
+        drawerLayout.setDrawerListener(drawerToggle);
+        drawerToggle.syncState();
     }
 
-    private void setupFirebaseConfig(){
+    private void setupFirebaseConfig() {
         firebasePrefs.edit()
                 .putBoolean(FirebaseConstants.RemoteConfig.USER_LOGIN_ENABLED, mFirebaseRemoteConfig.getBoolean(FirebaseConstants.RemoteConfig.ServerKeys.USER_ENABLED))
                 .putBoolean(FirebaseConstants.RemoteConfig.REMEDY_VOTE_ENABLED, mFirebaseRemoteConfig.getBoolean(FirebaseConstants.RemoteConfig.ServerKeys.VOTE_ENABLED))
@@ -265,6 +262,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     int uiOptions;
+
     private void dimNotificationBar() {
         final View decorView = getWindow().getDecorView();
         uiOptions = View.SYSTEM_UI_FLAG_LOW_PROFILE;
@@ -386,7 +384,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.myAccount:
                 FirebaseConstants.Analytics.logCurrentScreen(this, "OnlineActivity");
-                Intent i=new Intent(this, OnlineActivity.class);
+                Intent i = new Intent(this, OnlineActivity.class);
                 i.putExtra("fragment", UserDetailsFragment.TAG);
                 startActivity(i);
                 break;
@@ -472,7 +470,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 throw new Exception();
             }
 //            if (!(fragment instanceof SearchFragment))
-                fragmentBackStack.push(fragment);
+            fragmentBackStack.push(fragment);
             toolbar.getMenu().clear();
         } catch (Exception e) {
             android.support.v4.app.Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.frame);

@@ -169,24 +169,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         displayFragment(new DashboardFragment(), true);
 
         //Ask runtime permission if android version above lollipop
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                 if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(this, 0);
                     builder.setTitle("Permission required")
-                            .setMessage("WRITE_EXTERNAL_STORAGE permission is required for caching and reduce internet data usage.")
+                            .setMessage("Permission is required for caching and reduce internet data usage.")
                             .setPositiveButton("Grant", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
                                     ActivityCompat.requestPermissions(MainActivity.this,
                                             new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE},
                                             WRITE_PERMISSION_CODE);
-                                }
-                            })
-                            .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    Toast.makeText(MainActivity.this, "Some features like search and news might not work without this permission", Toast.LENGTH_LONG).show();
                                 }
                             })
                     .show();

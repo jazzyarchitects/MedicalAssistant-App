@@ -1,19 +1,29 @@
 package architect.jazzy.medicinereminder.Fragments.OfflineActivity;
 
 
+import android.Manifest;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.ContentResolver;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.graphics.Palette;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -26,6 +36,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 
+import architect.jazzy.medicinereminder.Activities.MainActivity;
 import architect.jazzy.medicinereminder.Fragments.OfflineActivity.DoctorDetailFragments.DoctorDetailFragment;
 import architect.jazzy.medicinereminder.Handlers.DataHandler;
 import architect.jazzy.medicinereminder.HelperClasses.Constants;
@@ -45,6 +56,7 @@ public class AddDoctorFragment extends Fragment {
     private String contactID;
     ImageView imageView;
     Doctor doctor;
+    public static final int READ_CONTACTS_CODE = 15934;
 
     private static final int COVER_PIC_REQUEST_CODE = 121;
     Button save;
@@ -140,10 +152,8 @@ public class AddDoctorFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-//        Log.e(TAG, "Contact Result 2: "+resultCode);
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == CONTACT_PICK_REQUEST_CODE) {
-//                Log.e(TAG, "Contact Result 2");
                 uriContact = data.getData();
                 retrieveContactDetails();
             }
@@ -305,11 +315,38 @@ public class AddDoctorFragment extends Fragment {
         return contactName;
     }
 
-
-
     public void selectDoctorFromContacts() {
-        Intent i = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
-        startActivityForResult(i, CONTACT_PICK_REQUEST_CODE);
+        final Activity context = getActivity();
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
+                if (ActivityCompat.shouldShowRequestPermissionRationale(context, Manifest.permission.READ_CONTACTS)) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context, 0);
+                    builder.setTitle("Permission required")
+                            .setMessage("Permission is required for reading contacts.")
+                            .setPositiveButton("Grant", new DialogInterface.OnClickListener() {
+                                @Override
+                                @TargetApi(23)
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    requestPermissions(
+                                            new String[]{Manifest.permission.READ_CONTACTS},
+                                            READ_CONTACTS_CODE);
+                                }
+                            })
+                            .show();
+
+                } else {
+                    requestPermissions(
+                            new String[]{Manifest.permission.READ_CONTACTS},
+                            READ_CONTACTS_CODE);
+                }
+            }else{
+                Intent i = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
+                startActivityForResult(i, CONTACT_PICK_REQUEST_CODE);
+            }
+        }else{
+            Intent i = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
+            startActivityForResult(i, CONTACT_PICK_REQUEST_CODE);
+        }
     }
 
 
@@ -334,8 +371,26 @@ public class AddDoctorFragment extends Fragment {
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        onFragmentInteractionListener = (OnFragmentInteractionListener) activity;
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        onFragmentInteractionListener = (OnFragmentInteractionListener) context;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        Log.e(TAG, "onRequestPermissionResult: "+requestCode);
+        switch (requestCode){
+            case AddDoctorFragment.READ_CONTACTS_CODE:
+                if(grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                    Intent i = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
+                    startActivityForResult(i, CONTACT_PICK_REQUEST_CODE);
+                }else{
+                    Toast.makeText(getActivity(), "Permission required to read contacts", Toast.LENGTH_LONG).show();
+                }
+                break;
+            default:
+                break;
+        }
     }
 }

@@ -1,17 +1,24 @@
 package architect.jazzy.medicinereminder.Fragments.OfflineActivity;
 
 
+import android.Manifest;
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -23,6 +30,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -39,6 +47,7 @@ import architect.jazzy.medicinereminder.ThisApplication;
 public class DoctorListFragment extends Fragment {
 
     private static final String TAG="DoctorListFragment";
+    private static final int CALL_PHONE_CODE = 7485;
     RecyclerView doctorList;
     Context mContext;
     View v;
@@ -212,12 +221,41 @@ public class DoctorListFragment extends Fragment {
     }
 
     void callDoctor(){
-        Intent callIntent=new Intent(Intent.ACTION_CALL);
-//        Log.e(TAG, "Calling doctor: " + toBeDeletedDoctor.toJSON().toString());
-        Uri uri=Uri.parse("tel:" + (toBeDeletedDoctor.getPhone_1().isEmpty() ? toBeDeletedDoctor.getPhone_2() : toBeDeletedDoctor.getPhone_1()));
-//        Log.e(TAG,"URI: "+uri.toString());
-        callIntent.setData(uri);
-        startActivity(callIntent);
+        final Activity context = getActivity();
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (ContextCompat.checkSelfPermission(context, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                if (ActivityCompat.shouldShowRequestPermissionRationale(context, Manifest.permission.CALL_PHONE)) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context, 0);
+                    builder.setTitle("Permission required")
+                            .setMessage("Permission is required calling a doctor")
+                            .setPositiveButton("Grant", new DialogInterface.OnClickListener() {
+                                @Override
+                                @TargetApi(23)
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    requestPermissions(
+                                            new String[]{Manifest.permission.CALL_PHONE},
+                                            CALL_PHONE_CODE);
+                                }
+                            })
+                            .show();
+
+                } else {
+                    requestPermissions(
+                            new String[]{Manifest.permission.CALL_PHONE},
+                            CALL_PHONE_CODE);
+                }
+            }else{
+                Intent callIntent=new Intent(Intent.ACTION_CALL);
+                Uri uri=Uri.parse("tel:" + (toBeDeletedDoctor.getPhone_1().isEmpty() ? toBeDeletedDoctor.getPhone_2() : toBeDeletedDoctor.getPhone_1()));
+                callIntent.setData(uri);
+                startActivity(callIntent);
+            }
+        }else{
+            Intent callIntent=new Intent(Intent.ACTION_CALL);
+            Uri uri=Uri.parse("tel:" + (toBeDeletedDoctor.getPhone_1().isEmpty() ? toBeDeletedDoctor.getPhone_2() : toBeDeletedDoctor.getPhone_1()));
+            callIntent.setData(uri);
+            startActivity(callIntent);
+        }
     }
 
     OnMenuItemClickListener menuItemClickListener;
@@ -232,5 +270,25 @@ public class DoctorListFragment extends Fragment {
     public interface OnFragmentInteractionListenr{
         void onDoctorSelected(Doctor doctor);
         void addDoctor();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        switch (requestCode){
+            case CALL_PHONE_CODE:
+                if(grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                    Intent callIntent=new Intent(Intent.ACTION_CALL);
+                    Uri uri=Uri.parse("tel:" + (toBeDeletedDoctor.getPhone_1().isEmpty() ? toBeDeletedDoctor.getPhone_2() : toBeDeletedDoctor.getPhone_1()));
+                    callIntent.setData(uri);
+                    startActivity(callIntent);
+                }else{
+                    Toast.makeText(getActivity(), "Permission required to make the call", Toast.LENGTH_LONG).show();
+                }
+                break;
+            default:
+                break;
+        }
     }
 }

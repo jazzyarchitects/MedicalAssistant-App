@@ -190,12 +190,12 @@ public class MedicineListFragment extends Fragment {
                     showDetails(position, medicines);
                 }
             });
-            medicineList.setHasFixedSize(true);
-            medicineList.setLayoutManager(layoutManager);
-
-            medicineList.setAdapter(adapter);
-
-            medicineList.setItemAnimator(new DefaultItemAnimator());
+            if(medicineList != null) {
+                medicineList.setHasFixedSize(true);
+                medicineList.setLayoutManager(layoutManager);
+                medicineList.setAdapter(adapter);
+                medicineList.setItemAnimator(new DefaultItemAnimator());
+            }
         }
     }
 

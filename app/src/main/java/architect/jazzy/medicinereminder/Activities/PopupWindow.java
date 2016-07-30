@@ -74,8 +74,6 @@ public class PopupWindow extends AppCompatActivity implements MediaPlayer.OnPrep
             Bundle bundle=new Bundle();
             bundle.putParcelableArrayList(Constants.MEDICINE_NAME_LIST,medicines);
             i.putExtras(bundle);
-            int id=getIntent().getIntExtra("NotificationId",0);
-            i.putExtra("NotificationId",id);
             startActivity(i);
             finish();
         }

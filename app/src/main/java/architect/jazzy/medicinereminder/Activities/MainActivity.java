@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private static final int WRITE_PERMISSION_CODE = 8529;
 
     FragmentBackStack fragmentBackStack = new FragmentBackStack();
-    final int SHOW_LIST_REQUEST_CODE = 123;
+    final int SHOW_LIST_REQUEST_CODE = 9865;
     FrameLayout frameLayout;
     DrawerLayout drawerLayout;
     ActivityClickListener activityClickListener;

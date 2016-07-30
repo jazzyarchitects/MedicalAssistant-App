@@ -96,12 +96,15 @@ public class MedicineListAdapter extends RecyclerView.Adapter<MedicineListAdapte
         }catch (NullPointerException e){
             Log.e("MedicineListAdapter","Lock Screen popup "+e.getMessage());
         }
-        holder.cardView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                eventListener.onMedClick(holder.getAdapterPosition(), medicines);
-            }
-        });
+
+        if(holder.cardView !=null ) {
+            holder.cardView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    eventListener.onMedClick(holder.getAdapterPosition(), medicines);
+                }
+            });
+        }
     }
 
     @Override

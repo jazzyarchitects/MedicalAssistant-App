@@ -42,7 +42,9 @@ public class AlarmReceiver extends BroadcastReceiver {
     SharedPreferences sharedPreferences;
     Boolean showNoti = true, showPopup = true;
     ArrayList<String> medicineList = new ArrayList<>();
-    int id = 0;
+
+    public static final String NOTIFICATION_TAG="MedicineReminderAlarmNotification";
+    public static final int NOTIFICATION_ID=7844;
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -50,15 +52,10 @@ public class AlarmReceiver extends BroadcastReceiver {
         intent.getData();
         bundle = intent.getExtras();
         medicines=bundle.getParcelableArrayList(Constants.MEDICINE_NAME_LIST);
-//        medicineList = bundle.getStringArrayList("MedicineList");
-//        Log.e(TAG,"Alarm going off at: "+Calendar.getInstance().getTime().toString());
-//        try{
-//            logAlarm();
-//        }catch (IOException e){
-//            e.printStackTrace();
-//        }catch (NullPointerException e){
-//            e.printStackTrace();
-//        }
+        assert  medicines != null;
+        assert medicines.get(0) != null;
+
+        //Log.ee(TAG, "Alarm On Receive: "+medicines.get(0).toJSON());
 
 
         sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
@@ -93,7 +90,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                 editor.apply();
                 Intent intent1 = new Intent(mcontext.getApplicationContext(), AppWidget.class);
                 mcontext.sendBroadcast(intent1);
-                Log.v("AppWidget", "Update Signal Passed");
+                //Log.ev("AppWidget", "Update Signal Passed");
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -101,6 +98,7 @@ public class AlarmReceiver extends BroadcastReceiver {
     }
 
     private void generateNotification(Context context, ArrayList<Medicine> medicines) {
+        //Log.ee(TAG, "generate Notification");
         Bundle bundle=new Bundle();
         bundle.putParcelableArrayList(Constants.MEDICINE_NAME_LIST,medicines);
 
@@ -117,6 +115,17 @@ public class AlarmReceiver extends BroadcastReceiver {
         i.putExtras(bundle);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, (int) (System.currentTimeMillis() / 100000), i, PendingIntent.FLAG_UPDATE_CURRENT);
 
+        Intent snoozeButtonIntent = new Intent(context, AlarmSnooze.class);
+        snoozeButtonIntent.putExtra(Constants.MEDICINE_NAME_LIST, medicineList);
+        PendingIntent snoozeButtonPendingIntent = PendingIntent.getBroadcast(context, 7894, snoozeButtonIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+
+        Intent dismissIntent = new Intent(context, DismissNotification.class);
+        PendingIntent dismissPendingIntent = PendingIntent.getBroadcast(context, 7895, dismissIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+
+
+        NotificationCompat.Action snoozeAction = new NotificationCompat.Action(R.drawable.ic_action_alarm, "Snooze", snoozeButtonPendingIntent);
+        NotificationCompat.Action dismissAction = new NotificationCompat.Action(R.drawable.ic_action_cancel, "Dismiss", dismissPendingIntent);
+
         String title = "Take your Medicines";
         String subtitle = "Medicines:" + notificationText;
         NotificationCompat.Builder builder=new NotificationCompat.Builder(mcontext);
@@ -124,33 +133,37 @@ public class AlarmReceiver extends BroadcastReceiver {
                 .setContentText(subtitle)
                 .setPriority(Notification.PRIORITY_DEFAULT)
                 .setShowWhen(true)
+                .addAction(snoozeAction)
+                .addAction(dismissAction)
                 .setContentIntent(pendingIntent)
-                .setSmallIcon(R.mipmap.ic_launcher).build();
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .build();
         Notification notification=builder.build();
 
-
-
-        notification.priority = Notification.PRIORITY_MAX;
         notification.flags |= Notification.FLAG_AUTO_CANCEL;
+
+        notification.ledARGB |= Notification.DEFAULT_LIGHTS;
 
         notification.sound = Uri.parse(sharedPreferences.getString("notification_ringtone", String.valueOf(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))));
 
         Boolean vibrate = sharedPreferences.getBoolean("notification_vibrate", true);
         if (vibrate) {
             notification.defaults |= Notification.DEFAULT_VIBRATE;
+            notification.vibrate = new long[]{250, 0, 250, 0, 500, 0, 500, 0};
         } else {
             notification.vibrate = null;
         }
-        notificationManager.notify(id, notification);
+        notificationManager.notify(NOTIFICATION_TAG, NOTIFICATION_ID, notification);
 
 
     }
 
     public void generatePopup() {
+        //Log.e(TAG, "Generate popup");
         Intent i = new Intent(mcontext, PopupWindow.class);
         Bundle bundle = new Bundle();
         bundle.putParcelableArrayList(Constants.MEDICINE_NAME_LIST,medicines);
-        bundle.putInt("NotificationId", id);
+        bundle.putInt("NotificationId", NOTIFICATION_ID);
         i.putExtras(bundle);
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         mcontext.startActivity(i);

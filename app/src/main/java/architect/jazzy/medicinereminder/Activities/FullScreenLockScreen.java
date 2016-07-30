@@ -12,7 +12,6 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.AudioManager;
-import android.media.MediaPlayer;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -20,6 +19,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.renderscript.Allocation;
 import android.renderscript.Element;
 import android.renderscript.RenderScript;
@@ -38,15 +38,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-
 import com.balysv.materialripple.MaterialRippleLayout;
+
+import java.util.ArrayList;
 
 import architect.jazzy.medicinereminder.BroadcastRecievers.AlarmReceiver;
 import architect.jazzy.medicinereminder.HelperClasses.Constants;
 import architect.jazzy.medicinereminder.Models.Medicine;
 import architect.jazzy.medicinereminder.R;
-import architect.jazzy.medicinereminder.ThisApplication;
 
 
 public class FullScreenLockScreen extends AppCompatActivity {
@@ -57,9 +56,7 @@ public class FullScreenLockScreen extends AppCompatActivity {
     PowerManager.WakeLock wl;
     SharedPreferences sharedPreferences;
     Uri toneUri;
-    Ringtone r;
-    int notificationId;
-    MediaPlayer player;
+    public static Ringtone r;
     RecyclerView medicineListView;
     RelativeLayout base;
 
@@ -75,38 +72,41 @@ public class FullScreenLockScreen extends AppCompatActivity {
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_ALLOW_LOCK_WHILE_SCREEN_ON);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
 
-        sharedPreferences= PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-        toneUri= Uri.parse(sharedPreferences.getString("popup_ringtone", String.valueOf(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM))));
-        Log.i("tone", toneUri.toString());
+        sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
-        r=RingtoneManager.getRingtone(this, toneUri);
-        r.setStreamType(AudioManager.STREAM_ALARM);
-        r.play();
+        AudioManager audioManager = (AudioManager)getSystemService(Context.AUDIO_SERVICE);
+
+        if(audioManager.getRingerMode() == AudioManager.MODE_NORMAL) {
+            if (!sharedPreferences.getString("popup_ringtone", "").isEmpty()) {
+                toneUri = Uri.parse(sharedPreferences.getString("popup_ringtone", ""));
+            } else {
+                toneUri = Settings.System.DEFAULT_ALARM_ALERT_URI;
+            }
+            r = RingtoneManager.getRingtone(this, toneUri);
+            r.play();
+        }
 
         medicineList = new ArrayList<>();
 
-        medicineList=getIntent().getExtras().getParcelableArrayList(Constants.MEDICINE_NAME_LIST);
+        medicineList = getIntent().getExtras().getParcelableArrayList(Constants.MEDICINE_NAME_LIST);
 
-        notificationId=getIntent().getIntExtra("NotificationId",0);
-
-        if(r==null || !r.isPlaying())
-        {
-            TextView stopr=(TextView)findViewById(R.id.stopr);
-            ((RelativeLayout)findViewById(R.id.full_base)).removeView(stopr);
+        if (r == null || !r.isPlaying()) {
+            TextView stopr = (TextView) findViewById(R.id.stopr);
+            ((RelativeLayout) findViewById(R.id.full_base)).removeView(stopr);
         }
 
-        base=(RelativeLayout)findViewById(R.id.full_base);
+        base = (RelativeLayout) findViewById(R.id.full_base);
 
 
-        WallpaperManager wallpaperManager=WallpaperManager.getInstance(this);
-        Drawable screenWallpaper=wallpaperManager.getDrawable();
-        BitmapDrawable bitmapDrawable=(BitmapDrawable)screenWallpaper;
-        Bitmap wallpaperBitmap=Bitmap.createBitmap(bitmapDrawable.getBitmap());
+        WallpaperManager wallpaperManager = WallpaperManager.getInstance(this);
+        Drawable screenWallpaper = wallpaperManager.getDrawable();
+        BitmapDrawable bitmapDrawable = (BitmapDrawable) screenWallpaper;
+        Bitmap wallpaperBitmap = Bitmap.createBitmap(bitmapDrawable.getBitmap());
 
-        RenderScript rs=RenderScript.create(this);
-        Allocation input=Allocation.createFromBitmap(rs, wallpaperBitmap, Allocation.MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT);
-        Allocation output=Allocation.createTyped(rs, input.getType());
-        if(Build.VERSION.SDK_INT>=17) {
+        RenderScript rs = RenderScript.create(this);
+        Allocation input = Allocation.createFromBitmap(rs, wallpaperBitmap, Allocation.MipmapControl.MIPMAP_NONE, Allocation.USAGE_SCRIPT);
+        Allocation output = Allocation.createTyped(rs, input.getType());
+        if (Build.VERSION.SDK_INT >= 17) {
             ScriptIntrinsicBlur intrinsicBlur = ScriptIntrinsicBlur.create(rs, Element.U8_4(rs));
             intrinsicBlur.setRadius(20.f);
             intrinsicBlur.setInput(input);
@@ -114,10 +114,10 @@ public class FullScreenLockScreen extends AppCompatActivity {
             output.copyTo(wallpaperBitmap);
         }
 
-        Drawable drawable=new BitmapDrawable(getResources(),wallpaperBitmap);
+        Drawable drawable = new BitmapDrawable(getResources(), wallpaperBitmap);
         base.setBackgroundDrawable(drawable);
 
-        mute=(MaterialRippleLayout)findViewById(R.id.mute);
+        mute = (MaterialRippleLayout) findViewById(R.id.mute);
         mute.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -125,7 +125,7 @@ public class FullScreenLockScreen extends AppCompatActivity {
             }
         });
 
-        snooze=(MaterialRippleLayout)findViewById(R.id.snooze);
+        snooze = (MaterialRippleLayout) findViewById(R.id.snooze);
         snooze.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -133,7 +133,7 @@ public class FullScreenLockScreen extends AppCompatActivity {
             }
         });
 
-        done=(MaterialRippleLayout)findViewById(R.id.done);
+        done = (MaterialRippleLayout) findViewById(R.id.done);
         done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -141,28 +141,28 @@ public class FullScreenLockScreen extends AppCompatActivity {
             }
         });
 
-        medicineListView=(RecyclerView)findViewById(R.id.medicineList);
-        RecyclerView.LayoutManager layoutManager=new LinearLayoutManager(this);
+        medicineListView = (RecyclerView) findViewById(R.id.medicineList);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         medicineListView.setHasFixedSize(true);
         medicineListView.setLayoutManager(layoutManager);
-        MedicineListAdapter listAdapter=new MedicineListAdapter(this, medicineList);
+        MedicineListAdapter listAdapter = new MedicineListAdapter(this, medicineList);
         medicineListView.setAdapter(listAdapter);
 
     }
 
-    class MedicineListAdapter extends architect.jazzy.medicinereminder.Adapters.MedicineListAdapter{
+    class MedicineListAdapter extends architect.jazzy.medicinereminder.Adapters.MedicineListAdapter {
 
         Context context;
 
         public MedicineListAdapter(Context context, ArrayList<Medicine> medicines) {
             super(context, medicines);
-            this.context=context;
+            this.context = context;
         }
 
         @Override
         public architect.jazzy.medicinereminder.Adapters.MedicineListAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            LayoutInflater inflater=(LayoutInflater)context.getSystemService(LAYOUT_INFLATER_SERVICE);
-            View v=inflater.inflate(R.layout.listitem_lock_screen,parent,false);
+            LayoutInflater inflater = (LayoutInflater) context.getSystemService(LAYOUT_INFLATER_SERVICE);
+            View v = inflater.inflate(R.layout.listitem_lock_screen, parent, false);
             return new ViewHolder(v);
         }
     }
@@ -171,24 +171,17 @@ public class FullScreenLockScreen extends AppCompatActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
 
-        if(keyCode==KeyEvent.KEYCODE_VOLUME_UP || keyCode==KeyEvent.KEYCODE_VOLUME_DOWN || keyCode==KeyEvent.KEYCODE_VOLUME_MUTE)
-        {
-            if(r!=null && r.isPlaying())
+        if (keyCode == KeyEvent.KEYCODE_VOLUME_UP || keyCode == KeyEvent.KEYCODE_VOLUME_DOWN || keyCode == KeyEvent.KEYCODE_VOLUME_MUTE) {
+            if (r != null && r.isPlaying())
                 r.stop();
             return true;
         }
-        return super.onKeyDown(keyCode,event);
+        return super.onKeyDown(keyCode, event);
     }
 
     @Override
     protected void onDestroy() {
-        if(player!=null)
-        {
-            player.stop();
-            player.release();
-            player=null;
-        }
-        if(r!=null && r.isPlaying())
+        if (r != null && r.isPlaying())
             r.stop();
         super.onDestroy();
     }
@@ -199,48 +192,29 @@ public class FullScreenLockScreen extends AppCompatActivity {
         super.onBackPressed();
     }
 
-    public void stopTone(View v)
-    {
+    public void stopTone(View v) {
 
-        if(r!=null && r.isPlaying())
+        if (r != null && r.isPlaying())
             r.stop();
-        if(player!=null)
-        {
-            player.stop();
-            player.release();
-            player=null;
-        }
     }
 
-    public void snoozeFull(View v)
-    {
-        if(player!=null) {
-            player.stop();
-            player.release();
-            player = null;
-        }
+    public void snoozeFull(View v) {
         stopTone(v);
-        AlarmManager alarmManager=(AlarmManager)getSystemService(Context.ALARM_SERVICE);
-        Intent i=new Intent(this, AlarmReceiver.class);
-        Bundle bundle=new Bundle();
-        bundle.putParcelableArrayList(Constants.MEDICINE_NAME_LIST,medicineList);
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent i = new Intent(this, AlarmReceiver.class);
+        Bundle bundle = new Bundle();
+        bundle.putParcelableArrayList(Constants.MEDICINE_NAME_LIST, medicineList);
         i.putExtras(bundle);
-        PendingIntent alarmservice=PendingIntent.getBroadcast(getApplicationContext(),12531,i,PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent alarmservice = PendingIntent.getBroadcast(getApplicationContext(), 12531, i, PendingIntent.FLAG_UPDATE_CURRENT);
         alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + 10 * 60 * 1000, alarmservice);
         Toast.makeText(getBaseContext(), "Alarm snoozed for 10 minutes", Toast.LENGTH_SHORT).show();
         finish();
     }
 
-    public void doneFull(View v)
-    {
-        if(player!=null) {
-            player.stop();
-            player.release();
-            player = null;
-        }
+    public void doneFull(View v) {
         stopTone(v);
-        NotificationManager notificationManager=(NotificationManager)getSystemService(NOTIFICATION_SERVICE);
-        notificationManager.cancel(notificationId);
+        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        notificationManager.cancel(AlarmReceiver.NOTIFICATION_TAG, AlarmReceiver.NOTIFICATION_ID);
         finish();
     }
 

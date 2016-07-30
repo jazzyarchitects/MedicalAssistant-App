@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -48,6 +49,8 @@ public class AlarmSetterService extends IntentService {
     @Override
     protected void onHandleIntent(Intent intent) {
 
+        //Log.e(TAG, "Setting alarm at: "+System.currentTimeMillis());
+
         inputPref = getSharedPreferences("TimePrefs", MODE_PRIVATE);
         medTimes = MedTime.getDefaultTimes(this);
 
@@ -67,7 +70,7 @@ public class AlarmSetterService extends IntentService {
             PendingIntent pi = PendingIntent.getBroadcast(this, CUSTOM_ALARM_START_CODE + i1, i, PendingIntent.FLAG_CANCEL_CURRENT);
             alarmManager.cancel(pi);
         }
-        getSharedPreferences(Constants.INTERNAL_PREF, MODE_PRIVATE).edit().putInt(Constants.CUSTOM_TIME__ALARM_ID_LAST, 1);
+        getSharedPreferences(Constants.INTERNAL_PREF, MODE_PRIVATE).edit().putInt(Constants.CUSTOM_TIME__ALARM_ID_LAST, 1).apply();
 
         setAlarms();
 
@@ -126,19 +129,19 @@ public class AlarmSetterService extends IntentService {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 2; j++) {
                 if (dailySlots[i][j] == null) {
-//                    Log.e(TAG,"DailySlot["+i+"]["+j+"] is null");
+                    //Log.e(TAG,"DailySlot["+i+"]["+j+"] is null");
                     continue;
                 }
                 if (dailySlots[i][j].isEmpty()) {
-//                    Log.e(TAG,"DailySlot["+i+"]["+j+"] is empty");
+                    //Log.e(TAG,"DailySlot["+i+"]["+j+"] is empty");
                     continue;
                 }
                 if (MedTime.hasPassed(medTimes[i][j])) {
-//                    Log.e(TAG,"DailySlot["+i+"]["+j+"] is has passed time "+medTimes[i][j].getJSON());
+                    //Log.e(TAG,"DailySlot["+i+"]["+j+"] is has passed time "+medTimes[i][j].getJSON());
                     continue;
                 }
 //
-// Log.e(TAG, "Setting alarm: " + medicines.toString());
+                //Log.e(TAG, "Setting alarm: " + medicines.toString());
                 AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
                 Intent alarmIntent = new Intent(this, AlarmReceiver.class);
                 Bundle bundle = new Bundle();
@@ -146,9 +149,9 @@ public class AlarmSetterService extends IntentService {
                 alarmIntent.putExtras(bundle);
                 PendingIntent alarmPendingIntent = PendingIntent.getBroadcast(this, ALARM_REQUEST_CODE[i][j], alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
                 Calendar alarmCalendar = getCalendar(medTimes[i][j]);
-//                    Log.e(TAG, "Alarm Setting for: " + alarmCalendar.toString());
+                    //Log.e(TAG, "Alarm Setting for: " + alarmCalendar.toString());
                 Long timeMillis = (alarmCalendar.getTimeInMillis() - System.currentTimeMillis()) / 1000;
-//                Log.e(TAG,"Time Left: "+timeMillis/3600 +" "+timeMillis/60+" ");
+                //Log.e(TAG,"Time Left: "+timeMillis/3600 +" "+timeMillis/60+" ");
                 alarmManager.set(AlarmManager.RTC_WAKEUP, alarmCalendar.getTimeInMillis(), alarmPendingIntent);
 
             }
@@ -157,8 +160,10 @@ public class AlarmSetterService extends IntentService {
 
         int count = 0;
         for (Medicine medicine : medicines) {
+            //Log.e(TAG, "Custom time alarm: "+medicine.toJSON());
             if (medicine.getCustomTime() != null) {
                 if (medicine.getCustomTime().hasPassed()) {
+                    //Log.e(TAG, "Custom time has passed: "+medicine.getCustomTime().toString(false));
                     continue;
                 }
                 count++;
@@ -169,8 +174,12 @@ public class AlarmSetterService extends IntentService {
                 tempMed.add(medicine);
                 bundle.putParcelableArrayList(Constants.MEDICINE_NAME_LIST, tempMed);
                 i.putExtras(bundle);
+                //Log.e(TAG, "Custom alarm set for: "+medicine.toJSON());
                 PendingIntent pendingIntent = PendingIntent.getBroadcast(this, CUSTOM_ALARM_START_CODE + count, i, PendingIntent.FLAG_UPDATE_CURRENT);
                 Calendar alarmCalendar = getCalendar(medicine.getCustomTime());
+                //Log.e(TAG, "Time: "+medicine.getCustomTime().getHour()+":"+medicine.getCustomTime().getMinute()+"   ---  "+medicine.getCustomTime().toString(true));
+                //Log.e(TAG, "Calendar: "+alarmCalendar.toString()+"\n"+Calendar.getInstance().toString());
+                //Log.e(TAG, "Time left: "+(alarmCalendar.getTimeInMillis()-(Calendar.getInstance()).getTimeInMillis()));
                 alarmManager.set(AlarmManager.RTC_WAKEUP, alarmCalendar.getTimeInMillis(), pendingIntent);
             }
         }
@@ -182,12 +191,13 @@ public class AlarmSetterService extends IntentService {
     private Calendar getCalendar(MedTime medTime) {
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.HOUR_OF_DAY, medTime.getHour());
-        calendar.set(Calendar.HOUR, medTime.getHour());
+        calendar.set(Calendar.HOUR, medTime.getHour()>12?medTime.getHour()-12:medTime.getHour());
+        calendar.set(Calendar.AM_PM, medTime.getHour()/12);
         calendar.set(Calendar.MINUTE, medTime.getMinute());
         calendar.set(Calendar.SECOND, 0);
         calendar.set(Calendar.MILLISECOND, 0);
         calendar.set(Calendar.DATE, Calendar.getInstance().get(Calendar.DATE));
-//        Log.e(TAG,"Returning calendar: "+calendar.toString());
+//        //Log.e(TAG,"Returning calendar: "+calendar.toString());
         return calendar;
     }
 

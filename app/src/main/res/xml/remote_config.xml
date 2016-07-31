@@ -32,4 +32,8 @@
         <key>dev_remedy_enabled</key>
         <value>true</value>
     </entry>
+    <entry>
+        <key>show_dashboard_interstitial</key>
+        <value>true</value>
+    </entry>
 </defaultsMap>

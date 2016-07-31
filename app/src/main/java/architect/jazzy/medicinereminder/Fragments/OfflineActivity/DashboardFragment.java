@@ -2,6 +2,7 @@ package architect.jazzy.medicinereminder.Fragments.OfflineActivity;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
@@ -61,6 +62,9 @@ public class DashboardFragment extends Fragment {
     public static final int ADD_MEDICINE_FAB_ID = 218;
     MedTime[][] medTimes = new MedTime[3][2];
 
+    public static final int ADD_DOCTOR_ID = 789655;
+    public static final int SEARCH_ID = 968974;
+
     public DashboardFragment() {
         // Required empty public constructor
     }
@@ -111,35 +115,35 @@ public class DashboardFragment extends Fragment {
         circleSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onFragmentInteractionListener.showSearch();
+                onFragmentInteractionListener.performNavAction(DashboardFragment.SEARCH_ID);
             }
         });
 
         circleAddMedicine.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onFragmentInteractionListener.addMedicine();
+                onFragmentInteractionListener.performNavAction(DashboardFragment.ADD_DOCTOR_ID);
             }
         });
 
         circleMedicineList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onFragmentInteractionListener.showMedicineList();
+                onFragmentInteractionListener.performNavAction(R.id.showMedicineList);
             }
         });
 
         circleDoctorList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onFragmentInteractionListener.showDoctors();
+                onFragmentInteractionListener.performNavAction(R.id.addDoctor);
             }
         });
 
         circleNews.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onFragmentInteractionListener.showNews();
+                onFragmentInteractionListener.performNavAction(R.id.news);
             }
         });
 
@@ -163,7 +167,6 @@ public class DashboardFragment extends Fragment {
 
         try {
             ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
-//            ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Dashboard");
         } catch (NullPointerException e) {
             e.printStackTrace();
         }
@@ -197,18 +200,18 @@ public class DashboardFragment extends Fragment {
             i++;
         }
 
-        initialize();
+//        initialize();
     }
 
-    void initialize() {
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.e(TAG, "fab add onclick");
-                addNewItems();
-            }
-        });
-    }
+//    void initialize() {
+//        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Log.e(TAG, "fab add onclick");
+//                addNewItems();
+//            }
+//        });
+//    }
 
     int getRandomDrawableIndex() {
         Random random = new Random();
@@ -244,64 +247,64 @@ public class DashboardFragment extends Fragment {
         return Pair.create(medicine, s);
     }
 
-    void addNewItems() {
-        if (isMenuOpen) {
-            return;
-        }
-        isMenuOpen = true;
-        Log.e(TAG, "fab doc creating");
-        FloatingActionButton addDocFab = new FloatingActionButton(getActivity());
-        addDocFab.setImageResource(R.drawable.ic_action_user);
-        addDocFab.setClickable(true);
-        addDocFab.setBackgroundTintList(new ColorStateList(new int[][]{new int[]{0}}, new int[]{getResources().getColor(R.color.actionBackground)}));
-        addDocFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.e(TAG, "fab add doctor onclick");
-                onFragmentInteractionListener.addDoctor();
-            }
-        });
-        RelativeLayout.LayoutParams docFabLayoutParams = new RelativeLayout.LayoutParams((int) getResources().getDimension(R.dimen.floatingActionButtonSize), (int) getResources().getDimension(R.dimen.floatingActionButtonSize));
-
-        int bottom = 10 + (int) getResources().getDimension(R.dimen.floatingActionButtonSize) + 10 + 10;
-        docFabLayoutParams.setMargins(10, 10, 10, bottom);
-        docFabLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-        docFabLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-        addDocFab.setLayoutParams(docFabLayoutParams);
-
-
-        FloatingActionButton addMedFab = new FloatingActionButton(getActivity());
-        try {
-            Drawable drawable = getResources().getDrawable(R.drawable.ic_action_pill).mutate();
-            drawable.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
-            addMedFab.setImageDrawable(drawable);
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
-        relativeLayout.addView(addDocFab);
-        addMedFab.setClickable(true);
-        addMedFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onFragmentInteractionListener.addMedicine();
-            }
-        });
-        addMedFab.setBackgroundTintList(new ColorStateList(new int[][]{new int[]{0}}, new int[]{getResources().getColor(R.color.color_death)}));
-        RelativeLayout.LayoutParams addMedLayoutParams = new RelativeLayout.LayoutParams((int) getResources().getDimension(R.dimen.floatingActionButtonSize), (int) getResources().getDimension(R.dimen.floatingActionButtonSize));
-        addMedLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-        addMedLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-        bottom *= 2;
-        bottom -= 10;
-        addMedLayoutParams.setMargins(10, 10, 10, bottom);
-        addMedFab.setLayoutParams(addMedLayoutParams);
-
-
-        relativeLayout.addView(addMedFab);
-
-        addDocFab.startAnimation(getShowAnimation(true));
-        addMedFab.startAnimation(getShowAnimation(false));
-
-    }
+//    void addNewItems() {
+//        if (isMenuOpen) {
+//            return;
+//        }
+//        isMenuOpen = true;
+//        Log.e(TAG, "fab doc creating");
+//        FloatingActionButton addDocFab = new FloatingActionButton(getActivity());
+//        addDocFab.setImageResource(R.drawable.ic_action_user);
+//        addDocFab.setClickable(true);
+//        addDocFab.setBackgroundTintList(new ColorStateList(new int[][]{new int[]{0}}, new int[]{getResources().getColor(R.color.actionBackground)}));
+//        addDocFab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Log.e(TAG, "fab add doctor onclick");
+//                onFragmentInteractionListener.addDoctor();
+//            }
+//        });
+//        RelativeLayout.LayoutParams docFabLayoutParams = new RelativeLayout.LayoutParams((int) getResources().getDimension(R.dimen.floatingActionButtonSize), (int) getResources().getDimension(R.dimen.floatingActionButtonSize));
+//
+//        int bottom = 10 + (int) getResources().getDimension(R.dimen.floatingActionButtonSize) + 10 + 10;
+//        docFabLayoutParams.setMargins(10, 10, 10, bottom);
+//        docFabLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+//        docFabLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+//        addDocFab.setLayoutParams(docFabLayoutParams);
+//
+//
+//        FloatingActionButton addMedFab = new FloatingActionButton(getActivity());
+//        try {
+//            Drawable drawable = getResources().getDrawable(R.drawable.ic_action_pill).mutate();
+//            drawable.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
+//            addMedFab.setImageDrawable(drawable);
+//        } catch (NullPointerException e) {
+//            e.printStackTrace();
+//        }
+//        relativeLayout.addView(addDocFab);
+//        addMedFab.setClickable(true);
+//        addMedFab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                onFragmentInteractionListener.addMedicine();
+//            }
+//        });
+//        addMedFab.setBackgroundTintList(new ColorStateList(new int[][]{new int[]{0}}, new int[]{getResources().getColor(R.color.color_death)}));
+//        RelativeLayout.LayoutParams addMedLayoutParams = new RelativeLayout.LayoutParams((int) getResources().getDimension(R.dimen.floatingActionButtonSize), (int) getResources().getDimension(R.dimen.floatingActionButtonSize));
+//        addMedLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+//        addMedLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
+//        bottom *= 2;
+//        bottom -= 10;
+//        addMedLayoutParams.setMargins(10, 10, 10, bottom);
+//        addMedFab.setLayoutParams(addMedLayoutParams);
+//
+//
+//        relativeLayout.addView(addMedFab);
+//
+//        addDocFab.startAnimation(getShowAnimation(true));
+//        addMedFab.startAnimation(getShowAnimation(false));
+//
+//    }
 
     private Animation getShowAnimation(boolean isFirst) {
         Log.e(TAG, "fab getting animation");
@@ -319,23 +322,13 @@ public class DashboardFragment extends Fragment {
     OnFragmentInteractionListener onFragmentInteractionListener;
 
     public interface OnFragmentInteractionListener {
-        void addMedicine();
-
-        void showMedicineList();
-
-        void showDoctors();
-
-        void showNews();
-
-        void showSearch();
-
-        void addDoctor();
+        void performNavAction(int menuId);
     }
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        onFragmentInteractionListener = (OnFragmentInteractionListener) activity;
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        onFragmentInteractionListener = (OnFragmentInteractionListener) context;
     }
 
     private MedTime getBreakfastTime(String beforeOrAfter) {

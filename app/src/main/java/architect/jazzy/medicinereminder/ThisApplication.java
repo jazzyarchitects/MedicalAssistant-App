@@ -5,6 +5,8 @@ import android.content.Context;
 
 import com.google.android.gms.ads.MobileAds;
 
+import architect.jazzy.medicinereminder.HelperClasses.FirebaseConstants;
+
 /**
  * Created by Jibin_ism on 30-Dec-14.
  */
@@ -25,8 +27,8 @@ public class ThisApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        //TODO: Change publisher id
-        MobileAds.initialize(getApplicationContext(), "ca-app-pub-3940256099942544~3347511713");
+        MobileAds.initialize(getApplicationContext(), FirebaseConstants.Ads.APP_ID);
+
         exceptionHandler=Thread.getDefaultUncaughtExceptionHandler();
         Thread.setDefaultUncaughtExceptionHandler(uncaughtExceptionHandler);
     }

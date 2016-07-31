@@ -45,7 +45,7 @@
                 android:id="@+id/textInput2"
                 android:layout_height="50dp">
 
-                <EditText
+                <android.support.design.widget.TextInputEditText
                     android:id="@+id/medNotes"
                     style="@style/SignInEditText.Notes"
                     android:layout_width="match_parent"
@@ -258,7 +258,7 @@
                     android:layout_marginLeft="5dp"
                     android:layout_marginStart="5dp"
                     android:layout_weight="7">
-                    <EditText
+                    <android.support.design.widget.TextInputEditText
                         android:id="@+id/endDate"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"

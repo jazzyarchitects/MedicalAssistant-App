@@ -35,6 +35,8 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdListener;
+import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.InterstitialAd;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -97,10 +99,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     EditText searchQuery;
     NavigationView navigationView;
     Toolbar toolbar;
-    private InterstitialAd interstitialAd;
-    FirebaseAnalytics firebaseAnalytics;
     FirebaseRemoteConfig mFirebaseRemoteConfig;
     SharedPreferences firebasePrefs;
+
+    private InterstitialAd interstitialAd;
+    public static boolean shouldShowInterstitial = true;
+    private int moveToFragmentId = R.id.circularTest;
+    private AdRequest adRequest;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -126,15 +131,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         frameLayout = (FrameLayout) findViewById(R.id.frame);
 
         //Refresh Alarms on different thread to speedup process
-        Thread alarmStartThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Intent startAlarmServiceIntent = new Intent(MainActivity.this, AlarmSetterService.class);
-                startAlarmServiceIntent.setAction("CREATE");
-                startService(startAlarmServiceIntent);
-            }
-        });
-        alarmStartThread.start();
+        setAlarm(this);
 
         //View setup
         navigationView = (NavigationView) findViewById(R.id.navigationView);
@@ -191,6 +188,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 }
             }
         }
+
+        shouldShowInterstitial = firebasePrefs.getBoolean(FirebaseConstants.RemoteConfig.AD_DASHBOARD_INTERSTITIAL_ENABLED, false);
+        interstitialAd = new InterstitialAd(this);
+        interstitialAd.setAdUnitId(FirebaseConstants.Ads.DASHBOARD_INTERSTITIAL);
+        AdRequest.Builder adRequestBuilder = new AdRequest.Builder();
+        if(BuildConfig.DEBUG){
+            adRequestBuilder.addTestDevice("5C8BFD2BD4F4C415F7456E231E186EE5");
+        }
+        adRequest = adRequestBuilder.build();
+        if(shouldShowInterstitial) {
+            interstitialAd.loadAd(adRequest);
+        }
+        interstitialAd.setAdListener(new AdListener() {
+            @Override
+            public void onAdClosed() {
+                moveToFragment();
+            }
+        });
+
         mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
         FirebaseRemoteConfigSettings configSettings = new FirebaseRemoteConfigSettings.Builder()
                 .setDeveloperModeEnabled(BuildConfig.DEBUG)
@@ -248,17 +264,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 .putBoolean(FirebaseConstants.RemoteConfig.REMEDY_VOTE_ENABLED, mFirebaseRemoteConfig.getBoolean(FirebaseConstants.RemoteConfig.ServerKeys.VOTE_ENABLED))
                 .putBoolean(FirebaseConstants.RemoteConfig.REMEDY_COMMENT_ENABLED, mFirebaseRemoteConfig.getBoolean(FirebaseConstants.RemoteConfig.ServerKeys.COMMENT_ENABLED))
                 .putBoolean(FirebaseConstants.RemoteConfig.REMEDY_ENABLED, mFirebaseRemoteConfig.getBoolean(FirebaseConstants.RemoteConfig.ServerKeys.REMEDY_ENABLED))
+                .putBoolean(FirebaseConstants.RemoteConfig.AD_DASHBOARD_INTERSTITIAL_ENABLED, mFirebaseRemoteConfig.getBoolean(FirebaseConstants.RemoteConfig.ServerKeys.DASHBOARD_INTERSTITIAL_ENABLED))
                 .apply();
+
+        shouldShowInterstitial = firebasePrefs.getBoolean(FirebaseConstants.RemoteConfig.AD_DASHBOARD_INTERSTITIAL_ENABLED, false);
+        if(shouldShowInterstitial){
+            interstitialAd.loadAd(adRequest);
+        }
+
         Menu menu = navigationView.getMenu();
         menu.getItem(0).setVisible(firebasePrefs.getBoolean(FirebaseConstants.RemoteConfig.REMEDY_ENABLED, BuildConfig.DEBUG));
         menu.getItem(6).setVisible(firebasePrefs.getBoolean(FirebaseConstants.RemoteConfig.USER_LOGIN_ENABLED, BuildConfig.DEBUG));
         menu.getItem(5).setVisible(!firebasePrefs.getBoolean(FirebaseConstants.RemoteConfig.USER_LOGIN_ENABLED, BuildConfig.DEBUG));
-    }
-
-
-    private void testCalendar() {
-        Calendar calendar = Calendar.getInstance();
-        Log.e(TAG, "Calendar Test: " + calendar.toString());
     }
 
     int uiOptions;
@@ -286,14 +303,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         });
     }
 
-
-    public void displayInterstitial() {
-        if (interstitialAd.isLoaded()) {
-            interstitialAd.show();
-        }
-
-    }
-
     private void performSearch(String s) {
         displayFragment(SearchFragment.initiate(s), true);
         drawerLayout.closeDrawers();
@@ -316,11 +325,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     super.onBackPressed();
                     return;
                 }
-//                Log.e(TAG,"popping support fragment: "+fragment1.toString());
                 displaySupportFragment(fragment1, false);
                 return;
             }
-//            Log.e(TAG,"popping fragment");
             displayFragment(fragment, false);
         } else {
             super.onBackPressed();
@@ -344,21 +351,22 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 .putBoolean(Constants.SEARCH_RESULT, false)
                 .apply();
 
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                File folder = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/tmpMR");
-                File file = new File(folder, Constants.SEARCH_FILE_NAME);
-                if (file.exists()) {
-                    try {
-                        file.delete();
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        });
-        thread.start();
+        //Delete Search Cache
+//        Thread thread = new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                File folder = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/tmpMR");
+//                File file = new File(folder, Constants.SEARCH_FILE_NAME);
+//                if (file.exists()) {
+//                    try {
+//                        file.delete();
+//                    } catch (Exception e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            }
+//        });
+//        thread.start();
 
     }
 
@@ -366,6 +374,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public boolean onNavigationItemSelected(MenuItem menuItem) {
         int id = menuItem.getItemId();
 
+        menuItem.setChecked(true);
+        drawerLayout.closeDrawers();
+        moveToFragmentId = id;
+
+        if(moveToFragmentId != R.id.action_settings){
+            Log.e(TAG, "Not moving to settings");
+            if(shouldShowInterstitial && interstitialAd.isLoaded()){
+                Log.e(TAG, "Showing ads");
+                interstitialAd.show();
+                return false;
+            }
+        }
+        moveToFragment();
+
+        return false;
+    }
+
+    void moveToFragment(){
+        shouldShowInterstitial = false;
         Fragment fragment = null;
         android.support.v4.app.Fragment supportFragment = null;
         try {
@@ -373,13 +400,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } catch (Exception e) {
             supportFragment = getSupportFragmentManager().findFragmentById(R.id.frame);
         }
-        menuItem.setChecked(true);
-        drawerLayout.closeDrawers();
-        switch (id) {
+        switch (moveToFragmentId) {
             case R.id.showMedicineList:
                 if (!(fragment instanceof MedicineListFragment)) {
                     FirebaseConstants.Analytics.logCurrentScreen(this, "MedicineList");
-                    showMedicines();
+                    displayFragment(new MedicineListFragment(), true);
                 }
                 break;
             case R.id.myAccount:
@@ -415,30 +440,43 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     displayFragment(new DashboardFragment(), true);
                 }
                 break;
+            case DashboardFragment.ADD_DOCTOR_ID:
+                if(!(fragment instanceof AddDoctorFragment)){
+                    FirebaseConstants.Analytics.logCurrentScreen(this, "Add Doctor");
+                    displayFragment(new AddDoctorFragment(), true);
+                }
+                break;
+            case DashboardFragment.SEARCH_ID:
+                if(!(fragment instanceof SearchFragment)){
+                    FirebaseConstants.Analytics.logCurrentScreen(this, "Search");
+                    displayFragment(new SearchFragment(), true);
+                }
             default:
                 break;
         }
-        drawerLayout.closeDrawers();
-        return false;
     }
 
+    @Override
+    public void performNavAction(int menuId) {
+        moveToFragmentId = menuId;
+        if(moveToFragmentId != R.id.action_settings){
+            Log.e(TAG, "Performing nav action: "+shouldShowInterstitial);
+            if(shouldShowInterstitial && interstitialAd.isLoaded()){
+                interstitialAd.show();
+                return;
+            }
+        }
+        moveToFragment();
+    }
 
     void showSettings() {
-//        Intent prefIntent = new Intent(this, BasicPreferences.class);
-//        startActivity(prefIntent);
         displayFragment(new SettingsFragment(), true);
-    }
-
-    void showMedicines() {
-        Fragment fragment = new MedicineListFragment();
-        displayFragment(fragment, true);
     }
 
 
     void addMedicineToView(boolean add) {
         Fragment fragment = new AddMedicineFragment();
         displayFragment(fragment, add);
-
     }
 
     public void displayFragment(Fragment fragment) {
@@ -501,9 +539,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             e.printStackTrace();
         }
 
-
-//        Log.e(TAG,"display Support fragment: "+fragment.toString());
-
         android.support.v4.app.FragmentManager fragmentManager = getSupportFragmentManager();
         android.support.v4.app.FragmentTransaction transaction = fragmentManager.beginTransaction();
 //        transaction.setCustomAnimations(enterAnim,exitAnim);
@@ -515,12 +550,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
 
-    public static void setAlarm(Context context) {
-        Intent startAlarmServiceIntent = new Intent(context, AlarmSetterService.class);
-//        startAlarmServiceIntent.setAction("CANCEL");
-//        context.startService(startAlarmServiceIntent);
-        startAlarmServiceIntent.setAction("CREATE");
-        context.startService(startAlarmServiceIntent);
+    public static void setAlarm(final Context context) {
+        Thread alarmStartThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Intent startAlarmServiceIntent = new Intent(context, AlarmSetterService.class);
+                startAlarmServiceIntent.setAction("CREATE");
+                context.startService(startAlarmServiceIntent);
+            }
+        });
+        alarmStartThread.start();
     }
 
 
@@ -552,12 +591,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void addMedicine() {
         addMedicineToView(true);
     }
-
-    @Override
-    public void showMedicineList() {
-        displayFragment(new MedicineListFragment(), true);
-    }
-
 
     @Override
     public void onAddDoctorClicked() {
@@ -593,16 +626,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     @Override
-    public void showNews() {
-        displayFragment(new NewsListFragment(), true);
-    }
-
-    @Override
-    public void showSearch() {
-        displayFragment(new SearchFragment(), true);
-    }
-
-    @Override
     public void showDetails(int position, ArrayList<Medicine> medicines) {
         Intent i = new Intent(this, MedicineDetails.class);
         Bundle bundle = new Bundle();
@@ -616,7 +639,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void onFeedClick(FeedItem item) {
         showFeed(item.getUrl());
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

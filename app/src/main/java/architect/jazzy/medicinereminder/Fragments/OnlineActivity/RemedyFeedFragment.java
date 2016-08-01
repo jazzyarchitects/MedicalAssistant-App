@@ -27,6 +27,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 import architect.jazzy.medicinereminder.CustomViews.GraduallyTextView;
@@ -162,25 +163,22 @@ public class RemedyFeedFragment extends Fragment {
         ArrayList<Remedy> remedies;
         int TYPE_NO_IMAGE = 0;
         int TYPE_IMAGE = 1;
+        ArrayList<Integer> images = new ArrayList<>();
 
 
         public RemedyFeedListAdapter(Context context, ArrayList<Remedy> remedies) {
             this.mContext = context;
             this.remedies = remedies;
+            images = new ArrayList<>(Constants.backgroundImages);
         }
 
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-//            int layoutId=R.layout.recycler_item_remedyfeed_no_image;
-//            if(viewType==TYPE_IMAGE){
-//                layoutId=R.layout.recycler_item_remedyfeed;
-//            }
             View view = inflater.inflate(R.layout.recycler_item_remedyfeed, parent, false);
             return new ViewHolder(view);
         }
 
-//        int selectionColor = getResources().getColor(R.color.buttonVoted);
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
             final Remedy remedy = remedies.get(position);
@@ -188,14 +186,20 @@ public class RemedyFeedFragment extends Fragment {
             holder.description.setText(Html.fromHtml(remedy.getDescription()).toString());
 //            holder.diseases.setText(Html.fromHtml(remedy.getDiseasesString()));
 
-            final int random = remedy.getImageIndex()<0?(new Random()).nextInt(Constants.backgroundImages.length):remedy.getImageIndex();
+            if(images==null || images.isEmpty()){
+                images = new ArrayList<>(Constants.backgroundImages);
+            }
+            final int random = remedy.getImageIndex()<0?(new Random()).nextInt(images.size()):remedy.getImageIndex();
+            final int imageIndex = Constants.backgroundImages.indexOf(images.get(random));
+
+            Log.e(TAG, "Random: "+random+", Image: "+images.get(random)+"\nimageIndex: "+imageIndex+", Image: "+Constants.backgroundImages.get(imageIndex));
 
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(mContext, RemedyDetailsAcitvity.class);
                     intent.putExtra("remedy", remedy);
-                    intent.putExtra("image", random);
+                    intent.putExtra("image", imageIndex);
                     startActivityForResult(intent, REMEDY_DETAIL_CODE);
                 }
             });
@@ -205,30 +209,16 @@ public class RemedyFeedFragment extends Fragment {
                 public void onClick(View view) {
                     Intent intent = new Intent(mContext, RemedyDetailsAcitvity.class);
                     intent.putExtra("remedy", remedy);
-                    intent.putExtra("image", random);
+                    intent.putExtra("image", imageIndex);
                     startActivityForResult(intent, REMEDY_DETAIL_CODE);
                 }
             });
 
-
-            //--------------------------------------------------------------------------------------------------------
-//            final Drawable upvoteDrawable = getResources().getDrawable(R.drawable.ic_action_like).mutate();
-//            final Drawable downvoteDrawable = getResources().getDrawable(R.drawable.ic_action_dontlike).mutate();
-//            if (isUserLoggedIn) {
-//                if (remedy.isUpvoted()) {
-//                    upvoteDrawable.setColorFilter(selectionColor, PorterDuff.Mode.SRC_ATOP);
-//                }
-//                if (remedy.isDownvoted()) {
-//                    downvoteDrawable.setColorFilter(selectionColor, PorterDuff.Mode.SRC_ATOP);
-//                }
-//            }
-//            holder.bookmark.setChecked(remedy.isBookmarked());
-//            holder.upVoteButton.setImageDrawable(upvoteDrawable);
-//            holder.downVoteButton.setImageDrawable(downvoteDrawable);
-            //---------------------------------------------------------------------------------------------------------
-
-            remedies.get(position).setImageIndex(random);
-            holder.background.setImageResource(Constants.backgroundImages[random]);
+            remedies.get(position).setImageIndex(imageIndex);
+            holder.background.setImageResource(Constants.backgroundImages.get(imageIndex));
+            images.remove(random);
+            Log.e(TAG, "Images size: "+images.size());
+            Log.e(TAG, "BackgroundImages size: "+Constants.backgroundImages.size());
 
         }
 

@@ -129,8 +129,8 @@ public class RemedyDetailsAcitvity extends AppCompatActivity {
         Intent in = getIntent();
         remedy = in.getParcelableExtra("remedy");
         imageIndex = in.getIntExtra("image", 0);
-        remedyImage.setImageResource(Constants.backgroundImages[imageIndex]);
-        backgroundImage = getResources().getDrawable(Constants.backgroundImages[imageIndex]);
+        remedyImage.setImageResource(Constants.backgroundImages.get(imageIndex));
+        backgroundImage = getResources().getDrawable(Constants.backgroundImages.get(imageIndex));
 
         Palette.Builder builder = Palette.from(((BitmapDrawable) backgroundImage).getBitmap());
         Palette palette = builder.generate();
@@ -139,14 +139,14 @@ public class RemedyDetailsAcitvity extends AppCompatActivity {
         appBarLayout.setContentScrimColor(selectionColor);
         appBarLayout.setStatusBarScrimColor(selectionColor);
         commentLayout.setBackgroundColor(selectionColor);
-        float[] hsv = new float[3];
-        Color.colorToHSV(selectionColor, hsv);
-        hsv[2]-=(hsv[2]>=0.4f?0.4f:0.2f);
-        int darkSelectionColor = Color.HSVToColor(hsv);
+//        float[] hsv = new float[3];
+//        Color.colorToHSV(selectionColor, hsv);
+//        hsv[2]-=(hsv[2]>=0.4f?0.4f:0.2f);
+//        int darkSelectionColor = Color.HSVToColor(hsv);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Window window = getWindow();
             window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-            window.setStatusBarColor(darkSelectionColor);
+            window.setStatusBarColor(selectionColor);
 //            window.setNavigationBarColor(darkSelectionColor);
         }
         if (remedy == null) {
@@ -155,7 +155,7 @@ public class RemedyDetailsAcitvity extends AppCompatActivity {
 
         }
         remedyDetails();
-        dimNotificationBar();
+//        dimNotificationBar();
     }
 
     int uiOptions;

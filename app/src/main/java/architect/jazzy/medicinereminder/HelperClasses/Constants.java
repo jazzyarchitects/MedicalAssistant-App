@@ -24,6 +24,7 @@ import android.widget.TextView;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,7 +38,11 @@ public class Constants {
 
     public static final String BUNDLE_SELECTED_NEWS = "selected";
 
-    public static int[] backgroundImages = {R.drawable.ayurvedic, R.drawable.doc, R.drawable.fruits, R.drawable.leaf_pills, R.drawable.pill_fruits, R.drawable.pills};
+    public static ArrayList<Integer> backgroundImages = new ArrayList<>(Arrays.asList(R.drawable.ayurvedic,
+            R.drawable.doc, R.drawable.fruits,
+            R.drawable.leaf_pills,
+            R.drawable.pill_fruits,
+            R.drawable.pills));
 
     public Constants() {
         super();

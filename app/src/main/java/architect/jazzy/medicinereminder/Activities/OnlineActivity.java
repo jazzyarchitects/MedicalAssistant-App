@@ -38,7 +38,7 @@ public class OnlineActivity extends AppCompatActivity
     public static final String TAG="OnlineActivity";
     Toolbar toolbar;
     boolean isUserLoggedIn;
-    DrawerLayout drawer;
+    DrawerLayout drawerLayout;
     ActionBarDrawerToggle drawerToggle;
 
     @Override
@@ -51,7 +51,7 @@ public class OnlineActivity extends AppCompatActivity
 
         dimNotificationBar();
 
-        DrawerLayout drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open, R.string.close);
         drawerLayout.setDrawerListener(drawerToggle);
         drawerToggle.syncState();
@@ -178,7 +178,7 @@ public class OnlineActivity extends AppCompatActivity
                 break;
         }
 
-        drawer.closeDrawers();
+        drawerLayout.closeDrawers();
         return true;
     }
 

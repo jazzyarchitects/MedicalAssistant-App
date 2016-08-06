@@ -48,6 +48,7 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.logging.Handler;
@@ -190,6 +191,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
         shouldShowInterstitial = firebasePrefs.getBoolean(FirebaseConstants.RemoteConfig.AD_DASHBOARD_INTERSTITIAL_ENABLED, false);
+
+        //Randomising Ad showing
+        Random random = new Random();
+        shouldShowInterstitial = shouldShowInterstitial && random.nextBoolean();
+
         interstitialAd = new InterstitialAd(this);
         interstitialAd.setAdUnitId(FirebaseConstants.Ads.DASHBOARD_INTERSTITIAL);
         AdRequest.Builder adRequestBuilder = new AdRequest.Builder();

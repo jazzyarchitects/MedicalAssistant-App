@@ -1,8 +1,10 @@
 package architect.jazzy.medicinereminder.Models;
 
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -15,8 +17,11 @@ import architect.jazzy.medicinereminder.Handlers.DataHandler;
 public class Doctor implements Parcelable {
     private String id="",
             name="",phone_1="",phone_2="",address="",hospital="",notes="", photoPath="";
+    private int textColor = -1;
+    private int backgroundColor = -1;
     private Uri photoUri=null;
 
+    private static final String TAG = "DoctorModel";
 
     public Doctor() {
     }
@@ -53,6 +58,8 @@ public class Doctor implements Parcelable {
         dest.writeString(this.address);
         dest.writeString(this.hospital);
         dest.writeString(this.notes);
+        dest.writeInt(this.textColor);
+        dest.writeInt(this.backgroundColor);
     }
 
     public Doctor(Parcel in){
@@ -63,6 +70,8 @@ public class Doctor implements Parcelable {
         this.address=in.readString();
         this.hospital=in.readString();
         this.notes=in.readString();
+        this.textColor = in.readInt();
+        this.backgroundColor = in.readInt();
     }
 
     public static final Creator<Doctor> CREATOR = new Creator<Doctor>() {
@@ -77,7 +86,21 @@ public class Doctor implements Parcelable {
         }
     };
 
+    public int getTextColor() {
+        return textColor;
+    }
 
+    public void setTextColor(int textColor) {
+        this.textColor = textColor;
+    }
+
+    public int getBackgroundColor() {
+        return backgroundColor;
+    }
+
+    public void setBackgroundColor(int backgroundColor) {
+        this.backgroundColor = backgroundColor;
+    }
 
     public JSONObject getJSON(){
         JSONObject jsonObject=new JSONObject();
@@ -89,6 +112,7 @@ public class Doctor implements Parcelable {
             jsonObject.put(DataHandler.DoctorTable.COL_ADDRESS,address);
             jsonObject.put(DataHandler.DoctorTable.COL_HOSPITAL,hospital);
             jsonObject.put(DataHandler.DoctorTable.COL_NOTES,notes);
+            jsonObject.put(DataHandler.DoctorTable.COL_IMAGE_URI, getPhoto());
         }catch (JSONException e){
             e.printStackTrace();
         }
@@ -104,6 +128,7 @@ public class Doctor implements Parcelable {
         doctor.setAddress(jsonObject.optString(DataHandler.DoctorTable.COL_ADDRESS));
         doctor.setHospital(jsonObject.optString(DataHandler.DoctorTable.COL_HOSPITAL));
         doctor.setNotes(jsonObject.optString(DataHandler.DoctorTable.COL_NOTES));
+        doctor.setPhoto(jsonObject.optString(DataHandler.DoctorTable.COL_IMAGE_URI));
         return doctor;
     }
 
@@ -193,10 +218,10 @@ public class Doctor implements Parcelable {
     }
 
     public String getPhoto(){
-        if(getPhotoUri()!=null){
-            return getPhotoUri().toString();
+        if(this.getPhotoUri()!=null){
+            return this.getPhotoUri().toString();
         }else{
-            return getPhotoPath();
+            return this.getPhotoPath();
         }
     }
 

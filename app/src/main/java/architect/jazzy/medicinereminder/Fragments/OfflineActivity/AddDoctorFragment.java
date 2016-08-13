@@ -12,12 +12,14 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.provider.MediaStore;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -36,9 +38,17 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 
+import com.squareup.picasso.Picasso;
+
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+
 import architect.jazzy.medicinereminder.Activities.MainActivity;
+import architect.jazzy.medicinereminder.BuildConfig;
 import architect.jazzy.medicinereminder.Fragments.OfflineActivity.DoctorDetailFragments.DoctorDetailFragment;
 import architect.jazzy.medicinereminder.Handlers.DataHandler;
+import architect.jazzy.medicinereminder.Handlers.RealPathUtil;
 import architect.jazzy.medicinereminder.HelperClasses.Constants;
 import architect.jazzy.medicinereminder.Models.Doctor;
 import architect.jazzy.medicinereminder.R;
@@ -88,7 +98,6 @@ public class AddDoctorFragment extends Fragment {
         v = inflater.inflate(R.layout.fragment_add_doctor, container, false);
 
 
-
         imageView = (ImageView) v.findViewById(R.id.docPic);
         docAddress = (EditText) v.findViewById(R.id.docAddress);
         docHospital = (EditText) v.findViewById(R.id.docHospital);
@@ -107,7 +116,7 @@ public class AddDoctorFragment extends Fragment {
         docName.setSelected(true);
 
         setEditTextIcons(Constants.getThemeColor(getActivity()));
-        
+
         try {
             doctor = getArguments().getParcelable(Constants.BUNDLE_DOCTOR);
         } catch (NullPointerException e) {
@@ -119,7 +128,12 @@ public class AddDoctorFragment extends Fragment {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(Intent.ACTION_GET_CONTENT);
+                Intent i;
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                    i = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                } else {
+                    i = new Intent(Intent.ACTION_PICK);
+                }
                 i.setType("image/*");
                 startActivityForResult(Intent.createChooser(i, "Select Doctor's Photo"), COVER_PIC_REQUEST_CODE);
             }
@@ -152,19 +166,32 @@ public class AddDoctorFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        Log.e(TAG, "onActivityResult: " + requestCode + " " + resultCode);
+
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == CONTACT_PICK_REQUEST_CODE) {
                 uriContact = data.getData();
                 retrieveContactDetails();
             }
-            if(requestCode==COVER_PIC_REQUEST_CODE){
-                String path=DoctorDetailFragment.getImagePath(data, getActivity());
-                imageView.setImageBitmap(Constants.getScaledBitmap(path, imageView.getMeasuredWidth(), imageView.getMeasuredHeight()));
-                doctor.setPhoto(path);
+            if (requestCode == COVER_PIC_REQUEST_CODE) {
+                Log.e(TAG, "Doctor image path: " + data.getData().toString());
+                Bitmap bitmap = null;
+                try {
+                    String imagePath = RealPathUtil.getPathFromURI(getActivity(), data.getData());
+                    bitmap = Picasso.with(getActivity())
+                            .load(imagePath)
+                            .get();
+                    doctor.setPhotoPath(imagePath);
+                    imageView.setImageBitmap(Constants.getScaledBitmap(imagePath, imageView.getMeasuredWidth(), imageView.getMeasuredHeight()));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
-                try{
-                    BitmapDrawable drawable=(BitmapDrawable)imageView.getDrawable();
-                    Bitmap bitmap=drawable.getBitmap();
+                try {
+                    if (bitmap == null) {
+                        BitmapDrawable drawable = (BitmapDrawable) imageView.getDrawable();
+                        bitmap = drawable.getBitmap();
+                    }
                     Palette.Builder builder = Palette.from(bitmap);
                     Palette palette = builder.generate();
 
@@ -174,7 +201,7 @@ public class AddDoctorFragment extends Fragment {
                     } catch (NullPointerException e) {
                         e.printStackTrace();
                     }
-                }catch (Exception e){
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
 
@@ -196,32 +223,32 @@ public class AddDoctorFragment extends Fragment {
         docPhone1.setText(doctor.getPhone_1());
         docPhone2.setText(doctor.getPhone_2());
         docNotes.setText(doctor.getNotes());
-        try{
+        try {
             imageView.setImageURI(doctor.getPhotoUri());
-            BitmapDrawable drawable=(BitmapDrawable)imageView.getDrawable();
-            Bitmap bitmap=drawable.getBitmap();
+            BitmapDrawable drawable = (BitmapDrawable) imageView.getDrawable();
+            Bitmap bitmap = drawable.getBitmap();
             Palette.Builder builder = Palette.from(bitmap);
             Palette palette = builder.generate();
-            
+
             try {
                 int color = Color.HSVToColor(palette.getSwatches().get(0).getHsl());
                 setEditTextIcons(color);
             } catch (NullPointerException e) {
                 e.printStackTrace();
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    
-    void setEditTextIcons(int color){
+
+    void setEditTextIcons(int color) {
         try {
             Constants.scaleEditTextImage(getActivity(), docPhone1, R.drawable.ic_call_black_24dp, color);
             Constants.scaleEditTextImage(getActivity(), docPhone2, R.drawable.ic_call_black_24dp, color);
             Constants.scaleEditTextImage(getActivity(), docAddress, R.drawable.ic_location_city_black_24dp, color, false);
             Constants.scaleEditTextImage(getActivity(), docHospital, R.drawable.ic_business_black_24dp, color, false);
             Constants.scaleEditTextImage(getActivity(), docNotes, R.drawable.ic_action_edit, color);
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
@@ -243,6 +270,8 @@ public class AddDoctorFragment extends Fragment {
         doctor.setNotes(docNotes.getText().toString());
         doctor.setHospital(docHospital.getText().toString());
 
+        Log.e(TAG, "Saving doctor: " + doctor.toJSON());
+
 
         DataHandler dataHandler = new DataHandler(getActivity());
         dataHandler.insertDoctor(doctor);
@@ -255,12 +284,15 @@ public class AddDoctorFragment extends Fragment {
     void retrieveContactNumber() {
         ContentResolver contentResolver = getActivity().getContentResolver();
         Cursor cursor = contentResolver.query(uriContact, null, null, null, null);
-
+        if (cursor == null) {
+            Toast.makeText(getActivity(), "Unable to fetch contact details. Try again.", Toast.LENGTH_LONG).show();
+            return;
+        }
         if (cursor.moveToFirst()) {
             doctor.setName(retrieveContactName());
             doctor.setPhotoUri(retrieveContactUri(cursor));
+            Log.e(TAG, "Retreive contact number: " + doctor.getPhotoUri() + "\nOriginal: " + retrieveContactUri(cursor));
             doctor.setId(retrieveContactId(cursor));
-
 
             if (Integer.parseInt(cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.HAS_PHONE_NUMBER))) > 0) {
                 Cursor phoneCursor = contentResolver.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
@@ -268,11 +300,13 @@ public class AddDoctorFragment extends Fragment {
                         ContactsContract.CommonDataKinds.Phone.CONTACT_ID + "=?",
                         new String[]{doctor.getId()},
                         null);
+                if (phoneCursor == null) {
+                    Toast.makeText(getActivity(), "Error fetching contact details. Try Again", Toast.LENGTH_LONG).show();
+                    return;
+                }
                 phoneCursor.moveToFirst();
                 int i = 1;
                 do {
-//                    String type=phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE));
-//                    String s=(String) ContactsContract.CommonDataKinds.Phone.getTypeLabel(getActivity().getResources(),Integer.parseInt(type),"");
                     String phone = phoneCursor.getString(phoneCursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
                     if (i == 1) {
                         doctor.setPhone_1(phone);
@@ -307,6 +341,10 @@ public class AddDoctorFragment extends Fragment {
     String retrieveContactName() {
         String contactName = "";
         Cursor cursor = getActivity().getContentResolver().query(uriContact, null, null, null, null);
+        if (cursor == null) {
+            Toast.makeText(getActivity(), "Unable to read contact name", Toast.LENGTH_LONG).show();
+            return "";
+        }
         if (cursor.moveToFirst()) {
             contactName = cursor.getString(cursor.getColumnIndex(ContactsContract.Contacts.DISPLAY_NAME));
         }
@@ -317,7 +355,7 @@ public class AddDoctorFragment extends Fragment {
 
     public void selectDoctorFromContacts() {
         final Activity context = getActivity();
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             if (ContextCompat.checkSelfPermission(context, Manifest.permission.READ_CONTACTS) != PackageManager.PERMISSION_GRANTED) {
                 if (ActivityCompat.shouldShowRequestPermissionRationale(context, Manifest.permission.READ_CONTACTS)) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(context, 0);
@@ -339,11 +377,11 @@ public class AddDoctorFragment extends Fragment {
                             new String[]{Manifest.permission.READ_CONTACTS},
                             READ_CONTACTS_CODE);
                 }
-            }else{
+            } else {
                 Intent i = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
                 startActivityForResult(i, CONTACT_PICK_REQUEST_CODE);
             }
-        }else{
+        } else {
             Intent i = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
             startActivityForResult(i, CONTACT_PICK_REQUEST_CODE);
         }
@@ -358,7 +396,7 @@ public class AddDoctorFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId()==R.id.addDoctor){
+        if (item.getItemId() == R.id.addDoctor) {
             selectDoctorFromContacts();
         }
         return super.onOptionsItemSelected(item);
@@ -379,13 +417,13 @@ public class AddDoctorFragment extends Fragment {
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        Log.e(TAG, "onRequestPermissionResult: "+requestCode);
-        switch (requestCode){
+        Log.e(TAG, "onRequestPermissionResult: " + requestCode);
+        switch (requestCode) {
             case AddDoctorFragment.READ_CONTACTS_CODE:
-                if(grantResults[0] == PackageManager.PERMISSION_GRANTED){
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     Intent i = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
                     startActivityForResult(i, CONTACT_PICK_REQUEST_CODE);
-                }else{
+                } else {
                     Toast.makeText(getActivity(), "Permission required to read contacts", Toast.LENGTH_LONG).show();
                 }
                 break;

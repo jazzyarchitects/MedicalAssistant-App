@@ -7,4 +7,6 @@
     <integer name="fragmentTransitionDuration">500</integer>
     <integer name="fragmentTransitionDuration2">300</integer>
     <integer name="tranisitionAnimationDuration">500</integer>
+    <integer name="doctorContactDetailsLabel">3</integer>
+    <integer name="doctorContactDetailsField">7</integer>
 </resources>

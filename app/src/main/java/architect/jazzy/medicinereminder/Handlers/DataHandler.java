@@ -527,7 +527,6 @@ public class DataHandler {
      **/
 
     public long insertDoctor(Doctor doctor) {
-
         return db.insertOrThrow(DoctorTable.TABLE_DOCTOR, null, getContentValues(doctor));
     }
 
@@ -551,6 +550,7 @@ public class DataHandler {
         contentValues.put(DoctorTable.COL_ADDRESS, doctor.getAddress());
         contentValues.put(DoctorTable.COL_NOTES, doctor.getNotes());
         contentValues.put(DoctorTable.COL_IMAGE_URI, doctor.getPhoto());
+        Log.e(TAG, "Saving doctor details with photo: "+doctor.getPhoto());
         return contentValues;
     }
 

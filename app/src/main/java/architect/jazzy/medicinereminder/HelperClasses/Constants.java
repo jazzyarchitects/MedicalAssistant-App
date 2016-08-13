@@ -21,6 +21,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -185,20 +186,29 @@ public class Constants {
     /**
      * Image Size Reducing
      */
-    public static Bitmap getScaledBitmap(String picturePath, int width, int height) {
+    public static Bitmap getScaledBitmap(String picturePath, int width, int height){
         BitmapFactory.Options sizeOptions = new BitmapFactory.Options();
         sizeOptions.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(picturePath, sizeOptions);
-
+//        if(inputStream == null) {
+            BitmapFactory.decodeFile(picturePath, sizeOptions);
+//        }else{
+//            BitmapFactory.decodeStream(inputStream, null, sizeOptions);
+//        }
         int inSampleSize = calculateInSampleSize(sizeOptions, width, height);
 
         sizeOptions.inJustDecodeBounds = false;
         sizeOptions.inSampleSize = inSampleSize;
 
-        Bitmap bitmap = BitmapFactory.decodeFile(picturePath, sizeOptions);
+//        if(inputStream == null) {
+            return BitmapFactory.decodeFile(picturePath, sizeOptions);
+//        }else{
+//            return BitmapFactory.decodeStream(inputStream, null, sizeOptions);
+//        }
 //        Log.e("Constants","Get scaled Bitmap: "+bitmap.toString());
-        return bitmap;
     }
+//    public static Bitmap getScaledBitmap(String picturePath, int width, int height) {
+//        return getScaledBitmap(picturePath, null, width, height);
+//    }
 
     /**
      * Scale the drawables in editText

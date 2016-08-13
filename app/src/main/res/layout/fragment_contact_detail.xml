@@ -22,7 +22,7 @@
                 android:weightSum="10">
 
                 <TextView android:layout_width="0dp"
-                    android:layout_weight="4"
+                    android:layout_weight="@integer/doctorContactDetailsLabel"
                     android:text="Name"
                     android:textColor="#222"
                     android:gravity="center"
@@ -30,7 +30,7 @@
 
                 <EditText
                     android:layout_width="0dp"
-                    android:layout_weight="6"
+                    android:layout_weight="@integer/doctorContactDetailsField"
                     android:inputType="textPersonName"
                     android:id="@+id/docName"
                     android:hint="Name"
@@ -45,7 +45,7 @@
                 android:weightSum="10">
 
                 <TextView android:layout_width="0dp"
-                    android:layout_weight="4"
+                    android:layout_weight="@integer/doctorContactDetailsLabel"
                     android:text="Mobile"
                     android:textColor="#222"
                     android:gravity="center"
@@ -53,7 +53,7 @@
 
                 <EditText
                     android:layout_width="0dp"
-                    android:layout_weight="6"
+                    android:layout_weight="@integer/doctorContactDetailsField"
                     android:id="@+id/docPhone1"
                     android:hint="Mobile"
                     android:inputType="phone"
@@ -68,7 +68,7 @@
                 android:weightSum="10">
 
                 <TextView android:layout_width="0dp"
-                    android:layout_weight="4"
+                    android:layout_weight="@integer/doctorContactDetailsLabel"
                     android:text="Office"
                     android:textColor="#222"
                     android:gravity="center"
@@ -76,7 +76,7 @@
 
                 <EditText
                     android:layout_width="0dp"
-                    android:layout_weight="6"
+                    android:layout_weight="@integer/doctorContactDetailsField"
                     android:id="@+id/docPhone2"
                     android:hint="Office number"
                     android:textSize="15sp"
@@ -92,7 +92,7 @@
                 android:weightSum="10">
 
                 <TextView android:layout_width="0dp"
-                    android:layout_weight="4"
+                    android:layout_weight="@integer/doctorContactDetailsLabel"
                     android:text="Address"
                     android:textColor="#222"
                     android:gravity="center"
@@ -101,7 +101,7 @@
                 <EditText
                     android:id="@+id/docAddress"
                     android:layout_width="0dp"
-                    android:layout_weight="6"
+                    android:layout_weight="@integer/doctorContactDetailsField"
                     android:layout_height="wrap_content"
                     android:layout_column="1"
                     android:lines="3"
@@ -118,7 +118,7 @@
                 android:weightSum="10">
 
                 <TextView android:layout_width="0dp"
-                    android:layout_weight="4"
+                    android:layout_weight="@integer/doctorContactDetailsLabel"
                     android:text="Hospital"
                     android:textColor="#222"
                     android:gravity="center"
@@ -126,7 +126,7 @@
 
                 <EditText
                     android:layout_width="0dp"
-                    android:layout_weight="6"
+                    android:layout_weight="@integer/doctorContactDetailsField"
                     android:id="@+id/docHospital"
                     android:hint="Hospital Name"
                     android:textSize="15sp"
@@ -141,7 +141,7 @@
                 android:weightSum="10">
 
                 <TextView android:layout_width="0dp"
-                    android:layout_weight="4"
+                    android:layout_weight="@integer/doctorContactDetailsLabel"
                     android:text="Note"
                     android:textColor="#222"
                     android:gravity="center"
@@ -150,7 +150,7 @@
                 <EditText
                     android:id="@+id/docNotes"
                     android:layout_width="0dp"
-                    android:layout_weight="6"
+                    android:layout_weight="@integer/doctorContactDetailsField"
                     android:layout_height="wrap_content"
                     android:layout_column="1"
                     android:lines="2"
@@ -159,27 +159,25 @@
                     android:inputType="textMultiLine" />
             </TableRow>
 
-            <TableRow
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="15dp"
-                android:weightSum="10">
-
-                <View android:layout_weight="3"
-                    android:layout_height="1dp"
-                    android:layout_width="0dp" />
-
-                <Button android:layout_width="0dp"
+                android:layout_marginTop="15dp">
+                
+                <Button android:layout_width="wrap_content"
                     android:layout_height="35dp"
-                    android:layout_weight="4"
+                    android:paddingRight="10dp"
+                    android:paddingLeft="10dp"
+                    style="?android:attr/button"
+                    android:layout_centerHorizontal="true"
                     android:text="Save Changes"
-                    android:background="@drawable/button_background_states"
+                    android:background="@color/actionBackground"
                     android:textColor="#FFF"
                     android:id="@+id/saveButton"
                     android:gravity="center"
                     android:textSize="14sp" />
 
-            </TableRow>
+            </RelativeLayout>
 
         </LinearLayout>
 

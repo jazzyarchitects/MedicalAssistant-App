@@ -66,6 +66,11 @@ public class ContactDetailFragment extends Fragment {
         hospital.setText(doctor.getHospital());
         notes.setText(doctor.getNotes());
         name.setText(doctor.getName());
+        if(doctor.getBackgroundColor()!=-1)
+            saveButton.setBackgroundColor(doctor.getBackgroundColor());
+        if(doctor.getTextColor() != -1)
+            saveButton.setTextColor(doctor.getTextColor());
+
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

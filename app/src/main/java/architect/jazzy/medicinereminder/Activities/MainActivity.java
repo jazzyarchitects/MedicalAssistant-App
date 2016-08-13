@@ -1,5 +1,6 @@
 package architect.jazzy.medicinereminder.Activities;
 
+import android.annotation.TargetApi;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -102,6 +103,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     Toolbar toolbar;
     FirebaseRemoteConfig mFirebaseRemoteConfig;
     SharedPreferences firebasePrefs;
+    int toolbarColor = 0;
+
 
     private InterstitialAd interstitialAd;
     public static boolean shouldShowInterstitial = true;
@@ -122,7 +125,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        toolbar.setBackgroundColor(Constants.getThemeColor(this));
+        toolbarColor = Constants.getThemeColor(this);
+        toolbar.setBackgroundColor(toolbarColor);
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
         ActionBarDrawerToggle drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open, R.string.close);
@@ -167,16 +171,19 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         //Ask runtime permission if android version above lollipop
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED ||
+                    ContextCompat.checkSelfPermission(this, android.Manifest.permission.READ_EXTERNAL_STORAGE)!= PackageManager.PERMISSION_GRANTED) {
+                if (ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) ||
+                        ActivityCompat.shouldShowRequestPermissionRationale(this, android.Manifest.permission.READ_EXTERNAL_STORAGE) ) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(this, 0);
                     builder.setTitle("Permission required")
-                            .setMessage("Permission is required for caching and reduce internet data usage.")
+                            .setMessage("Permission is required for caching, reduce internet data usage and display images.")
                             .setPositiveButton("Grant", new DialogInterface.OnClickListener() {
+                                @TargetApi(Build.VERSION_CODES.M)
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
                                     ActivityCompat.requestPermissions(MainActivity.this,
-                                            new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                                            new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.READ_EXTERNAL_STORAGE},
                                             WRITE_PERMISSION_CODE);
                                 }
                             })
@@ -184,7 +191,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
                 } else {
                     ActivityCompat.requestPermissions(MainActivity.this,
-                            new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                            new String[]{android.Manifest.permission.WRITE_EXTERNAL_STORAGE, android.Manifest.permission.READ_EXTERNAL_STORAGE},
                             WRITE_PERMISSION_CODE);
                 }
             }
@@ -286,6 +293,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     int uiOptions;
 
+    public Toolbar getToolbar() {
+        return toolbar;
+    }
+
     private void dimNotificationBar() {
         final View decorView = getWindow().getDecorView();
         uiOptions = View.SYSTEM_UI_FLAG_LOW_PROFILE;
@@ -324,6 +335,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawers();
         } else if (!fragmentBackStack.empty()) {
+            toolbar.setBackgroundColor(toolbarColor);
             Fragment fragment = fragmentBackStack.pop();
             if (fragment == null) {
                 android.support.v4.app.Fragment fragment1 = fragmentBackStack.popSupport();
@@ -385,9 +397,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         moveToFragmentId = id;
 
         if(moveToFragmentId != R.id.action_settings){
-            Log.e(TAG, "Not moving to settings");
             if(shouldShowInterstitial && interstitialAd.isLoaded()){
-                Log.e(TAG, "Showing ads");
                 interstitialAd.show();
                 return false;
             }
@@ -406,6 +416,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } catch (Exception e) {
             supportFragment = getSupportFragmentManager().findFragmentById(R.id.frame);
         }
+        toolbar.setBackgroundColor(toolbarColor);
         switch (moveToFragmentId) {
             case R.id.showMedicineList:
                 if (!(fragment instanceof MedicineListFragment)) {

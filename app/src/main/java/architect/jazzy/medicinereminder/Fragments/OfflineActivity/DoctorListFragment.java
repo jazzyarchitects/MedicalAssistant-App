@@ -116,7 +116,7 @@ public class DoctorListFragment extends Fragment {
         if(!doctors.isEmpty()) {
             doctorList.setVisibility(View.VISIBLE);
             emptyList.setVisibility(View.GONE);
-            DoctorListAdapter adapter = new DoctorListAdapter(mContext, doctors);
+            DoctorListAdapter adapter = new DoctorListAdapter(getActivity(), doctors);
             adapter.setItemClickListener(new DoctorListAdapter.ItemClickListener() {
                 @Override
                 public void onItemClick(int position, Doctor doctor) {

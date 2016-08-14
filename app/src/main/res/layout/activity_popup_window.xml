@@ -5,7 +5,7 @@
     android:layout_height="260dp"
     android:orientation="vertical"
     android:weightSum="10"
-    tools:context="architect.jazzy.medicinereminder.Activities.PopupWindow"
+    tools:context=".MedicalAssistant.Activities.PopupWindow"
     android:background="#ffffff">
 
     <TextView

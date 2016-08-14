@@ -8,7 +8,7 @@
     android:gravity="center"
     android:weightSum="10"
     android:background="#FFF"
-    tools:context="architect.jazzy.medicinereminder.Fragments.OfflineActivity.ImportFragment">
+    tools:context=".MedicalAssistant.Fragments.ImportFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,7 +17,7 @@
         android:weightSum="10"
         android:orientation="horizontal">
 
-        <architect.jazzy.medicinereminder.CustomViews.CircleView
+        <architect.jazzy.medicinereminder.MedicalAssistant.CustomViews.CircleView
             android:layout_width="0dp"
             android:layout_weight="5"
             app:bigText="0"
@@ -29,7 +29,7 @@
             app:fillColor="@color/bg_swipe_item_right"
             android:layout_height="match_parent" />
 
-        <architect.jazzy.medicinereminder.CustomViews.CircleView
+        <architect.jazzy.medicinereminder.MedicalAssistant.CustomViews.CircleView
             android:layout_width="0dp"
             android:layout_weight="5"
             app:bigText="0"

@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="architect.jazzy.medicinereminder.Activities.TimeSettingPreference"
+    tools:context=".MedicalAssistant.Activities.TimeSettingPreference"
     android:background="#ffffffff">
 
     <android.support.v7.widget.Toolbar

@@ -13,7 +13,7 @@
         android:gravity="center_vertical"
         android:text="Selected Color"
         android:textSize="16sp"/>
-    <architect.jazzy.medicinereminder.CustomViews.CircleView
+    <architect.jazzy.medicinereminder.MedicalAssistant.CustomViews.CircleView
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_alignParentEnd="true"

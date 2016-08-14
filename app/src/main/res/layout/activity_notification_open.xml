@@ -6,7 +6,7 @@
     android:paddingLeft="0dp"
     android:paddingRight="0dp"
     android:paddingTop="0dp"
-    tools:context="architect.jazzy.medicinereminder.Activities.NotificationOpen"
+    tools:context=".MedicalAssistant.Activities.NotificationOpen"
     android:background="@drawable/screen_background">
 
     <android.support.v7.widget.Toolbar

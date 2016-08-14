@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:padding="5dp"
     android:background="@color/doctorDetailFragmentsColor"
-    tools:context=".Fragments.OfflineActivity.DoctorDetailFragments.ContactDetailFragment">
+    tools:context=".MedicalAssistant.Fragments.DoctorDetailFragments.ContactDetailFragment">
 
     <ScrollView
         android:layout_width="match_parent"

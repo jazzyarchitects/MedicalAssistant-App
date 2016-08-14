@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/root"
-    tools:context=".Fragments.OfflineActivity.SearchFragments.SearchDetailMainFragment">
+    tools:context=".MedicalAssistant.Fragments.SearchFragments.SearchDetailMainFragment">
 
     <include
         android:id="@+id/searchLayout"

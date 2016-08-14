@@ -4,7 +4,7 @@
     android:orientation="vertical"
     android:id="@+id/root"
     android:background="@color/deafaultFragmentBackground"
-    tools:context=".Fragments.OfflineActivity.SearchFragments.SearchFragment">
+    tools:context=".MedicalAssistant.Fragments.SearchFragments.SearchFragment">
 
     <include
         layout="@layout/navigation_drawer_header"

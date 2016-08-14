@@ -21,7 +21,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -29,7 +28,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
-import architect.jazzy.medicinereminder.Parsers.FeedParser;
+import architect.jazzy.medicinereminder.MedicalAssistant.Parsers.FeedParser;
 import architect.jazzy.medicinereminder.R;
 
 /**

@@ -22,7 +22,7 @@
     <statePointEntry>
       <state      
         class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
-        className = "architect.jazzy.medicinereminder.Activities.NotificationOpen"/>
+        className = "NotificationOpen"/>
       <point      
         x = "808"      
         y = "4648"/>
@@ -30,7 +30,7 @@
     <statePointEntry>
       <state      
         class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
-        className = "architect.jazzy.medicinereminder.Activities.MedicineDetails"/>
+        className = "MedicineDetails"/>
       <point      
         x = "500"      
         y = "100"/>
@@ -38,7 +38,7 @@
     <statePointEntry>
       <state      
         class = "com.android.tools.idea.editors.navigation.model.MenuState"      
-        className = "architect.jazzy.medicinereminder.Activities.MedicineDetails"/>
+        className = "MedicineDetails"/>
       <point      
         x = "2080"      
         y = "100"/>
@@ -70,7 +70,7 @@
     <statePointEntry>
       <state      
         class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
-        className = "architect.jazzy.medicinereminder.Activities.FullScreenLockScreen"/>
+        className = "FullScreenLockScreen"/>
       <point      
         x = "-328"      
         y = "6636"/>
@@ -78,7 +78,7 @@
     <statePointEntry>
       <state      
         class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
-        className = "architect.jazzy.medicinereminder.Activities.MainActivity"/>
+        className = "MainActivity"/>
       <point      
         x = "500"      
         y = "2120"/>
@@ -86,7 +86,7 @@
     <statePointEntry>
       <state      
         class = "com.android.tools.idea.editors.navigation.model.MenuState"      
-        className = "architect.jazzy.medicinereminder.Activities.MainActivity"/>
+        className = "MainActivity"/>
       <point      
         x = "2080"      
         y = "2120"/>
@@ -94,7 +94,7 @@
     <statePointEntry>
       <state      
         class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
-        className = "architect.jazzy.medicinereminder.Activities.PopupWindow"/>
+        className = "PopupWindow"/>
       <point      
         x = "700"      
         y = "6360"/>
@@ -102,7 +102,7 @@
     <statePointEntry>
       <state      
         class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
-        className = "architect.jazzy.medicinereminder.Activities.TimeSettingPreference"/>
+        className = "TimeSettingPreference"/>
       <point      
         x = "750"      
         y = "6410"/>
@@ -110,7 +110,7 @@
     <statePointEntry>
       <state      
         class = "com.android.tools.idea.editors.navigation.model.ActivityState"      
-        className = "architect.jazzy.medicinereminder.Activities.AboutUs"/>
+        className = "AboutUs"/>
       <point      
         x = "800"      
         y = "6460"/>

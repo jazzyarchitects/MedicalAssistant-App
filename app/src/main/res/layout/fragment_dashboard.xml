@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="#FFF"
-    tools:context=".Fragments.OfflineActivity.DashboardFragment">
+    tools:context=".MedicalAssistant.Fragments.DashboardFragment">
 
     <ImageView
         android:id="@+id/backParent"
@@ -32,7 +32,7 @@
             android:weightSum="3">
 
 
-            <architect.jazzy.medicinereminder.CustomViews.CircleView
+            <architect.jazzy.medicinereminder.MedicalAssistant.CustomViews.CircleView
                 android:id="@+id/circleMedicineList"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -43,7 +43,7 @@
 
 
 
-            <architect.jazzy.medicinereminder.CustomViews.CircleView
+            <architect.jazzy.medicinereminder.MedicalAssistant.CustomViews.CircleView
                 android:id="@+id/circleSearch"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -53,7 +53,7 @@
                 app:textColor="#000"
                 app:textSize="12sp" />
 
-            <architect.jazzy.medicinereminder.CustomViews.CircleView
+            <architect.jazzy.medicinereminder.MedicalAssistant.CustomViews.CircleView
                 android:id="@+id/circleDoctorList"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -76,7 +76,7 @@
             android:orientation="horizontal"
             android:weightSum="3">
 
-            <architect.jazzy.medicinereminder.CustomViews.CircleView
+            <architect.jazzy.medicinereminder.MedicalAssistant.CustomViews.CircleView
                 android:id="@+id/circleAddMedicine"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -95,7 +95,7 @@
                 android:scaleType="centerInside"
                 android:src="@mipmap/ic_launcher" />
 
-            <architect.jazzy.medicinereminder.CustomViews.CircleView
+            <architect.jazzy.medicinereminder.MedicalAssistant.CustomViews.CircleView
                 android:id="@+id/circleNews"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -105,7 +105,7 @@
                 app:textSize="12sp" />
 
 
-            <!--<architect.jazzy.medicinereminder.CustomViews.CircleView-->
+            <!--<CircleView-->
             <!--android:id="@+id/findDoctor2"-->
             <!--android:layout_width="0dp"-->
             <!--android:layout_height="match_parent"-->

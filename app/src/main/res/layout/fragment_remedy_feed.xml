@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="architect.jazzy.medicinereminder.Fragments.OnlineActivity.RemedyFeedFragment">
+    tools:context=".RemedySharing.Fragments.RemedyFeedFragment">
 
 
     <RelativeLayout
@@ -26,7 +26,7 @@
                 style="?android:attr/progressBarStyleLarge"
                 android:indeterminate="true"/>
 
-            <architect.jazzy.medicinereminder.CustomViews.GraduallyTextView
+            <architect.jazzy.medicinereminder.MedicalAssistant.CustomViews.GraduallyTextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"

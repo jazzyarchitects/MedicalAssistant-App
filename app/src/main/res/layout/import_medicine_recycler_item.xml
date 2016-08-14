@@ -28,7 +28,7 @@
         android:orientation="horizontal"
         android:weightSum="4">
 
-        <architect.jazzy.medicinereminder.CustomViews.LabelledImage
+        <architect.jazzy.medicinereminder.MedicalAssistant.CustomViews.LabelledImage
             android:id="@+id/morning"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -38,7 +38,7 @@
             android:src="@drawable/morning"
             android:text="Before" />
 
-        <architect.jazzy.medicinereminder.CustomViews.LabelledImage
+        <architect.jazzy.medicinereminder.MedicalAssistant.CustomViews.LabelledImage
             android:id="@+id/noon"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -47,7 +47,7 @@
             android:src="@drawable/noon"
             android:text="A" />
 
-        <architect.jazzy.medicinereminder.CustomViews.LabelledImage
+        <architect.jazzy.medicinereminder.MedicalAssistant.CustomViews.LabelledImage
             android:id="@+id/night"
             android:layout_width="0dp"
             android:layout_height="match_parent"
@@ -56,7 +56,7 @@
             android:src="@drawable/night"
             android:text="B" />
 
-        <architect.jazzy.medicinereminder.CustomViews.LabelledImage
+        <architect.jazzy.medicinereminder.MedicalAssistant.CustomViews.LabelledImage
             android:id="@+id/custom"
             android:layout_width="0dp"
             android:layout_height="match_parent"

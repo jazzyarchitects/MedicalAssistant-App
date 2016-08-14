@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="architect.jazzy.medicinereminder.Activities.OnlineActivity">
+    tools:context=".RemedySharing.OnlineActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"

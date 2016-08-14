@@ -99,7 +99,7 @@
             android:value="@integer/google_play_services_version" />
 
         <activity
-            android:name=".Activities.MainActivity"
+            android:name=".MedicalAssistant.Activities.MainActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
@@ -112,22 +112,22 @@
         </activity>
 
         <receiver
-            android:name=".BroadcastRecievers.AlarmReceiver"
+            android:name=".MedicalAssistant.BroadcastRecievers.AlarmReceiver"
             android:enabled="true" />
 
         <activity
-            android:name=".Activities.NotificationOpen"
+            android:name=".MedicalAssistant.Activities.NotificationOpen"
             android:label="@string/title_activity_notification_open"
-            android:parentActivityName=".Activities.MainActivity" />
+            android:parentActivityName=".MedicalAssistant.Activities.MainActivity" />
         <activity
-            android:name=".Activities.AboutUs"
+            android:name=".MedicalAssistant.Activities.AboutUs"
             android:label="About Us"
-            android:parentActivityName=".Activities.MainActivity"
+            android:parentActivityName=".MedicalAssistant.Activities.MainActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Activities.BackupRestore"
+            android:name=".MedicalAssistant.Activities.BackupRestore"
             android:label="@string/title_activity_backup_restore"
-            android:parentActivityName=".Activities.MainActivity">
+            android:parentActivityName=".MedicalAssistant.Activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
@@ -141,20 +141,20 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Activities.RegistrationActivity"
-            android:parentActivityName=".Activities.MainActivity" />
+            android:name=".RemedySharing.RegistrationActivity"
+            android:parentActivityName=".MedicalAssistant.Activities.MainActivity" />
         <activity
-            android:name=".Activities.OnlineActivity"
+            android:name=".RemedySharing.OnlineActivity"
             android:label="@string/title_activity_online"
             android:theme="@style/AppTheme" />
         <activity
-            android:name=".Fragments.OnlineActivity.RemedyDetailsAcitvity"
+            android:name=".RemedySharing.RemedyDetailsAcitvity"
             android:label="@string/title_activity_remedy_details_acitvity"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustPan|stateHidden" />
 
         <!-- This service is only used on devices with API v17+ -->
-        <receiver android:name=".Activities.AppWidget">
+        <receiver android:name=".MedicalAssistant.Activities.AppWidget">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
             </intent-filter>
@@ -165,11 +165,11 @@
         </receiver>
 
         <service
-            android:name=".Services.AlarmSetterService"
+            android:name=".MedicalAssistant.Services.AlarmSetterService"
             android:exported="false" />
 
         <receiver
-            android:name=".BroadcastRecievers.BootCompleteReciever"
+            android:name=".MedicalAssistant.BroadcastRecievers.BootCompleteReciever"
             android:enabled="true"
             android:exported="true">
             <intent-filter>
@@ -177,18 +177,18 @@
             </intent-filter>
         </receiver>
         <receiver
-            android:name=".HelperClasses.DailyAlarmStarter"
+            android:name=".MedicalAssistant.HelperClasses.DailyAlarmStarter"
             android:enabled="true"
             android:exported="true" />
 
         <activity
-            android:name=".Activities.PopupWindow"
+            android:name=".MedicalAssistant.Activities.PopupWindow"
             android:label="@string/title_activity_popup_window"
             android:screenOrientation="portrait"
             android:showOnLockScreen="true"
             android:theme="@style/popup_style" />
         <activity
-            android:name=".Activities.FullScreenLockScreen"
+            android:name=".MedicalAssistant.Activities.FullScreenLockScreen"
             android:label="@string/title_activity_full_screen_lock_screen"
             android:screenOrientation="portrait"
             android:showOnLockScreen="true"
@@ -197,27 +197,27 @@
             android:name="com.google.android.gms.ads.AdActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize" />
         <activity
-            android:name=".Activities.MedicineDetails"
+            android:name=".MedicalAssistant.Activities.MedicineDetails"
             android:label="@string/title_activity_medicine_details"
-            android:parentActivityName=".Activities.MainActivity"
+            android:parentActivityName=".MedicalAssistant.Activities.MainActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
-            android:name=".Activities.TimeSettingPreference"
+            android:name=".MedicalAssistant.Activities.TimeSettingPreference"
             android:label="Default Timings"
-            android:parentActivityName=".Activities.MainActivity"
+            android:parentActivityName=".MedicalAssistant.Activities.MainActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan|stateHidden" />
         <activity
-            android:name=".Activities.Illustration"
+            android:name=".MedicalAssistant.Activities.Illustration"
             android:label="@string/title_activity_illustration" />
 
         <receiver
-            android:name=".BroadcastRecievers.AlarmSnooze"
+            android:name=".MedicalAssistant.BroadcastRecievers.AlarmSnooze"
             android:enabled="true"
             android:exported="false" />
         <receiver
-            android:name=".BroadcastRecievers.DismissNotification"
+            android:name=".MedicalAssistant.BroadcastRecievers.DismissNotification"
             android:enabled="true"
             android:exported="false" />
     </application>

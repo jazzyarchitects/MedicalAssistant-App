@@ -21,7 +21,7 @@
             android:gravity="center_vertical"
             android:text="Selected Color: "
             android:textSize="16sp"/>
-        <architect.jazzy.medicinereminder.CustomViews.CircleView
+        <architect.jazzy.medicinereminder.MedicalAssistant.CustomViews.CircleView
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:id="@+id/circleSelected"
@@ -36,7 +36,7 @@
         android:weightSum="5">
 
 
-        <architect.jazzy.medicinereminder.CustomViews.CircleView
+        <architect.jazzy.medicinereminder.MedicalAssistant.CustomViews.CircleView
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -44,7 +44,7 @@
             app:isButton="true"
             app:fillColor="@color/actionBackground"/>
 
-        <architect.jazzy.medicinereminder.CustomViews.CircleView
+        <architect.jazzy.medicinereminder.MedicalAssistant.CustomViews.CircleView
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -52,7 +52,7 @@
             app:isButton="true"
             app:fillColor="@color/themeColorRed"/>
 
-        <architect.jazzy.medicinereminder.CustomViews.CircleView
+        <architect.jazzy.medicinereminder.MedicalAssistant.CustomViews.CircleView
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -60,7 +60,7 @@
             app:isButton="true"
             app:fillColor="@color/themeColorGreen"/>
 
-        <architect.jazzy.medicinereminder.CustomViews.CircleView
+        <architect.jazzy.medicinereminder.MedicalAssistant.CustomViews.CircleView
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -68,7 +68,7 @@
             app:isButton="true"
             app:fillColor="@color/themeColorDark"/>
 
-        <architect.jazzy.medicinereminder.CustomViews.CircleView
+        <architect.jazzy.medicinereminder.MedicalAssistant.CustomViews.CircleView
             android:layout_width="0dp"
             android:layout_height="match_parent"
             app:isButton="true"

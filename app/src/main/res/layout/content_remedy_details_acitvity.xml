@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:id="@+id/nestedScrollView"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="architect.jazzy.medicinereminder.Fragments.OnlineActivity.RemedyDetailsAcitvity"
+    tools:context=".RemedySharing.RemedyDetailsAcitvity"
     tools:showIn="@layout/activity_remedy_details_acitvity">
 
     <LinearLayout
@@ -21,7 +21,7 @@
         android:paddingRight="5dp"
         android:paddingTop="15dp">
 
-        <architect.jazzy.medicinereminder.CustomViews.CapitalTextView
+        <architect.jazzy.medicinereminder.MedicalAssistant.CustomViews.CapitalTextView
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

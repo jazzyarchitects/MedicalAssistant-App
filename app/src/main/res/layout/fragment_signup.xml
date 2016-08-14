@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:background="@drawable/back_night"
-    tools:context=".Fragments.OnlineActivity.Registration.LoginFragment">
+    tools:context=".RemedySharing.Fragments.Registration.LoginFragment">
 
     <ScrollView
         android:layout_width="wrap_content"

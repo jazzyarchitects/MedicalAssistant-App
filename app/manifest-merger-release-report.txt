@@ -55,7 +55,7 @@ MERGED from com.android.support:support-v4:21.0.0:16:5
 		ADDED from AndroidManifest.xml:17:9
 	android:name
 		ADDED from AndroidManifest.xml:13:9
-activity#architect.jazzy.medicinereminder.Activities.MainActivity
+activity#MainActivity
 ADDED from AndroidManifest.xml:18:9
 	android:windowSoftInputMode
 		ADDED from AndroidManifest.xml:21:13
@@ -109,7 +109,7 @@ ADDED from AndroidManifest.xml:47:9
 		ADDED from AndroidManifest.xml:50:13
 	android:name
 		ADDED from AndroidManifest.xml:48:13
-receiver#architect.jazzy.medicinereminder.Activities.AppWidget
+receiver#AppWidget
 ADDED from AndroidManifest.xml:53:9
 	android:name
 		ADDED from AndroidManifest.xml:53:19
@@ -153,7 +153,7 @@ ADDED from AndroidManifest.xml:76:9
 		ADDED from AndroidManifest.xml:78:13
 	android:name
 		ADDED from AndroidManifest.xml:77:13
-activity#architect.jazzy.medicinereminder.Activities.AboutUs
+activity#AboutUs
 ADDED from AndroidManifest.xml:82:9
 	android:label
 		ADDED from AndroidManifest.xml:84:13
@@ -169,7 +169,7 @@ ADDED from AndroidManifest.xml:87:9
 		ADDED from AndroidManifest.xml:90:13
 	android:name
 		ADDED from AndroidManifest.xml:88:13
-activity#architect.jazzy.medicinereminder.Activities.PopupWindow
+activity#PopupWindow
 ADDED from AndroidManifest.xml:92:9
 	android:label
 		ADDED from AndroidManifest.xml:94:13
@@ -179,7 +179,7 @@ ADDED from AndroidManifest.xml:92:9
 		ADDED from AndroidManifest.xml:95:13
 	android:name
 		ADDED from AndroidManifest.xml:93:13
-activity#architect.jazzy.medicinereminder.Activities.FullScreenLockScreen
+activity#FullScreenLockScreen
 ADDED from AndroidManifest.xml:98:9
 	android:label
 		ADDED from AndroidManifest.xml:100:13
@@ -201,7 +201,7 @@ ADDED from AndroidManifest.xml:109:9
 		ADDED from AndroidManifest.xml:111:13
 	android:name
 		ADDED from AndroidManifest.xml:110:13
-activity#architect.jazzy.medicinereminder.Activities.TimeSettingPreference
+activity#TimeSettingPreference
 ADDED from AndroidManifest.xml:112:9
 	android:windowSoftInputMode
 		ADDED from AndroidManifest.xml:116:13

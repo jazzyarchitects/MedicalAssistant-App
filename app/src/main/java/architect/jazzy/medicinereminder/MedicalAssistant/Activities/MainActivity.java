@@ -460,6 +460,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     displayFragment(new AddDoctorFragment(), true);
                 }
                 break;
+            case DashboardFragment.ADD_MEDICINE_ID:
+                if(!(fragment instanceof AddMedicineFragment)){
+                    FirebaseConstants.Analytics.logCurrentScreen(this, "Add Medicine");
+                    displayFragment(new AddMedicineFragment(), true);
+                }
+                break;
             case DashboardFragment.SEARCH_ID:
                 if(!(fragment instanceof SearchFragment)){
                     FirebaseConstants.Analytics.logCurrentScreen(this, "Search");

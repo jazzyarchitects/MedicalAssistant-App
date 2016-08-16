@@ -84,6 +84,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     public static final String TAG = "MainActivity";
     private static final int WRITE_PERMISSION_CODE = 8529;
+    private static final int NAV_BEFORE_AD_SHOW = 6;
 
     FragmentBackStack fragmentBackStack = new FragmentBackStack();
     final int SHOW_LIST_REQUEST_CODE = 9865;
@@ -97,6 +98,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     FirebaseRemoteConfig mFirebaseRemoteConfig;
     SharedPreferences firebasePrefs;
     int toolbarColor = 0;
+    int stepCount = 0;
 
 
     private InterstitialAd interstitialAd;
@@ -405,7 +407,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     }
 
     void moveToFragment(){
-        shouldShowInterstitial = false;
+        stepCount++;
+        shouldShowInterstitial = stepCount%NAV_BEFORE_AD_SHOW ==0 && firebasePrefs.getBoolean(FirebaseConstants.RemoteConfig.AD_DASHBOARD_INTERSTITIAL_ENABLED, false);
         Fragment fragment = null;
         android.support.v4.app.Fragment supportFragment = null;
         try {
@@ -480,7 +483,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     public void performNavAction(int menuId) {
         moveToFragmentId = menuId;
         if(moveToFragmentId != R.id.action_settings){
-            Log.e(TAG, "Performing nav action: "+shouldShowInterstitial);
+//            Log.e(TAG, "Performing nav action: "+shouldShowInterstitial);
             if(shouldShowInterstitial && interstitialAd.isLoaded()){
                 interstitialAd.show();
                 return;

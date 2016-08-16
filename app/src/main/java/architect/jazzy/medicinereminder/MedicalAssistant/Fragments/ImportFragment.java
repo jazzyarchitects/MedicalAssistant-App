@@ -1,7 +1,6 @@
 package architect.jazzy.medicinereminder.MedicalAssistant.Fragments;
 
 
-import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -16,9 +15,9 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import architect.jazzy.medicinereminder.HelperClasses.Constants;
 import architect.jazzy.medicinereminder.MedicalAssistant.CustomComponents.TimingClass;
 import architect.jazzy.medicinereminder.MedicalAssistant.CustomViews.LabelledImage;
-import architect.jazzy.medicinereminder.HelperClasses.Constants;
 import architect.jazzy.medicinereminder.MedicalAssistant.Models.Doctor;
 import architect.jazzy.medicinereminder.MedicalAssistant.Models.Medicine;
 import architect.jazzy.medicinereminder.R;
@@ -53,7 +52,7 @@ public class ImportFragment extends Fragment {
         // Inflate the layout for this fragment
         medicines = getArguments().getParcelableArrayList("medicines");
         doctors = getArguments().getParcelableArrayList("doctors");
-        mContext=getActivity();
+        mContext = getActivity();
         return inflater.inflate(R.layout.fragment_import, container, false);
     }
 
@@ -131,14 +130,14 @@ public class ImportFragment extends Fragment {
 
             if (medicine.getCustomTime() != null) {
                 holder.custom.setText(TimingClass.getTime(medicine.getCustomTime().getHour(), medicine.getCustomTime().getMinute(), mContext.getSharedPreferences(Constants.SETTING_PREF, Context.MODE_PRIVATE).getBoolean(Constants.IS_24_HOURS_FORMAT, false)), "");
-            }else{
+            } else {
                 holder.custom.setVisibility(View.GONE);
             }
         }
 
         @Override
         public int getItemCount() {
-            return medicines==null?0:medicines.size();
+            return medicines == null ? 0 : medicines.size();
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {
@@ -157,7 +156,7 @@ public class ImportFragment extends Fragment {
                 custom = (LabelledImage) itemView.findViewById(R.id.custom);
             }
 
-            public void setTextSize(float textSize){
+            public void setTextSize(float textSize) {
                 morning.setTextSize(textSize);
                 noon.setTextSize(textSize);
                 night.setTextSize(textSize);
@@ -185,14 +184,14 @@ public class ImportFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
-                Doctor doctor = doctors.get(position);
-                holder.doctorName.setText(doctor.getName());
-                holder.doctorContact.setText(doctor.getPhone_1() + " ," + doctor.getPhone_2());
+            Doctor doctor = doctors.get(position);
+            holder.doctorName.setText(doctor.getName());
+            holder.doctorContact.setText(doctor.getPhone_1() + " ," + doctor.getPhone_2());
         }
 
         @Override
         public int getItemCount() {
-            return doctors==null?0:doctors.size();
+            return doctors == null ? 0 : doctors.size();
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {
@@ -201,20 +200,21 @@ public class ImportFragment extends Fragment {
 
             public ViewHolder(View itemView) {
                 super(itemView);
-                doctorName=(TextView)itemView.findViewById(R.id.doctorName);
-                doctorContact=(TextView)itemView.findViewById(R.id.doctorContact);
+                doctorName = (TextView) itemView.findViewById(R.id.doctorName);
+                doctorContact = (TextView) itemView.findViewById(R.id.doctorContact);
             }
         }
     }
 
     @Override
-    public void onAttach(Activity activity) {
+    public void onAttach(Context activity) {
         super.onAttach(activity);
-        importConfirmListener=(ImportConfirmListener)activity;
+        importConfirmListener = (ImportConfirmListener) activity;
     }
 
     ImportConfirmListener importConfirmListener;
-    public interface ImportConfirmListener{
+
+    public interface ImportConfirmListener {
         void onImportConfirmed();
     }
 }

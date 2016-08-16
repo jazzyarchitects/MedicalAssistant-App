@@ -20,11 +20,11 @@
         <!--android:summary="Import data from external memory"-->
         <!--android:title="Import"></Preference>-->
 
-    <Preference android:title="Backup and Restore">
-        <intent
-            android:action="android.intent.action.VIEW"
-            android:targetClass="architect.jazzy.medicinereminder.Activities.BackupRestore"
-            android:targetPackage="architect.jazzy.medicinereminder" />
-    </Preference>
+    <!--<Preference android:title="Backup and Restore">-->
+        <!--<intent-->
+            <!--android:action="android.intent.action.VIEW"-->
+            <!--android:targetClass="architect.jazzy.medicinereminder.Activities.BackupRestore"-->
+            <!--android:targetPackage="architect.jazzy.medicinereminder" />-->
+    <!--</Preference>-->
 
 </PreferenceScreen>

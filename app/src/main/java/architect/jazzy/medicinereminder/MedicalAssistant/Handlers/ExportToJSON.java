@@ -47,7 +47,8 @@ public class ExportToJSON {
     public static boolean ExportData(final Activity activity) {
         try {
             File folder = new File(PATH);
-            folder.mkdirs();
+            if(!folder.exists())
+                folder.mkdirs();
 
             DataHandler handler = new DataHandler(activity);
             ArrayList<Medicine> medicines = handler.getMedicineList();

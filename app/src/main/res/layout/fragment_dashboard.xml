@@ -277,7 +277,7 @@
                     android:padding="5dp"
                     android:text="No more medicines"
                     android:textColor="@color/dashboardMedicineTextColor"
-                    android:textSize="11sp" />
+                    android:textSize="11sp" /> 
 
             </TableRow>
 
@@ -287,20 +287,6 @@
     </LinearLayout>
 
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/floatingActionButton"
-        android:layout_width="@dimen/floatingActionButtonSize"
-        android:layout_height="@dimen/floatingActionButtonSize"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_margin="10dp"
-        android:src="@drawable/ic_action_new"
-        android:visibility="gone"
-        app:backgroundTintMode="src_atop"
-        app:elevation="@dimen/fab_elevation"
-        app:fabSize="normal"
-        app:pressedTranslationZ="5dp" />
 
 
 </RelativeLayout>

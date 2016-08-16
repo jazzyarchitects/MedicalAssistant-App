@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="60dp"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:paddingBottom="2dp"
     android:paddingLeft="5dp"
@@ -33,10 +34,10 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:textSize="14sp"
+            android:textSize="12sp"
             android:keepScreenOn="true"
             android:src="@drawable/morning"
-            android:text="Before" />
+            tools:text="Before" />
 
         <architect.jazzy.medicinereminder.MedicalAssistant.CustomViews.LabelledImage
             android:id="@+id/noon"
@@ -45,7 +46,7 @@
             android:layout_weight="1"
             android:keepScreenOn="true"
             android:src="@drawable/noon"
-            android:text="A" />
+            tools:text="After" />
 
         <architect.jazzy.medicinereminder.MedicalAssistant.CustomViews.LabelledImage
             android:id="@+id/night"
@@ -54,7 +55,7 @@
             android:layout_weight="1"
             android:keepScreenOn="true"
             android:src="@drawable/night"
-            android:text="B" />
+            tools:text="Before" />
 
         <architect.jazzy.medicinereminder.MedicalAssistant.CustomViews.LabelledImage
             android:id="@+id/custom"

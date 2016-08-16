@@ -6,31 +6,26 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
-import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.TranslateAnimation;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Random;
 
+import architect.jazzy.medicinereminder.HelperClasses.Constants;
 import architect.jazzy.medicinereminder.MedicalAssistant.Activities.MedicineDetails;
 import architect.jazzy.medicinereminder.MedicalAssistant.CustomComponents.CyclicTransitionDrawable;
 import architect.jazzy.medicinereminder.MedicalAssistant.CustomViews.CircleView;
 import architect.jazzy.medicinereminder.MedicalAssistant.Handlers.DataHandler;
-import architect.jazzy.medicinereminder.HelperClasses.Constants;
 import architect.jazzy.medicinereminder.MedicalAssistant.Models.MedTime;
 import architect.jazzy.medicinereminder.MedicalAssistant.Models.Medicine;
 import architect.jazzy.medicinereminder.R;
@@ -41,26 +36,21 @@ public class DashboardFragment extends Fragment {
     View v;
     TextView medicineCountView;
     ImageView backParent;
-    FloatingActionButton floatingActionButton;
     RelativeLayout relativeLayout;
     boolean isMenuOpen = false;
     boolean is24hr;
 
     Drawable[] drawables;
 
-
     CircleView circleSearch, circleNews, circleAddMedicine, circleMedicineList, circleDoctorList;
 
     int[] medicineViewIds = {R.id.medicine1, R.id.medicine2, R.id.medicine3, R.id.medicine4, R.id.medicine5, R.id.medicine6};
 
-    String[] medicineViewTimes = {"Before Breakfast", "After Breakfast", "Before Lunch", "After Lunch", "Before Dinner", "After Dinner"};
-
-    public static final int ADD_DOCTOR_FAB_ID = 305;
-    public static final int ADD_MEDICINE_FAB_ID = 218;
     MedTime[][] medTimes = new MedTime[3][2];
 
     public static final int ADD_DOCTOR_ID = 789655;
     public static final int SEARCH_ID = 968974;
+    public static final int ADD_MEDICINE_ID = 789656;
 
     public DashboardFragment() {
         // Required empty public constructor
@@ -96,9 +86,8 @@ public class DashboardFragment extends Fragment {
 
         int color2 = Constants.getThemeColor(getActivity());
         int color = Color.argb(0xCC, Color.red(color2), Color.green(color2), Color.blue(color2));
-        ((LinearLayout) view.findViewById(R.id.countBack)).setBackgroundColor(color);
+        view.findViewById(R.id.countBack).setBackgroundColor(color);
 
-        floatingActionButton = (FloatingActionButton) v.findViewById(R.id.floatingActionButton);
         relativeLayout = (RelativeLayout) v.findViewById(R.id.r1);
         medicineCountView = (TextView) v.findViewById(R.id.medicineCount);
         backParent = (ImageView) v.findViewById(R.id.backParent);
@@ -119,7 +108,7 @@ public class DashboardFragment extends Fragment {
         circleAddMedicine.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onFragmentInteractionListener.performNavAction(DashboardFragment.ADD_DOCTOR_ID);
+                onFragmentInteractionListener.performNavAction(DashboardFragment.ADD_MEDICINE_ID);
             }
         });
 
@@ -196,19 +185,9 @@ public class DashboardFragment extends Fragment {
             });
             i++;
         }
+        handler.close();
 
-//        initialize();
     }
-
-//    void initialize() {
-//        floatingActionButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Log.e(TAG, "fab add onclick");
-//                addNewItems();
-//            }
-//        });
-//    }
 
     int getRandomDrawableIndex() {
         Random random = new Random();
@@ -242,78 +221,6 @@ public class DashboardFragment extends Fragment {
         }
         s += "</small>";
         return Pair.create(medicine, s);
-    }
-
-//    void addNewItems() {
-//        if (isMenuOpen) {
-//            return;
-//        }
-//        isMenuOpen = true;
-//        Log.e(TAG, "fab doc creating");
-//        FloatingActionButton addDocFab = new FloatingActionButton(getActivity());
-//        addDocFab.setImageResource(R.drawable.ic_action_user);
-//        addDocFab.setClickable(true);
-//        addDocFab.setBackgroundTintList(new ColorStateList(new int[][]{new int[]{0}}, new int[]{getResources().getColor(R.color.actionBackground)}));
-//        addDocFab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Log.e(TAG, "fab add doctor onclick");
-//                onFragmentInteractionListener.addDoctor();
-//            }
-//        });
-//        RelativeLayout.LayoutParams docFabLayoutParams = new RelativeLayout.LayoutParams((int) getResources().getDimension(R.dimen.floatingActionButtonSize), (int) getResources().getDimension(R.dimen.floatingActionButtonSize));
-//
-//        int bottom = 10 + (int) getResources().getDimension(R.dimen.floatingActionButtonSize) + 10 + 10;
-//        docFabLayoutParams.setMargins(10, 10, 10, bottom);
-//        docFabLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-//        docFabLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-//        addDocFab.setLayoutParams(docFabLayoutParams);
-//
-//
-//        FloatingActionButton addMedFab = new FloatingActionButton(getActivity());
-//        try {
-//            Drawable drawable = getResources().getDrawable(R.drawable.ic_action_pill).mutate();
-//            drawable.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
-//            addMedFab.setImageDrawable(drawable);
-//        } catch (NullPointerException e) {
-//            e.printStackTrace();
-//        }
-//        relativeLayout.addView(addDocFab);
-//        addMedFab.setClickable(true);
-//        addMedFab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                onFragmentInteractionListener.addMedicine();
-//            }
-//        });
-//        addMedFab.setBackgroundTintList(new ColorStateList(new int[][]{new int[]{0}}, new int[]{getResources().getColor(R.color.color_death)}));
-//        RelativeLayout.LayoutParams addMedLayoutParams = new RelativeLayout.LayoutParams((int) getResources().getDimension(R.dimen.floatingActionButtonSize), (int) getResources().getDimension(R.dimen.floatingActionButtonSize));
-//        addMedLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-//        addMedLayoutParams.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
-//        bottom *= 2;
-//        bottom -= 10;
-//        addMedLayoutParams.setMargins(10, 10, 10, bottom);
-//        addMedFab.setLayoutParams(addMedLayoutParams);
-//
-//
-//        relativeLayout.addView(addMedFab);
-//
-//        addDocFab.startAnimation(getShowAnimation(true));
-//        addMedFab.startAnimation(getShowAnimation(false));
-//
-//    }
-
-    private Animation getShowAnimation(boolean isFirst) {
-        Log.e(TAG, "fab getting animation");
-        int fromX = 20 + (int) getResources().getDimension(R.dimen.floatingActionButtonSize);
-        TranslateAnimation animation = new TranslateAnimation(fromX, 0, 0, 0);
-        animation.setFillEnabled(true);
-        animation.setFillAfter(true);
-        animation.setDuration(getResources().getInteger(R.integer.fabAnimDuration));
-        if (!isFirst) {
-            animation.setStartOffset(getResources().getInteger(R.integer.fabAnimDuration) / 2);
-        }
-        return animation;
     }
 
     OnFragmentInteractionListener onFragmentInteractionListener;
@@ -354,9 +261,5 @@ public class DashboardFragment extends Fragment {
         }
         return null;
     }
-
-    private final int BREAKFAST = 0;
-    private final int LUNCH = 1;
-    private final int DINNER = 2;
 
 }

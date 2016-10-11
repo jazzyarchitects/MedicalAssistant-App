@@ -1,36 +1,37 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/doctorDetailFragmentsColor"
-    tools:context=".MedicalAssistant.Fragments.DoctorListFragment">
+    tools:context=".MedicalAssistant.Fragments.DoctorListFragment" >
 
-    <android.support.v7.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/recyclerView" />
+  <android.support.v7.widget.RecyclerView
+      android:id="@+id/recyclerView"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent" />
 
 
-    <LinearLayout
+  <LinearLayout
+      android:id="@+id/noMed"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_centerInParent="true"
+      android:orientation="vertical" >
+
+    <ImageView
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center_horizontal"
+        android:src="@drawable/ic_action_emo_cool" />
+
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:id="@+id/noMed"
-        android:orientation="vertical">
+        android:gravity="center"
+        android:text="No medicines here"
+        android:textColor="#444"
+        android:textSize="16sp" />
 
-        <ImageView
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_gravity="center_horizontal"
-            android:src="@drawable/ic_action_emo_cool"/>
+  </LinearLayout >
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="No medicines here"
-            android:textColor="#444"
-            android:textSize="16sp"/>
-
-    </LinearLayout>
-
-</RelativeLayout>
+</RelativeLayout >

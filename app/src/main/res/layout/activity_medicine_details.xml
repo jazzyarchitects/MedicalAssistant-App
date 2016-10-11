@@ -1,123 +1,121 @@
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/screen_background"
-    tools:context=".MedicalAssistant.Activities.MedicineDetails">
+    tools:context=".MedicalAssistant.Activities.MedicineDetails" >
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/toolBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/themeColorDefault"
-        android:theme="@style/Theme.AppCompat" />
+  <android.support.v7.widget.Toolbar
+      android:id="@+id/toolBar"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:background="@color/themeColorDefault"
+      android:theme="@style/Theme.AppCompat" />
 
-    <architect.jazzy.medicinereminder.MedicalAssistant.CustomViews.CustomViewPager
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/frame"
-        android:layout_width="match_parent"
+  <architect.jazzy.medicinereminder.MedicalAssistant.CustomViews.CustomViewPager xmlns:android="http://schemas.android.com/apk/res/android"
+      android:id="@+id/frame"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:layout_above="@+id/optionsbox"
+      android:layout_below="@+id/toolBar"
+      android:layout_centerInParent="true"
+      android:layout_margin="1dp" />
+
+
+  <LinearLayout
+      android:id="@+id/optionsbox"
+      style="?android:attr/buttonBarStyle"
+      android:layout_width="match_parent"
+      android:layout_height="40dp"
+      android:layout_alignParentBottom="true"
+      android:background="#FFF"
+      android:orientation="horizontal"
+      android:weightSum="2" >
+
+
+    <Button
+        android:id="@+id/editMedicine"
+        style="?android:attr/buttonBarButtonStyle"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_above="@+id/optionsbox"
-        android:layout_centerInParent="true"
-        android:layout_below="@+id/toolBar"
-        android:layout_margin="1dp"/>
+        android:layout_weight="1"
+        android:text="Edit" />
 
 
-    <LinearLayout
-        android:id="@+id/optionsbox"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:background="#FFF"
-        android:layout_alignParentBottom="true"
-        style="?android:attr/buttonBarStyle"
-        android:orientation="horizontal"
-        android:weightSum="2">
-
-
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="Edit"
-            android:id="@+id/editMedicine"
-            style="?android:attr/buttonBarButtonStyle"/>
-
-
-        <Button
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:text="Delete"
+    <Button
         android:id="@+id/deleteMedicine"
-        style="?android:attr/buttonBarButtonStyle"/>
+        style="?android:attr/buttonBarButtonStyle"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:text="Delete" />
 
-    </LinearLayout>
+  </LinearLayout >
 
-    <!--<LinearLayout-->
-        <!--android:id="@+id/optionsbox"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="50dp"-->
-        <!--android:layout_alignParentBottom="true"-->
-        <!--android:background="#80000000"-->
-        <!--android:orientation="horizontal"-->
-        <!--android:weightSum="2">-->
+  <!--<LinearLayout-->
+  <!--android:id="@+id/optionsbox"-->
+  <!--android:layout_width="match_parent"-->
+  <!--android:layout_height="50dp"-->
+  <!--android:layout_alignParentBottom="true"-->
+  <!--android:background="#80000000"-->
+  <!--android:orientation="horizontal"-->
+  <!--android:weightSum="2">-->
 
-        <!--<LinearLayout-->
-            <!--android:id="@+id/editMedicine"-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:layout_weight="1"-->
-            <!--android:background="@drawable/details_options_back"-->
-            <!--android:gravity="center"-->
-            <!--android:orientation="horizontal">-->
+  <!--<LinearLayout-->
+  <!--android:id="@+id/editMedicine"-->
+  <!--android:layout_width="0dp"-->
+  <!--android:layout_height="match_parent"-->
+  <!--android:layout_weight="1"-->
+  <!--android:background="@drawable/details_options_back"-->
+  <!--android:gravity="center"-->
+  <!--android:orientation="horizontal">-->
 
-            <!--<ImageView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:scaleType="center"-->
-                <!--android:src="@drawable/ic_action_edit" />-->
+  <!--<ImageView-->
+  <!--android:layout_width="wrap_content"-->
+  <!--android:layout_height="match_parent"-->
+  <!--android:scaleType="center"-->
+  <!--android:src="@drawable/ic_action_edit" />-->
 
-            <!--<TextView-->
-                <!--android:id="@+id/editButtonText"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:layout_marginLeft="5dp"-->
-                <!--android:gravity="center"-->
-                <!--android:text="Edit"-->
-                <!--android:textColor="#FFF"-->
-                <!--android:textSize="18sp" />-->
+  <!--<TextView-->
+  <!--android:id="@+id/editButtonText"-->
+  <!--android:layout_width="wrap_content"-->
+  <!--android:layout_height="match_parent"-->
+  <!--android:layout_marginLeft="5dp"-->
+  <!--android:gravity="center"-->
+  <!--android:text="Edit"-->
+  <!--android:textColor="#FFF"-->
+  <!--android:textSize="18sp" />-->
 
-        <!--</LinearLayout>-->
+  <!--</LinearLayout>-->
 
-        <!--<LinearLayout-->
-            <!--android:id="@+id/deleteMedicine"-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:layout_weight="1"-->
-            <!--android:background="@drawable/details_options_back"-->
-            <!--android:gravity="center"-->
-            <!--android:orientation="horizontal">-->
+  <!--<LinearLayout-->
+  <!--android:id="@+id/deleteMedicine"-->
+  <!--android:layout_width="0dp"-->
+  <!--android:layout_height="match_parent"-->
+  <!--android:layout_weight="1"-->
+  <!--android:background="@drawable/details_options_back"-->
+  <!--android:gravity="center"-->
+  <!--android:orientation="horizontal">-->
 
-            <!--<ImageView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:scaleType="center"-->
-                <!--android:src="@drawable/ic_action_delete" />-->
+  <!--<ImageView-->
+  <!--android:layout_width="wrap_content"-->
+  <!--android:layout_height="match_parent"-->
+  <!--android:scaleType="center"-->
+  <!--android:src="@drawable/ic_action_delete" />-->
 
-            <!--<TextView-->
-                <!--android:id="@+id/deleteButtonText"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="match_parent"-->
-                <!--android:layout_marginLeft="5dp"-->
-                <!--android:gravity="center"-->
-                <!--android:text="Delete"-->
-                <!--android:textColor="#FFF"-->
-                <!--android:textSize="18sp" />-->
+  <!--<TextView-->
+  <!--android:id="@+id/deleteButtonText"-->
+  <!--android:layout_width="wrap_content"-->
+  <!--android:layout_height="match_parent"-->
+  <!--android:layout_marginLeft="5dp"-->
+  <!--android:gravity="center"-->
+  <!--android:text="Delete"-->
+  <!--android:textColor="#FFF"-->
+  <!--android:textSize="18sp" />-->
 
-        <!--</LinearLayout>-->
+  <!--</LinearLayout>-->
 
 
-    <!--</LinearLayout>-->
+  <!--</LinearLayout>-->
 
-</RelativeLayout>
+</RelativeLayout >

@@ -3,47 +3,46 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".RemedySharing.Fragments.RemedyFeedFragment">
+    tools:context=".RemedySharing.Fragments.RemedyFeedFragment" >
 
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/actionBackgroundDarker"
-        android:id="@+id/loading">
+  <RelativeLayout
+      android:id="@+id/loading"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:background="@color/actionBackgroundDarker" >
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:orientation="vertical"
-            android:gravity="center">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:orientation="vertical" >
 
-            <ProgressBar
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                style="?android:attr/progressBarStyleLarge"
-                android:indeterminate="true"/>
+      <ProgressBar
+          style="?android:attr/progressBarStyleLarge"
+          android:layout_width="50dp"
+          android:layout_height="50dp"
+          android:indeterminate="true" />
 
-            <architect.jazzy.medicinereminder.MedicalAssistant.CustomViews.GraduallyTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:textSize="16sp"
-                android:textColor="#FFF"
-                android:id="@+id/loadingText"
-                android:text="Loading..."/>
+      <architect.jazzy.medicinereminder.MedicalAssistant.CustomViews.GraduallyTextView
+          android:id="@+id/loadingText"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="10dp"
+          android:text="Loading..."
+          android:textColor="#FFF"
+          android:textSize="16sp" />
 
-        </LinearLayout>
-    </RelativeLayout>
+    </LinearLayout >
+  </RelativeLayout >
 
-    <android.support.v7.widget.RecyclerView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scrollbars="vertical"
-        android:clipToPadding="true"
-        android:id="@+id/recyclerView" />
+  <android.support.v7.widget.RecyclerView
+      android:id="@+id/recyclerView"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:clipToPadding="true"
+      android:scrollbars="vertical" />
 
 
-</android.support.design.widget.CoordinatorLayout>
+</android.support.design.widget.CoordinatorLayout >

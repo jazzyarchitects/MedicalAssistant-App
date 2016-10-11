@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:title="Delete"
-        android:icon="@drawable/ic_action_delete"
-        android:id="@+id/deleteDoctor" />
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+  <item
+      android:id="@+id/deleteDoctor"
+      android:icon="@drawable/ic_action_delete"
+      android:title="Delete" />
 
 
-    <item android:title="Call"
-        android:icon="@drawable/ic_call_black_24dp"
-        android:id="@+id/callDoctor" />
-</menu>
+  <item
+      android:id="@+id/callDoctor"
+      android:icon="@drawable/ic_call_black_24dp"
+      android:title="Call" />
+</menu >

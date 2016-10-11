@@ -1,38 +1,39 @@
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/deafaultFragmentBackground"
+    tools:context=".MedicalAssistant.Fragments.BrowserFragment" >
+
+  <ProgressBar
+      android:id="@+id/progressBar"
+      style="?android:attr/progressBarStyleHorizontal"
+      android:layout_width="match_parent"
+      android:layout_height="3dp"
+      android:layout_below="@id/toolbar"
+      android:progressDrawable="@drawable/progress_drawable" />
+
+  <RelativeLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:layout_below="@+id/progressBar" >
+
+
+    <WebView
+        android:id="@+id/webView"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/deafaultFragmentBackground"
-        tools:context=".MedicalAssistant.Fragments.BrowserFragment">
+        android:background="#FFF"
+        android:padding="10dp" />
 
-        <ProgressBar
-            android:layout_width="match_parent"
-            android:layout_height="3dp"
-            android:id="@+id/progressBar"
-            style="?android:attr/progressBarStyleHorizontal"
-            android:progressDrawable="@drawable/progress_drawable"
-            android:layout_below="@id/toolbar"/>
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="@dimen/webViewIconSize"
+        android:layout_height="@dimen/webViewIconSize"
+        android:layout_centerInParent="true"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/ic_launcher" />
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/progressBar">
+  </RelativeLayout >
 
-
-            <WebView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:id="@+id/webView"
-                android:background="#FFF"
-                android:padding="10dp" />
-
-            <ImageView
-                android:layout_width="@dimen/webViewIconSize"
-                android:layout_height="@dimen/webViewIconSize"
-                android:src="@mipmap/ic_launcher"
-                android:id="@+id/logo"
-                android:scaleType="centerCrop"
-                android:layout_centerInParent="true"/>
-
-        </RelativeLayout>
-
-    </RelativeLayout>
+</RelativeLayout >

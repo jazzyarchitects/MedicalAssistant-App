@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <integer name="activity_transition_duration">250</integer>
-    <integer name="splash_screen_hide_duration">300</integer>
-    <integer name="main_show_duration">500</integer>
-    <integer name="fabAnimDuration">350</integer>
-    <integer name="fragmentTransitionDuration">500</integer>
-    <integer name="fragmentTransitionDuration2">300</integer>
-    <integer name="tranisitionAnimationDuration">500</integer>
-    <integer name="doctorContactDetailsLabel">3</integer>
-    <integer name="doctorContactDetailsField">7</integer>
-</resources>
+<resources >
+  <integer name="activity_transition_duration" >250</integer >
+  <integer name="splash_screen_hide_duration" >300</integer >
+  <integer name="main_show_duration" >500</integer >
+  <integer name="fabAnimDuration" >350</integer >
+  <integer name="fragmentTransitionDuration" >500</integer >
+  <integer name="fragmentTransitionDuration2" >300</integer >
+  <integer name="tranisitionAnimationDuration" >500</integer >
+  <integer name="doctorContactDetailsLabel" >3</integer >
+  <integer name="doctorContactDetailsField" >7</integer >
+</resources >

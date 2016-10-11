@@ -5,19 +5,19 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:openDrawer="start">
+    tools:openDrawer="start" >
 
-    <include
-        layout="@layout/app_bar_online"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+  <include
+      layout="@layout/app_bar_online"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent" />
 
-    <android.support.design.widget.NavigationView
-        android:id="@+id/nav_view"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        app:headerLayout="@layout/nav_header_online"
-        app:menu="@menu/activity_online_drawer" />
+  <android.support.design.widget.NavigationView
+      android:id="@+id/nav_view"
+      android:layout_width="wrap_content"
+      android:layout_height="match_parent"
+      android:layout_gravity="start"
+      app:headerLayout="@layout/nav_header_online"
+      app:menu="@menu/activity_online_drawer" />
 
-</android.support.v4.widget.DrawerLayout>
+</android.support.v4.widget.DrawerLayout >

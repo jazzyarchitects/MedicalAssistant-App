@@ -5,64 +5,64 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/screen_background"
-    tools:context=".MedicalAssistant.Fragments.NewsFragments.NewsListFragment">
+    tools:context=".MedicalAssistant.Fragments.NewsFragments.NewsListFragment" >
 
-    <ProgressBar
-        android:id="@+id/progressBar"
-        style="?android:progressBarStyleLarge"
-        android:layout_width="@dimen/newsProgressBarSize"
-        android:layout_height="@dimen/newsProgressBarSize"
-        android:layout_centerInParent="true"
-        android:indeterminate="true" />
+  <ProgressBar
+      android:id="@+id/progressBar"
+      style="?android:progressBarStyleLarge"
+      android:layout_width="@dimen/newsProgressBarSize"
+      android:layout_height="@dimen/newsProgressBarSize"
+      android:layout_centerInParent="true"
+      android:indeterminate="true" />
 
-    <!--<ImageView-->
-    <!--android:layout_width="150dp"-->
-    <!--android:layout_height="150dp"-->
-    <!--android:layout_centerInParent="true"-->
-    <!--android:src="@drawable/no_network"-->
-    <!--android:visibility="gone"-->
-    <!--android:id="@+id/noNetworkPic"-->
-    <!--android:contentDescription="No Network"/>-->
+  <!--<ImageView-->
+  <!--android:layout_width="150dp"-->
+  <!--android:layout_height="150dp"-->
+  <!--android:layout_centerInParent="true"-->
+  <!--android:src="@drawable/no_network"-->
+  <!--android:visibility="gone"-->
+  <!--android:id="@+id/noNetworkPic"-->
+  <!--android:contentDescription="No Network"/>-->
 
-    <android.support.v4.widget.SwipeRefreshLayout
-        android:id="@+id/swipeRefreshLayout"
+  <android.support.v4.widget.SwipeRefreshLayout
+      android:id="@+id/swipeRefreshLayout"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent" >
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/newsfeed"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent" />
+  </android.support.v4.widget.SwipeRefreshLayout >
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/newsfeed"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </android.support.v4.widget.SwipeRefreshLayout>
+  <android.support.design.widget.CoordinatorLayout
+      android:id="@+id/coordinatorLayout"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_alignParentBottom="true" >
 
-    <android.support.design.widget.CoordinatorLayout
-        android:id="@+id/coordinatorLayout"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true">
+        android:layout_height="match_parent"
+        android:layout_marginBottom="15dp" >
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="15dp">
-
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/floatingActionButton"
-                android:layout_width="@dimen/floatingActionButtonSize"
-                android:layout_height="@dimen/floatingActionButtonSize"
-                android:layout_alignParentBottom="true"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_marginEnd="15dp"
-                android:layout_marginRight="15dp"
-                android:contentDescription="Filter News"
-                android:scaleType="centerCrop"
-                android:src="@drawable/ic_action_filter"
-                android:tint="#FFF" />
-        </RelativeLayout>
+      <android.support.design.widget.FloatingActionButton
+          android:id="@+id/floatingActionButton"
+          android:layout_width="@dimen/floatingActionButtonSize"
+          android:layout_height="@dimen/floatingActionButtonSize"
+          android:layout_alignParentBottom="true"
+          android:layout_alignParentEnd="true"
+          android:layout_alignParentRight="true"
+          android:layout_marginEnd="15dp"
+          android:layout_marginRight="15dp"
+          android:contentDescription="Filter News"
+          android:scaleType="centerCrop"
+          android:src="@drawable/ic_action_filter"
+          android:tint="#FFF" />
+    </RelativeLayout >
 
 
-    </android.support.design.widget.CoordinatorLayout>
+  </android.support.design.widget.CoordinatorLayout >
 
 
-</RelativeLayout>
+</RelativeLayout >

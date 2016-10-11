@@ -10,6 +10,6 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".RemedySharing.OnlineActivity"
-    tools:showIn="@layout/app_bar_online">
+    tools:showIn="@layout/app_bar_online" >
 
-</RelativeLayout>
+</RelativeLayout >

@@ -12,284 +12,284 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:cardUseCompatPadding="true"
-    tools:context=".MedicalAssistant.Fragments.MedicineDetailFragment">
+    tools:context=".MedicalAssistant.Fragments.MedicineDetailFragment" >
 
-    <ScrollView
+  <ScrollView
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:background="#FFF"
+      android:minHeight="500dp" >
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#FFF"
-        android:minHeight="500dp">
+        android:orientation="vertical"
+        android:padding="5dp" >
+
+      <EditText
+          android:id="@+id/medName"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginBottom="5dp"
+          android:layout_marginTop="3dp"
+          android:background="#00000000"
+          android:enabled="false"
+          android:gravity="center"
+          android:hint="Medicine Name"
+          android:inputType="text"
+          android:minHeight="30dp"
+          android:text="Medicine Name"
+          android:textColor="#000"
+          android:textSize="@dimen/titleTextSize"
+          android:textStyle="bold" />
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="5dp"
+          android:orientation="horizontal"
+          android:weightSum="4" >
 
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#FFF"
-            android:orientation="vertical"
-            android:padding="5dp">
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical" >
 
-            <EditText
-                android:id="@+id/medName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="5dp"
-                android:layout_marginTop="3dp"
-                android:background="#00000000"
-                android:enabled="false"
-                android:gravity="center"
-                android:hint="Medicine Name"
-                android:inputType="text"
-                android:minHeight="30dp"
-                android:text="Medicine Name"
-                android:textColor="#000"
-                android:textSize="@dimen/titleTextSize"
-                android:textStyle="bold" />
+          <CheckBox
+              android:id="@+id/check_sun"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="Sun" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:orientation="horizontal"
-                android:weightSum="4">
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <CheckBox
-                        android:id="@+id/check_sun"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Sun" />
-
-                    <CheckBox
-                        android:id="@+id/check_mon"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Mon" />
+          <CheckBox
+              android:id="@+id/check_mon"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="Mon" />
 
 
-                </LinearLayout>
+        </LinearLayout >
 
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical" >
 
-                    <CheckBox
-                        android:id="@+id/check_tue"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Tue" />
+          <CheckBox
+              android:id="@+id/check_tue"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="Tue" />
 
-                    <CheckBox
-                        android:id="@+id/check_wed"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Wed" />
-
-
-                </LinearLayout>
+          <CheckBox
+              android:id="@+id/check_wed"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="Wed" />
 
 
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <CheckBox
-                        android:id="@+id/check_thu"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Thu" />
-
-                    <CheckBox
-                        android:id="@+id/check_fri"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:checked="true"
-                        android:text="Fri" />
-
-                </LinearLayout>
+        </LinearLayout >
 
 
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical" >
 
-                    <CheckBox
-                        android:id="@+id/check_sat"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Sat" />
+          <CheckBox
+              android:id="@+id/check_thu"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="Thu" />
 
-                    <TableRow
-                        android:layout_width="match_parent"
-                        android:id="@+id/iconRow"
-                        android:visibility="gone"
-                        android:layout_height="wrap_content">
+          <CheckBox
+              android:id="@+id/check_fri"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:checked="true"
+              android:text="Fri" />
 
-                        <ImageView
-                            android:layout_width="30dp"
-                            android:layout_height="30dp"
-                            android:id="@+id/medIcon"
-                            android:padding="3dp"
-                            android:src="@mipmap/ic_launcher"/>
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center"
-                            android:text="Icon"/>
-                    </TableRow>
+        </LinearLayout >
 
 
-                </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical" >
 
+          <CheckBox
+              android:id="@+id/check_sat"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:text="Sat" />
 
-            </LinearLayout>
+          <TableRow
+              android:id="@+id/iconRow"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:visibility="gone" >
 
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:background="#014b4b4b"
-                android:orientation="horizontal"
+            <ImageView
+                android:id="@+id/medIcon"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:padding="3dp"
-                android:weightSum="2">
-
-                <LinearLayout
-                    android:layout_width="0dip"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <architect.jazzy.medicinereminder.MedicalAssistant.CustomViews.LabelledImage
-                        android:id="@+id/morning"
-                        android:layout_width="match_parent"
-                        android:layout_height="75dp"
-                        android:src="@drawable/morning"
-                        android:text=" ----- " />
-
-                    <architect.jazzy.medicinereminder.MedicalAssistant.CustomViews.LabelledImage
-                        android:id="@+id/noon"
-                        android:layout_width="match_parent"
-                        android:layout_height="75dp"
-                        android:src="@drawable/noon"
-                        android:text=" ----- " />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="0dip"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="vertical">
-
-                    <architect.jazzy.medicinereminder.MedicalAssistant.CustomViews.LabelledImage
-                        android:id="@+id/night"
-                        android:layout_width="match_parent"
-                        android:layout_height="75dp"
-                        android:src="@drawable/night"
-                        android:text=" ----- " />
-
-                    <architect.jazzy.medicinereminder.MedicalAssistant.CustomViews.LabelledImage
-                        android:id="@+id/custom"
-                        android:layout_width="match_parent"
-                        android:layout_height="75dp"
-                        android:src="@drawable/custom_clock"
-                        android:text=" ----- " />
-
-
-                </LinearLayout>
-
-            </LinearLayout>
+                android:src="@mipmap/ic_launcher" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:text="Doctor:"
-                android:textColor="#000"
-                android:textSize="16sp" />
-
-            <Spinner
-                android:id="@+id/doctorSpinner"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="#FEFEFE"
-                android:minHeight="30dp"
-                android:paddingLeft="5dp"
-                android:paddingRight="5dp"
-                android:spinnerMode="dropdown" />
-
-            <EditText
-                android:id="@+id/medNotes"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:hint="Notes"
-                android:drawableRight="@drawable/ic_action_edit"
-                android:drawableEnd="@drawable/ic_action_edit"
-                android:inputType="text"
-                android:textSize="14sp" />
+                android:layout_gravity="center"
+                android:text="Icon" />
+          </TableRow >
 
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:orientation="horizontal"
-                android:weightSum="10">
+        </LinearLayout >
 
-                <!--<TextView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:gravity="center_vertical"-->
-                    <!--android:text="End Date"-->
-                    <!--android:textColor="#000"-->
-                    <!--android:textSize="16sp" />-->
 
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="6"
-                    android:layout_marginLeft="5dp"
-                    android:layout_height="wrap_content">
+      </LinearLayout >
 
-                    <EditText
-                        android:id="@+id/endDate"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Dose finishes on..."
-                        android:inputType="none"
-                        android:drawableRight="@drawable/ic_action_calendar_month"
-                        android:drawableEnd="@drawable/ic_action_calendar_month"
-                        android:lines="1"
-                        android:textSize="14sp" />
 
-                </android.support.design.widget.TextInputLayout>
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="5dp"
+          android:background="#014b4b4b"
+          android:orientation="horizontal"
+          android:padding="3dp"
+          android:weightSum="2" >
 
-                <CheckBox
-                    android:id="@+id/endIndefinite"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="right|center_vertical"
-                    android:layout_weight="4"
-                    android:checked="false"
-                    android:enabled="false"
-                    android:text="Indefinite"
-                    android:textSize="12sp" />
+        <LinearLayout
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical" >
 
-            </LinearLayout>
+          <architect.jazzy.medicinereminder.MedicalAssistant.CustomViews.LabelledImage
+              android:id="@+id/morning"
+              android:layout_width="match_parent"
+              android:layout_height="75dp"
+              android:src="@drawable/morning"
+              android:text=" ----- " />
 
-        </LinearLayout>
+          <architect.jazzy.medicinereminder.MedicalAssistant.CustomViews.LabelledImage
+              android:id="@+id/noon"
+              android:layout_width="match_parent"
+              android:layout_height="75dp"
+              android:src="@drawable/noon"
+              android:text=" ----- " />
+        </LinearLayout >
 
-    </ScrollView>
+        <LinearLayout
+            android:layout_width="0dip"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical" >
 
-</android.support.v7.widget.CardView>
+          <architect.jazzy.medicinereminder.MedicalAssistant.CustomViews.LabelledImage
+              android:id="@+id/night"
+              android:layout_width="match_parent"
+              android:layout_height="75dp"
+              android:src="@drawable/night"
+              android:text=" ----- " />
+
+          <architect.jazzy.medicinereminder.MedicalAssistant.CustomViews.LabelledImage
+              android:id="@+id/custom"
+              android:layout_width="match_parent"
+              android:layout_height="75dp"
+              android:src="@drawable/custom_clock"
+              android:text=" ----- " />
+
+
+        </LinearLayout >
+
+      </LinearLayout >
+
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:paddingLeft="10dp"
+          android:paddingRight="10dp"
+          android:text="Doctor:"
+          android:textColor="#000"
+          android:textSize="16sp" />
+
+      <Spinner
+          android:id="@+id/doctorSpinner"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:background="#FEFEFE"
+          android:minHeight="30dp"
+          android:paddingLeft="5dp"
+          android:paddingRight="5dp"
+          android:spinnerMode="dropdown" />
+
+      <EditText
+          android:id="@+id/medNotes"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="5dp"
+          android:drawableEnd="@drawable/ic_action_edit"
+          android:drawableRight="@drawable/ic_action_edit"
+          android:hint="Notes"
+          android:inputType="text"
+          android:textSize="14sp" />
+
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginTop="5dp"
+          android:orientation="horizontal"
+          android:weightSum="10" >
+
+        <!--<TextView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:gravity="center_vertical"-->
+        <!--android:text="End Date"-->
+        <!--android:textColor="#000"-->
+        <!--android:textSize="16sp" />-->
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_weight="6" >
+
+          <EditText
+              android:id="@+id/endDate"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:drawableEnd="@drawable/ic_action_calendar_month"
+              android:drawableRight="@drawable/ic_action_calendar_month"
+              android:hint="Dose finishes on..."
+              android:inputType="none"
+              android:lines="1"
+              android:textSize="14sp" />
+
+        </android.support.design.widget.TextInputLayout >
+
+        <CheckBox
+            android:id="@+id/endIndefinite"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right|center_vertical"
+            android:layout_weight="4"
+            android:checked="false"
+            android:enabled="false"
+            android:text="Indefinite"
+            android:textSize="12sp" />
+
+      </LinearLayout >
+
+    </LinearLayout >
+
+  </ScrollView >
+
+</android.support.v7.widget.CardView >

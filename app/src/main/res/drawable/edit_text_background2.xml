@@ -2,12 +2,12 @@
 
 <shape xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <gradient
-        android:angle="270"
-        android:endColor="@color/edit_text_background_start"
-        android:centerColor="#fff2fcfe"
-        android:startColor="@color/edit_text_background_start" />
+  <gradient
+      android:angle="270"
+      android:centerColor="#fff2fcfe"
+      android:endColor="@color/edit_text_background_start"
+      android:startColor="@color/edit_text_background_start" />
 
-    <corners android:radius="3dp" />
+  <corners android:radius="3dp" />
 
-</shape>
+</shape >

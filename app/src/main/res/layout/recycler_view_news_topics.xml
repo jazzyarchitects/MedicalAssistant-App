@@ -2,41 +2,41 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/backParent"
-    android:minHeight="@dimen/newsItemTitleHeight"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:minHeight="@dimen/newsItemTitleHeight" >
 
-    <android.support.v7.widget.CardView
+  <android.support.v7.widget.CardView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:background="@color/newsItemBackgroundColor"
+      android:gravity="center_vertical"
+      android:minHeight="@dimen/newsItemTitleHeight"
+      app:cardMaxElevation="5dp"
+      app:elevation="5dp" >
+
+    <RelativeLayout
+        android:id="@+id/ll"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical"
         android:minHeight="@dimen/newsItemTitleHeight"
-        app:elevation="5dp"
-        android:gravity="center_vertical"
-        android:background="@color/newsItemBackgroundColor"
-        app:cardMaxElevation="5dp">
+        android:orientation="vertical" >
 
-        <RelativeLayout
-            android:id="@+id/ll"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center_vertical"
-            android:minHeight="@dimen/newsItemTitleHeight"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/textView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:layout_centerVertical="true"
-                android:padding="2dp"
-                android:text="News Item"
-                android:textColor="@color/newsItemTextColor"
-                android:textSize="14sp" />
+      <TextView
+          android:id="@+id/textView"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_centerVertical="true"
+          android:gravity="center_vertical"
+          android:padding="2dp"
+          android:text="News Item"
+          android:textColor="@color/newsItemTextColor"
+          android:textSize="14sp" />
 
 
-        </RelativeLayout>
+    </RelativeLayout >
 
 
-    </android.support.v7.widget.CardView>
-</FrameLayout>
+  </android.support.v7.widget.CardView >
+</FrameLayout >

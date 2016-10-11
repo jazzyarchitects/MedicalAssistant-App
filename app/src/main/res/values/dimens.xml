@@ -1,75 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources >
 
-    <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="activity_horizontal_margin">2dp</dimen>
-    <dimen name="activity_vertical_margin">4dp</dimen>
-    <dimen name="titleTextSize">18sp</dimen>
-    <dimen name="radioTextSize">18sp</dimen>
-    <dimen name="widget_margin">8dp</dimen>
-    <dimen name="navigation_drawer_width">240dp</dimen>
-
-
-    <dimen name="loginButtonRadius">0dp</dimen>
-    <dimen name="fab_elevation">5dp</dimen>
-
-    <dimen name="listCardElevation">1dp</dimen>
-    <dimen name="listCardRadius">1dp</dimen>
-
-    <dimen name="mapFragmentHeight">380dp</dimen>
-    <dimen name="mapFragmentWidth">280dp</dimen>
+  <!-- Default screen margins, per the Android Design guidelines. -->
+  <dimen name="activity_horizontal_margin" >2dp</dimen >
+  <dimen name="activity_vertical_margin" >4dp</dimen >
+  <dimen name="titleTextSize" >18sp</dimen >
+  <dimen name="radioTextSize" >18sp</dimen >
+  <dimen name="widget_margin" >8dp</dimen >
+  <dimen name="navigation_drawer_width" >240dp</dimen >
 
 
-    <dimen name="layout_radius_large">192dp</dimen>
-    <dimen name="layout_radius_medium">168dp</dimen>
-    <dimen name="layout_radius_small">144dp</dimen>
-    <dimen name="layout_radius_tumblr">135dp</dimen>
-    <dimen name="layout_radius_path">140dp</dimen>
+  <dimen name="loginButtonRadius" >0dp</dimen >
+  <dimen name="fab_elevation" >5dp</dimen >
 
-    <dimen name="layout_child_offset_large">144dp</dimen>
-    <dimen name="layout_child_offset_medium">120dp</dimen>
-    <dimen name="layout_child_offset_small">96dp</dimen>
-    <dimen name="layout_child_offset_tumblr">100dp</dimen>
-    <dimen name="layout_child_offset_path">114dp</dimen>
+  <dimen name="listCardElevation" >1dp</dimen >
+  <dimen name="listCardRadius" >1dp</dimen >
 
-    <dimen name="item_circle_size_large">72dp</dimen>
-    <dimen name="item_circle_size_medium">48dp</dimen>
-    <dimen name="item_circle_size_small">36dp</dimen>
-    <dimen name="item_circle_size_tumblr">70dp</dimen>
-    <dimen name="item_circle_size_path">36dp</dimen>
+  <dimen name="mapFragmentHeight" >380dp</dimen >
+  <dimen name="mapFragmentWidth" >280dp</dimen >
 
-    <dimen name="item_font_size_large">32sp</dimen>
-    <dimen name="item_font_size_medium">24sp</dimen>
-    <dimen name="item_font_size_small">15sp</dimen>
-    <dimen name="item_font_size_tumblr">20sp</dimen>
-    <dimen name="item_font_size_path">18sp</dimen>
 
-    <dimen name="toolbar_height">60dp</dimen>
-    <dimen name="webViewProgressBarSize">70dp</dimen>
-    <dimen name="webViewIconSize">200dp</dimen>
-    <dimen name="navigationDrawerWidth">280dp</dimen>
-    <dimen name="newsItemHeight">75dp</dimen>
-    <dimen name="newsItemTitleHeight">40dp</dimen>
-    <dimen name="category_popup_height">320dp</dimen>
-    <dimen name="newsItemTextSize">16sp</dimen>
-    <dimen name="newsProgressBarSize">100dp</dimen>
-    <dimen name="floatingActionButtonSize">60dp</dimen>
-    <dimen name="doctor_contact_photo_size">120dp</dimen>
-    <dimen name="loginBoxHeight">200dp</dimen>
-    <dimen name="loginBoxWidth">230dp</dimen>
-    <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="nav_header_vertical_spacing">16dp</dimen>
-    <dimen name="nav_header_height">160dp</dimen>
-    <dimen name="fab_margin">16dp</dimen>
-    <dimen name="userImageHeight">250dp</dimen>
-    <dimen name="leftRightSpaceUserEditText">20dp</dimen>
-    <dimen name="app_bar_height">180dp</dimen>
-    <dimen name="text_margin">16dp</dimen>
-    <dimen name="commentLayoutHeight">42dp</dimen>
-    <dimen name="commentLayoutElementHeight">35dp</dimen>
+  <dimen name="layout_radius_large" >192dp</dimen >
+  <dimen name="layout_radius_medium" >168dp</dimen >
+  <dimen name="layout_radius_small" >144dp</dimen >
+  <dimen name="layout_radius_tumblr" >135dp</dimen >
+  <dimen name="layout_radius_path" >140dp</dimen >
 
-    <dimen name="hover_icon_width">45dp</dimen>
-    <dimen name="hover_icon_height">@dimen/hover_icon_width</dimen>
-    <dimen name="remedy_card_frame_width">0dp</dimen>
-    <dimen name="commentLayoutHeightAdded10">52dp</dimen>
-</resources>
+  <dimen name="layout_child_offset_large" >144dp</dimen >
+  <dimen name="layout_child_offset_medium" >120dp</dimen >
+  <dimen name="layout_child_offset_small" >96dp</dimen >
+  <dimen name="layout_child_offset_tumblr" >100dp</dimen >
+  <dimen name="layout_child_offset_path" >114dp</dimen >
+
+  <dimen name="item_circle_size_large" >72dp</dimen >
+  <dimen name="item_circle_size_medium" >48dp</dimen >
+  <dimen name="item_circle_size_small" >36dp</dimen >
+  <dimen name="item_circle_size_tumblr" >70dp</dimen >
+  <dimen name="item_circle_size_path" >36dp</dimen >
+
+  <dimen name="item_font_size_large" >32sp</dimen >
+  <dimen name="item_font_size_medium" >24sp</dimen >
+  <dimen name="item_font_size_small" >15sp</dimen >
+  <dimen name="item_font_size_tumblr" >20sp</dimen >
+  <dimen name="item_font_size_path" >18sp</dimen >
+
+  <dimen name="toolbar_height" >60dp</dimen >
+  <dimen name="webViewProgressBarSize" >70dp</dimen >
+  <dimen name="webViewIconSize" >200dp</dimen >
+  <dimen name="navigationDrawerWidth" >280dp</dimen >
+  <dimen name="newsItemHeight" >75dp</dimen >
+  <dimen name="newsItemTitleHeight" >40dp</dimen >
+  <dimen name="category_popup_height" >320dp</dimen >
+  <dimen name="newsItemTextSize" >16sp</dimen >
+  <dimen name="newsProgressBarSize" >100dp</dimen >
+  <dimen name="floatingActionButtonSize" >60dp</dimen >
+  <dimen name="doctor_contact_photo_size" >120dp</dimen >
+  <dimen name="loginBoxHeight" >200dp</dimen >
+  <dimen name="loginBoxWidth" >230dp</dimen >
+  <!-- Default screen margins, per the Android Design guidelines. -->
+  <dimen name="nav_header_vertical_spacing" >16dp</dimen >
+  <dimen name="nav_header_height" >160dp</dimen >
+  <dimen name="fab_margin" >16dp</dimen >
+  <dimen name="userImageHeight" >250dp</dimen >
+  <dimen name="leftRightSpaceUserEditText" >20dp</dimen >
+  <dimen name="app_bar_height" >180dp</dimen >
+  <dimen name="text_margin" >16dp</dimen >
+  <dimen name="commentLayoutHeight" >42dp</dimen >
+  <dimen name="commentLayoutElementHeight" >35dp</dimen >
+
+  <dimen name="hover_icon_width" >45dp</dimen >
+  <dimen name="hover_icon_height" >@dimen/hover_icon_width</dimen >
+  <dimen name="remedy_card_frame_width" >0dp</dimen >
+  <dimen name="commentLayoutHeightAdded10" >52dp</dimen >
+</resources >

@@ -3,22 +3,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/actionBackgroundDarker"
-    tools:context=".MedicalAssistant.Fragments.ExportFragment">
+    tools:context=".MedicalAssistant.Fragments.ExportFragment" >
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/cloud_icon_big"
-        android:tintMode="src_atop"
-        tools:targetApi="LOLLIPOP"
-        android:layout_centerInParent="true"
-        android:tint="#FFFFFF"/>
+  <ImageView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_centerInParent="true"
+      android:src="@drawable/cloud_icon_big"
+      android:tint="#FFFFFF"
+      android:tintMode="src_atop"
+      tools:targetApi="LOLLIPOP" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:id="@+id/exportButton"
-        android:text="Save to Cloud"/>
+  <Button
+      android:id="@+id/exportButton"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_centerInParent="true"
+      android:text="Save to Cloud" />
 
-</RelativeLayout>
+</RelativeLayout >

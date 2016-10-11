@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item android:id="@+id/deleteDoctor"
-        android:title="Delete Doctor"
-        android:icon="@drawable/ic_action_delete"
-        app:showAsAction="always" />
-</menu>
+    xmlns:app="http://schemas.android.com/apk/res-auto" >
+  <item
+      android:id="@+id/deleteDoctor"
+      android:icon="@drawable/ic_action_delete"
+      android:title="Delete Doctor"
+      app:showAsAction="always" />
+</menu >

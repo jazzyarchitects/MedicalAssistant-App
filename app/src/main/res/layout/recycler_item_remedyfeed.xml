@@ -4,88 +4,88 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="200dp"
-    app:cardBackgroundColor="#FFF"
     android:layout_margin="@dimen/remedy_card_frame_width"
+    app:cardBackgroundColor="#FFF"
     app:cardElevation="3dp"
-    app:cardMaxElevation="5dp">
+    app:cardMaxElevation="5dp" >
 
-    <ImageView
-        android:id="@+id/background"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="centerCrop"
-        android:src="@drawable/stethoscope" />
+  <ImageView
+      android:id="@+id/background"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:scaleType="centerCrop"
+      android:src="@drawable/stethoscope" />
 
-    <RelativeLayout
+  <RelativeLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_gravity="bottom"
+      android:layout_marginBottom="5dp"
+      android:layout_marginLeft="15dp"
+      android:layout_marginRight="15dp"
+      android:minHeight="150dp" >
+
+    <TextView
+        android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:layout_marginBottom="5dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:minHeight="150dp">
+        android:layout_above="@+id/cardView"
+        android:layout_marginBottom="3dp"
+        android:paddingLeft="5dp"
+        android:text="Remedy Title"
+        android:textColor="#FFF"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        tools:textColor="#FFF" />
 
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_above="@+id/cardView"
-            android:layout_marginBottom="3dp"
-            android:paddingLeft="5dp"
-            android:text="Remedy Title"
-            android:textColor="#FFF"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            tools:textColor="#FFF" />
+    <!--<View android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_alignParentEnd="true"-->
+    <!--android:layout_alignParentRight="true"-->
+    <!--android:layout_alignLeft="@+id/checkboxBookmarked"-->
+    <!--android:layout_alignStart="@+id/checkboxBookmarked"-->
+    <!--android:layout_alignTop="@+id/checkboxBookmarked"-->
+    <!--android:paddingTop="3dp"-->
+    <!--android:visibility="gone"-->
+    <!--android:layout_marginRight="3dp"-->
+    <!--android:layout_marginEnd="3dp"-->
+    <!--android:layout_marginTop="-3dp"-->
+    <!--android:layout_marginBottom="15dp"-->
+    <!--android:background="@color/remedyCardBackground"-->
+    <!--android:layout_alignBottom="@+id/cardView"/>-->
 
-        <!--<View android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_alignParentEnd="true"-->
-            <!--android:layout_alignParentRight="true"-->
-            <!--android:layout_alignLeft="@+id/checkboxBookmarked"-->
-            <!--android:layout_alignStart="@+id/checkboxBookmarked"-->
-            <!--android:layout_alignTop="@+id/checkboxBookmarked"-->
-            <!--android:paddingTop="3dp"-->
-            <!--android:visibility="gone"-->
-            <!--android:layout_marginRight="3dp"-->
-            <!--android:layout_marginEnd="3dp"-->
-            <!--android:layout_marginTop="-3dp"-->
-            <!--android:layout_marginBottom="15dp"-->
-            <!--android:background="@color/remedyCardBackground"-->
-            <!--android:layout_alignBottom="@+id/cardView"/>-->
+    <!--<CheckBox-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_above="@+id/cardView"-->
+    <!--android:layout_marginBottom="3dp"-->
+    <!--android:layout_marginRight="3dp"-->
+    <!--android:layout_marginEnd="3dp"-->
+    <!--android:paddingTop="2dp"-->
+    <!--android:visibility="gone"-->
+    <!--android:id="@+id/checkboxBookmarked"-->
+    <!--android:button="@drawable/checkbox_bookmark"-->
+    <!--android:layout_alignParentRight="true"-->
+    <!--android:layout_alignParentEnd="true"/>-->
 
-        <!--<CheckBox-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_above="@+id/cardView"-->
-            <!--android:layout_marginBottom="3dp"-->
-            <!--android:layout_marginRight="3dp"-->
-            <!--android:layout_marginEnd="3dp"-->
-            <!--android:paddingTop="2dp"-->
-            <!--android:visibility="gone"-->
-            <!--android:id="@+id/checkboxBookmarked"-->
-            <!--android:button="@drawable/checkbox_bookmark"-->
-            <!--android:layout_alignParentRight="true"-->
-            <!--android:layout_alignParentEnd="true"/>-->
+    <android.support.v7.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_alignParentBottom="true"
+        app:cardElevation="1dp"
+        app:cardMaxElevation="2dp" >
 
-        <android.support.v7.widget.CardView
-            android:id="@+id/cardView"
-            android:layout_width="match_parent"
-            android:layout_height="120dp"
-            android:layout_alignParentBottom="true"
-            app:cardElevation="1dp"
-            app:cardMaxElevation="2dp">
-
-            <include
-                layout="@layout/recycler_item_remedy_feed_details"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+      <include
+          layout="@layout/recycler_item_remedy_feed_details"
+          android:layout_width="match_parent"
+          android:layout_height="match_parent" />
 
 
-        </android.support.v7.widget.CardView>
+    </android.support.v7.widget.CardView >
 
 
-    </RelativeLayout>
+  </RelativeLayout >
 
 
-</android.support.v7.widget.CardView>
+</android.support.v7.widget.CardView >

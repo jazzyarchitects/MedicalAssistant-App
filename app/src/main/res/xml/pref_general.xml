@@ -1,18 +1,19 @@
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <Preference android:title="Set default alarm timings">
-        <intent android:action="android.intent.action.VIEW"
-            android:targetPackage="architect.jazzy.medicinereminder"
-            android:targetClass="architect.jazzy.medicinereminder.Activities.TimeSettingPreference" />
-    </Preference>
+  <Preference android:title="Set default alarm timings" >
+    <intent
+        android:action="android.intent.action.VIEW"
+        android:targetClass="architect.jazzy.medicinereminder.Activities.TimeSettingPreference"
+        android:targetPackage="architect.jazzy.medicinereminder" />
+  </Preference >
 
-    <!--<Preference android:title="Credits">-->
-        <!--<intent android:action="android.intent.action.VIEW"-->
-            <!--android:targetPackage="architect.jazzy.medicinereminder"-->
-            <!--android:targetClass="architect.jazzy.medicinereminder.Activities.Credits"/>-->
-    <!--</Preference>-->
+  <!--<Preference android:title="Credits">-->
+  <!--<intent android:action="android.intent.action.VIEW"-->
+  <!--android:targetPackage="architect.jazzy.medicinereminder"-->
+  <!--android:targetClass="architect.jazzy.medicinereminder.Activities.Credits"/>-->
+  <!--</Preference>-->
 
-    <!--<Preference android:title="Theme Color"-->
-        <!--android:key="colorSelected" />-->
+  <!--<Preference android:title="Theme Color"-->
+  <!--android:key="colorSelected" />-->
 
-</PreferenceScreen>
+</PreferenceScreen >

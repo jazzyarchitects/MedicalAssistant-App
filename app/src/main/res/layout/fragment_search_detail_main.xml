@@ -1,17 +1,18 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/root"
-    tools:context=".MedicalAssistant.Fragments.SearchFragments.SearchDetailMainFragment">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MedicalAssistant.Fragments.SearchFragments.SearchDetailMainFragment" >
 
-    <include
-        android:id="@+id/searchLayout"
-        layout="@layout/navigation_drawer_header" />
+  <include
+      android:id="@+id/searchLayout"
+      layout="@layout/navigation_drawer_header" />
 
-    <android.support.v4.view.ViewPager
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/searchLayout"
-        android:id="@+id/viewPager" />
+  <android.support.v4.view.ViewPager
+      android:id="@+id/viewPager"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:layout_below="@+id/searchLayout" />
 
-</RelativeLayout>
+</RelativeLayout >

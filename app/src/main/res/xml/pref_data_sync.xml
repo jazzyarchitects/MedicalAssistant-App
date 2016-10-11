@@ -1,30 +1,30 @@
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <!-- NOTE: Hide buttons to simplify the UI. Users can touch outside the dialog to
-         dismiss it. -->
-    <!-- NOTE: ListPreference's summary should be set to its value by the activity code. -->
-    <Preference
-        android:key="delete_database"
-        android:summary="Clear all saved data"
-        android:title="Clear Data">
+  <!-- NOTE: Hide buttons to simplify the UI. Users can touch outside the dialog to
+       dismiss it. -->
+  <!-- NOTE: ListPreference's summary should be set to its value by the activity code. -->
+  <Preference
+      android:key="delete_database"
+      android:summary="Clear all saved data"
+      android:title="Clear Data" >
 
-    </Preference>
+  </Preference >
 
-    <!--<Preference-->
-        <!--android:key="exportPref"-->
-        <!--android:summary="Export data to external memory"-->
-        <!--android:title="Export"></Preference>-->
+  <!--<Preference-->
+  <!--android:key="exportPref"-->
+  <!--android:summary="Export data to external memory"-->
+  <!--android:title="Export"></Preference>-->
 
-    <!--<Preference-->
-        <!--android:key="importPref"-->
-        <!--android:summary="Import data from external memory"-->
-        <!--android:title="Import"></Preference>-->
+  <!--<Preference-->
+  <!--android:key="importPref"-->
+  <!--android:summary="Import data from external memory"-->
+  <!--android:title="Import"></Preference>-->
 
-    <!--<Preference android:title="Backup and Restore">-->
-        <!--<intent-->
-            <!--android:action="android.intent.action.VIEW"-->
-            <!--android:targetClass="architect.jazzy.medicinereminder.Activities.BackupRestore"-->
-            <!--android:targetPackage="architect.jazzy.medicinereminder" />-->
-    <!--</Preference>-->
+  <!--<Preference android:title="Backup and Restore">-->
+  <!--<intent-->
+  <!--android:action="android.intent.action.VIEW"-->
+  <!--android:targetClass="architect.jazzy.medicinereminder.Activities.BackupRestore"-->
+  <!--android:targetPackage="architect.jazzy.medicinereminder" />-->
+  <!--</Preference>-->
 
-</PreferenceScreen>
+</PreferenceScreen >

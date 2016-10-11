@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources >
 
-    <declare-styleable name="CapitalTextView">
-        <attr name="focusAllWords" format="boolean" />
-        <attr name="letterScaleFactor" format="integer" />
-    </declare-styleable>
+  <declare-styleable name="CapitalTextView" >
+    <attr name="focusAllWords" format="boolean" />
+    <attr name="letterScaleFactor" format="integer" />
+  </declare-styleable >
 
-    <declare-styleable name="CheckoutList">
-        <attr name="deletable" format="boolean" />
-    </declare-styleable>
-</resources>
+  <declare-styleable name="CheckoutList" >
+    <attr name="deletable" format="boolean" />
+  </declare-styleable >
+</resources >

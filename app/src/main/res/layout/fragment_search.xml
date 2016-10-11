@@ -1,67 +1,66 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/root"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@color/deafaultFragmentBackground"
-    tools:context=".MedicalAssistant.Fragments.SearchFragments.SearchFragment">
+    android:orientation="vertical"
+    tools:context=".MedicalAssistant.Fragments.SearchFragments.SearchFragment" >
 
-    <include
-        layout="@layout/navigation_drawer_header"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/searchLayout" />
+  <include
+      android:id="@+id/searchLayout"
+      layout="@layout/navigation_drawer_header"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content" />
 
 
+  <TextView
+      android:id="@+id/suggestion"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:paddingBottom="3dp"
+      android:paddingLeft="10dp"
+      android:paddingRight="10dp"
+      android:paddingTop="3dp"
+      android:text="Did you mean Correction?"
+      android:textColor="#000"
+      android:textSize="15sp"
+      android:visibility="gone" />
 
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Did you mean Correction?"
-        android:paddingBottom="3dp"
-        android:paddingTop="3dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:textColor="#000"
-        android:textSize="15sp"
-        android:visibility="gone"
-        android:id="@+id/suggestion"/>
+  <RelativeLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:padding="5dp" >
 
     <RelativeLayout
+        android:id="@+id/emptySearch"
         android:layout_width="match_parent"
-        android:padding="5dp"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent" >
 
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/emptySearch">
+      <ImageView
+          android:id="@+id/could"
+          android:layout_width="200dp"
+          android:layout_height="200dp"
+          android:layout_centerInParent="true"
+          android:src="@drawable/cloud_icon_big" />
 
-            <ImageView
-                android:layout_width="200dp"
-                android:layout_height="200dp"
-                android:id="@+id/could"
-                android:layout_centerInParent="true"
-                android:src="@drawable/cloud_icon_big"/>
+      <ImageView
+          android:id="@+id/searchIcon"
+          android:layout_width="50dp"
+          android:layout_height="50dp"
+          android:layout_centerInParent="true"
+          android:paddingTop="10dp"
+          android:scaleType="fitCenter"
+          android:src="@drawable/ic_action_search" />
 
-            <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:src="@drawable/ic_action_search"
-                android:layout_centerInParent="true"
-                android:id="@+id/searchIcon"
-                android:scaleType="fitCenter"
-                android:paddingTop="10dp"/>
+    </RelativeLayout >
 
-        </RelativeLayout>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
-        <android.support.v7.widget.RecyclerView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:id="@+id/recyclerView" />
-
-    </RelativeLayout>
+  </RelativeLayout >
 
 
-</LinearLayout>
+</LinearLayout >

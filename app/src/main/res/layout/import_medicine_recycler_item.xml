@@ -1,72 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/linearLayout"
     android:layout_width="match_parent"
     android:layout_height="60dp"
-    xmlns:tools="http://schemas.android.com/tools"
+    android:background="#FFF"
     android:orientation="vertical"
     android:paddingBottom="2dp"
     android:paddingLeft="5dp"
     android:paddingRight="5dp"
     android:paddingTop="2dp"
-    android:background="#FFF"
-    android:id="@+id/linearLayout"
-    android:weightSum="3">
+    android:weightSum="3" >
 
-    <TextView
-        android:id="@+id/medName"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1.2"
-        android:gravity="center_vertical"
-        android:text="Medicine Nagme"
-        android:textColor="#000"
-        android:textSize="15sp" />
+  <TextView
+      android:id="@+id/medName"
+      android:layout_width="match_parent"
+      android:layout_height="0dp"
+      android:layout_weight="1.2"
+      android:gravity="center_vertical"
+      android:text="Medicine Nagme"
+      android:textColor="#000"
+      android:textSize="15sp" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1.8"
-        android:orientation="horizontal"
-        android:weightSum="4">
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="0dp"
+      android:layout_weight="1.8"
+      android:orientation="horizontal"
+      android:weightSum="4" >
 
-        <architect.jazzy.medicinereminder.MedicalAssistant.CustomViews.LabelledImage
-            android:id="@+id/morning"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:textSize="12sp"
-            android:keepScreenOn="true"
-            android:src="@drawable/morning"
-            tools:text="Before" />
+    <architect.jazzy.medicinereminder.MedicalAssistant.CustomViews.LabelledImage
+        android:id="@+id/morning"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:keepScreenOn="true"
+        android:src="@drawable/morning"
+        android:textSize="12sp"
+        tools:text="Before" />
 
-        <architect.jazzy.medicinereminder.MedicalAssistant.CustomViews.LabelledImage
-            android:id="@+id/noon"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:keepScreenOn="true"
-            android:src="@drawable/noon"
-            tools:text="After" />
+    <architect.jazzy.medicinereminder.MedicalAssistant.CustomViews.LabelledImage
+        android:id="@+id/noon"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:keepScreenOn="true"
+        android:src="@drawable/noon"
+        tools:text="After" />
 
-        <architect.jazzy.medicinereminder.MedicalAssistant.CustomViews.LabelledImage
-            android:id="@+id/night"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:keepScreenOn="true"
-            android:src="@drawable/night"
-            tools:text="Before" />
+    <architect.jazzy.medicinereminder.MedicalAssistant.CustomViews.LabelledImage
+        android:id="@+id/night"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:keepScreenOn="true"
+        android:src="@drawable/night"
+        tools:text="Before" />
 
-        <architect.jazzy.medicinereminder.MedicalAssistant.CustomViews.LabelledImage
-            android:id="@+id/custom"
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:keepScreenOn="true"
-            android:src="@drawable/custom_clock"
-            android:text="09:00AM" />
+    <architect.jazzy.medicinereminder.MedicalAssistant.CustomViews.LabelledImage
+        android:id="@+id/custom"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:keepScreenOn="true"
+        android:src="@drawable/custom_clock"
+        android:text="09:00AM" />
 
 
-    </LinearLayout>
+  </LinearLayout >
 
-</LinearLayout>
+</LinearLayout >

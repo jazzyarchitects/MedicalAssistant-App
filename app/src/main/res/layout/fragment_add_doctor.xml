@@ -3,227 +3,228 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/deafaultFragmentBackground"
-    tools:context=".MedicalAssistant.Fragments.AddDoctorFragment">
+    tools:context=".MedicalAssistant.Fragments.AddDoctorFragment" >
 
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+  <ScrollView
+      android:layout_width="match_parent"
+      android:layout_height="match_parent" >
 
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
 
-        <TableRow
+      <TableRow
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:background="#FFF" >
+
+        <ImageView
+            android:id="@+id/docPic"
             android:layout_width="match_parent"
-            android:background="#FFF"
-            android:layout_height="match_parent">
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/userlogin" />
 
-            <ImageView
-                android:id="@+id/docPic"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:scaleType="centerCrop"
-                android:src="@drawable/userlogin" />
+      </TableRow >
 
-        </TableRow>
+      <TableRow
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:paddingEnd="5dp"
+          android:paddingLeft="5dp"
+          android:paddingRight="5dp"
+          android:paddingStart="5dp"
+          android:weightSum="1" >
 
-        <TableRow
+        <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:paddingStart="5dp"
-            android:paddingEnd="5dp"
-            android:weightSum="1">
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|center_vertical" >
 
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left|center_vertical">
+          <android.support.design.widget.TextInputEditText
+              android:id="@+id/docName"
+              android:layout_width="match_parent"
+              android:layout_height="40dp"
+              android:gravity="center_vertical"
+              android:hint="Name"
+              android:inputType="textPersonName"
+              android:textColor="#000"
+              android:textSize="16sp" />
+        </android.support.design.widget.TextInputLayout >
+      </TableRow >
 
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/docName"
-                    android:layout_width="match_parent"
-                    android:layout_height="40dp"
-                    android:gravity="center_vertical"
-                    android:hint="Name"
-                    android:inputType="textPersonName"
-                    android:textColor="#000"
-                    android:textSize="16sp" />
-            </android.support.design.widget.TextInputLayout>
-        </TableRow>
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:paddingStart="5dp"
-            android:paddingEnd="5dp"
-            android:weightSum="1">
+      <TableRow
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:paddingEnd="5dp"
+          android:paddingLeft="5dp"
+          android:paddingRight="5dp"
+          android:paddingStart="5dp"
+          android:weightSum="1" >
 
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_weight="1">
-
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/docPhone1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_column="1"
-                    android:textSize="14sp"
-                    android:drawableLeft="@drawable/ic_call_black_24dp"
-                    android:layout_weight="1"
-                    android:hint="Mobile"
-                    android:inputType="phone" />
-
-            </android.support.design.widget.TextInputLayout>
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:paddingStart="5dp"
-            android:paddingEnd="5dp"
-            android:weightSum="1">
-
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_weight="1">
-
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/docPhone2"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_column="1"
-                    android:layout_weight="1"
-                    android:textSize="14sp"
-                    android:drawableLeft="@drawable/ic_call_black_24dp"
-                    android:hint="Office"
-                    android:inputType="phone" />
-
-            </android.support.design.widget.TextInputLayout>
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:paddingStart="5dp"
-            android:paddingEnd="5dp"
-            android:gravity="center_vertical">
-
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp">
-
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/docAddress"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_column="1"
-                    android:lines="2"
-                    android:hint="Address"
-                    android:ems="10"
-                    android:textSize="14sp"
-                    android:drawableLeft="@drawable/ic_location_city_black_24dp"
-                    android:inputType="textMultiLine" />
-            </android.support.design.widget.TextInputLayout>
-
-            <!--<ImageButton-->
-                <!--android:layout_weight="0.2"-->
-                <!--android:layout_width="0dp"-->
-                <!--android:src="@drawable/ic_action_map"-->
-                <!--android:layout_height="wrap_content"/>-->
-        </TableRow>
-
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:paddingStart="5dp"
-            android:paddingEnd="5dp"
-            android:weightSum="1">
-
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_weight="1">
-
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/docHospital"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_column="1"
-                    android:layout_weight="1"
-                    android:textSize="14sp"
-                    android:hint="Hospital"
-                    android:drawableLeft="@drawable/ic_business_black_24dp"
-                    android:inputType="text" />
-
-            </android.support.design.widget.TextInputLayout>
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:paddingLeft="5dp"
-            android:paddingRight="5dp"
-            android:paddingStart="5dp"
-            android:paddingEnd="5dp"
-            android:weightSum="1">
-
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_weight="1">
-
-                <android.support.design.widget.TextInputEditText
-                    android:id="@+id/docNotes"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_column="1"
-                    android:lines="2"
-                    android:textSize="14sp"
-                    android:hint="Note"
-                    android:drawableLeft="@drawable/ic_action_edit"
-                    android:ems="10"
-                    android:inputType="textMultiLine" />
-            </android.support.design.widget.TextInputLayout>
-        </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:weightSum="1">
+            android:layout_weight="1" >
 
-            <Button
-                android:layout_width="0dp"
-                android:layout_weight="1"
-                android:layout_height="wrap_content"
-                android:text="Save"
-                android:textSize="16sp"
-                android:textColor="#FFF"
-                android:id="@+id/saveButton"
-                android:background="@drawable/button_background_states"/>
+          <android.support.design.widget.TextInputEditText
+              android:id="@+id/docPhone1"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_column="1"
+              android:layout_weight="1"
+              android:drawableLeft="@drawable/ic_call_black_24dp"
+              android:hint="Mobile"
+              android:inputType="phone"
+              android:textSize="14sp" />
 
-        </TableRow>
+        </android.support.design.widget.TextInputLayout >
+      </TableRow >
 
-    </LinearLayout>
+      <TableRow
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:paddingEnd="5dp"
+          android:paddingLeft="5dp"
+          android:paddingRight="5dp"
+          android:paddingStart="5dp"
+          android:weightSum="1" >
 
-    </ScrollView>
-</LinearLayout>
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_weight="1" >
+
+          <android.support.design.widget.TextInputEditText
+              android:id="@+id/docPhone2"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_column="1"
+              android:layout_weight="1"
+              android:drawableLeft="@drawable/ic_call_black_24dp"
+              android:hint="Office"
+              android:inputType="phone"
+              android:textSize="14sp" />
+
+        </android.support.design.widget.TextInputLayout >
+      </TableRow >
+
+      <TableRow
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:gravity="center_vertical"
+          android:paddingEnd="5dp"
+          android:paddingLeft="5dp"
+          android:paddingRight="5dp"
+          android:paddingStart="5dp" >
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp" >
+
+          <android.support.design.widget.TextInputEditText
+              android:id="@+id/docAddress"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_column="1"
+              android:drawableLeft="@drawable/ic_location_city_black_24dp"
+              android:ems="10"
+              android:hint="Address"
+              android:inputType="textMultiLine"
+              android:lines="2"
+              android:textSize="14sp" />
+        </android.support.design.widget.TextInputLayout >
+
+        <!--<ImageButton-->
+        <!--android:layout_weight="0.2"-->
+        <!--android:layout_width="0dp"-->
+        <!--android:src="@drawable/ic_action_map"-->
+        <!--android:layout_height="wrap_content"/>-->
+      </TableRow >
+
+
+      <TableRow
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:paddingEnd="5dp"
+          android:paddingLeft="5dp"
+          android:paddingRight="5dp"
+          android:paddingStart="5dp"
+          android:weightSum="1" >
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_weight="1" >
+
+          <android.support.design.widget.TextInputEditText
+              android:id="@+id/docHospital"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_column="1"
+              android:layout_weight="1"
+              android:drawableLeft="@drawable/ic_business_black_24dp"
+              android:hint="Hospital"
+              android:inputType="text"
+              android:textSize="14sp" />
+
+        </android.support.design.widget.TextInputLayout >
+      </TableRow >
+
+      <TableRow
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:paddingEnd="5dp"
+          android:paddingLeft="5dp"
+          android:paddingRight="5dp"
+          android:paddingStart="5dp"
+          android:weightSum="1" >
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:layout_weight="1" >
+
+          <android.support.design.widget.TextInputEditText
+              android:id="@+id/docNotes"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_column="1"
+              android:drawableLeft="@drawable/ic_action_edit"
+              android:ems="10"
+              android:hint="Note"
+              android:inputType="textMultiLine"
+              android:lines="2"
+              android:textSize="14sp" />
+        </android.support.design.widget.TextInputLayout >
+      </TableRow >
+
+      <TableRow
+          android:layout_width="match_parent"
+          android:layout_height="match_parent"
+          android:layout_marginTop="5dp"
+          android:weightSum="1" >
+
+        <Button
+            android:id="@+id/saveButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@drawable/button_background_states"
+            android:text="Save"
+            android:textColor="#FFF"
+            android:textSize="16sp" />
+
+      </TableRow >
+
+    </LinearLayout >
+
+  </ScrollView >
+</LinearLayout >

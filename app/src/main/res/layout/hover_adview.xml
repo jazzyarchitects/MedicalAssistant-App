@@ -1,58 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#555555">
+    android:background="#555555"
+    android:orientation="vertical" >
 
-    <LinearLayout
-        android:layout_width="@dimen/hover_icon_width"
-        android:layout_height="@dimen/hover_icon_height"
-        android:layout_alignParentRight="true"
-        android:background="@drawable/hover_icon_background"
-        android:id="@+id/hoverButton"
-        android:padding="5dp"
-        >
+  <LinearLayout
+      android:id="@+id/hoverButton"
+      android:layout_width="@dimen/hover_icon_width"
+      android:layout_height="@dimen/hover_icon_height"
+      android:layout_alignParentRight="true"
+      android:background="@drawable/hover_icon_background"
+      android:padding="5dp" >
 
-        <ImageView
-            android:contentDescription="Ad Hover"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@mipmap/ic_launcher"/>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="Ad Hover"
+        android:src="@mipmap/ic_launcher" />
 
-    </LinearLayout>
+  </LinearLayout >
 
-    <LinearLayout
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_alignTop="@+id/hoverButton"
+      android:layout_marginEnd="3dp"
+      android:layout_marginLeft="10dp"
+      android:layout_marginRight="3dp"
+      android:layout_marginStart="10dp"
+      android:layout_marginTop="10dp"
+      android:layout_toLeftOf="@+id/hoverButton"
+      android:background="@drawable/adview_background"
+      android:orientation="vertical" >
+
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginRight="3dp"
-        android:layout_marginEnd="3dp"
-        android:orientation="vertical"
-        android:layout_alignTop="@+id/hoverButton"
-        android:layout_marginTop="10dp"
-        android:layout_toLeftOf="@+id/hoverButton"
-        android:background="@drawable/adview_background">
+        android:text="This app is made free with the help of ads. Help us keep this app free watching an advertisement"
+        android:textColor="#222"
+        android:textSize="14sp" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textSize="14sp"
-            android:textColor="#222"
-            android:text="This app is made free with the help of ads. Help us keep this app free watching an advertisement"/>
-
-        <Button
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textColor="#222"
-            android:text="Support this App !!"
-            />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Support this App !!"
+        android:textColor="#222" />
 
 
+  </LinearLayout >
 
 
-
-    </LinearLayout>
-
-
-</RelativeLayout>
+</RelativeLayout >

@@ -1,51 +1,51 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#FFF"
+    android:gravity="center"
     android:orientation="vertical"
     android:padding="5dp"
-    android:gravity="center"
     android:weightSum="10"
-    android:background="#FFF"
-    tools:context=".MedicalAssistant.Fragments.ImportFragment">
+    tools:context=".MedicalAssistant.Fragments.ImportFragment" >
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="0dp"
+      android:layout_weight="5"
+      android:orientation="horizontal"
+      android:weightSum="10" >
+
+    <architect.jazzy.medicinereminder.MedicalAssistant.CustomViews.CircleView
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
         android:layout_weight="5"
-        android:weightSum="10"
-        android:orientation="horizontal">
+        app:bigText="0"
+        app:bigTextSize="25sp"
+        app:fillColor="@color/bg_swipe_item_right"
+        app:isButton="true"
+        app:text="Medicines"
+        app:textColor="#FFF"
+        app:textSize="18sp" />
 
-        <architect.jazzy.medicinereminder.MedicalAssistant.CustomViews.CircleView
-            android:layout_width="0dp"
-            android:layout_weight="5"
-            app:bigText="0"
-            app:text="Medicines"
-            app:textColor="#FFF"
-            app:textSize="18sp"
-            app:bigTextSize="25sp"
-            app:isButton="true"
-            app:fillColor="@color/bg_swipe_item_right"
-            android:layout_height="match_parent" />
+    <architect.jazzy.medicinereminder.MedicalAssistant.CustomViews.CircleView
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="5"
+        app:bigText="0"
+        app:bigTextSize="25sp"
+        app:fillColor="@color/themeColorRed"
+        app:isButton="true"
+        app:text="Doctors"
+        app:textColor="#FFF"
+        app:textSize="18sp" />
 
-        <architect.jazzy.medicinereminder.MedicalAssistant.CustomViews.CircleView
-            android:layout_width="0dp"
-            android:layout_weight="5"
-            app:bigText="0"
-            app:text="Doctors"
-            app:textColor="#FFF"
-            app:textSize="18sp"
-            app:bigTextSize="25sp"
-            app:isButton="true"
-            app:fillColor="@color/themeColorRed"
-            android:layout_height="match_parent" />
+  </LinearLayout >
 
-    </LinearLayout>
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="0dp"
+      android:layout_weight="3" ></LinearLayout >
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="3"></LinearLayout>
-
-</LinearLayout>
+</LinearLayout >

@@ -1,42 +1,42 @@
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".MedicalAssistant.Fragments.NewsFragments.FeedFragment"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffa9a9a9"
+    android:minHeight="150dp"
     app:cardCornerRadius="1dp"
     app:cardMaxElevation="5dp"
-    android:layout_height="match_parent"
-    android:minHeight="150dp"
-    android:background="#ffa9a9a9"
     app:cardPreventCornerOverlap="true"
-    android:layout_width="match_parent">
+    tools:context=".MedicalAssistant.Fragments.NewsFragments.FeedFragment" >
 
-    <LinearLayout
-        android:id="@+id/feed"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center_vertical"
-        android:background="#FFF"
-        android:layout_gravity="center_vertical"
-        android:orientation="vertical"
-        android:padding="5dp">
+  <LinearLayout
+      android:id="@+id/feed"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:layout_gravity="center_vertical"
+      android:background="#FFF"
+      android:gravity="center_vertical"
+      android:orientation="vertical"
+      android:padding="5dp" >
 
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Weight-Loss Surgery May Beat Diet, Exercise as Type 2 Diabetes Treatment"
-            android:textColor="#000"
-            android:textSize="16sp" />
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Weight-Loss Surgery May Beat Diet, Exercise as Type 2 Diabetes Treatment"
+        android:textColor="#000"
+        android:textSize="16sp" />
 
-        <!--<TextView-->
-            <!--android:id="@+id/description"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginTop="5dp"-->
-            <!--android:text="Some Content here"-->
-            <!--android:textColor="#111"-->
-            <!--android:textSize="15sp" />-->
+    <!--<TextView-->
+    <!--android:id="@+id/description"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginTop="5dp"-->
+    <!--android:text="Some Content here"-->
+    <!--android:textColor="#111"-->
+    <!--android:textSize="15sp" />-->
 
 
-    </LinearLayout>
-</android.support.v7.widget.CardView>
+  </LinearLayout >
+</android.support.v7.widget.CardView >

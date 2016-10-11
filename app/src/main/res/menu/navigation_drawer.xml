@@ -1,59 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <!--<item-->
-        <!--android:id="@+id/add"-->
-        <!--android:icon="@drawable/ic_action_new"-->
-        <!--android:title="Add Medicine" />-->
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+  <!--<item-->
+  <!--android:id="@+id/add"-->
+  <!--android:icon="@drawable/ic_action_new"-->
+  <!--android:title="Add Medicine" />-->
 
-    <item android:id="@+id/remedies"
-        android:title="Remedies"
-        android:icon="@drawable/ic_action_news" />
-
-
-
-    <item android:id="@+id/circularTest"
-        android:title="Dashboard"
-        android:icon="@drawable/ic_action_calendar_month"/>
-
-    <item
-        android:id="@+id/showMedicineList"
-        android:icon="@drawable/ic_action_list"
-        android:title="My Medicines" />
-
-    <item android:id="@+id/addDoctor"
-        android:icon="@drawable/ic_action_user"
-        android:title="My Doctors" />
-
-    <item
-        android:id="@+id/news"
-        android:icon="@drawable/ic_action_coffee"
-        android:title="News" />
+  <item
+      android:id="@+id/remedies"
+      android:icon="@drawable/ic_action_news"
+      android:title="Remedies" />
 
 
-    <item
-        android:id="@+id/action_settings_dev"
-        android:icon="@drawable/ic_action_settings"
-        android:visible="false"
-        android:title="@string/action_settings" />
+  <item
+      android:id="@+id/circularTest"
+      android:icon="@drawable/ic_action_calendar_month"
+      android:title="Dashboard" />
 
-    <item
-        android:id="@+id/section2"
-        android:title="User">
-        <menu>
+  <item
+      android:id="@+id/showMedicineList"
+      android:icon="@drawable/ic_action_list"
+      android:title="My Medicines" />
 
-            <item android:id="@+id/myAccount"
-                android:title="My Account"
-                android:icon="@drawable/ic_action_key"/>
+  <item
+      android:id="@+id/addDoctor"
+      android:icon="@drawable/ic_action_user"
+      android:title="My Doctors" />
 
-            <item
-                android:id="@+id/action_settings"
-                android:icon="@drawable/ic_action_settings"
-                android:title="@string/action_settings" />
-            <!--<item-->
-                <!--android:id="@+id/credits"-->
-                <!--android:icon="@drawable/ic_action_emo_basic"-->
-                <!--android:title="About Us" />-->
-        </menu>
-    </item>
+  <item
+      android:id="@+id/news"
+      android:icon="@drawable/ic_action_coffee"
+      android:title="News" />
 
-</menu>
+
+  <item
+      android:id="@+id/action_settings_dev"
+      android:icon="@drawable/ic_action_settings"
+      android:title="@string/action_settings"
+      android:visible="false" />
+
+  <item
+      android:id="@+id/section2"
+      android:title="User" >
+    <menu >
+
+      <item
+          android:id="@+id/myAccount"
+          android:icon="@drawable/ic_action_key"
+          android:title="My Account" />
+
+      <item
+          android:id="@+id/action_settings"
+          android:icon="@drawable/ic_action_settings"
+          android:title="@string/action_settings" />
+      <!--<item-->
+      <!--android:id="@+id/credits"-->
+      <!--android:icon="@drawable/ic_action_emo_basic"-->
+      <!--android:title="About Us" />-->
+    </menu >
+  </item >
+
+</menu >

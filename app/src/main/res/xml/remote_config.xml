@@ -1,39 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<defaultsMap>
-    <entry>
-        <key>remedy_comment_enabled</key>
-        <value>false</value>
-    </entry>
-    <entry>
-        <key>remedy_vote_enabled</key>
-        <value>false</value>
-    </entry>
-    <entry>
-        <key>remedy_user_enabled</key>
-        <value>false</value>
-    </entry>
-    <entry>
-        <key>remedy_enabled</key>
-        <value>false</value>
-    </entry>
-    <entry>
-        <key>dev_remedy_comment_enabled</key>
-        <value>true</value>
-    </entry>
-    <entry>
-        <key>dev_remedy_vote_enabled</key>
-        <value>true</value>
-    </entry>
-    <entry>
-        <key>dev_remedy_user_enabled</key>
-        <value>true</value>
-    </entry>
-    <entry>
-        <key>dev_remedy_enabled</key>
-        <value>true</value>
-    </entry>
-    <entry>
-        <key>show_dashboard_interstitial</key>
-        <value>true</value>
-    </entry>
-</defaultsMap>
+<defaultsMap >
+  <entry >
+    <key >remedy_comment_enabled</key >
+    <value >false</value >
+  </entry >
+  <entry >
+    <key >remedy_vote_enabled</key >
+    <value >false</value >
+  </entry >
+  <entry >
+    <key >remedy_user_enabled</key >
+    <value >false</value >
+  </entry >
+  <entry >
+    <key >remedy_enabled</key >
+    <value >false</value >
+  </entry >
+  <entry >
+    <key >dev_remedy_comment_enabled</key >
+    <value >true</value >
+  </entry >
+  <entry >
+    <key >dev_remedy_vote_enabled</key >
+    <value >true</value >
+  </entry >
+  <entry >
+    <key >dev_remedy_user_enabled</key >
+    <value >true</value >
+  </entry >
+  <entry >
+    <key >dev_remedy_enabled</key >
+    <value >true</value >
+  </entry >
+  <entry >
+    <key >show_dashboard_interstitial</key >
+    <value >true</value >
+  </entry >
+</defaultsMap >

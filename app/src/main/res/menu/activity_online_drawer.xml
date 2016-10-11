@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
-    <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/remedyFeed"
-            android:icon="@drawable/ic_action_news"
-            android:title="Browse Remedies" />
-        <item
-            android:id="@+id/myRemedies"
-            android:icon="@drawable/ic_action_database"
-            android:title="My Remedies" />
-        <item
-            android:id="@+id/myDetails"
-            android:icon="@drawable/ic_action_user"
-            android:title="My Account" />
-    </group>
-
+  <group android:checkableBehavior="single" >
     <item
-        android:id="@+id/settings"
-        android:icon="@drawable/ic_action_settings"
-        android:title="Settings" />
+        android:id="@+id/remedyFeed"
+        android:icon="@drawable/ic_action_news"
+        android:title="Browse Remedies" />
     <item
-        android:id="@+id/logout"
-        android:icon="@drawable/ic_action_exit"
-        android:title="Logout" />
+        android:id="@+id/myRemedies"
+        android:icon="@drawable/ic_action_database"
+        android:title="My Remedies" />
+    <item
+        android:id="@+id/myDetails"
+        android:icon="@drawable/ic_action_user"
+        android:title="My Account" />
+  </group >
+
+  <item
+      android:id="@+id/settings"
+      android:icon="@drawable/ic_action_settings"
+      android:title="Settings" />
+  <item
+      android:id="@+id/logout"
+      android:icon="@drawable/ic_action_exit"
+      android:title="Logout" />
 
 
-</menu>
+</menu >

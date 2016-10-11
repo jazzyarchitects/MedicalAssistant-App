@@ -7,44 +7,44 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".MedicalAssistant.Activities.AboutUs">
+    tools:context=".MedicalAssistant.Activities.AboutUs" >
 
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/appBar"
+  <android.support.design.widget.AppBarLayout
+      android:id="@+id/appBar"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content" >
+
+    <!--android:background="@drawable/toolbar_background"-->
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@color/actionBackground"
+        android:theme="@style/Theme.AppCompat" />
 
-        <!--android:background="@drawable/toolbar_background"-->
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/actionBackground"
-            android:theme="@style/Theme.AppCompat" />
+  </android.support.design.widget.AppBarLayout >
 
-    </android.support.design.widget.AppBarLayout>
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:layout_below="@id/appBar"
+      android:orientation="vertical" >
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:orientation="vertical"
-        android:layout_below="@id/appBar"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" ></LinearLayout >
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"></LinearLayout>
+    <TextView
+        android:id="@+id/emailus"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="25dp"
+        android:gravity="center"
+        android:text="Email us at:\n jazzy.architects@gmail.com"
+        android:textColor="#FFF"
+        android:textSize="18sp" />
 
-        <TextView
-            android:id="@+id/emailus"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:gravity="center"
-            android:text="Email us at:\n jazzy.architects@gmail.com"
-            android:textColor="#FFF"
-            android:textSize="18sp" />
+  </LinearLayout >
 
-    </LinearLayout>
-
-</RelativeLayout>
+</RelativeLayout >

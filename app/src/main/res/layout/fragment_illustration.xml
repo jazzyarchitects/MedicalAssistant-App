@@ -2,27 +2,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MedicalAssistant.Activities.Illustration$PlaceholderFragment">
+    tools:context=".MedicalAssistant.Activities.Illustration$PlaceholderFragment" >
 
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentTop="true"
-        android:scaleType="fitXY"
-        android:id="@+id/image"
-        android:layout_above="@+id/t1"
-        android:src="@drawable/dashboard"/>
+  <ImageView
+      android:id="@+id/image"
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:layout_above="@+id/t1"
+      android:layout_alignParentTop="true"
+      android:scaleType="fitXY"
+      android:src="@drawable/dashboard" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="#FFF"
-        android:background="@drawable/toolbar_background"
-        android:text="Swipe to continue -->"
-        android:id="@+id/t1"
-        android:padding="10dp"
-        android:textSize="16sp"
-        android:gravity="center_horizontal"
-        android:layout_alignParentBottom="true"/>
+  <TextView
+      android:id="@+id/t1"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_alignParentBottom="true"
+      android:background="@drawable/toolbar_background"
+      android:gravity="center_horizontal"
+      android:padding="10dp"
+      android:text="Swipe to continue -->"
+      android:textColor="#FFF"
+      android:textSize="16sp" />
 
-</RelativeLayout>
+</RelativeLayout >

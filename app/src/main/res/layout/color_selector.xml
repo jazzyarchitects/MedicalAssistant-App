@@ -1,93 +1,94 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="170dp"
     android:background="#FFF"
-    android:orientation="vertical"
-    android:layout_height="170dp">
+    android:orientation="vertical" >
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:gravity="center"
-        android:background="#efefef"
-        android:orientation="horizontal">
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="50dp"
+      android:background="#efefef"
+      android:gravity="center"
+      android:orientation="horizontal" >
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:id="@+id/textView"
-            android:textColor="#000"
-            android:gravity="center_vertical"
-            android:text="Selected Color: "
-            android:textSize="16sp"/>
-        <architect.jazzy.medicinereminder.MedicalAssistant.CustomViews.CircleView
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:id="@+id/circleSelected"
-            app:fillColor="@color/actionBackground"/>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-        android:orientation="horizontal"
-        android:layout_marginTop="10dp"
-        android:weightSum="5">
-
-
-        <architect.jazzy.medicinereminder.MedicalAssistant.CustomViews.CircleView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:id="@+id/circleDefault"
-            app:isButton="true"
-            app:fillColor="@color/actionBackground"/>
-
-        <architect.jazzy.medicinereminder.MedicalAssistant.CustomViews.CircleView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:id="@+id/circleRed"
-            app:isButton="true"
-            app:fillColor="@color/themeColorRed"/>
-
-        <architect.jazzy.medicinereminder.MedicalAssistant.CustomViews.CircleView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:id="@+id/circleGreen"
-            app:isButton="true"
-            app:fillColor="@color/themeColorGreen"/>
-
-        <architect.jazzy.medicinereminder.MedicalAssistant.CustomViews.CircleView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:id="@+id/circleDark"
-            app:isButton="true"
-            app:fillColor="@color/themeColorDark"/>
-
-        <architect.jazzy.medicinereminder.MedicalAssistant.CustomViews.CircleView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            app:isButton="true"
-            android:layout_weight="1"
-            android:id="@+id/circleLight"
-            app:fillColor="@color/themeColorLight"
-            app:strokeColor="#222"/>
-
-
-    </LinearLayout>
-
-
-    <Button
+    <TextView
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:background="@drawable/find_now_button"
-        android:text="Save"
-        android:id="@+id/saveButton"
-        android:layout_gravity="center"
-        android:layout_marginTop="15dp"/>
+        android:layout_height="40dp"
+        android:gravity="center_vertical"
+        android:text="Selected Color: "
+        android:textColor="#000"
+        android:textSize="16sp" />
 
-</LinearLayout>
+    <architect.jazzy.medicinereminder.MedicalAssistant.CustomViews.CircleView
+        android:id="@+id/circleSelected"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        app:fillColor="@color/actionBackground" />
+  </LinearLayout >
+
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="50dp"
+      android:layout_marginTop="10dp"
+      android:orientation="horizontal"
+      android:weightSum="5" >
+
+
+    <architect.jazzy.medicinereminder.MedicalAssistant.CustomViews.CircleView
+        android:id="@+id/circleDefault"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        app:fillColor="@color/actionBackground"
+        app:isButton="true" />
+
+    <architect.jazzy.medicinereminder.MedicalAssistant.CustomViews.CircleView
+        android:id="@+id/circleRed"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        app:fillColor="@color/themeColorRed"
+        app:isButton="true" />
+
+    <architect.jazzy.medicinereminder.MedicalAssistant.CustomViews.CircleView
+        android:id="@+id/circleGreen"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        app:fillColor="@color/themeColorGreen"
+        app:isButton="true" />
+
+    <architect.jazzy.medicinereminder.MedicalAssistant.CustomViews.CircleView
+        android:id="@+id/circleDark"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        app:fillColor="@color/themeColorDark"
+        app:isButton="true" />
+
+    <architect.jazzy.medicinereminder.MedicalAssistant.CustomViews.CircleView
+        android:id="@+id/circleLight"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        app:fillColor="@color/themeColorLight"
+        app:isButton="true"
+        app:strokeColor="#222" />
+
+
+  </LinearLayout >
+
+
+  <Button
+      android:id="@+id/saveButton"
+      android:layout_width="wrap_content"
+      android:layout_height="30dp"
+      android:layout_gravity="center"
+      android:layout_marginTop="15dp"
+      android:background="@drawable/find_now_button"
+      android:text="Save" />
+
+</LinearLayout >

@@ -1,99 +1,103 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:columnCount="2"
-    android:padding="10dp">
+    android:orientation="vertical"
+    android:padding="10dp" >
 
-    <TableRow android:weightSum="2">
-        <CheckBox
-            android:layout_height="wrap_content"
-            android:textColor="#000"
-            android:padding="5dp"
-            android:textSize="16sp"
-            android:layout_weight="1"
-            android:text="Sunday"
-            android:id="@+id/daySunday"/>
+  <TableRow android:weightSum="2" >
 
-
-        <CheckBox
-            android:layout_height="wrap_content"
-            android:textColor="#000"
-            android:layout_weight="1"
-            android:textSize="16sp"
-            android:text="Monday"
-            android:id="@+id/dayMonday"/>
-    </TableRow>
-
-
-    <TableRow android:weightSum="2">
     <CheckBox
-        android:layout_width="match_parent"
+        android:id="@+id/daySunday"
         android:layout_height="wrap_content"
-        android:textColor="#000"
-        android:text="Tuesday"
-        android:textSize="16sp"
         android:layout_weight="1"
-        android:id="@+id/dayTuesday"/>
+        android:padding="5dp"
+        android:text="Sunday"
+        android:textColor="#000"
+        android:textSize="16sp" />
 
-    
+
     <CheckBox
+        android:id="@+id/dayMonday"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Monday"
+        android:textColor="#000"
+        android:textSize="16sp" />
+  </TableRow >
+
+
+  <TableRow android:weightSum="2" >
+
+    <CheckBox
+        android:id="@+id/dayTuesday"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:text="Tuesday"
         android:textColor="#000"
-        android:textSize="16sp"
+        android:textSize="16sp" />
+
+
+    <CheckBox
+        android:id="@+id/dayWednesday"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="Wednesday"
-        android:id="@+id/dayWednesday"/>
-    </TableRow>
+        android:textColor="#000"
+        android:textSize="16sp" />
+  </TableRow >
 
-    <TableRow android:weightSum="2">
+  <TableRow android:weightSum="2" >
+
     <CheckBox
+        android:id="@+id/dayThursday"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="#000"
         android:layout_weight="1"
-        android:textSize="16sp"
         android:text="Thursday"
-        android:id="@+id/dayThursday"/>
+        android:textColor="#000"
+        android:textSize="16sp" />
 
-    
+
     <CheckBox
+        android:id="@+id/dayFriday"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="#000"
         android:layout_weight="1"
         android:text="Friday"
-        android:textSize="16sp"
-        android:id="@+id/dayFriday"/>
-    </TableRow>
+        android:textColor="#000"
+        android:textSize="16sp" />
+  </TableRow >
 
-    <TableRow android:weightSum="2">
+  <TableRow android:weightSum="2" >
+
     <CheckBox
+        android:id="@+id/daySaturday"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="#000"
         android:layout_weight="1"
         android:text="Saturday"
-        android:textSize="16sp"
-        android:id="@+id/daySaturday"/>
-    </TableRow>
+        android:textColor="#000"
+        android:textSize="16sp" />
+  </TableRow >
 
 
-    <TableRow
-        android:layout_width="match_parent"
-        android:gravity="center_horizontal"
-        android:layout_height="wrap_content">
+  <TableRow
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:gravity="center_horizontal" >
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="30dp"
-            android:layout_gravity="center"
-            android:id="@+id/done_button"
-            android:background="@drawable/find_now_button"
-            android:text="Done"/>
+    <Button
+        android:id="@+id/done_button"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_gravity="center"
+        android:background="@drawable/find_now_button"
+        android:text="Done" />
 
-    </TableRow>
-    
-</TableLayout>
+  </TableRow >
+
+</TableLayout >

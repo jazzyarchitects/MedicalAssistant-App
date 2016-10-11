@@ -5,43 +5,43 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MedicalAssistant.Activities.MainActivity"
-    tools:openDrawer="start">
+    tools:openDrawer="start" >
 
-    <LinearLayout
+  <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="match_parent"
+      android:animateLayoutChanges="true"
+      android:orientation="vertical" >
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appBar"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:animateLayoutChanges="true"
-        android:orientation="vertical">
+        android:layout_height="wrap_content" >
 
-        <android.support.design.widget.AppBarLayout
-            android:id="@+id/appBar"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+      <!--android:background="@drawable/toolbar_background"-->
+      <android.support.v7.widget.Toolbar
+          android:id="@+id/toolbar"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:background="@drawable/toolbar_background"
+          android:theme="@style/Theme.AppCompat" />
 
-            <!--android:background="@drawable/toolbar_background"-->
-            <android.support.v7.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/toolbar_background"
-                android:theme="@style/Theme.AppCompat" />
+    </android.support.design.widget.AppBarLayout >
 
-        </android.support.design.widget.AppBarLayout>
+    <FrameLayout
+        android:id="@+id/frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+  </LinearLayout >
 
-        <FrameLayout
-            android:id="@+id/frame"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
-    </LinearLayout>
+  <android.support.design.widget.NavigationView
+      android:id="@+id/navigationView"
+      android:layout_width="@dimen/navigationDrawerWidth"
+      android:layout_height="match_parent"
+      android:layout_gravity="start"
+      app:headerLayout="@layout/navigation_drawer_header"
+      app:itemIconTint="@color/navigationDrawerIconTint"
+      app:itemTextColor="@color/navigationDrawerTextColor"
+      app:menu="@menu/navigation_drawer" />
 
-    <android.support.design.widget.NavigationView
-        android:id="@+id/navigationView"
-        android:layout_width="@dimen/navigationDrawerWidth"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        app:headerLayout="@layout/navigation_drawer_header"
-        app:itemIconTint="@color/navigationDrawerIconTint"
-        app:itemTextColor="@color/navigationDrawerTextColor"
-        app:menu="@menu/navigation_drawer" />
-
-</android.support.v4.widget.DrawerLayout>
+</android.support.v4.widget.DrawerLayout >

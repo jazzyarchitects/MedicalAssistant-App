@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item app:showAsAction="always"
-        android:icon="@drawable/ic_action_user"
-        android:title="Select from contact"
-        android:id="@+id/addDoctor" />
-</menu>
+    xmlns:app="http://schemas.android.com/apk/res-auto" >
+  <item
+      android:id="@+id/addDoctor"
+      android:icon="@drawable/ic_action_user"
+      android:title="Select from contact"
+      app:showAsAction="always" />
+</menu >

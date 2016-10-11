@@ -118,7 +118,6 @@ public class DoctorListFragment extends Fragment {
             adapter.setItemClickListener(new DoctorListAdapter.ItemClickListener() {
                 @Override
                 public void onItemClick(int position, Doctor doctor) {
-//                    Log.e(TAG,"Item clicked "+position );
                     onFragmentInteractionListenr.onDoctorSelected(doctor);
                 }
 
@@ -135,7 +134,23 @@ public class DoctorListFragment extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        refreshLayout();
+    }
+
+    @Override
+    @TargetApi(14)
+    @SuppressWarnings("deprecation")
     public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        menuItemClickListener=(OnMenuItemClickListener)activity;
+        onFragmentInteractionListenr=(OnFragmentInteractionListenr)activity;
+    }
+
+    @Override
+    @TargetApi(21)
+    public void onAttach(Context activity) {
         super.onAttach(activity);
         menuItemClickListener=(OnMenuItemClickListener)activity;
         onFragmentInteractionListenr=(OnFragmentInteractionListenr)activity;

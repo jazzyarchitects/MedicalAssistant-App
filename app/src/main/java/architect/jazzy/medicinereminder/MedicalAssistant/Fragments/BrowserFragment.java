@@ -32,7 +32,6 @@ public class BrowserFragment extends Fragment {
     ProgressBar progressBar;
     Uri newsUrl;
     ImageView logo;
-
     public static BrowserFragment getInstance(String url) {
         BrowserFragment fragment = new BrowserFragment();
         Bundle args = new Bundle();

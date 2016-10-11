@@ -1,15 +1,20 @@
 package architect.jazzy.medicinereminder.MedicalAssistant.Fragments;
 
+import android.annotation.SuppressLint;
+import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
+import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,7 +38,7 @@ import architect.jazzy.medicinereminder.R;
 public class DashboardFragment extends Fragment {
 
     private static final String TAG = "Dashboard";
-    View v;
+//    View v;
     TextView medicineCountView;
     ImageView backParent;
     RelativeLayout relativeLayout;
@@ -65,18 +70,7 @@ public class DashboardFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        v = inflater.inflate(R.layout.fragment_dashboard, container, false);
-        medTimes = MedTime.getDefaultTimes(getActivity());
-        isMenuOpen = false;
-        ImageView appIcon = (ImageView) v.findViewById(R.id.appIcon);
-        appIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ((DrawerLayout) getActivity().findViewById(R.id.drawerLayout)).openDrawer(GravityCompat.START);
-            }
-        });
-
-        return v;
+        return inflater.inflate(R.layout.fragment_dashboard, container, false);
     }
 
 
@@ -88,15 +82,27 @@ public class DashboardFragment extends Fragment {
         int color = Color.argb(0xCC, Color.red(color2), Color.green(color2), Color.blue(color2));
         view.findViewById(R.id.countBack).setBackgroundColor(color);
 
-        relativeLayout = (RelativeLayout) v.findViewById(R.id.r1);
-        medicineCountView = (TextView) v.findViewById(R.id.medicineCount);
-        backParent = (ImageView) v.findViewById(R.id.backParent);
+        relativeLayout = (RelativeLayout) view.findViewById(R.id.r1);
+        medicineCountView = (TextView) view.findViewById(R.id.medicineCount);
+        backParent = (ImageView) view.findViewById(R.id.backParent);
 
-        circleNews = (CircleView) v.findViewById(R.id.circleNews);
-        circleAddMedicine = (CircleView) v.findViewById(R.id.circleAddMedicine);
-        circleDoctorList = (CircleView) v.findViewById(R.id.circleDoctorList);
-        circleMedicineList = (CircleView) v.findViewById(R.id.circleMedicineList);
-        circleSearch = (CircleView) v.findViewById(R.id.circleSearch);
+        circleNews = (CircleView) view.findViewById(R.id.circleNews);
+        circleAddMedicine = (CircleView) view.findViewById(R.id.circleAddMedicine);
+        circleDoctorList = (CircleView) view.findViewById(R.id.circleDoctorList);
+        circleMedicineList = (CircleView) view.findViewById(R.id.circleMedicineList);
+        circleSearch = (CircleView) view.findViewById(R.id.circleSearch);
+
+        medTimes = MedTime.getDefaultTimes(getActivity());
+
+        isMenuOpen = false;
+        ImageView appIcon = (ImageView) view.findViewById(R.id.appIcon);
+
+        appIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((DrawerLayout) getActivity().findViewById(R.id.drawerLayout)).openDrawer(GravityCompat.START);
+            }
+        });
 
         circleSearch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -133,7 +139,6 @@ public class DashboardFragment extends Fragment {
             }
         });
 
-
         drawables = new Drawable[]{getResources().getDrawable(R.drawable.back_car),
                 getResources().getDrawable(R.drawable.back_night),
                 getResources().getDrawable(R.drawable.back_street)};
@@ -150,7 +155,6 @@ public class DashboardFragment extends Fragment {
         transitionDrawable.startTransition(3000, 10000);
         backParent.setImageDrawable(transitionDrawable);
 
-
         try {
             ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
         } catch (NullPointerException e) {
@@ -166,7 +170,7 @@ public class DashboardFragment extends Fragment {
             if (i >= medicines.size()) {
                 break;
             }
-            TextView view1 = (TextView) v.findViewById(medicineViewIds[i]);
+            TextView view1 = (TextView) view.findViewById(medicineViewIds[i]);
             final Pair<Medicine, String> pair = getMedicineDetailDisplayString(medicines.get(i), i);
             view1.setText(Html.fromHtml(pair.second));
             view1.setTag(pair.first);
@@ -229,10 +233,19 @@ public class DashboardFragment extends Fragment {
         void performNavAction(int menuId);
     }
 
+    @TargetApi(21)
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
         onFragmentInteractionListener = (OnFragmentInteractionListener) context;
+    }
+
+    @TargetApi(14)
+    @SuppressWarnings("deprecation")
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        onFragmentInteractionListener = (OnFragmentInteractionListener) activity;
     }
 
     private MedTime getBreakfastTime(String beforeOrAfter) {

@@ -1,5 +1,7 @@
 package architect.jazzy.medicinereminder.MedicalAssistant.Fragments;
 
+import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -82,9 +84,16 @@ public class ExportFragment extends Fragment {
         super.onAttach(context);
         if (context instanceof ExportConfirmListener) {
             mListener = (ExportConfirmListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
+        }
+    }
+
+    @Override
+    @SuppressWarnings("deprecation")
+    @TargetApi(14)
+    public void onAttach(Activity context) {
+        super.onAttach(context);
+        if (context instanceof ExportConfirmListener) {
+            mListener = (ExportConfirmListener) context;
         }
     }
 

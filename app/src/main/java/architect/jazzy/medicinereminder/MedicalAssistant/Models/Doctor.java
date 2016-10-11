@@ -58,6 +58,11 @@ public class Doctor implements Parcelable {
         dest.writeString(this.notes);
         dest.writeInt(this.textColor);
         dest.writeInt(this.backgroundColor);
+        dest.writeString(this.getPhoto());
+//        dest.writeString(this.getPhotoPath());
+//        if(this.getPhotoUri()!=null) {
+//            dest.writeString(this.getPhotoUri().toString());
+//        }
     }
 
     public Doctor(Parcel in){
@@ -70,6 +75,13 @@ public class Doctor implements Parcelable {
         this.notes=in.readString();
         this.textColor = in.readInt();
         this.backgroundColor = in.readInt();
+        this.setPhoto(in.readString());
+//        this.photoPath = in.readString();
+//        try {
+//            this.photoUri = in.readString() == null ? null : Uri.parse(in.readString());
+//        }catch (Exception e){
+//            e.printStackTrace();
+//        }
     }
 
     public static final Creator<Doctor> CREATOR = new Creator<Doctor>() {
@@ -226,7 +238,7 @@ public class Doctor implements Parcelable {
     @Override
     public String toString() {
         return "Doctor: {id:"+id+",name:"+name+", hospital:"+hospital+", phone1:"+phone_1+"," +
-                " phone2:"+phone_2+", address:"+address+", notes:"+notes+"}";
+                " phone2:"+phone_2+", address:"+address+", notes:"+notes+", image:"+this.getPhoto()+"}";
     }
 
 }

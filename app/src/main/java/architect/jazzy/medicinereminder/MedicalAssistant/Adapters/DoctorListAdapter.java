@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,26 +69,44 @@ public class DoctorListAdapter extends RecyclerView.Adapter<DoctorListAdapter.Vi
             String path = doctor.getPhoto();
             try {
                 Uri uri = Uri.parse(path);
-                holder.imageView.setImageURI(uri);
+//                holder.imageView.setImageURI(uri);
+//                holder.imageView.setImageBitmap(Constants.getScaledBitmap(uri, context, 150, 150));
+                bitmap = Constants.getScaledBitmap(doctor.getPhoto(), 150, 150);
+                holder.imageView.setImageBitmap(bitmap);
                 try {
                     bitmap = ((BitmapDrawable) holder.imageView.getDrawable()).getBitmap();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            } catch (IllegalArgumentException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
                 bitmap = Constants.getScaledBitmap(doctor.getPhoto(), 150, 150);
                 if (bitmap != null) {
                     holder.imageView.setImageBitmap(bitmap);
                 }
-            } catch (Exception e) {
-                e.printStackTrace();
             }
             if (bitmap != null) {
                 Palette.Builder builder = Palette.from(bitmap);
                 Palette palette = builder.generate();
                 try {
-                    int color = Color.HSVToColor(palette.getSwatches().get(0).getHsl());
+                    int color = palette.getLightVibrantColor(0);
+                    int color2 = palette.getDarkVibrantColor(0);
+                    int color3 = palette.getDarkMutedColor(0);
+                    int color4 = palette.getLightMutedColor(0);
+                    int color5 = palette.getMutedColor(0);
+                    int color6 = palette.getVibrantColor(0);
+
+                    color = color==0?color2:color;
+                    color = color==0?color3:color;
+                    color = color==0?color4:color;
+                    color = color==0?color5:color;
+                    color = color==0?color6:color;
+
+                    float[] hsv = new float[3];
+                    Color.colorToHSV(color, hsv);
+                    if(hsv[2] > 0.75){
+                        holder.nameView.setTextColor(Color.BLACK);
+                    }
                     holder.nameView.setBackgroundColor(color);
                 } catch (NullPointerException e) {
                     e.printStackTrace();
@@ -132,7 +151,6 @@ public class DoctorListAdapter extends RecyclerView.Adapter<DoctorListAdapter.Vi
 
     public interface ItemClickListener {
         void onItemClick(int position, Doctor doctor);
-
         void onItemLongClick(int position, Doctor doctor);
     }
 

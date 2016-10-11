@@ -13,10 +13,12 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Looper;
 import android.provider.ContactsContract;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -37,6 +39,8 @@ import android.widget.Toast;
 
 
 import com.squareup.picasso.Picasso;
+
+import java.io.IOException;
 
 import architect.jazzy.medicinereminder.MedicalAssistant.Handlers.DataHandler;
 import architect.jazzy.medicinereminder.MedicalAssistant.Handlers.RealPathUtil;
@@ -153,7 +157,7 @@ public class AddDoctorFragment extends Fragment {
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, final Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         Log.e(TAG, "onActivityResult: " + requestCode + " " + resultCode);
@@ -165,35 +169,56 @@ public class AddDoctorFragment extends Fragment {
             }
             if (requestCode == COVER_PIC_REQUEST_CODE) {
                 Log.e(TAG, "Doctor image path: " + data.getData().toString());
-                Bitmap bitmap = null;
+              final String imagePath = RealPathUtil.getPathFromURI(getActivity(), data.getData());
                 try {
-                    String imagePath = RealPathUtil.getPathFromURI(getActivity(), data.getData());
-                    bitmap = Picasso.with(getActivity())
-                            .load(imagePath)
-                            .get();
-                    doctor.setPhotoPath(imagePath);
-                    imageView.setImageBitmap(Constants.getScaledBitmap(imagePath, imageView.getMeasuredWidth(), imageView.getMeasuredHeight()));
+                    Thread thread = new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Bitmap bitmap = null;
+                            Looper.getMainLooper();
+                            try {
+                                bitmap = Picasso.with(getActivity())
+                                        .load(imagePath)
+                                        .get();
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            doctor.setPhotoPath(imagePath);
+                            try {
+                                if (bitmap == null) {
+                                    BitmapDrawable drawable = (BitmapDrawable) imageView.getDrawable();
+                                    bitmap = drawable.getBitmap();
+                                }
+                                Palette.Builder builder = Palette.from(bitmap);
+                                Palette palette = builder.generate();
+
+                                try {
+                                    final int color = Color.HSVToColor(palette.getSwatches().get(0).getHsl());
+
+                                  final Bitmap finalBitmap = bitmap;
+                                  imageView.post(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            imageView.getLayoutParams().height = finalBitmap.getHeight();
+                                            imageView.requestLayout();
+                                            imageView.setImageBitmap(Constants.getScaledBitmap(imagePath, imageView.getMeasuredWidth(), imageView.getMeasuredHeight()));
+                                            setEditTextIcons(color);
+                                        }
+                                    });
+                                } catch (NullPointerException e) {
+                                    e.printStackTrace();
+                                }
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+
+                        }
+                    });
+                    thread.start();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
 
-                try {
-                    if (bitmap == null) {
-                        BitmapDrawable drawable = (BitmapDrawable) imageView.getDrawable();
-                        bitmap = drawable.getBitmap();
-                    }
-                    Palette.Builder builder = Palette.from(bitmap);
-                    Palette palette = builder.generate();
-
-                    try {
-                        int color = Color.HSVToColor(palette.getSwatches().get(0).getHsl());
-                        setEditTextIcons(color);
-                    } catch (NullPointerException e) {
-                        e.printStackTrace();
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
 
             }
         }
@@ -399,10 +424,20 @@ public class AddDoctorFragment extends Fragment {
     }
 
     @Override
+    @TargetApi(21)
     public void onAttach(Context context) {
         super.onAttach(context);
         onFragmentInteractionListener = (OnFragmentInteractionListener) context;
     }
+
+
+  @Override
+  @TargetApi(14)
+  @SuppressWarnings("deprecation")
+  public void onAttach(Activity context) {
+    super.onAttach(context);
+    onFragmentInteractionListener = (OnFragmentInteractionListener) context;
+  }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {

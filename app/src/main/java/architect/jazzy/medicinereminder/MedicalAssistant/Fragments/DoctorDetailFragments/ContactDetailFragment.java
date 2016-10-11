@@ -1,7 +1,9 @@
 package architect.jazzy.medicinereminder.MedicalAssistant.Fragments.DoctorDetailFragments;
 
 
+import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -13,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import architect.jazzy.medicinereminder.MedicalAssistant.Activities.DoctorDetail;
 import architect.jazzy.medicinereminder.MedicalAssistant.Activities.MainActivity;
 import architect.jazzy.medicinereminder.MedicalAssistant.Handlers.DataHandler;
 import architect.jazzy.medicinereminder.HelperClasses.Constants;
@@ -107,11 +110,26 @@ public class ContactDetailFragment extends Fragment {
         doctorStateListener.onDoctorSaved(doctor);
     }
 
+
     @Override
+    @TargetApi(21)
+    public void onAttach(Context activity) {
+        super.onAttach(activity);
+        ((DoctorDetail)activity).setDoctorDetailImageChangeListener(new DoctorDetail.DoctorDetailImageChangeListener() {
+            @Override
+            public void onDoctorImageChanged(int resultCode, Intent data) {
+                doctor.setPhotoPath(DoctorDetailFragment.getImagePath(data,getActivity()));
+                doctor.setPhotoUri(null);
+            }
+        });
+    }
+
+    @Override
+    @TargetApi(14)
+    @SuppressWarnings("deprecation")
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-
-        ((MainActivity)activity).setDoctorDetailImageChangeListener(new MainActivity.DoctorDetailImageChangeListener() {
+        ((DoctorDetail)activity).setDoctorDetailImageChangeListener(new DoctorDetail.DoctorDetailImageChangeListener() {
             @Override
             public void onDoctorImageChanged(int resultCode, Intent data) {
                 doctor.setPhotoPath(DoctorDetailFragment.getImagePath(data,getActivity()));

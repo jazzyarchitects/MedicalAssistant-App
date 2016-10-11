@@ -7,11 +7,14 @@ import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.ScaleDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Build;
+import android.provider.MediaStore;
 import android.support.annotation.DrawableRes;
 import android.text.Html;
 import android.text.Spanned;
@@ -21,6 +24,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -208,6 +212,37 @@ public class Constants {
 //    public static Bitmap getScaledBitmap(String picturePath, int width, int height) {
 //        return getScaledBitmap(picturePath, null, width, height);
 //    }
+
+    public static Bitmap getScaledBitmap(Uri uri, Context context, int width, int height){
+        Bitmap bitmap;
+        try {
+            bitmap = MediaStore.Images.Media.getBitmap(context.getContentResolver(),uri);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return null;
+        }
+//        BitmapFactory.Options sizeOptions = new BitmapFactory.Options();
+//        sizeOptions.inJustDecodeBounds = true;
+//        int inSampleSize = calculateInSampleSize(sizeOptions, width, height);
+//
+//        sizeOptions.inJustDecodeBounds = false;
+//        sizeOptions.inSampleSize = inSampleSize;
+
+//        int width = bm.getWidth();
+//        int height = bm.getHeight();
+        float scaleWidth = ((float) width) / bitmap.getWidth();
+        float scaleHeight = ((float) height) / bitmap.getHeight();
+        // CREATE A MATRIX FOR THE MANIPULATION
+        Matrix matrix = new Matrix();
+        // RESIZE THE BIT MAP
+        matrix.postScale(scaleWidth, scaleHeight);
+
+        // "RECREATE" THE NEW BITMAP
+        Bitmap resizedBitmap = Bitmap.createBitmap(
+            bitmap, 0, 0, width, height, matrix, false);
+        bitmap.recycle();
+        return resizedBitmap;
+    }
 
     /**
      * Scale the drawables in editText

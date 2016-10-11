@@ -1,7 +1,9 @@
 package architect.jazzy.medicinereminder.MedicalAssistant.Fragments.DoctorDetailFragments;
 
 
+import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -16,6 +18,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.graphics.Palette;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -100,13 +103,15 @@ public class DoctorDetailFragment extends Fragment implements ViewPagerAdapter.V
             }
         });
 
+
+        Log.e(TAG, "Doctor: "+doctor.toString());
+
         setup();
         setupTabs();
         return v;
     }
 
     void setup() {
-
         try {
             Bitmap bitmap;
             String path = doctor.getPhoto();
@@ -124,12 +129,24 @@ public class DoctorDetailFragment extends Fragment implements ViewPagerAdapter.V
                 Palette.Builder builder = Palette.from(bitmap);
                 Palette palette = builder.generate();
                 try {
-                    int color = Color.HSVToColor(palette.getSwatches().get(0).getHsl());
+                    int color = palette.getLightVibrantColor(0);
+                    int color2 = palette.getDarkVibrantColor(0);
+                    int color3 = palette.getDarkMutedColor(0);
+                    int color4 = palette.getLightMutedColor(0);
+                    int color5 = palette.getMutedColor(0);
+                    int color6 = palette.getVibrantColor(0);
+
+                    color = color==0?color2:color;
+                    color = color==0?color3:color;
+                    color = color==0?color4:color;
+                    color = color==0?color5:color;
+                    color = color==0?color6:color;
+
                     tabLayout.setBackgroundColor(color);
                     ((MainActivity) getActivity()).getToolbar().setBackgroundColor(color);
                     float[] hsv = new float[3];
                     Color.colorToHSV(color, hsv);
-                    if (hsv[2] > 0.7) {
+                    if (hsv[2] > 0.75) {
                         textColor = Color.BLACK;
                         doctor.setBackgroundColor(textColor);
                         tabLayout.setTabTextColors(Color.parseColor("#555555"), Color.BLACK);
@@ -191,7 +208,15 @@ public class DoctorDetailFragment extends Fragment implements ViewPagerAdapter.V
     }
 
     @Override
+    @TargetApi(14)
+    @SuppressWarnings("deprecation")
     public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        imageChangeListener = (ImageChangeListener) activity;
+    }
+    @Override
+    @TargetApi(21)
+    public void onAttach(Context activity) {
         super.onAttach(activity);
         imageChangeListener = (ImageChangeListener) activity;
     }

@@ -1,7 +1,9 @@
 package architect.jazzy.medicinereminder.MedicalAssistant.Fragments.DoctorDetailFragments;
 
 
+import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,6 +16,7 @@ import android.widget.LinearLayout;
 
 import java.util.ArrayList;
 
+import architect.jazzy.medicinereminder.MedicalAssistant.Activities.DoctorDetail;
 import architect.jazzy.medicinereminder.MedicalAssistant.Activities.MainActivity;
 import architect.jazzy.medicinereminder.MedicalAssistant.Fragments.DoctorDetailFragments.Adapters.MedicineListAdapter;
 import architect.jazzy.medicinereminder.MedicalAssistant.Handlers.DataHandler;
@@ -93,18 +96,31 @@ public class DoctorMedicineListFragment extends Fragment {
     }
 
     @Override
+    @TargetApi(14)
+    @SuppressWarnings("deprecation")
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         fragmentInteractionListener=(FragmentInteractionListener)activity;
-
-        ((MainActivity)activity).setActivityResultListener(new MainActivity.ActivityResultListener() {
+        ((DoctorDetail)activity).setActivityResultListener(new DoctorDetail.ActivityResultListener() {
             @Override
             public void medicineListActivityResult(int requestCode, int resultCode, Intent data) {
                 //TODO
                 refreshLayout();
             }
         });
-
+    }
+    @Override
+    @TargetApi(21)
+    public void onAttach(Context activity) {
+        super.onAttach(activity);
+        fragmentInteractionListener=(FragmentInteractionListener)activity;
+        ((DoctorDetail)activity).setActivityResultListener(new DoctorDetail.ActivityResultListener() {
+            @Override
+            public void medicineListActivityResult(int requestCode, int resultCode, Intent data) {
+                //TODO
+                refreshLayout();
+            }
+        });
     }
 
 

@@ -1,6 +1,8 @@
 package architect.jazzy.medicinereminder.MedicalAssistant.Fragments;
 
 
+import android.annotation.TargetApi;
+import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
@@ -85,8 +87,14 @@ public class MedicineListFragment extends Fragment {
             e.printStackTrace();
         }
 
-        createOptionalView();
+//        createOptionalView();
         return v;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getMedicineData();
     }
 
     @Override
@@ -100,21 +108,24 @@ public class MedicineListFragment extends Fragment {
     }
 
 
-//    @Override
-//    public void onAttach(Activity activity) {
-//        super.onAttach(activity);
-//        fragmentInteractionListener = (FragmentInteractionListener) activity;
-//
-//        ((MainActivity) activity).setActivityResultListener(new MainActivity.ActivityResultListener() {
-//            @Override
-//            public void medicineListActivityResult(int requestCode, int resultCode, Intent data) {
-//                getMedicineData();
-//                createOptionalView();
-//            }
-//        });
-//    }
+    @Override
+    @SuppressWarnings("deprecation")
+    @TargetApi(14)
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        fragmentInteractionListener = (FragmentInteractionListener) activity;
+
+        ((MainActivity) activity).setActivityResultListener(new MainActivity.ActivityResultListener() {
+            @Override
+            public void medicineListActivityResult(int requestCode, int resultCode, Intent data) {
+                getMedicineData();
+                createOptionalView();
+            }
+        });
+    }
 
     @Override
+    @TargetApi(21)
     public void onAttach(Context context) {
         super.onAttach(context);
         fragmentInteractionListener = (FragmentInteractionListener) context;

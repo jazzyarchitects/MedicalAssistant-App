@@ -78,8 +78,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         EmojiSelectFragment.OnFragmentInteractionListener, DaySelectorFragmentDialog.OnFragmentInteractionListener,
         MedicineListFragment.FragmentInteractionListener, AddMedicineFragment.FragmentInteractionListener,
         NewsListFragment.FeedClickListener, DoctorListFragment.OnMenuItemClickListener,
-        DoctorMedicineListFragment.FragmentInteractionListener, DoctorListFragment.OnFragmentInteractionListenr,
-        DoctorDetailFragment.ImageChangeListener, DashboardFragment.OnFragmentInteractionListener,
+        DoctorListFragment.OnFragmentInteractionListenr, DashboardFragment.OnFragmentInteractionListener,
         AddDoctorFragment.OnFragmentInteractionListener, ColorSelectorFragment.OnColorChangeListener {
 
     public static final String TAG = "MainActivity";
@@ -87,11 +86,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private static final int NAV_BEFORE_AD_SHOW = 6;
 
     FragmentBackStack fragmentBackStack = new FragmentBackStack();
-    final int SHOW_LIST_REQUEST_CODE = 9865;
     FrameLayout frameLayout;
     DrawerLayout drawerLayout;
     ActivityClickListener activityClickListener;
-    ActivityResultListener activityResultListener;
     EditText searchQuery;
     NavigationView navigationView;
     Toolbar toolbar;
@@ -198,15 +195,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
         shouldShowInterstitial = firebasePrefs.getBoolean(FirebaseConstants.RemoteConfig.AD_DASHBOARD_INTERSTITIAL_ENABLED, false);
 
-        //Randomising Ad showing
-        Random random = new Random();
-        shouldShowInterstitial = shouldShowInterstitial && random.nextBoolean();
-
         interstitialAd = new InterstitialAd(this);
         interstitialAd.setAdUnitId(FirebaseConstants.Ads.DASHBOARD_INTERSTITIAL);
         AdRequest.Builder adRequestBuilder = new AdRequest.Builder();
+        adRequestBuilder.setIsDesignedForFamilies(true);
         if(BuildConfig.DEBUG){
             adRequestBuilder.addTestDevice("5C8BFD2BD4F4C415F7456E231E186EE5");
+            adRequestBuilder.addTestDevice("2EDDA47AED66B1BF9537214AF158BBE2");
         }
         adRequest = adRequestBuilder.build();
         if(shouldShowInterstitial) {
@@ -395,12 +390,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawerLayout.closeDrawers();
         moveToFragmentId = id;
 
-        if(moveToFragmentId != R.id.action_settings){
             if(shouldShowInterstitial && interstitialAd.isLoaded()){
                 interstitialAd.show();
                 return false;
             }
-        }
         moveToFragment();
 
         return false;
@@ -622,8 +615,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onDoctorSelected(Doctor doctor) {
-        displaySupportFragment(DoctorDetailFragment.newInstance(doctor), true);
+//        displaySupportFragment(DoctorDetailFragment.newInstance(doctor), true);
+        Bundle bundle = new Bundle();
+        bundle.putParcelable("doctor", doctor);
+        Intent intent = new Intent(this, DoctorDetail.class);
+        intent.putExtras(bundle);
+        startActivity(intent);
+
+
     }
+
 
     @Override
     public void addDoctor() {
@@ -636,18 +637,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         addMedicineToView(addToBackStack);
     }
 
-    @Override
-    public void onDoctorImageChange(int resultCode, Intent data) {
-        if (doctorDetailImageChangeListener != null) {
-            doctorDetailImageChangeListener.onDoctorImageChanged(resultCode, data);
-        }
-    }
 
     @Override
     public void showDoctors() {
         displayFragment(new DoctorListFragment(), true);
     }
 
+    final int SHOW_LIST_REQUEST_CODE = 9865;
     @Override
     public void showDetails(int position, ArrayList<Medicine> medicines) {
         Intent i = new Intent(this, MedicineDetails.class);
@@ -663,14 +659,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         showFeed(item.getUrl());
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        Log.e(TAG, "Activity Result " + requestCode);
-        if (requestCode == SHOW_LIST_REQUEST_CODE) {
-            activityResultListener.medicineListActivityResult(requestCode, resultCode, data);
-        }
-    }
 
 
     public void hideKeyboard() {
@@ -684,20 +672,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     ActivityKeyClickListener activityKeyClickListener;
-    DoctorDetailImageChangeListener doctorDetailImageChangeListener;
 
 
-    public void setDoctorDetailImageChangeListener(DoctorDetailImageChangeListener doctorDetailImageChangeListener) {
-        this.doctorDetailImageChangeListener = doctorDetailImageChangeListener;
-    }
 
     public void setActivityKeyClickListener(ActivityKeyClickListener activityKeyClickListener) {
         this.activityKeyClickListener = activityKeyClickListener;
     }
 
-    public void setActivityResultListener(ActivityResultListener activityResultListener) {
-        this.activityResultListener = activityResultListener;
-    }
 
     public void setActivityClickListener(ActivityClickListener activityClickListener) {
         this.activityClickListener = activityClickListener;
@@ -711,16 +692,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         void emojiClick(int position);
     }
 
-    public interface ActivityResultListener {
-        void medicineListActivityResult(int requestCode, int resultCode, Intent data);
-    }
 
-    public interface DoctorDetailImageChangeListener {
-        void onDoctorImageChanged(int resultCode, Intent data);
-    }
 
     public interface ActivityKeyClickListener {
         boolean onBackKeyPressed();
+    }
+
+    ActivityResultListener activityResultListener;
+    public void setActivityResultListener(ActivityResultListener activityResultListener) {
+        this.activityResultListener = activityResultListener;
+    }
+    public interface ActivityResultListener {
+        void medicineListActivityResult(int requestCode, int resultCode, Intent data);
     }
 }
 

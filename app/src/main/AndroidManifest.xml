@@ -220,6 +220,10 @@
             android:name=".MedicalAssistant.BroadcastRecievers.DismissNotification"
             android:enabled="true"
             android:exported="false" />
+
+        <activity android:name=".MedicalAssistant.Activities.DoctorDetail"
+                  android:windowSoftInputMode="adjustPan|stateHidden" />
+        <activity android:name=".MedicalAssistant.Activities.BrowserActivity"></activity>
     </application>
 
 </manifest>

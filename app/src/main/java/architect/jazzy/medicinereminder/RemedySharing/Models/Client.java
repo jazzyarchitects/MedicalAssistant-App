@@ -10,70 +10,70 @@ import org.json.JSONObject;
  * Created by Jibin_ism on 19-Dec-15.
  */
 public class Client {
-    private String id="",key="",user="";
+  private String id = "", key = "", user = "";
 
-    public Client() {
+  public Client() {
+  }
+
+  public static Client parseClientObject(JSONObject jsonObject) {
+    Client client = new Client();
+    try {
+      client.setId(jsonObject.getString("id"));
+      client.setKey(jsonObject.getString("key"));
+      client.setUser(jsonObject.optString("user"));
+    } catch (JSONException e) {
+      e.printStackTrace();
+      return null;
     }
 
-    public String getId() {
-        return id;
-    }
+    return client;
+  }
 
-    public void setId(String id) {
-        this.id = id;
-    }
+  public static void saveClient(Context context, Client client) {
+    SharedPreferences sharedPreferences = context.getSharedPreferences("ClientPref", Context.MODE_PRIVATE);
+    SharedPreferences.Editor editor = sharedPreferences.edit();
 
-    public String getKey() {
-        return key;
-    }
+    editor.putString("key", client.getKey());
+    editor.putString("id", client.getId());
+    editor.putString("user", client.getUser());
 
-    public void setKey(String key) {
-        this.key = key;
-    }
+    editor.apply();
+  }
 
-    public String getUser() {
-        return user;
-    }
+  public static Client getClient(Context context) {
+    SharedPreferences sharedPreferences = context.getSharedPreferences("ClientPref", Context.MODE_PRIVATE);
 
-    public void setUser(String user) {
-        this.user = user;
-    }
+    Client client = new Client();
+    client.setKey(sharedPreferences.getString("key", ""));
+    client.setId(sharedPreferences.getString("id", ""));
+    client.setUser(sharedPreferences.getString("user", ""));
 
-    public static Client parseClientObject(JSONObject jsonObject){
-        Client client=new Client();
-        try{
-            client.setId(jsonObject.getString("id"));
-            client.setKey(jsonObject.getString("key"));
-            client.setUser(jsonObject.optString("user"));
-        }catch (JSONException e){
-            e.printStackTrace();
-            return null;
-        }
+    return client;
+  }
 
-        return client;
-    }
+  public String getId() {
+    return id;
+  }
 
-    public static void saveClient(Context context, Client client){
-        SharedPreferences sharedPreferences=context.getSharedPreferences("ClientPref",Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor=sharedPreferences.edit();
+  public void setId(String id) {
+    this.id = id;
+  }
 
-        editor.putString("key",client.getKey());
-        editor.putString("id",client.getId());
-        editor.putString("user",client.getUser());
+  public String getKey() {
+    return key;
+  }
 
-        editor.apply();
-    }
+  public void setKey(String key) {
+    this.key = key;
+  }
 
-    public static Client getClient(Context context){
-        SharedPreferences sharedPreferences=context.getSharedPreferences("ClientPref",Context.MODE_PRIVATE);
+  public String getUser() {
+    return user;
+  }
 
-        Client client=new Client();
-        client.setKey(sharedPreferences.getString("key",""));
-        client.setId(sharedPreferences.getString("id",""));
-        client.setUser(sharedPreferences.getString("user",""));
-
-        return client;
-    }
+  public void setUser(String user) {
+    this.user = user;
+  }
 
 
 }

@@ -6,44 +6,44 @@ import org.json.JSONObject;
  * Created by Jibin_ism on 24-Jan-16.
  */
 public class Comment {
-    private String id, comment;
-    private User user;
+  private String id, comment;
+  private User user;
 
-    public String getId() {
-        return id;
+  public static Comment parseJSON(JSONObject jsonObject) {
+    Comment comment = new Comment();
+    try {
+      comment.setId(jsonObject.getString("_id"));
+      comment.setComment(jsonObject.getString("comment"));
+      JSONObject authorObject = jsonObject.getJSONObject("author");
+      User user = new User(authorObject.getString("_id"), authorObject.getString("name"));
+      comment.setUser(user);
+    } catch (Exception e) {
+      e.printStackTrace();
     }
+    return comment;
+  }
 
-    public void setId(String id) {
-        this.id = id;
-    }
+  public String getId() {
+    return id;
+  }
 
-    public String getComment() {
-        return comment;
-    }
+  public void setId(String id) {
+    this.id = id;
+  }
 
-    public void setComment(String comment) {
-        this.comment = comment;
-    }
+  public String getComment() {
+    return comment;
+  }
 
-    public User getUser() {
-        return user;
-    }
+  public void setComment(String comment) {
+    this.comment = comment;
+  }
 
-    public void setUser(User user) {
-        this.user = user;
-    }
+  public User getUser() {
+    return user;
+  }
 
-    public static Comment parseJSON(JSONObject jsonObject){
-        Comment comment=new Comment();
-        try {
-            comment.setId(jsonObject.getString("_id"));
-            comment.setComment(jsonObject.getString("comment"));
-            JSONObject authorObject = jsonObject.getJSONObject("author");
-            User user = new User(authorObject.getString("_id"), authorObject.getString("name"));
-            comment.setUser(user);
-        }catch (Exception e){
-            e.printStackTrace();
-        }
-        return comment;
-    }
+  public void setUser(User user) {
+    this.user = user;
+  }
 }

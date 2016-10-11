@@ -8,43 +8,43 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
-import architect.jazzy.medicinereminder.RemedySharing.Models.Comment;
 import architect.jazzy.medicinereminder.R;
+import architect.jazzy.medicinereminder.RemedySharing.Models.Comment;
 
 /**
  * Created by Jibin_ism on 24-Jan-16.
  */
 public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHolder> {
 
-    Context mContext;
-    ArrayList<Comment> comments;
+  Context mContext;
+  ArrayList<Comment> comments;
 
-    public CommentAdapter(Context context, ArrayList<Comment> comments) {
-        this.mContext = context;
-        this.comments = comments;
+  public CommentAdapter(Context context, ArrayList<Comment> comments) {
+    this.mContext = context;
+    this.comments = comments;
+  }
+
+  @Override
+  public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    View view = inflater.inflate(R.layout.recycler_item_comments, parent, false);
+    return new ViewHolder(view);
+  }
+
+  @Override
+  public void onBindViewHolder(ViewHolder holder, int position) {
+
+  }
+
+  @Override
+  public int getItemCount() {
+    return comments == null ? 0 : comments.size();
+  }
+
+  class ViewHolder extends RecyclerView.ViewHolder {
+    public ViewHolder(View itemView) {
+      super(itemView);
     }
-
-    @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        LayoutInflater inflater=(LayoutInflater)mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view=inflater.inflate(R.layout.recycler_item_comments,parent, false);
-        return new ViewHolder(view);
-    }
-
-    @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-
-    }
-
-    @Override
-    public int getItemCount() {
-        return comments==null?0:comments.size();
-    }
-
-    class ViewHolder extends RecyclerView.ViewHolder {
-        public ViewHolder(View itemView) {
-            super(itemView);
-        }
-    }
+  }
 
 }

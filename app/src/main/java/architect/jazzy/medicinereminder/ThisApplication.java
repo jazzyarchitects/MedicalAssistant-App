@@ -13,29 +13,10 @@ import architect.jazzy.medicinereminder.HelperClasses.FirebaseConstants;
 public class ThisApplication extends Application {
 
 
-    public ThisApplication() {
-        super();
-    }
-
-    private Thread.UncaughtExceptionHandler exceptionHandler;
-
+  private Thread.UncaughtExceptionHandler exceptionHandler;
+  private Thread.UncaughtExceptionHandler uncaughtExceptionHandler = new Thread.UncaughtExceptionHandler() {
     @Override
-    protected void attachBaseContext(Context base) {
-        super.attachBaseContext(base);
-    }
-
-    @Override
-    public void onCreate() {
-        super.onCreate();
-        MobileAds.initialize(getApplicationContext(), FirebaseConstants.Ads.APP_ID);
-
-        exceptionHandler=Thread.getDefaultUncaughtExceptionHandler();
-        Thread.setDefaultUncaughtExceptionHandler(uncaughtExceptionHandler);
-    }
-
-    private  Thread.UncaughtExceptionHandler uncaughtExceptionHandler=new Thread.UncaughtExceptionHandler() {
-        @Override
-        public void uncaughtException(Thread thread, Throwable ex) {
+    public void uncaughtException(Thread thread, Throwable ex) {
 
 //            if(!BuildConfig.DEBUG){
 //                return;
@@ -67,7 +48,25 @@ public class ThisApplication extends Application {
 //                e.printStackTrace();
 //            }
 
-            exceptionHandler.uncaughtException(thread, ex);
-        }
-    };
+      exceptionHandler.uncaughtException(thread, ex);
+    }
+  };
+
+  public ThisApplication() {
+    super();
+  }
+
+  @Override
+  protected void attachBaseContext(Context base) {
+    super.attachBaseContext(base);
+  }
+
+  @Override
+  public void onCreate() {
+    super.onCreate();
+    MobileAds.initialize(getApplicationContext(), FirebaseConstants.Ads.APP_ID);
+
+    exceptionHandler = Thread.getDefaultUncaughtExceptionHandler();
+    Thread.setDefaultUncaughtExceptionHandler(uncaughtExceptionHandler);
+  }
 }

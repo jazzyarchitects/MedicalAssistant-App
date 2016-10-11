@@ -7,52 +7,52 @@ import java.util.ArrayList;
  */
 public class RemedyFeedResult {
 
-    ArrayList<Remedy> remedies;
-    int currentPage=1;
-    int count=0;
-    int limit=10;
+  ArrayList<Remedy> remedies;
+  int currentPage = 1;
+  int count = 0;
+  int limit = 10;
 
-    public RemedyFeedResult() {
-        remedies=new ArrayList<>();
-    }
+  public RemedyFeedResult() {
+    remedies = new ArrayList<>();
+  }
 
-    public int getNextPageNumber(){
-        return currentPage+1;
-    }
+  public int getNextPageNumber() {
+    return currentPage + 1;
+  }
 
-    public ArrayList<Remedy> getRemedies() {
-        return remedies;
-    }
+  public ArrayList<Remedy> getRemedies() {
+    return remedies;
+  }
 
-    public void setRemedies(ArrayList<Remedy> remedies) {
-        this.remedies = remedies;
-    }
+  public void setRemedies(ArrayList<Remedy> remedies) {
+    this.remedies = remedies;
+  }
 
-    public void addRemedies(ArrayList<Remedy> remedies) {
-        this.remedies.addAll(remedies);
-    }
+  public void addRemedies(ArrayList<Remedy> remedies) {
+    this.remedies.addAll(remedies);
+  }
 
-    public int getCurrentPage() {
-        return currentPage;
-    }
+  public int getCurrentPage() {
+    return currentPage;
+  }
 
-    public void setCurrentPage(int currentPage) {
-        this.currentPage = currentPage;
-    }
+  public void setCurrentPage(int currentPage) {
+    this.currentPage = currentPage;
+  }
 
-    public int getCount() {
-        return count;
-    }
+  public int getCount() {
+    return count;
+  }
 
-    public void setCount(int count) {
-        this.count = count;
-    }
+  public void setCount(int count) {
+    this.count = count;
+  }
 
-    public int getLimit() {
-        return limit;
-    }
+  public int getLimit() {
+    return limit;
+  }
 
-    public void setLimit(int limit) {
-        this.limit = limit;
-    }
+  public void setLimit(int limit) {
+    this.limit = limit;
+  }
 }

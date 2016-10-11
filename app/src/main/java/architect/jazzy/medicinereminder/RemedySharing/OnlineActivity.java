@@ -23,199 +23,198 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import architect.jazzy.medicinereminder.HelperClasses.FirebaseConstants;
+import architect.jazzy.medicinereminder.R;
 import architect.jazzy.medicinereminder.RemedySharing.Fragments.RemedyFeedFragment;
 import architect.jazzy.medicinereminder.RemedySharing.Fragments.UserDetailsFragment;
-import architect.jazzy.medicinereminder.HelperClasses.FirebaseConstants;
 import architect.jazzy.medicinereminder.RemedySharing.Models.User;
-import architect.jazzy.medicinereminder.R;
 
 public class OnlineActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+    implements NavigationView.OnNavigationItemSelectedListener {
 
-    public static final String TAG="OnlineActivity";
-    Toolbar toolbar;
-    boolean isUserLoggedIn;
-    DrawerLayout drawerLayout;
-    ActionBarDrawerToggle drawerToggle;
+  public static final String TAG = "OnlineActivity";
+  Toolbar toolbar;
+  boolean isUserLoggedIn;
+  DrawerLayout drawerLayout;
+  ActionBarDrawerToggle drawerToggle;
+  int uiOptions;
+  FirebaseAnalytics firebaseAnalytics;
+  Bundle loginAlertAnalyticsBundle;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_online);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+    setContentView(R.layout.activity_online);
+    toolbar = (Toolbar) findViewById(R.id.toolbar);
+    setSupportActionBar(toolbar);
 
-        dimNotificationBar();
+    dimNotificationBar();
 
-        drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open, R.string.close);
-        drawerLayout.setDrawerListener(drawerToggle);
-        drawerToggle.syncState();
+    drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+    drawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open, R.string.close);
+    drawerLayout.setDrawerListener(drawerToggle);
+    drawerToggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
-
-
-        View headerLayout = navigationView.getHeaderView(0);
-        User user = User.getUser(this);
-        if (User.isUserLoggedIn(this)) {
-            ((TextView) headerLayout.findViewById(R.id.userName)).setText(user.getName());
-            ((TextView) headerLayout.findViewById(R.id.email)).setText(user.getEmail());
-        }
+    NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+    navigationView.setNavigationItemSelectedListener(this);
 
 
-        Intent i = getIntent();
-        try {
-            String s = i.getStringExtra("fragment");
-            if (s.equalsIgnoreCase(UserDetailsFragment.TAG)) {
-                displayFragment(new UserDetailsFragment(), false);
-            } else {
-                throw new Exception("null");
-            }
-        } catch (Exception e) {
-            displayFragment(new RemedyFeedFragment(), false);
-        }
+    View headerLayout = navigationView.getHeaderView(0);
+    User user = User.getUser(this);
+    if (User.isUserLoggedIn(this)) {
+      ((TextView) headerLayout.findViewById(R.id.userName)).setText(user.getName());
+      ((TextView) headerLayout.findViewById(R.id.email)).setText(user.getEmail());
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (drawerToggle.onOptionsItemSelected(item)) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
 
-    int uiOptions;
-    private void dimNotificationBar() {
-        final View decorView = getWindow().getDecorView();
-        uiOptions = View.SYSTEM_UI_FLAG_LOW_PROFILE;
+    Intent i = getIntent();
+    try {
+      String s = i.getStringExtra("fragment");
+      if (s.equalsIgnoreCase(UserDetailsFragment.TAG)) {
+        displayFragment(new UserDetailsFragment(), false);
+      } else {
+        throw new Exception("null");
+      }
+    } catch (Exception e) {
+      displayFragment(new RemedyFeedFragment(), false);
+    }
+  }
+
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    if (drawerToggle.onOptionsItemSelected(item)) {
+      return true;
+    }
+    return super.onOptionsItemSelected(item);
+  }
+
+  private void dimNotificationBar() {
+    final View decorView = getWindow().getDecorView();
+    uiOptions = View.SYSTEM_UI_FLAG_LOW_PROFILE;
 //        if( Build.VERSION.SDK_INT>=Build.VERSION_CODES.KITKAT){
 //            uiOptions |= View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION;
 //            uiOptions |= View.SYSTEM_UI_FLAG_LAYOUT_STABLE;
 //        }
-        decorView.setSystemUiVisibility(uiOptions);
-        decorView.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
-            @Override
-            public void onSystemUiVisibilityChange(int visibility) {
-                Timer timer = new Timer();
-                timer.schedule(new TimerTask() {
-                    @Override
-                    public void run() {
-                        OnlineActivity.this.runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                decorView.setSystemUiVisibility(uiOptions);
-                            }
-                        });
-                    }
-                }, 5000);
-            }
-        });
-    }
+    decorView.setSystemUiVisibility(uiOptions);
+    decorView.setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
+      @Override
+      public void onSystemUiVisibilityChange(int visibility) {
+        Timer timer = new Timer();
+        timer.schedule(new TimerTask() {
+          @Override
+          public void run() {
+            OnlineActivity.this.runOnUiThread(new Runnable() {
+              @Override
+              public void run() {
+                decorView.setSystemUiVisibility(uiOptions);
+              }
+            });
+          }
+        }, 5000);
+      }
+    });
+  }
 
-    @Override
-    public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
+  @Override
+  public void onBackPressed() {
+    DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+    if (drawer.isDrawerOpen(GravityCompat.START)) {
+      drawer.closeDrawer(GravityCompat.START);
+    } else {
+      setSupportActionBar(toolbar);
+      getSupportActionBar().show();
+      super.onBackPressed();
+    }
+  }
+
+  @Override
+  protected void onResume() {
+    super.onResume();
+    isUserLoggedIn = User.isUserLoggedIn(this);
+  }
+
+  public void displayFragment(Fragment fragment, boolean add) {
+    setSupportActionBar(toolbar);
+    FragmentManager fragmentManager = getSupportFragmentManager();
+    FragmentTransaction transaction = fragmentManager.beginTransaction();
+    if (add) {
+      transaction.addToBackStack(null);
+    }
+    transaction.replace(R.id.frame, fragment);
+    transaction.commit();
+  }
+
+  @SuppressWarnings("StatementWithEmptyBody")
+  @Override
+  public boolean onNavigationItemSelected(MenuItem item) {
+    // Handle navigation view item clicks here.
+    int id = item.getItemId();
+
+    switch (id) {
+      case R.id.remedyFeed:
+        FirebaseConstants.Analytics.logCurrentScreen(this, "RemedyFeed");
+        displayFragment(new RemedyFeedFragment(), true);
+        break;
+      case R.id.myDetails:
+        FirebaseConstants.Analytics.logCurrentScreen(this, "UserDetails");
+        if (isUserLoggedIn) {
+          displayFragment(new UserDetailsFragment(), true);
         } else {
-            setSupportActionBar(toolbar);
-            getSupportActionBar().show();
-            super.onBackPressed();
+          showLoginAlert();
         }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        isUserLoggedIn = User.isUserLoggedIn(this);
-    }
-
-    public void displayFragment(Fragment fragment, boolean add) {
-        setSupportActionBar(toolbar);
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        if (add) {
-            transaction.addToBackStack(null);
+        break;
+      case R.id.logout:
+        if (isUserLoggedIn) {
+          FirebaseConstants.Analytics.logCurrentScreen(this, "Logout");
+          User.logout(this);
+          Toast.makeText(getApplicationContext(), "Logged out Successfully", Toast.LENGTH_LONG).show();
         }
-        transaction.replace(R.id.frame, fragment);
-        transaction.commit();
+        finish();
+        break;
+      default:
+        break;
     }
 
+    drawerLayout.closeDrawers();
+    return true;
+  }
 
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        switch (id) {
-            case R.id.remedyFeed:
-                FirebaseConstants.Analytics.logCurrentScreen(this, "RemedyFeed");
-                displayFragment(new RemedyFeedFragment(), true);
-                break;
-            case R.id.myDetails:
-                FirebaseConstants.Analytics.logCurrentScreen(this, "UserDetails");
-                if (isUserLoggedIn) {
-                    displayFragment(new UserDetailsFragment(), true);
-                } else {
-                    showLoginAlert();
-                }
-                break;
-            case R.id.logout:
-                if (isUserLoggedIn) {
-                    FirebaseConstants.Analytics.logCurrentScreen(this, "Logout");
-                    User.logout(this);
-                    Toast.makeText(getApplicationContext(), "Logged out Successfully", Toast.LENGTH_LONG).show();
-                }
-                finish();
-                break;
-            default:
-                break;
-        }
-
-        drawerLayout.closeDrawers();
-        return true;
-    }
-
-    FirebaseAnalytics firebaseAnalytics;
-    Bundle loginAlertAnalyticsBundle;
-    void showLoginAlert() {
-        firebaseAnalytics = FirebaseAnalytics.getInstance(this);
-        loginAlertAnalyticsBundle = new Bundle();
-        loginAlertAnalyticsBundle.putString(FirebaseConstants.Analytics.BUNDLE_LOGIN_ALERT_SHOWN, "OnlineActivity");
-        AlertDialog.Builder builder = new AlertDialog.Builder(OnlineActivity.this);
-        builder.setTitle("Login Required")
-                .setMessage("You need to login to be able to vote or comment")
-                .setPositiveButton("Dismiss", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        loginAlertAnalyticsBundle.putString(FirebaseConstants.Analytics.BUNDLE_LOGIN_ALERT_ACTION, "Dismiss");
-                        dialogInterface.dismiss();
-                    }
-                }).setNegativeButton("Login", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        loginAlertAnalyticsBundle.putString(FirebaseConstants.Analytics.BUNDLE_LOGIN_ALERT_ACTION, "Loggin In");
-                        dialogInterface.dismiss();
-                        startActivity(new Intent(OnlineActivity.this, RegistrationActivity.class));
-                    }
-                })
-                .setOnDismissListener(new DialogInterface.OnDismissListener() {
-                    @Override
-                    public void onDismiss(DialogInterface dialogInterface) {
-                        loginAlertAnalyticsBundle.putString(FirebaseConstants.Analytics.BUNDLE_LOGIN_ALERT_ACTION_METHOD, "Dismiss");
-                        firebaseAnalytics.logEvent(FirebaseConstants.Analytics.EVENT_LOGIN_ALERT, loginAlertAnalyticsBundle);
-                    }
-                })
-                .setOnCancelListener(new DialogInterface.OnCancelListener() {
-                    @Override
-                    public void onCancel(DialogInterface dialogInterface) {
-                        loginAlertAnalyticsBundle.putString(FirebaseConstants.Analytics.BUNDLE_LOGIN_ALERT_ACTION_METHOD, "Cancel");
-                        firebaseAnalytics.logEvent(FirebaseConstants.Analytics.EVENT_LOGIN_ALERT, loginAlertAnalyticsBundle);
-                    }
-                })
-                .show();
-    }
+  void showLoginAlert() {
+    firebaseAnalytics = FirebaseAnalytics.getInstance(this);
+    loginAlertAnalyticsBundle = new Bundle();
+    loginAlertAnalyticsBundle.putString(FirebaseConstants.Analytics.BUNDLE_LOGIN_ALERT_SHOWN, "OnlineActivity");
+    AlertDialog.Builder builder = new AlertDialog.Builder(OnlineActivity.this);
+    builder.setTitle("Login Required")
+        .setMessage("You need to login to be able to vote or comment")
+        .setPositiveButton("Dismiss", new DialogInterface.OnClickListener() {
+          @Override
+          public void onClick(DialogInterface dialogInterface, int i) {
+            loginAlertAnalyticsBundle.putString(FirebaseConstants.Analytics.BUNDLE_LOGIN_ALERT_ACTION, "Dismiss");
+            dialogInterface.dismiss();
+          }
+        }).setNegativeButton("Login", new DialogInterface.OnClickListener() {
+      @Override
+      public void onClick(DialogInterface dialogInterface, int i) {
+        loginAlertAnalyticsBundle.putString(FirebaseConstants.Analytics.BUNDLE_LOGIN_ALERT_ACTION, "Loggin In");
+        dialogInterface.dismiss();
+        startActivity(new Intent(OnlineActivity.this, RegistrationActivity.class));
+      }
+    })
+        .setOnDismissListener(new DialogInterface.OnDismissListener() {
+          @Override
+          public void onDismiss(DialogInterface dialogInterface) {
+            loginAlertAnalyticsBundle.putString(FirebaseConstants.Analytics.BUNDLE_LOGIN_ALERT_ACTION_METHOD, "Dismiss");
+            firebaseAnalytics.logEvent(FirebaseConstants.Analytics.EVENT_LOGIN_ALERT, loginAlertAnalyticsBundle);
+          }
+        })
+        .setOnCancelListener(new DialogInterface.OnCancelListener() {
+          @Override
+          public void onCancel(DialogInterface dialogInterface) {
+            loginAlertAnalyticsBundle.putString(FirebaseConstants.Analytics.BUNDLE_LOGIN_ALERT_ACTION_METHOD, "Cancel");
+            firebaseAnalytics.logEvent(FirebaseConstants.Analytics.EVENT_LOGIN_ALERT, loginAlertAnalyticsBundle);
+          }
+        })
+        .show();
+  }
 }

@@ -117,6 +117,7 @@ public class AddMedicineFragment extends Fragment {
   TextInputLayout t1, t2;
   FragmentInteractionListener fragmentInteractionListener;
   private Context context;
+
   public AddMedicineFragment() {
     // Required empty public constructor
   }

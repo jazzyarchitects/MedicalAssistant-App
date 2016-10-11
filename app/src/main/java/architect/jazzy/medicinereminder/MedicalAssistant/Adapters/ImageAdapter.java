@@ -40,11 +40,11 @@ public class ImageAdapter extends BaseAdapter {
       R.drawable.small_icon
 
   };
-    /*public Integer[] emojis={R.drawable.plus,R.drawable.heart,
-            R.drawable.pills,R.drawable.capsule,R.drawable.syringe,
-            R.drawable.ic_action_new,R.drawable.ic_action_edit,R.drawable.ic_action_delete,
-            R.drawable.ic_action_search,R.drawable.ic_action_new,R.drawable.ic_action_edit,
-            R.drawable.ic_action_delete};*/
+  /*public Integer[] emojis={R.drawable.plus,R.drawable.heart,
+          R.drawable.pills,R.drawable.capsule,R.drawable.syringe,
+          R.drawable.ic_action_new,R.drawable.ic_action_edit,R.drawable.ic_action_delete,
+          R.drawable.ic_action_search,R.drawable.ic_action_new,R.drawable.ic_action_edit,
+          R.drawable.ic_action_delete};*/
   private Context mcontext;
 
   public ImageAdapter(Context c) {

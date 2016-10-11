@@ -10,6 +10,7 @@ public class SearchQuery {
   private String term = "", fileName = "", server = "";
   private int retstart = 0, retmax = 10;
   private RetType retType = RetType.brief;
+
   public SearchQuery() {
   }
 

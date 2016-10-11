@@ -23,11 +23,11 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 
-import architect.jazzy.medicinereminder.RemedySharing.OnlineActivity;
+import architect.jazzy.medicinereminder.R;
 import architect.jazzy.medicinereminder.RemedySharing.HelperClasses.BackendUrls;
 import architect.jazzy.medicinereminder.RemedySharing.Models.Client;
 import architect.jazzy.medicinereminder.RemedySharing.Models.User;
-import architect.jazzy.medicinereminder.R;
+import architect.jazzy.medicinereminder.RemedySharing.OnlineActivity;
 import architect.jazzy.medicinereminder.RemedySharing.Services.BackendInterfacer;
 
 /**
@@ -35,180 +35,180 @@ import architect.jazzy.medicinereminder.RemedySharing.Services.BackendInterfacer
  */
 public class LoginFragment extends Fragment {
 
-    TextView registerNow, skipLogin;
-    EditText ETemail, ETpassword;
-    Button Blogin;
-    Context mContext;
-
-    public LoginFragment() {
-        // Required empty public constructor
-    }
-
-
+  TextView registerNow, skipLogin;
+  EditText ETemail, ETpassword;
+  Button Blogin;
+  Context mContext;
+  FragmentInteractionListener fragmentInteractionListener;
+  AuthenticationListener authenticationListener;
+  View.OnClickListener loginClickListener = new View.OnClickListener() {
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_login, container, false);
+    public void onClick(View view) {
+      String email = ETemail.getText().toString();
+      String password = ETpassword.getText().toString();
+
+      if (email.isEmpty() || (!isValidEmail(email) && !isValidMobile(email))) {
+        ETemail.setError("Invalid Email id or mobile");
+        return;
+      }
+      if (password.isEmpty()) {
+        ETpassword.setError("Password cannot be empty");
+        return;
+      }
+
+      HashMap<String, String> dataSet = new HashMap<>();
+      if (isValidEmail(email)) {
+        dataSet.put("email", email);
+      } else {
+        dataSet.put("mobile", email);
+      }
+      dataSet.put("password", password);
+
+      BackendInterfacer backendInterfacer = new BackendInterfacer(BackendUrls.LOGIN, "POST", dataSet);
+      backendInterfacer.setBackendListener(new BackendInterfacer.BackendListener() {
+        ProgressDialog progressDialog;
+
+        @Override
+        public void onPreExecute() {
+          progressDialog = new ProgressDialog(mContext);
+          progressDialog.setIndeterminate(true);
+          progressDialog.setMessage("Logging you in...");
+          progressDialog.show();
+        }
+
+        @Override
+        public void onError(final Exception e) {
+          Blogin.post(new Runnable() {
+            @Override
+            public void run() {
+              if (progressDialog.isShowing()) {
+                progressDialog.dismiss();
+              }
+
+              AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+              builder.setMessage(e.getMessage());
+              builder.setTitle("Error");
+              builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                  dialogInterface.dismiss();
+                }
+              });
+              builder.show();
+            }
+          });
+        }
+
+        @Override
+        public void onResult(final String result) {
+          if (progressDialog.isShowing()) {
+            progressDialog.dismiss();
+          }
+          if (result == null || result.isEmpty()) {
+            return;
+          }
+          try {
+            JSONObject jsonObject = new JSONObject(result);
+            if (jsonObject.getBoolean("success")) {
+              JSONObject data = jsonObject.getJSONObject("data");
+              User user = User.parseUserResponse(data.getJSONObject("detail"));
+              if (user == null) {
+                Toast.makeText(mContext, "Error registering. Please try again", Toast.LENGTH_LONG).show();
+                return;
+              }
+              User.saveUser(mContext, user);
+
+              Client client = Client.parseClientObject(data.getJSONObject("client"));
+              Client.saveClient(mContext, client);
+              authenticationListener.onUserAuthenticated();
+            } else {
+              AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+              builder.setTitle("Error");
+              builder.setMessage(jsonObject.optString("message").replace("_", " "));
+              builder.setPositiveButton("Try Again", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                  dialogInterface.dismiss();
+                }
+              });
+              builder.show();
+            }
+          } catch (JSONException e) {
+            e.printStackTrace();
+          }
+        }
+      });
+      backendInterfacer.execute();
+
     }
+  };
 
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+  public LoginFragment() {
+    // Required empty public constructor
+  }
 
-        mContext=getActivity();
+  @Override
+  public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                           Bundle savedInstanceState) {
+    // Inflate the layout for this fragment
+    return inflater.inflate(R.layout.fragment_login, container, false);
+  }
 
-        ETemail=(EditText)view.findViewById(R.id.et_email);
-        ETpassword=(EditText)view.findViewById(R.id.et_password);
-        Blogin=(Button)view.findViewById(R.id.loginButton);
-        skipLogin=(TextView)view.findViewById(R.id.skip);
+  @Override
+  public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    super.onViewCreated(view, savedInstanceState);
+
+    mContext = getActivity();
+
+    ETemail = (EditText) view.findViewById(R.id.et_email);
+    ETpassword = (EditText) view.findViewById(R.id.et_password);
+    Blogin = (Button) view.findViewById(R.id.loginButton);
+    skipLogin = (TextView) view.findViewById(R.id.skip);
 
 
+    registerNow = (TextView) view.findViewById(R.id.registerNow);
+    registerNow.setText(Html.fromHtml("Not registered yet? <a href='#'>Register here...</a>"));
+    registerNow.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View view) {
+        fragmentInteractionListener.onRegisterNow();
+      }
+    });
 
-        registerNow=(TextView)view.findViewById(R.id.registerNow);
-        registerNow.setText(Html.fromHtml("Not registered yet? <a href='#'>Register here...</a>"));
-        registerNow.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                fragmentInteractionListener.onRegisterNow();
-            }
-        });
+    skipLogin.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View view) {
+        startActivity(new Intent(mContext, OnlineActivity.class));
+        getActivity().finish();
+      }
+    });
 
-        skipLogin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(mContext, OnlineActivity.class));
-                getActivity().finish();
-            }
-        });
-
-        Blogin.setOnClickListener(loginClickListener);
+    Blogin.setOnClickListener(loginClickListener);
 
 //        ((AppCompatActivity)getActivity()).getSupportActionBar().hide();
 
-    }
+  }
 
-    View.OnClickListener loginClickListener=new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            String email=ETemail.getText().toString();
-            String password=ETpassword.getText().toString();
+  boolean isValidEmail(String email) {
+    return true;
+  }
 
-            if(email.isEmpty() || (!isValidEmail(email) && !isValidMobile(email))){
-                ETemail.setError("Invalid Email id or mobile");
-                return;
-            }
-            if(password.isEmpty()){
-                ETpassword.setError("Password cannot be empty");
-                return;
-            }
+  boolean isValidMobile(String mobile) {
+    return true;
+  }
 
-            HashMap<String , String> dataSet=new HashMap<>();
-            if(isValidEmail(email)){
-                dataSet.put("email",email);
-            }else{
-                dataSet.put("mobile",email);
-            }
-            dataSet.put("password",password);
+  @Override
+  public void onAttach(Context activity) {
+    super.onAttach(activity);
+    fragmentInteractionListener = (FragmentInteractionListener) activity;
+    authenticationListener = (AuthenticationListener) activity;
+  }
 
-            BackendInterfacer backendInterfacer=new BackendInterfacer(BackendUrls.LOGIN, "POST", dataSet);
-            backendInterfacer.setBackendListener(new BackendInterfacer.BackendListener() {
-                ProgressDialog progressDialog;
-                @Override
-                public void onPreExecute() {
-                    progressDialog=new ProgressDialog(mContext);
-                    progressDialog.setIndeterminate(true);
-                    progressDialog.setMessage("Logging you in...");
-                    progressDialog.show();
-                }
+  public interface FragmentInteractionListener {
+    void onRegisterNow();
+  }
 
-                @Override
-                public void onError(final Exception e) {
-                    Blogin.post(new Runnable() {
-                        @Override
-                        public void run() {
-                            if(progressDialog.isShowing()){
-                                progressDialog.dismiss();
-                            }
-
-                            AlertDialog.Builder builder=new AlertDialog.Builder(mContext);
-                            builder.setMessage(e.getMessage());
-                            builder.setTitle("Error");
-                            builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    dialogInterface.dismiss();
-                                }
-                            });
-                            builder.show();
-                        }
-                    });
-                }
-
-                @Override
-                public void onResult(final String result) {
-                    if(progressDialog.isShowing()){
-                        progressDialog.dismiss();
-                    }
-                    if(result==null || result.isEmpty()){
-                        return;
-                    }
-                    try {
-                        JSONObject jsonObject = new JSONObject(result);
-                        if(jsonObject.getBoolean("success")){
-                            JSONObject data=jsonObject.getJSONObject("data");
-                            User user = User.parseUserResponse(data.getJSONObject("detail"));
-                            if(user==null){
-                                Toast.makeText(mContext, "Error registering. Please try again", Toast.LENGTH_LONG).show();
-                                return;
-                            }
-                            User.saveUser(mContext, user);
-
-                            Client client=Client.parseClientObject(data.getJSONObject("client"));
-                            Client.saveClient(mContext, client);
-                            authenticationListener.onUserAuthenticated();
-                        }else{
-                            AlertDialog.Builder builder=new AlertDialog.Builder(mContext);
-                            builder.setTitle("Error");
-                            builder.setMessage(jsonObject.optString("message").replace("_"," "));
-                            builder.setPositiveButton("Try Again", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    dialogInterface.dismiss();
-                                }
-                            });
-                            builder.show();
-                        }
-                    }catch (JSONException e){
-                        e.printStackTrace();
-                    }
-                }
-            });
-            backendInterfacer.execute();
-
-        }
-    };
-
-    boolean isValidEmail(String email){
-        return true;
-    }
-    boolean isValidMobile(String mobile){
-        return true;
-    }
-
-    @Override
-    public void onAttach(Context activity) {
-        super.onAttach(activity);
-        fragmentInteractionListener=(FragmentInteractionListener)activity;
-        authenticationListener=(AuthenticationListener)activity;
-    }
-
-    FragmentInteractionListener fragmentInteractionListener;
-    public interface FragmentInteractionListener{
-        void onRegisterNow();
-    }
-    AuthenticationListener authenticationListener;
-    public interface AuthenticationListener{
-        void onUserAuthenticated();
-    }
+  public interface AuthenticationListener {
+    void onUserAuthenticated();
+  }
 }

@@ -39,6 +39,7 @@ public class AlarmReceiver extends BroadcastReceiver {
   SharedPreferences sharedPreferences;
   Boolean showNoti = true, showPopup = true;
   ArrayList<String> medicineList = new ArrayList<>();
+
   public AlarmReceiver() {
   }
 

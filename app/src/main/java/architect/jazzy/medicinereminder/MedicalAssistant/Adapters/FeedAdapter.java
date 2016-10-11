@@ -15,22 +15,23 @@ import architect.jazzy.medicinereminder.MedicalAssistant.Models.FeedItem;
  */
 public class FeedAdapter extends FragmentStatePagerAdapter {
 
-    ArrayList<FeedItem> feeds;
-    public FeedAdapter(FragmentManager fm,ArrayList<FeedItem> feeds) {
-        super(fm);
-        if(feeds!=null)
-            if(feeds.size()>0)
-                Log.e("FeedAdapter","Got feeds: "+feeds.get(0).getTitle());
-        this.feeds=feeds;
-    }
+  ArrayList<FeedItem> feeds;
 
-    @Override
-    public Fragment getItem(int position) {
-        return FeedFragment.newInstance(feeds.get(position));
-    }
+  public FeedAdapter(FragmentManager fm, ArrayList<FeedItem> feeds) {
+    super(fm);
+    if (feeds != null)
+      if (feeds.size() > 0)
+        Log.e("FeedAdapter", "Got feeds: " + feeds.get(0).getTitle());
+    this.feeds = feeds;
+  }
 
-    @Override
-    public int getCount() {
-        return feeds.size();
-    }
+  @Override
+  public Fragment getItem(int position) {
+    return FeedFragment.newInstance(feeds.get(position));
+  }
+
+  @Override
+  public int getCount() {
+    return feeds.size();
+  }
 }

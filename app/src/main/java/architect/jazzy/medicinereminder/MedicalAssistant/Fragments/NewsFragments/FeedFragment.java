@@ -21,57 +21,57 @@ import architect.jazzy.medicinereminder.R;
  */
 public class FeedFragment extends Fragment {
 
-    FeedItem feed;
-    TextView titleView, descriptionView;
-    LinearLayout feedHolder;
+  FeedItem feed;
+  TextView titleView, descriptionView;
+  LinearLayout feedHolder;
 
-    public static FeedFragment newInstance(FeedItem item) {
-        FeedFragment fragment = new FeedFragment();
-        Bundle args=new Bundle();
-        args.putParcelable("feed",item);
-        fragment.setArguments(args);
-        return fragment;
-    }
+  public FeedFragment() {
+    // Required empty public constructor
+  }
 
-    public FeedFragment() {
-        // Required empty public constructor
-    }
+  public static FeedFragment newInstance(FeedItem item) {
+    FeedFragment fragment = new FeedFragment();
+    Bundle args = new Bundle();
+    args.putParcelable("feed", item);
+    fragment.setArguments(args);
+    return fragment;
+  }
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        feed=getArguments().getParcelable("feed");
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    feed = getArguments().getParcelable("feed");
 //        Log.e("FeedFragment","Feed Contents: "+feed.getTitle()+" "+feed.getUrl()+" "+feed.getDescription());
-    }
+  }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View v= inflater.inflate(R.layout.fragment_feed, container, false);
-        titleView=(TextView)v.findViewById(R.id.title);
-        try {
-            ((AppCompatActivity) getActivity()).getSupportActionBar().show();
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
+  @Override
+  public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                           Bundle savedInstanceState) {
+    View v = inflater.inflate(R.layout.fragment_feed, container, false);
+    titleView = (TextView) v.findViewById(R.id.title);
+    try {
+      ((AppCompatActivity) getActivity()).getSupportActionBar().show();
+    } catch (NullPointerException e) {
+      e.printStackTrace();
+    }
 //        descriptionView=(TextView)v.findViewById(R.id.description);
-        feedHolder=(LinearLayout)v.findViewById(R.id.feed);
+    feedHolder = (LinearLayout) v.findViewById(R.id.feed);
 
 //        Log.e("FeedFragment", "Fragment Created");
-        titleView.setText(feed.getTitle());
+    titleView.setText(feed.getTitle());
 //        descriptionView.setText(Html.fromHtml(feed.getDescription()));
-        feedHolder.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showFeedDetails(feed.getUrl());
-            }
-        });
-        return v;
-    }
+    feedHolder.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        showFeedDetails(feed.getUrl());
+      }
+    });
+    return v;
+  }
 
-    public void showFeedDetails(String url){
-        ((MainActivity)getActivity()).showFeed(url);
-    }
+  public void showFeedDetails(String url) {
+    ((MainActivity) getActivity()).showFeed(url);
+  }
 
 
 }

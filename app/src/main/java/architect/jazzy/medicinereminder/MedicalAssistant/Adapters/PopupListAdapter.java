@@ -18,44 +18,44 @@ import architect.jazzy.medicinereminder.R;
  */
 public class PopupListAdapter extends BaseAdapter {
 
-    ArrayList<Medicine> dataSet;
-    Context mContext;
-    LayoutInflater layoutInflater;
+  ArrayList<Medicine> dataSet;
+  Context mContext;
+  LayoutInflater layoutInflater;
 
-    public PopupListAdapter(Context context, ArrayList<Medicine> dataSet) {
-        this.dataSet=dataSet;
-        this.mContext=context;
-        layoutInflater=(LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+  public PopupListAdapter(Context context, ArrayList<Medicine> dataSet) {
+    this.dataSet = dataSet;
+    this.mContext = context;
+    layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+  }
+
+  @Override
+  public int getCount() {
+    return dataSet.size();
+  }
+
+  @Override
+  public Object getItem(int position) {
+    return dataSet.get(position);
+  }
+
+  @Override
+  public long getItemId(int position) {
+    return position;
+  }
+
+  @Override
+  public View getView(int position, View convertView, ViewGroup parent) {
+    View v = convertView;
+    if (convertView == null) {
+      v = layoutInflater.inflate(R.layout.popup_list_item, parent, false);
     }
+    TextView textView = (TextView) v.findViewById(R.id.medName);
+    ImageView imageView = (ImageView) v.findViewById(R.id.medIcon);
 
-    @Override
-    public int getCount() {
-        return dataSet.size();
-    }
+    Medicine medicine = dataSet.get(position);
+    textView.setText(medicine.getMedName());
+    imageView.setImageResource(ImageAdapter.emojis[medicine.getIcon()]);
 
-    @Override
-    public Object getItem(int position) {
-        return dataSet.get(position);
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
-
-    @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        View v=convertView;
-        if(convertView==null){
-            v=layoutInflater.inflate(R.layout.popup_list_item,parent,false);
-        }
-        TextView textView=(TextView)v.findViewById(R.id.medName);
-        ImageView imageView=(ImageView)v.findViewById(R.id.medIcon);
-
-        Medicine medicine=dataSet.get(position);
-        textView.setText(medicine.getMedName());
-        imageView.setImageResource(ImageAdapter.emojis[medicine.getIcon()]);
-
-        return v;
-    }
+    return v;
+  }
 }

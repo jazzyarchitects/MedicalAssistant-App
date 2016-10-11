@@ -30,97 +30,95 @@ import architect.jazzy.medicinereminder.MedicalAssistant.Models.FeedItem;
  */
 public class FeedParser {
 
-    public static final String feedUrl = "http://www.medicinenet.com/rss/dailyhealth.xml";
+  public static final String feedUrl = "http://www.medicinenet.com/rss/dailyhealth.xml";
+  /**
+   * <channel>
+   * <item>
+   * <title>
+   * Some Title
+   * </title>
+   * <link>
+   * Some url
+   * </link>
+   * <pubDate>
+   * Some Date
+   * </pubDate>
+   * <description>
+   * Some html description
+   * </description>
+   * </item>
+   * </channel>
+   */
 
-    private static final String ns = null;
+  public static final String TAG_ITEM = "item";
+  public static final String TAG_TITLE = "title";
+  public static final String TAG_LINK = "link";
+  public static final String TAG_DESCRIPTION = "description";
+  private static final String ns = null;
 
-    /**
-     * <channel>
-     * <item>
-     * <title>
-     * Some Title
-     * </title>
-     * <link>
-     * Some url
-     * </link>
-     * <pubDate>
-     * Some Date
-     * </pubDate>
-     * <description>
-     * Some html description
-     * </description>
-     * </item>
-     * </channel>
-     */
+  public static ArrayList<FeedItem> parse() {
+    return parse(null);
+  }
 
-    public static final String TAG_ITEM = "item";
-    public static final String TAG_TITLE = "title";
-    public static final String TAG_LINK = "link";
-    public static final String TAG_DESCRIPTION = "description";
+  public static ArrayList<FeedItem> parse(String response) {
 
-    public static ArrayList<FeedItem> parse(){
-        return parse(null);
-    }
+    ArrayList<FeedItem> feedItems = new ArrayList<>();
+    try {
 
-    public static ArrayList<FeedItem> parse(String response){
+      Document document;
 
-        ArrayList<FeedItem> feedItems = new ArrayList<>();
-        try {
+      DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
+      DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
 
-            Document document;
-
-            DocumentBuilderFactory documentBuilderFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder documentBuilder = documentBuilderFactory.newDocumentBuilder();
-
-            InputStream inputStream;
-            if(response == null){
-                File folder = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+"/tmpMR");
-                inputStream=new FileInputStream(new File(folder,"tmpMR00.tmp"));
-                document = documentBuilder.parse(inputStream);
-            }else{
-                inputStream = new ByteArrayInputStream(response.getBytes());
-                document = documentBuilder.parse(inputStream);
-            }
+      InputStream inputStream;
+      if (response == null) {
+        File folder = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/tmpMR");
+        inputStream = new FileInputStream(new File(folder, "tmpMR00.tmp"));
+        document = documentBuilder.parse(inputStream);
+      } else {
+        inputStream = new ByteArrayInputStream(response.getBytes());
+        document = documentBuilder.parse(inputStream);
+      }
 
 
-            Element element=document.getDocumentElement();
-            element.normalize();
+      Element element = document.getDocumentElement();
+      element.normalize();
 
-            NodeList nodeList=document.getElementsByTagName("item");
-            Log.e("FeedParser","Node Parsing");
-            for(int i=0;i<nodeList.getLength();i++){
-                Node node=nodeList.item(i);
-                if(node.getNodeType()==Node.ELEMENT_NODE){
-                    Element item=(Element)node;
+      NodeList nodeList = document.getElementsByTagName("item");
+      Log.e("FeedParser", "Node Parsing");
+      for (int i = 0; i < nodeList.getLength(); i++) {
+        Node node = nodeList.item(i);
+        if (node.getNodeType() == Node.ELEMENT_NODE) {
+          Element item = (Element) node;
 //                    Log.e("FeedParser","Iterating through node: "+i+" "+getValue("title",item));
-                    String s=getValue("pubDate",item);
-                    Date date=new Date();
-                    try {
-                        DateFormat format = new SimpleDateFormat("E, dd MMM yyyy HH:mm:ss Z");
-                        date = (Date) format.parse(s);
+          String s = getValue("pubDate", item);
+          Date date = new Date();
+          try {
+            DateFormat format = new SimpleDateFormat("E, dd MMM yyyy HH:mm:ss Z");
+            date = (Date) format.parse(s);
 //                        Log.e("Date",s+"     ===   "+DateFormat.getDateInstance().format(date));
-                    }catch (Exception e){
-                        e.printStackTrace();
-                    }
-                    feedItems.add(new FeedItem(getValue("title",item), getValue("link",item),getValue("description",item),date));
-                }
-            }
-        }catch (ParserConfigurationException pce){
-            pce.printStackTrace();
-        }catch (SAXException saxe){
-            saxe.printStackTrace();
-        }catch (IOException ioe){
-            ioe.printStackTrace();
+          } catch (Exception e) {
+            e.printStackTrace();
+          }
+          feedItems.add(new FeedItem(getValue("title", item), getValue("link", item), getValue("description", item), date));
         }
-
-        return feedItems;
+      }
+    } catch (ParserConfigurationException pce) {
+      pce.printStackTrace();
+    } catch (SAXException saxe) {
+      saxe.printStackTrace();
+    } catch (IOException ioe) {
+      ioe.printStackTrace();
     }
 
-    private static String getValue(String tag, Element element){
-        NodeList nodeList=element.getElementsByTagName(tag).item(0).getChildNodes();
-        Node node=(Node)nodeList.item(0);
-        return node.getNodeValue();
-    }
+    return feedItems;
+  }
+
+  private static String getValue(String tag, Element element) {
+    NodeList nodeList = element.getElementsByTagName(tag).item(0).getChildNodes();
+    Node node = (Node) nodeList.item(0);
+    return node.getNodeValue();
+  }
 
 
 //    public static ArrayList<FeedItem> parse(InputStream in) {

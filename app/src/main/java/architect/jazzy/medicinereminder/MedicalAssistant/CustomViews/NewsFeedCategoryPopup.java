@@ -17,43 +17,44 @@ import architect.jazzy.medicinereminder.R;
  */
 public class NewsFeedCategoryPopup extends Dialog {
 
-    View v;
-    RecyclerView recyclerView;
-    Context context;
-    public NewsFeedCategoryPopup(Context context) {
-        super(context);
-        this.context=context;
-    }
+  View v;
+  RecyclerView recyclerView;
+  Context context;
+  CategorySelectListener categorySelectListener;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.popup_news_category);
-        recyclerView=(RecyclerView)findViewById(R.id.recyclerView);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new GridLayoutManager(context, 2));
+  public NewsFeedCategoryPopup(Context context) {
+    super(context);
+    this.context = context;
+  }
 
-        NewsCategoryAdapter adapter=new NewsCategoryAdapter(context);
-        adapter.setCategoryClickListener(new NewsCategoryAdapter.CategoryClickListener() {
-            @Override
-            public void onCategoryClick(Pair<String, String> category) {
-                categorySelectListener.onCategorySelect(category);
-                dismiss();
-            }
-        });
-        recyclerView.setAdapter(adapter);
+  @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    requestWindowFeature(Window.FEATURE_NO_TITLE);
+    setContentView(R.layout.popup_news_category);
+    recyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+    recyclerView.setHasFixedSize(true);
+    recyclerView.setLayoutManager(new GridLayoutManager(context, 2));
+
+    NewsCategoryAdapter adapter = new NewsCategoryAdapter(context);
+    adapter.setCategoryClickListener(new NewsCategoryAdapter.CategoryClickListener() {
+      @Override
+      public void onCategoryClick(Pair<String, String> category) {
+        categorySelectListener.onCategorySelect(category);
+        dismiss();
+      }
+    });
+    recyclerView.setAdapter(adapter);
 
 
-    }
+  }
 
-    CategorySelectListener categorySelectListener;
-    public interface CategorySelectListener{
-        void onCategorySelect(Pair<String, String> category);
-    }
+  public void setCategorySelectListener(CategorySelectListener categorySelectListener) {
+    this.categorySelectListener = categorySelectListener;
+  }
 
-    public void setCategorySelectListener(CategorySelectListener categorySelectListener){
-        this.categorySelectListener=categorySelectListener;
-    }
+  public interface CategorySelectListener {
+    void onCategorySelect(Pair<String, String> category);
+  }
 
 }

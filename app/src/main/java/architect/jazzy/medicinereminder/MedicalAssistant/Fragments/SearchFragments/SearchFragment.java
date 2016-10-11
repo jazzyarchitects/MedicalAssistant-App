@@ -46,11 +46,11 @@ import java.util.ArrayList;
 
 import javax.net.ssl.HttpsURLConnection;
 
+import architect.jazzy.medicinereminder.HelperClasses.Constants;
 import architect.jazzy.medicinereminder.MedicalAssistant.Activities.MainActivity;
 import architect.jazzy.medicinereminder.MedicalAssistant.Adapters.SearchListAdapter;
 import architect.jazzy.medicinereminder.MedicalAssistant.Fragments.BrowserFragment;
 import architect.jazzy.medicinereminder.MedicalAssistant.Fragments.DashboardFragment;
-import architect.jazzy.medicinereminder.HelperClasses.Constants;
 import architect.jazzy.medicinereminder.MedicalAssistant.Models.SearchQuery;
 import architect.jazzy.medicinereminder.MedicalAssistant.Models.SearchResult;
 import architect.jazzy.medicinereminder.MedicalAssistant.Models.WebDocument;
@@ -62,191 +62,301 @@ import architect.jazzy.medicinereminder.R;
  */
 public class SearchFragment extends Fragment {
 
-    private static final String TAG = "SearchFragment";
-    SharedPreferences sharedPreferences;
-    public static final String SHARED_PREF_NAME="searchFragment";
-    View v;
-    EditText searchQuery;
-    String term;
-    RecyclerView recyclerView;
-    MainActivity activity;
-    SearchListAdapter searchListAdapter = null;
-    TextView spellingView;
-    boolean hideSuggestion = true;
-    ArrayList<WebDocument> documents = null;
-    boolean initalSearch = true;
-    LinearLayout rootView;
-    String previousTerm = "";
-    boolean showDialog = true;
-    boolean fromSide = false;
+  public static final String SHARED_PREF_NAME = "searchFragment";
+  private static final String TAG = "SearchFragment";
+  SharedPreferences sharedPreferences;
+  View v;
+  EditText searchQuery;
+  String term;
+  RecyclerView recyclerView;
+  MainActivity activity;
+  SearchListAdapter searchListAdapter = null;
+  TextView spellingView;
+  boolean hideSuggestion = true;
+  ArrayList<WebDocument> documents = null;
+  boolean initalSearch = true;
+  LinearLayout rootView;
+  String previousTerm = "";
+  boolean showDialog = true;
+  boolean fromSide = false;
 
-    RelativeLayout emptySearch;
+  RelativeLayout emptySearch;
+  int i = 0;
 
-    public static SearchFragment initiate(String searchQuery) {
-        SearchFragment fragment = new SearchFragment();
-        Bundle bundle = new Bundle();
-        bundle.putString(Constants.BUNDLE_SEARCH_TERM, searchQuery);
-        fragment.setArguments(bundle);
-        return fragment;
-    }
+  public SearchFragment() {
+    // Required empty public constructor
+  }
 
-    int i = 0;
+  public static SearchFragment initiate(String searchQuery) {
+    SearchFragment fragment = new SearchFragment();
+    Bundle bundle = new Bundle();
+    bundle.putString(Constants.BUNDLE_SEARCH_TERM, searchQuery);
+    fragment.setArguments(bundle);
+    return fragment;
+  }
 
-    public SearchFragment() {
-        // Required empty public constructor
-    }
+  @Override
+  public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                           Bundle savedInstanceState) {
+    // Inflate the layout for this fragment
+    v = inflater.inflate(R.layout.fragment_search, container, false);
+    sharedPreferences = getActivity().getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
+    Log.e(TAG, "Search term from pref: " + sharedPreferences.getString("SEARCH_QUERY", ""));
+    ImageView searchIcon = (ImageView) v.findViewById(R.id.searchIcon);
+    ImageButton searchButton = (ImageButton) v.findViewById(R.id.searchLayout).findViewById(R.id.searchButton);
+    Drawable sIcon = searchIcon.getDrawable().mutate();
+    sIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
+    searchIcon.setImageDrawable(sIcon);
+    rootView = (LinearLayout) v.findViewById(R.id.root);
 
+    emptySearch = (RelativeLayout) v.findViewById(R.id.emptySearch);
+    emptySearch.setVisibility(View.VISIBLE);
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        v = inflater.inflate(R.layout.fragment_search, container, false);
-        sharedPreferences = getActivity().getSharedPreferences(SHARED_PREF_NAME,Context.MODE_PRIVATE);
-        Log.e(TAG,"Search term from pref: "+sharedPreferences.getString("SEARCH_QUERY", ""));
-        ImageView searchIcon = (ImageView) v.findViewById(R.id.searchIcon);
-        ImageButton searchButton = (ImageButton) v.findViewById(R.id.searchLayout).findViewById(R.id.searchButton);
-        Drawable sIcon = searchIcon.getDrawable().mutate();
-        sIcon.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
-        searchIcon.setImageDrawable(sIcon);
-        rootView = (LinearLayout) v.findViewById(R.id.root);
-
-        emptySearch = (RelativeLayout) v.findViewById(R.id.emptySearch);
-        emptySearch.setVisibility(View.VISIBLE);
-
-        v.findViewById(R.id.searchLayout).setBackgroundColor(Constants.getThemeColor(getActivity()));
-        searchQuery = (EditText) v.findViewById(R.id.searchLayout).findViewById(R.id.searchQuery);
-        spellingView = (TextView) v.findViewById(R.id.suggestion);
-        searchQuery.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                    initalSearch = true;
-                    showDialog = true;
-                    Log.e(TAG,"Search web from search button keyboard");
-                    searchWeb(v.getText().toString());
-                    hideSuggestion = true;
-                }
-                return false;
-            }
-        });
+    v.findViewById(R.id.searchLayout).setBackgroundColor(Constants.getThemeColor(getActivity()));
+    searchQuery = (EditText) v.findViewById(R.id.searchLayout).findViewById(R.id.searchQuery);
+    spellingView = (TextView) v.findViewById(R.id.suggestion);
+    searchQuery.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+      @Override
+      public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+        if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+          initalSearch = true;
+          showDialog = true;
+          Log.e(TAG, "Search web from search button keyboard");
+          searchWeb(v.getText().toString());
+          hideSuggestion = true;
+        }
+        return false;
+      }
+    });
 
 
-        recyclerView = (RecyclerView) v.findViewById(R.id.recyclerView);
-        try {
-            term = getArguments().getString(Constants.BUNDLE_SEARCH_TERM);
-            getArguments().clear();
-            if(!term.isEmpty())
-                fromSide = true;
-        } catch (Exception e) {
-            e.printStackTrace();
-            term = "";
+    recyclerView = (RecyclerView) v.findViewById(R.id.recyclerView);
+    try {
+      term = getArguments().getString(Constants.BUNDLE_SEARCH_TERM);
+      getArguments().clear();
+      if (!term.isEmpty())
+        fromSide = true;
+    } catch (Exception e) {
+      e.printStackTrace();
+      term = "";
 //            searchQuery.setText(sharedPreferences.getString("SEARCH_QUERY",""));
-            if (!searchQuery.getText().toString().isEmpty()) {
-                term = searchQuery.getText().toString();
-            }
-        }
-        Log.e(TAG, "SearchTerm " + term);
-
-        if (recyclerView.getAdapter() == null) {
-            recyclerView.setVisibility(View.GONE);
-            emptySearch.setVisibility(View.VISIBLE);
-        }
-
-        try {
-            if(fromSide){
-                showDialog=true;
-                Log.e(TAG,"Search web from from side");
-                searchWeb(term);
-                fromSide = false;
-            }
-            else {
-                if (getActivity().getSharedPreferences(Constants.INTERNAL_PREF, Context.MODE_PRIVATE).getBoolean(Constants.SEARCH_RESULT, false)) {
-                    SearchResult searchResult = SearchResultParser.parse();
-                    if (searchResult == null) {
-                        if (!term.isEmpty()) {
-                            Log.e(TAG, "Search web from empty search result");
-                            searchWeb(term);
-                        }
-                    } else {
-                        showDialog = false;
-                        searchQuery.setText(sharedPreferences.getString("SEARCH_QUERY", ""));
-                        showResult(searchResult);
-                        rootView.setBackgroundDrawable(getResources().getDrawable(R.drawable.back_night));
-                    }
-
-                } else {
-                    try {
-                        if (!term.isEmpty()) {
-                            showDialog = true;
-                            Log.e(TAG, "Search web from else");
-                            searchWeb(term);
-                        }else{
-                            searchQuery.setText(sharedPreferences.getString("SEARCH_QUERY", ""));
-                        }
-                    } catch (NullPointerException e) {
-                        searchQuery.setText(sharedPreferences.getString("SEARCH_QUERY", ""));
-                    }
-                }
-            }
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-            if (!term.isEmpty()) {
-                showDialog=true;
-                Log.e(TAG,"Search web from catch");
-                searchWeb(term);
-            }
-        }
-
-        searchButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String s;
-                if (!(s = searchQuery.getText().toString()).isEmpty()) {
-                    showDialog=true;
-                    Log.e(TAG,"Search web from search button");
-                    searchWeb(s);
-                }
-            }
-        });
-
-        searchQuery.setText(term);
-
-
-        try {
-            ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
-
-        return v;
+      if (!searchQuery.getText().toString().isEmpty()) {
+        term = searchQuery.getText().toString();
+      }
     }
+    Log.e(TAG, "SearchTerm " + term);
+
+    if (recyclerView.getAdapter() == null) {
+      recyclerView.setVisibility(View.GONE);
+      emptySearch.setVisibility(View.VISIBLE);
+    }
+
+    try {
+      if (fromSide) {
+        showDialog = true;
+        Log.e(TAG, "Search web from from side");
+        searchWeb(term);
+        fromSide = false;
+      } else {
+        if (getActivity().getSharedPreferences(Constants.INTERNAL_PREF, Context.MODE_PRIVATE).getBoolean(Constants.SEARCH_RESULT, false)) {
+          SearchResult searchResult = SearchResultParser.parse();
+          if (searchResult == null) {
+            if (!term.isEmpty()) {
+              Log.e(TAG, "Search web from empty search result");
+              searchWeb(term);
+            }
+          } else {
+            showDialog = false;
+            searchQuery.setText(sharedPreferences.getString("SEARCH_QUERY", ""));
+            showResult(searchResult);
+            rootView.setBackgroundDrawable(getResources().getDrawable(R.drawable.back_night));
+          }
+
+        } else {
+          try {
+            if (!term.isEmpty()) {
+              showDialog = true;
+              Log.e(TAG, "Search web from else");
+              searchWeb(term);
+            } else {
+              searchQuery.setText(sharedPreferences.getString("SEARCH_QUERY", ""));
+            }
+          } catch (NullPointerException e) {
+            searchQuery.setText(sharedPreferences.getString("SEARCH_QUERY", ""));
+          }
+        }
+      }
+    } catch (NullPointerException e) {
+      e.printStackTrace();
+      if (!term.isEmpty()) {
+        showDialog = true;
+        Log.e(TAG, "Search web from catch");
+        searchWeb(term);
+      }
+    }
+
+    searchButton.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        String s;
+        if (!(s = searchQuery.getText().toString()).isEmpty()) {
+          showDialog = true;
+          Log.e(TAG, "Search web from search button");
+          searchWeb(s);
+        }
+      }
+    });
+
+    searchQuery.setText(term);
+
+
+    try {
+      ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
+    } catch (NullPointerException e) {
+      e.printStackTrace();
+    }
+
+    return v;
+  }
+
+  @Override
+  public void onAttach(Activity activity) {
+    super.onAttach(activity);
+    this.activity = (MainActivity) activity;
+  }
+
+  public void searchWeb(String s) {
+    if (s.isEmpty()) {
+      return;
+    }
+    SearchQuery query = new SearchQuery();
+    query.setTerm(s);
+    new Searcher().execute(query);
+  }
+
+  void showResult(final SearchResult result) {
+
+    if (result.getCount() == 0 && !result.getSpellingCorrection().isEmpty() && hideSuggestion) {
+      initalSearch = true;
+      spellingView.setVisibility(View.VISIBLE);
+      spellingView.setText(Constants.getSuggestionText(result.getTerm(), result.getSpellingCorrection()));
+      hideSuggestion = false;
+      spellingView.setTextColor(Color.WHITE);
+      searchWeb(result.getSpellingCorrection());
+      return;
+    } else {
+      if (hideSuggestion) {
+        spellingView.setVisibility(View.GONE);
+      }
+    }
+
+    if (result.getCount() == 0 && result.getSpellingCorrection().isEmpty()) {
+      AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+      builder.setTitle("Search Failed")
+          .setMessage("Sorry..!! We couldn't find anything in our database regarding " + result.getTerm() + "" +
+              "\nWould you like to search other sources?")
+          .setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+              dialog.dismiss();
+
+              ((MainActivity) getActivity()).displayFragment(new DashboardFragment(), false);
+            }
+          })
+          .setPositiveButton("Yeah Sure", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+              activity.displayFragment(BrowserFragment.getInstance("https://www.google.com/search?q=" + result.getTerm().replace(" ", "+"), false));
+              dialog.dismiss();
+            }
+          })
+          .show();
+      return;
+    }
+
+
+    recyclerView.setVisibility(View.VISIBLE);
+    recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+    recyclerView.setOnTouchListener(new View.OnTouchListener() {
+      @Override
+      public boolean onTouch(View v, MotionEvent event) {
+        return false;
+      }
+    });
+    if (documents == null) {
+      documents = new ArrayList<>();
+    }
+    if (result.getRetstart() > result.getRetmax()) {
+      documents.addAll(result.getWebDocuments());
+    } else {
+      documents = result.getWebDocuments();
+    }
+    SearchListAdapter adapter = new SearchListAdapter(getActivity(), documents);
+    searchListAdapter = adapter;
+    if (adapter.getItemCount() == 0) {
+      emptySearch.setVisibility(View.VISIBLE);
+      recyclerView.setVisibility(View.GONE);
+    } else {
+      recyclerView.setVisibility(View.VISIBLE);
+      emptySearch.setVisibility(View.GONE);
+    }
+    ((LinearLayoutManager) recyclerView.getLayoutManager()).scrollToPosition(result.getRetstart() - 2);
+    adapter.setItemClickListener(new SearchListAdapter.ItemClickListener() {
+      @Override
+      public void OnItemClick(ArrayList<WebDocument> documents, int position) {
+        openDetail(documents, position);
+      }
+    });
+    searchListAdapter.setItemClickListener(new SearchListAdapter.ItemClickListener() {
+      @Override
+      public void OnItemClick(ArrayList<WebDocument> documents, int position) {
+        openDetail(documents, position);
+      }
+    });
+    adapter.setAdapterPositionListener(new SearchListAdapter.AdapterPositionListener() {
+      @Override
+      public void onLastItemLoaded() {
+        if (result.getCount() > result.getRetstart() + result.getRetmax()) {
+
+          Snackbar.make(recyclerView, "Fetching more result", Snackbar.LENGTH_SHORT).show();
+
+          SearchQuery query = new SearchQuery();
+          query.setFileName(result.getFile());
+          query.setServer(result.getServer());
+          query.setRetstart(result.getRetstart() + result.getRetmax() + 1);
+          new Searcher().execute(query);
+        }
+      }
+    });
+    recyclerView.setHasFixedSize(true);
+
+    try {
+      if (getActivity().getFragmentManager().findFragmentById(R.id.frame) instanceof SearchFragment) {
+        recyclerView.setAdapter(adapter);
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  public void openDetail(ArrayList<WebDocument> documents, int position) {
+    activity.displayFragment(SearchDetailMainFragment.newInstance(documents, searchQuery.getText().toString(), position), true);
+    getActivity().getSharedPreferences(Constants.INTERNAL_PREF, Context.MODE_PRIVATE)
+        .edit()
+        .putBoolean(Constants.SEARCH_RESULT, true)
+        .apply();
+  }
+
+  class Searcher extends AsyncTask<SearchQuery, Void, Void> {
+
+    ProgressDialog dialog;
 
     @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        this.activity = (MainActivity) activity;
-    }
-
-    public void searchWeb(String s) {
-        if(s.isEmpty()){
-            return;
-        }
-        SearchQuery query = new SearchQuery();
-        query.setTerm(s);
-        new Searcher().execute(query);
-    }
-
-    class Searcher extends AsyncTask<SearchQuery, Void, Void> {
-
-        ProgressDialog dialog;
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
-            dialog = new ProgressDialog(getActivity());
-            dialog.setIndeterminate(true);
-            dialog.setMessage("Searching...");
+    protected void onPreExecute() {
+      super.onPreExecute();
+      dialog = new ProgressDialog(getActivity());
+      dialog.setIndeterminate(true);
+      dialog.setMessage("Searching...");
 
 //            try {
 //                if (recyclerView.getAdapter().getItemCount() == 0 || !previousTerm.equals(term)) {
@@ -256,207 +366,91 @@ public class SearchFragment extends Fragment {
 //                dialog.show();
 //                Log.d(TAG, "No Adapter");
 //            }
-            if (showDialog)
-                dialog.show();
-        }
-
+      if (showDialog)
+        dialog.show();
+    }
 
 
     @Override
     protected Void doInBackground(SearchQuery... params) {
 
-        try {
-            URL url = SearchQuery.getSearchQueryURL(params[0]);
-            sharedPreferences.edit().putString("SEARCH_QUERY",params[0].getTerm()).apply();
-            Log.e(TAG, "Search term in background: " + params[0].getTerm());
-            HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
-            connection.setDoOutput(false);
-            connection.setReadTimeout(15000);
-            connection.setConnectTimeout(10000);
+      try {
+        URL url = SearchQuery.getSearchQueryURL(params[0]);
+        sharedPreferences.edit().putString("SEARCH_QUERY", params[0].getTerm()).apply();
+        Log.e(TAG, "Search term in background: " + params[0].getTerm());
+        HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
+        connection.setDoOutput(false);
+        connection.setReadTimeout(15000);
+        connection.setConnectTimeout(10000);
 
-            InputStream inputStream = connection.getInputStream();
-            File folder = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/tmpMR");
-            if (inputStream != null) {
-                folder.mkdirs();
-                try {
-                    FileOutputStream fileOutputStream = new FileOutputStream(new File(folder, "tmpMR02.tmp"));
-                    byte[] buffer = new byte[1024];
-                    int bufferLength = 0;
-                    while ((bufferLength = inputStream.read(buffer)) > 0) {
-                        fileOutputStream.write(buffer, 0, bufferLength);
-                    }
-                    fileOutputStream.flush();
-                    fileOutputStream.close();
-
-                    File file = new File(folder, "tmpMR02.tmp");
-                    File out = new File(folder, Constants.SEARCH_FILE_NAME);
-
-                    BufferedReader reader = new BufferedReader(new FileReader(file));
-                    PrintWriter writer = new PrintWriter(new FileWriter(out));
-                    String line = null;
-                    while ((line = reader.readLine()) != null) {
-//                        Log.e("SearchFragment","line: "+line);
-                        writer.write(line);
-                    }
-                    reader.close();
-                    writer.flush();
-                    writer.close();
-                } catch (FileNotFoundException fe) {
-                    fe.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+        InputStream inputStream = connection.getInputStream();
+        File folder = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/tmpMR");
+        if (inputStream != null) {
+          folder.mkdirs();
+          try {
+            FileOutputStream fileOutputStream = new FileOutputStream(new File(folder, "tmpMR02.tmp"));
+            byte[] buffer = new byte[1024];
+            int bufferLength = 0;
+            while ((bufferLength = inputStream.read(buffer)) > 0) {
+              fileOutputStream.write(buffer, 0, bufferLength);
             }
+            fileOutputStream.flush();
+            fileOutputStream.close();
 
+            File file = new File(folder, "tmpMR02.tmp");
+            File out = new File(folder, Constants.SEARCH_FILE_NAME);
 
-        } catch (Exception e) {
+            BufferedReader reader = new BufferedReader(new FileReader(file));
+            PrintWriter writer = new PrintWriter(new FileWriter(out));
+            String line = null;
+            while ((line = reader.readLine()) != null) {
+//                        Log.e("SearchFragment","line: "+line);
+              writer.write(line);
+            }
+            reader.close();
+            writer.flush();
+            writer.close();
+          } catch (FileNotFoundException fe) {
+            fe.printStackTrace();
+          } catch (IOException e) {
             e.printStackTrace();
+          }
         }
 
-        return null;
+
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+
+      return null;
     }
 
 
     @Override
     protected void onPostExecute(Void aVoid) {
-        super.onPostExecute(aVoid);
-        initalSearch = false;
-        if (getActivity() == null) {
-            return;
+      super.onPostExecute(aVoid);
+      initalSearch = false;
+      if (getActivity() == null) {
+        return;
+      }
+      if (dialog.isShowing()) {
+        dialog.dismiss();
+      }
+      final SearchResult result = SearchResultParser.parse();
+      if (result != null) {
+        previousTerm = term;
+        showResult(result);
+        if (result.getCount() > 0) {
+          showDialog = false;
+          rootView.setBackgroundDrawable(getResources().getDrawable(R.drawable.back_night));
         }
-        if (dialog.isShowing()) {
-            dialog.dismiss();
-        }
-        final SearchResult result = SearchResultParser.parse();
-        if (result != null) {
-            previousTerm = term;
-            showResult(result);
-            if(result.getCount()>0){
-                showDialog = false;
-                rootView.setBackgroundDrawable(getResources().getDrawable(R.drawable.back_night));
-            }
-        } else {
-            recyclerView.setVisibility(View.GONE);
-        }
+      } else {
+        recyclerView.setVisibility(View.GONE);
+      }
 
     }
 
-}
-
-    void showResult(final SearchResult result) {
-
-        if (result.getCount() == 0 && !result.getSpellingCorrection().isEmpty() && hideSuggestion) {
-            initalSearch = true;
-            spellingView.setVisibility(View.VISIBLE);
-            spellingView.setText(Constants.getSuggestionText(result.getTerm(), result.getSpellingCorrection()));
-            hideSuggestion = false;
-            spellingView.setTextColor(Color.WHITE);
-            searchWeb(result.getSpellingCorrection());
-            return;
-        } else {
-            if (hideSuggestion) {
-                spellingView.setVisibility(View.GONE);
-            }
-        }
-
-        if (result.getCount() == 0 && result.getSpellingCorrection().isEmpty()) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-            builder.setTitle("Search Failed")
-                    .setMessage("Sorry..!! We couldn't find anything in our database regarding " + result.getTerm() + "" +
-                            "\nWould you like to search other sources?")
-                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-
-                            ((MainActivity) getActivity()).displayFragment(new DashboardFragment(), false);
-                        }
-                    })
-                    .setPositiveButton("Yeah Sure", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            activity.displayFragment(BrowserFragment.getInstance("https://www.google.com/search?q=" + result.getTerm().replace(" ", "+"), false));
-                            dialog.dismiss();
-                        }
-                    })
-                    .show();
-            return;
-        }
-
-
-
-        recyclerView.setVisibility(View.VISIBLE);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return false;
-            }
-        });
-        if (documents == null) {
-            documents = new ArrayList<>();
-        }
-        if (result.getRetstart() > result.getRetmax()) {
-            documents.addAll(result.getWebDocuments());
-        } else {
-            documents = result.getWebDocuments();
-        }
-        SearchListAdapter adapter = new SearchListAdapter(getActivity(), documents);
-        searchListAdapter = adapter;
-        if (adapter.getItemCount() == 0) {
-            emptySearch.setVisibility(View.VISIBLE);
-            recyclerView.setVisibility(View.GONE);
-        } else {
-            recyclerView.setVisibility(View.VISIBLE);
-            emptySearch.setVisibility(View.GONE);
-        }
-        ((LinearLayoutManager) recyclerView.getLayoutManager()).scrollToPosition(result.getRetstart() - 2);
-        adapter.setItemClickListener(new SearchListAdapter.ItemClickListener() {
-            @Override
-            public void OnItemClick(ArrayList<WebDocument> documents, int position) {
-                openDetail(documents, position);
-            }
-        });
-        searchListAdapter.setItemClickListener(new SearchListAdapter.ItemClickListener() {
-            @Override
-            public void OnItemClick(ArrayList<WebDocument> documents, int position) {
-                openDetail(documents, position);
-            }
-        });
-        adapter.setAdapterPositionListener(new SearchListAdapter.AdapterPositionListener() {
-            @Override
-            public void onLastItemLoaded() {
-                if (result.getCount() > result.getRetstart() + result.getRetmax()) {
-
-                    Snackbar.make(recyclerView, "Fetching more result", Snackbar.LENGTH_SHORT).show();
-
-                    SearchQuery query = new SearchQuery();
-                    query.setFileName(result.getFile());
-                    query.setServer(result.getServer());
-                    query.setRetstart(result.getRetstart() + result.getRetmax() + 1);
-                    new Searcher().execute(query);
-                }
-            }
-        });
-        recyclerView.setHasFixedSize(true);
-
-        try {
-            if (getActivity().getFragmentManager().findFragmentById(R.id.frame) instanceof SearchFragment) {
-                recyclerView.setAdapter(adapter);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-
-    public void openDetail(ArrayList<WebDocument> documents, int position) {
-        activity.displayFragment(SearchDetailMainFragment.newInstance(documents, searchQuery.getText().toString(), position), true);
-        getActivity().getSharedPreferences(Constants.INTERNAL_PREF, Context.MODE_PRIVATE)
-                .edit()
-                .putBoolean(Constants.SEARCH_RESULT, true)
-                .apply();
-    }
+  }
 
 
 }

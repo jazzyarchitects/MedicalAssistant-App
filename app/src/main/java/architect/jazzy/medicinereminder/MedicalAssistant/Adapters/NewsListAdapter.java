@@ -20,78 +20,79 @@ import architect.jazzy.medicinereminder.R;
  */
 public class NewsListAdapter extends RecyclerView.Adapter<NewsListAdapter.ViewHolder> {
 
-    ArrayList<FeedItem> news;
-    Context context;
+  ArrayList<FeedItem> news;
+  Context context;
+  FeedClickListener feedClickListener;
 
-    public NewsListAdapter(Context context, ArrayList<FeedItem> news, Activity activity) {
-        this.news=news;
-        this.context=context;
+  public NewsListAdapter(Context context, ArrayList<FeedItem> news, Activity activity) {
+    this.news = news;
+    this.context = context;
+  }
+
+  @Override
+  public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
+    LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    View itemView = inflater.inflate(R.layout.recycler_item_news_feed, parent, false);
+    return new ViewHolder(itemView);
+  }
+
+  @Override
+  public void onBindViewHolder(ViewHolder holder, int position) {
+    final FeedItem item = news.get(position);
+    holder.textView.setText(item.getTitle());
+    holder.holderLayout.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        feedClickListener.onFeedClick(item);
+      }
+    });
+    holder.colorIndicator.setBackgroundColor(getBackgroundColor(item));
+    holder.dateView.setText(DateFormat.getDateInstance().format(item.getModified()));
+  }
+
+  @Override
+  public int getItemCount() {
+    return news == null ? 0 : news.size();
+  }
+
+  int getBackgroundColor(FeedItem item) {
+    String title = item.getTitle().toLowerCase();
+    if (title.contains("tip")) {
+      return context.getResources().getColor(R.color.color_healthTip);
     }
-
-    @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
-        LayoutInflater inflater=(LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View itemView=inflater.inflate(R.layout.recycler_item_news_feed,parent,false);
-        return new ViewHolder(itemView);
+    if (title.contains("vaccine") || title.contains("medicine") || title.contains("injection")) {
+      return context.getResources().getColor(R.color.color_vaccine);
     }
-
-    @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
-        final FeedItem item=news.get(position);
-        holder.textView.setText(item.getTitle());
-        holder.holderLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                feedClickListener.onFeedClick(item);
-            }
-        });
-        holder.colorIndicator.setBackgroundColor(getBackgroundColor(item));
-        holder.dateView.setText(DateFormat.getDateInstance().format(item.getModified()));
+    if (title.contains("death") || title.contains("cancer") || title.contains("blood") || title.contains("aids")) {
+      return context.getResources().getColor(R.color.color_death);
     }
+    return context.getResources().getColor(R.color.color_default);
 
-    @Override
-    public int getItemCount() {
-        return news==null?0:news.size();
+  }
+
+  public void setFeedClickListener(FeedClickListener listener) {
+    this.feedClickListener = listener;
+  }
+
+  public interface FeedClickListener {
+    void onFeedClick(FeedItem item);
+  }
+
+  public class ViewHolder extends RecyclerView.ViewHolder {
+
+    TextView textView, dateView;
+    LinearLayout holderLayout;
+    View colorIndicator;
+
+    public ViewHolder(View itemView) {
+      super(itemView);
+      textView = (TextView) itemView.findViewById(R.id.textView);
+      holderLayout = (LinearLayout) itemView.findViewById(R.id.ll);
+      colorIndicator = itemView.findViewById(R.id.colorIndicator);
+      dateView = (TextView) itemView.findViewById(R.id.dateView);
     }
-
-    public class ViewHolder extends RecyclerView.ViewHolder{
-
-        TextView textView, dateView;
-        LinearLayout holderLayout;
-        View colorIndicator;
-        public ViewHolder(View itemView) {
-            super(itemView);
-            textView=(TextView)itemView.findViewById(R.id.textView);
-            holderLayout=(LinearLayout)itemView.findViewById(R.id.ll);
-            colorIndicator=itemView.findViewById(R.id.colorIndicator);
-            dateView=(TextView)itemView.findViewById(R.id.dateView);
-        }
-    }
-
-    int getBackgroundColor(FeedItem item){
-        String title=item.getTitle().toLowerCase();
-        if(title.contains("tip")){
-            return context.getResources().getColor(R.color.color_healthTip);
-        }
-        if(title.contains("vaccine") || title.contains("medicine") || title.contains("injection")){
-            return context.getResources().getColor(R.color.color_vaccine);
-        }
-        if(title.contains("death") || title.contains("cancer") || title.contains("blood") || title.contains("aids")){
-            return context.getResources().getColor(R.color.color_death);
-        }
-        return context.getResources().getColor(R.color.color_default);
-
-    }
-
-    FeedClickListener feedClickListener;
-    public interface FeedClickListener{
-        void onFeedClick(FeedItem item);
-    }
-
-    public void setFeedClickListener(FeedClickListener listener){
-        this.feedClickListener=listener;
-    }
+  }
 
 
 }

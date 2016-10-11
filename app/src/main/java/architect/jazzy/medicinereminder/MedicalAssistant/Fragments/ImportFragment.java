@@ -27,38 +27,39 @@ import architect.jazzy.medicinereminder.R;
  */
 public class ImportFragment extends Fragment {
 
-    Context mContext;
-    RecyclerView medicineRecycler, doctorRecycler;
-    ArrayList<Medicine> medicines;
-    ArrayList<Doctor> doctors;
-    Button importConfirm;
+  Context mContext;
+  RecyclerView medicineRecycler, doctorRecycler;
+  ArrayList<Medicine> medicines;
+  ArrayList<Doctor> doctors;
+  Button importConfirm;
+  ImportConfirmListener importConfirmListener;
 
-    public ImportFragment() {
-        // Required empty public constructor
-    }
+  public ImportFragment() {
+    // Required empty public constructor
+  }
 
-    public static ImportFragment newInstance(ArrayList<Medicine> medicines, ArrayList<Doctor> doctors) {
-        ImportFragment fragment = new ImportFragment();
-        Bundle args = new Bundle();
-        args.putParcelableArrayList("medicines", medicines);
-        args.putParcelableArrayList("doctors", doctors);
-        fragment.setArguments(args);
-        return fragment;
-    }
+  public static ImportFragment newInstance(ArrayList<Medicine> medicines, ArrayList<Doctor> doctors) {
+    ImportFragment fragment = new ImportFragment();
+    Bundle args = new Bundle();
+    args.putParcelableArrayList("medicines", medicines);
+    args.putParcelableArrayList("doctors", doctors);
+    fragment.setArguments(args);
+    return fragment;
+  }
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        medicines = getArguments().getParcelableArrayList("medicines");
-        doctors = getArguments().getParcelableArrayList("doctors");
-        mContext = getActivity();
-        return inflater.inflate(R.layout.fragment_import, container, false);
-    }
+  @Override
+  public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                           Bundle savedInstanceState) {
+    // Inflate the layout for this fragment
+    medicines = getArguments().getParcelableArrayList("medicines");
+    doctors = getArguments().getParcelableArrayList("doctors");
+    mContext = getActivity();
+    return inflater.inflate(R.layout.fragment_import, container, false);
+  }
 
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+  @Override
+  public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    super.onViewCreated(view, savedInstanceState);
 //
 //        medicineRecycler = (RecyclerView) view.findViewById(R.id.medicineRecycler);
 //        doctorRecycler = (RecyclerView) view.findViewById(R.id.doctorRecycler);
@@ -79,142 +80,139 @@ public class ImportFragment extends Fragment {
 //                importConfirmListener.onImportConfirmed();
 //            }
 //        });
-    }
+  }
 
+  @Override
+  public void onAttach(Context activity) {
+    super.onAttach(activity);
+    importConfirmListener = (ImportConfirmListener) activity;
+  }
 
-    class ImportMedicineRecyclerAdapter extends RecyclerView.Adapter<ImportMedicineRecyclerAdapter.ViewHolder> {
+  public interface ImportConfirmListener {
+    void onImportConfirmed();
+  }
 
-        Context mContext;
-        ArrayList<Medicine> medicines;
+  class ImportMedicineRecyclerAdapter extends RecyclerView.Adapter<ImportMedicineRecyclerAdapter.ViewHolder> {
 
-        public ImportMedicineRecyclerAdapter(Context context, ArrayList<Medicine> medicines) {
-            mContext = context;
-            this.medicines = medicines;
-        }
+    Context mContext;
+    ArrayList<Medicine> medicines;
 
-        @Override
-        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View view = inflater.inflate(R.layout.import_medicine_recycler_item, parent, false);
-            return new ViewHolder(view);
-        }
-
-        @Override
-        public void onBindViewHolder(ViewHolder holder, int position) {
-            Medicine medicine = medicines.get(position);
-
-            holder.medName.setText(medicine.getMedName());
-            if (medicine.getBreakfast().equalsIgnoreCase("before")) {
-                holder.morning.setText("Before", "Before");
-            } else if (medicine.getBreakfast().equalsIgnoreCase("after")) {
-                holder.morning.setText("After", "After");
-            } else {
-                holder.morning.setVisibility(View.GONE);
-            }
-
-            if (medicine.getLunch().equalsIgnoreCase("before")) {
-                holder.noon.setText("Before", "Before");
-            } else if (medicine.getLunch().equalsIgnoreCase("after")) {
-                holder.noon.setText("After", "After");
-            } else {
-                holder.noon.setVisibility(View.GONE);
-            }
-
-            if (medicine.getDinner().equalsIgnoreCase("before")) {
-                holder.night.setText("Before", "Before");
-            } else if (medicine.getDinner().equalsIgnoreCase("after")) {
-                holder.night.setText("After", "After");
-            } else {
-                holder.night.setVisibility(View.GONE);
-            }
-
-            if (medicine.getCustomTime() != null) {
-                holder.custom.setText(TimingClass.getTime(medicine.getCustomTime().getHour(), medicine.getCustomTime().getMinute(), mContext.getSharedPreferences(Constants.SETTING_PREF, Context.MODE_PRIVATE).getBoolean(Constants.IS_24_HOURS_FORMAT, false)), "");
-            } else {
-                holder.custom.setVisibility(View.GONE);
-            }
-        }
-
-        @Override
-        public int getItemCount() {
-            return medicines == null ? 0 : medicines.size();
-        }
-
-        class ViewHolder extends RecyclerView.ViewHolder {
-
-            LinearLayout linearLayout;
-            TextView medName;
-            LabelledImage morning, noon, night, custom;
-
-            public ViewHolder(View itemView) {
-                super(itemView);
-                linearLayout = (LinearLayout) itemView.findViewById(R.id.linearLayout);
-                medName = (TextView) itemView.findViewById(R.id.medName);
-                morning = (LabelledImage) itemView.findViewById(R.id.morning);
-                night = (LabelledImage) itemView.findViewById(R.id.night);
-                noon = (LabelledImage) itemView.findViewById(R.id.noon);
-                custom = (LabelledImage) itemView.findViewById(R.id.custom);
-            }
-
-            public void setTextSize(float textSize) {
-                morning.setTextSize(textSize);
-                noon.setTextSize(textSize);
-                night.setTextSize(textSize);
-                custom.setTextSize(textSize);
-            }
-        }
-    }
-
-    class ImportDoctorRecyclerAdapter extends RecyclerView.Adapter<ImportDoctorRecyclerAdapter.ViewHolder> {
-
-        Context mContext;
-        ArrayList<Doctor> doctors;
-
-        public ImportDoctorRecyclerAdapter(Context context, ArrayList<Doctor> doctors) {
-            mContext = context;
-            this.doctors = doctors;
-        }
-
-        @Override
-        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            View view = inflater.inflate(R.layout.import_doctor_recycler_item, parent, false);
-            return new ViewHolder(view);
-        }
-
-        @Override
-        public void onBindViewHolder(ViewHolder holder, int position) {
-            Doctor doctor = doctors.get(position);
-            holder.doctorName.setText(doctor.getName());
-            holder.doctorContact.setText(doctor.getPhone_1() + " ," + doctor.getPhone_2());
-        }
-
-        @Override
-        public int getItemCount() {
-            return doctors == null ? 0 : doctors.size();
-        }
-
-        class ViewHolder extends RecyclerView.ViewHolder {
-
-            TextView doctorName, doctorContact;
-
-            public ViewHolder(View itemView) {
-                super(itemView);
-                doctorName = (TextView) itemView.findViewById(R.id.doctorName);
-                doctorContact = (TextView) itemView.findViewById(R.id.doctorContact);
-            }
-        }
+    public ImportMedicineRecyclerAdapter(Context context, ArrayList<Medicine> medicines) {
+      mContext = context;
+      this.medicines = medicines;
     }
 
     @Override
-    public void onAttach(Context activity) {
-        super.onAttach(activity);
-        importConfirmListener = (ImportConfirmListener) activity;
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+      LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+      View view = inflater.inflate(R.layout.import_medicine_recycler_item, parent, false);
+      return new ViewHolder(view);
     }
 
-    ImportConfirmListener importConfirmListener;
+    @Override
+    public void onBindViewHolder(ViewHolder holder, int position) {
+      Medicine medicine = medicines.get(position);
 
-    public interface ImportConfirmListener {
-        void onImportConfirmed();
+      holder.medName.setText(medicine.getMedName());
+      if (medicine.getBreakfast().equalsIgnoreCase("before")) {
+        holder.morning.setText("Before", "Before");
+      } else if (medicine.getBreakfast().equalsIgnoreCase("after")) {
+        holder.morning.setText("After", "After");
+      } else {
+        holder.morning.setVisibility(View.GONE);
+      }
+
+      if (medicine.getLunch().equalsIgnoreCase("before")) {
+        holder.noon.setText("Before", "Before");
+      } else if (medicine.getLunch().equalsIgnoreCase("after")) {
+        holder.noon.setText("After", "After");
+      } else {
+        holder.noon.setVisibility(View.GONE);
+      }
+
+      if (medicine.getDinner().equalsIgnoreCase("before")) {
+        holder.night.setText("Before", "Before");
+      } else if (medicine.getDinner().equalsIgnoreCase("after")) {
+        holder.night.setText("After", "After");
+      } else {
+        holder.night.setVisibility(View.GONE);
+      }
+
+      if (medicine.getCustomTime() != null) {
+        holder.custom.setText(TimingClass.getTime(medicine.getCustomTime().getHour(), medicine.getCustomTime().getMinute(), mContext.getSharedPreferences(Constants.SETTING_PREF, Context.MODE_PRIVATE).getBoolean(Constants.IS_24_HOURS_FORMAT, false)), "");
+      } else {
+        holder.custom.setVisibility(View.GONE);
+      }
     }
+
+    @Override
+    public int getItemCount() {
+      return medicines == null ? 0 : medicines.size();
+    }
+
+    class ViewHolder extends RecyclerView.ViewHolder {
+
+      LinearLayout linearLayout;
+      TextView medName;
+      LabelledImage morning, noon, night, custom;
+
+      public ViewHolder(View itemView) {
+        super(itemView);
+        linearLayout = (LinearLayout) itemView.findViewById(R.id.linearLayout);
+        medName = (TextView) itemView.findViewById(R.id.medName);
+        morning = (LabelledImage) itemView.findViewById(R.id.morning);
+        night = (LabelledImage) itemView.findViewById(R.id.night);
+        noon = (LabelledImage) itemView.findViewById(R.id.noon);
+        custom = (LabelledImage) itemView.findViewById(R.id.custom);
+      }
+
+      public void setTextSize(float textSize) {
+        morning.setTextSize(textSize);
+        noon.setTextSize(textSize);
+        night.setTextSize(textSize);
+        custom.setTextSize(textSize);
+      }
+    }
+  }
+
+  class ImportDoctorRecyclerAdapter extends RecyclerView.Adapter<ImportDoctorRecyclerAdapter.ViewHolder> {
+
+    Context mContext;
+    ArrayList<Doctor> doctors;
+
+    public ImportDoctorRecyclerAdapter(Context context, ArrayList<Doctor> doctors) {
+      mContext = context;
+      this.doctors = doctors;
+    }
+
+    @Override
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+      LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+      View view = inflater.inflate(R.layout.import_doctor_recycler_item, parent, false);
+      return new ViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(ViewHolder holder, int position) {
+      Doctor doctor = doctors.get(position);
+      holder.doctorName.setText(doctor.getName());
+      holder.doctorContact.setText(doctor.getPhone_1() + " ," + doctor.getPhone_2());
+    }
+
+    @Override
+    public int getItemCount() {
+      return doctors == null ? 0 : doctors.size();
+    }
+
+    class ViewHolder extends RecyclerView.ViewHolder {
+
+      TextView doctorName, doctorContact;
+
+      public ViewHolder(View itemView) {
+        super(itemView);
+        doctorName = (TextView) itemView.findViewById(R.id.doctorName);
+        doctorContact = (TextView) itemView.findViewById(R.id.doctorContact);
+      }
+    }
+  }
 }

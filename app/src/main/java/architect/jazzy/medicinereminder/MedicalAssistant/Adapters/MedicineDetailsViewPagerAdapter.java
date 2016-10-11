@@ -15,41 +15,39 @@ import architect.jazzy.medicinereminder.MedicalAssistant.Models.Medicine;
  */
 public class MedicineDetailsViewPagerAdapter extends android.support.v13.app.FragmentStatePagerAdapter {
 
-    private ArrayList<Medicine> dataSet;
+  HashMap<Integer, MedicineDetailFragment> fragmentMap = new HashMap<>();
+  private ArrayList<Medicine> dataSet;
 
-    HashMap<Integer, MedicineDetailFragment> fragmentMap=new HashMap<>();
-
-    public MedicineDetailsViewPagerAdapter(FragmentManager fm, ArrayList<Medicine> medNames) {
-        super(fm);
-        fragmentMap.clear();
+  public MedicineDetailsViewPagerAdapter(FragmentManager fm, ArrayList<Medicine> medNames) {
+    super(fm);
+    fragmentMap.clear();
 //        Log.e("Fragment map",fragmentMap.size()+"  "+fragmentMap.toString());
-        this.dataSet=medNames;
-    }
+    this.dataSet = medNames;
+  }
 
-    @Override
-    public Fragment getItem(int position) {
-        MedicineDetailFragment medFragment=MedicineDetailFragment.newInstance(dataSet.get(position));
-        fragmentMap.put(position,medFragment);
+  @Override
+  public Fragment getItem(int position) {
+    MedicineDetailFragment medFragment = MedicineDetailFragment.newInstance(dataSet.get(position));
+    fragmentMap.put(position, medFragment);
 
 //        Log.e("Fragment map",fragmentMap.size()+"  "+fragmentMap.toString());
-        return medFragment;
-    }
+    return medFragment;
+  }
 
 
-    @Override
-    public int getCount() {
-        return dataSet.size();
-    }
+  @Override
+  public int getCount() {
+    return dataSet.size();
+  }
 
 
-    @Override
-    public void destroyItem(ViewGroup container, int position, Object object) {
-        super.destroyItem(container, position, object);
-    }
+  @Override
+  public void destroyItem(ViewGroup container, int position, Object object) {
+    super.destroyItem(container, position, object);
+  }
 
-    public MedicineDetailFragment getFragment(int key)
-    {
-        return fragmentMap.get(key);
-    }
+  public MedicineDetailFragment getFragment(int key) {
+    return fragmentMap.get(key);
+  }
 
 }

@@ -19,75 +19,73 @@ import architect.jazzy.medicinereminder.R;
  */
 public class EmojiSelectFragment extends DialogFragment {
 
-    Context mContext;
-    GridView gridView;
+  Context mContext;
+  GridView gridView;
 
-    DialogFragment fragment;
-    OnFragmentInteractionListener mListener;
+  DialogFragment fragment;
+  OnFragmentInteractionListener mListener;
 
 
-    public EmojiSelectFragment() {
-        super();
+  public EmojiSelectFragment() {
+    super();
+  }
+
+  @Override
+  public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    super.onCreateView(inflater, container, savedInstanceState);
+    View v = inflater.inflate(R.layout.fragment_emoji_select, null);
+    try {
+      ((AppCompatActivity) getActivity()).getSupportActionBar().show();
+    } catch (NullPointerException e) {
+      e.printStackTrace();
     }
+    fragment = this;
+    mContext = getActivity().getApplicationContext();
+    gridView = (GridView) v.findViewById(R.id.gridviewEmoji);
+    gridView.setAdapter(new ImageAdapter(mContext));
+    gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+      @Override
+      public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        mListener.onEmojiSelected(position);
+        fragment.dismiss();
+      }
+    });
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        super.onCreateView(inflater, container, savedInstanceState);
-        View v=inflater.inflate(R.layout.fragment_emoji_select,null);
-        try {
-            ((AppCompatActivity) getActivity()).getSupportActionBar().show();
-        } catch (NullPointerException e) {
-            e.printStackTrace();
-        }
-        fragment=this;
-        mContext=getActivity().getApplicationContext();
-        gridView = (GridView) v.findViewById(R.id.gridviewEmoji);
-        gridView.setAdapter(new ImageAdapter(mContext));
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                mListener.onEmojiSelected(position);
-                fragment.dismiss();
-            }
-        });
+    getDialog().setTitle("Select Medicine Icon");
+    return v;
+  }
 
-        getDialog().setTitle("Select Medicine Icon");
-        return v;
+  @Override
+  public void onAttach(Activity activity) {
+    super.onAttach(activity)
+    ;
+    try {
+      mListener = (OnFragmentInteractionListener) activity;
+    } catch (ClassCastException e) {
+      throw new ClassCastException(activity.toString()
+          + " must implement OnFragmentInteractionListener");
     }
+  }
 
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity)
-        ;
-        try {
-            mListener = (OnFragmentInteractionListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
+  @Override
+  public void onResume() {
+    super.onResume();
+  }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
+  @Override
+  public void onPause() {
+    super.onPause();
+  }
 
-    @Override
-    public void onPause() {
-        super.onPause();
-    }
+  @Override
+  public void onDetach() {
+    super.onDetach();
+    mListener = null;
+  }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    public interface OnFragmentInteractionListener {
-        void onEmojiSelected(int position);
-    }
-
-
+  public interface OnFragmentInteractionListener {
+    void onEmojiSelected(int position);
+  }
 
 
 }

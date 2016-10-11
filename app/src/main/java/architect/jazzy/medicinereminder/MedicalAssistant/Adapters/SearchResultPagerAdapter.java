@@ -14,20 +14,20 @@ import architect.jazzy.medicinereminder.MedicalAssistant.Models.WebDocument;
  */
 public class SearchResultPagerAdapter extends FragmentStatePagerAdapter {
 
-    ArrayList<WebDocument> documents;
+  ArrayList<WebDocument> documents;
 
-    public SearchResultPagerAdapter(FragmentManager fm, ArrayList<WebDocument> documents) {
-        super(fm);
-        this.documents=documents;
-    }
+  public SearchResultPagerAdapter(FragmentManager fm, ArrayList<WebDocument> documents) {
+    super(fm);
+    this.documents = documents;
+  }
 
-    @Override
-    public Fragment getItem(int position) {
-        return SearchDetailFragment.newInstance(documents.get(position));
-    }
+  @Override
+  public Fragment getItem(int position) {
+    return SearchDetailFragment.newInstance(documents.get(position));
+  }
 
-    @Override
-    public int getCount() {
-        return documents.size();
-    }
+  @Override
+  public int getCount() {
+    return documents.size();
+  }
 }

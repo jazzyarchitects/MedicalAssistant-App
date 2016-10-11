@@ -15,17 +15,17 @@ import architect.jazzy.medicinereminder.R;
 public class DoctorAppointmentFragment extends Fragment {
 
 
-    public DoctorAppointmentFragment() {
-        // Required empty public constructor
-    }
+  public DoctorAppointmentFragment() {
+    // Required empty public constructor
+  }
 
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_doctor_appointment, container, false);
-    }
+  @Override
+  public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                           Bundle savedInstanceState) {
+    // Inflate the layout for this fragment
+    return inflater.inflate(R.layout.fragment_doctor_appointment, container, false);
+  }
 
 
 }

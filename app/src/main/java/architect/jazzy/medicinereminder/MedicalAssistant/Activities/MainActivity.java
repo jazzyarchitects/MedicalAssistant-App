@@ -203,24 +203,48 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
       }
     }
 
-    shouldShowInterstitial = firebasePrefs.getBoolean(FirebaseConstants.RemoteConfig.AD_DASHBOARD_INTERSTITIAL_ENABLED, false);
+    shouldShowInterstitial = firebasePrefs.getBoolean(FirebaseConstants.RemoteConfig.AD_DASHBOARD_INTERSTITIAL_ENABLED, true);
 
     interstitialAd = new InterstitialAd(this);
     interstitialAd.setAdUnitId(FirebaseConstants.Ads.DASHBOARD_INTERSTITIAL);
     AdRequest.Builder adRequestBuilder = new AdRequest.Builder();
-    adRequestBuilder.setIsDesignedForFamilies(true);
     if (BuildConfig.DEBUG) {
       adRequestBuilder.addTestDevice("5C8BFD2BD4F4C415F7456E231E186EE5");
       adRequestBuilder.addTestDevice("2EDDA47AED66B1BF9537214AF158BBE2");
     }
     adRequest = adRequestBuilder.build();
-    if (shouldShowInterstitial) {
+//    if (shouldShowInterstitial) {
       interstitialAd.loadAd(adRequest);
-    }
+//    }
     interstitialAd.setAdListener(new AdListener() {
       @Override
       public void onAdClosed() {
+        Log.e(TAG, "onAdClosed");
         moveToFragment();
+      }
+
+      @Override
+      public void onAdLoaded() {
+        super.onAdLoaded();
+        Log.e(TAG, "onAdLoaded");
+      }
+
+      @Override
+      public void onAdOpened() {
+        super.onAdOpened();
+        Log.e(TAG, "onAdOpened");
+      }
+
+      @Override
+      public void onAdLeftApplication() {
+        super.onAdLeftApplication();
+        Log.e(TAG, "onAdLefApplication");
+      }
+
+      @Override
+      public void onAdFailedToLoad(int i) {
+        super.onAdFailedToLoad(i);
+        Log.e(TAG, "onAdFailedToLoad: "+i);
       }
     });
 
@@ -282,7 +306,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         .putBoolean(FirebaseConstants.RemoteConfig.AD_DASHBOARD_INTERSTITIAL_ENABLED, mFirebaseRemoteConfig.getBoolean(FirebaseConstants.RemoteConfig.ServerKeys.DASHBOARD_INTERSTITIAL_ENABLED))
         .apply();
 
-    shouldShowInterstitial = firebasePrefs.getBoolean(FirebaseConstants.RemoteConfig.AD_DASHBOARD_INTERSTITIAL_ENABLED, false);
+    shouldShowInterstitial = firebasePrefs.getBoolean(FirebaseConstants.RemoteConfig.AD_DASHBOARD_INTERSTITIAL_ENABLED, true);
     if (shouldShowInterstitial) {
       interstitialAd.loadAd(adRequest);
     }
@@ -405,7 +429,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
   void moveToFragment() {
     stepCount++;
-    shouldShowInterstitial = stepCount % NAV_BEFORE_AD_SHOW == 0 && firebasePrefs.getBoolean(FirebaseConstants.RemoteConfig.AD_DASHBOARD_INTERSTITIAL_ENABLED, false);
+    shouldShowInterstitial = (stepCount % NAV_BEFORE_AD_SHOW == 1) && firebasePrefs.getBoolean(FirebaseConstants.RemoteConfig.AD_DASHBOARD_INTERSTITIAL_ENABLED, true);
     Fragment fragment = null;
     android.support.v4.app.Fragment supportFragment = null;
     try {

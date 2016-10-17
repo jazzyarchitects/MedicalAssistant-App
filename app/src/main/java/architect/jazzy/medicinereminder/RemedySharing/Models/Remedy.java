@@ -44,7 +44,7 @@ public class Remedy implements Parcelable {
   private Stats stats;
   private Image image;
   private int imageIndex = -1;
-ivate ImageLoadListener imageLoadListener;
+  private ImageLoadListener imageLoadListener;
 
 
 
@@ -364,35 +364,30 @@ ivate ImageLoadListener imageLoadListener;
     return arrayToString(diseases);
   }
 
-blic Bitmap getRemedyImage() {
+  public Bitmap getRemedyImage() {
     return remedyImage;
   }
 
-  pu
-blic void setRemedyImage(Bitmap remedyImage) {
+  public void setRemedyImage(Bitmap remedyImage) {
     this.remedyImage = remedyImage;
 
   }
 
-  pu
-blic void setImageLoadListener(ImageLoadListener imageLoadListener) {
+  public void setImageLoadListener(ImageLoadListener imageLoadListener) {
     this.imageLoadListener = imageLoadListener;
   }
 
-  pr
-blic void upvote(Context context) {
+  public void upvote(Context context) {
     BackendInterfacer interfacer = new BackendInterfacer(context, BackendUrls.getUpvoteUrl(this.getId()), "PUT", null);
     interfacer.execute();
   }
 
-  pu
-blic void downvote(Context context) {
+  public void downvote(Context context) {
     BackendInterfacer interfacer = new BackendInterfacer(context, BackendUrls.getDownvoteUrl(this.getId()), "PUT", null);
     interfacer.execute();
   }
 
-  pu
-blic void bookmark(Context context) {
+  public void bookmark(Context context) {
     BackendInterfacer interfacer = new BackendInterfacer(context, BackendUrls.getBookmarkUrl(this.getId()), "PUT", null);
     interfacer.execute();
   }
@@ -401,8 +396,6 @@ blic void bookmark(Context context) {
   public interface ImageLoadListener {
     void onImageDownloaded(Bitmap bitmap);
   }
-
-  pu
   public class Image {
     private String fileName = "", path = "";
 
@@ -445,7 +438,7 @@ blic void bookmark(Context context) {
     public void setPath(String path) {
       this.path = path;
     }
-  }  pu
+  }
   public class Stats {
     private int upvote = 0;
     private int downvote = 0;

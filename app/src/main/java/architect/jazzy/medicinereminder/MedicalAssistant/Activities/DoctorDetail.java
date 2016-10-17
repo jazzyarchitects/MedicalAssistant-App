@@ -168,12 +168,42 @@ public class DoctorDetail extends AppCompatActivity implements ViewPagerAdapter.
     adView = (AdView) findViewById(R.id.bannerAd);
 
     AdRequest.Builder builder = new AdRequest.Builder()
-        .setIsDesignedForFamilies(true)
         .addTestDevice("5C8BFD2BD4F4C415F7456E231E186EE5")
         .addTestDevice("2EDDA47AED66B1BF9537214AF158BBE2");
     adRequest = builder.build();
     adView.loadAd(adRequest);
 //        adView.setVisibility(View.GONE);
+
+    adView.setAdListener(new AdListener() {
+      @Override
+      public void onAdClosed() {
+        Log.e(TAG, "onAdClosed");
+      }
+
+      @Override
+      public void onAdLoaded() {
+        super.onAdLoaded();
+        Log.e(TAG, "onAdLoaded");
+      }
+
+      @Override
+      public void onAdOpened() {
+        super.onAdOpened();
+        Log.e(TAG, "onAdOpened");
+      }
+
+      @Override
+      public void onAdLeftApplication() {
+        super.onAdLeftApplication();
+        Log.e(TAG, "onAdLefApplication");
+      }
+
+      @Override
+      public void onAdFailedToLoad(int i) {
+        super.onAdFailedToLoad(i);
+        Log.e(TAG, "onAdFailedToLoad: "+i);
+      }
+    });
 
     adView.setAdListener(new AdListener() {
       @Override

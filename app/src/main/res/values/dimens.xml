@@ -72,5 +72,10 @@
   <dimen name="hover_icon_height" >@dimen/hover_icon_width</dimen >
   <dimen name="remedy_card_frame_width" >0dp</dimen >
   <dimen name="commentLayoutHeightAdded10" >52dp</dimen >
-  <dimen name="horizontal_medicine_list_height" >75dp</dimen >
+
+
+  <dimen name="horizontal_medicine_list_height" >60dp</dimen >
+  <dimen name="doctor_detail_cover_image" >184dp</dimen >
+  <dimen name="doctor_detail_user_pic_margin" >115dp</dimen >
+  <dimen name="doctor_detail_user_pic_size" >100dp</dimen >
 </resources >

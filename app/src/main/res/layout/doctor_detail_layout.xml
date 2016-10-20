@@ -21,13 +21,14 @@
       app:srcCompat="@drawable/pexels_1"
       tools:layout_constraintLeft_creator="1"
       tools:layout_constraintTop_creator="1"
-      android:layout_height="180dp" />
+      android:layout_height="@dimen/doctor_detail_cover_image"
+      app:layout_constraintRight_toRightOf="parent" />
 
   <de.hdodenhof.circleimageview.CircleImageView
       android:id="@+id/doctorImage"
-      android:layout_width="100dp"
-      android:layout_height="100dp"
-      android:layout_marginTop="112dp"
+      android:layout_width="@dimen/doctor_detail_user_pic_size"
+      android:layout_height="@dimen/doctor_detail_user_pic_size"
+      android:layout_marginTop="@dimen/doctor_detail_user_pic_margin"
       android:src="@drawable/userlogin"
       app:civ_border_color="#FFF"
       app:civ_border_width="2dp"
@@ -39,27 +40,24 @@
 
   <EditText
       android:layout_width="0dp"
-      android:layout_height="56dp"
-      android:layout_marginEnd="8dp"
-      android:layout_marginLeft="8dp"
-      android:layout_marginRight="8dp"
-      android:layout_marginStart="8dp"
+      android:layout_height="wrap_content"
       android:focusable="false"
       android:hint="Name"
       android:textColor="#FFF"
       android:textSize="20sp"
       android:textStyle="bold"
-      app:layout_constraintBottom_toBottomOf="@+id/imageView2"
-      app:layout_constraintHorizontal_bias="0.37"
-      app:layout_constraintLeft_toRightOf="@+id/doctorImage"
-      app:layout_constraintRight_toRightOf="@+id/imageView2"
       android:text="Jibin Mathews"
-      android:id="@+id/editText3" />
+      android:id="@+id/editText3"
+      app:layout_constraintRight_toRightOf="@+id/imageView2"
+      android:layout_marginStart="8dp"
+      app:layout_constraintLeft_toRightOf="@+id/doctorImage"
+      android:layout_marginLeft="8dp"
+      app:layout_constraintBottom_toBottomOf="@+id/imageView2" />
 
   <android.support.v7.widget.RecyclerView
       android:id="@+id/doctorMedicines"
       android:layout_width="0dp"
-      android:layout_height="75dp"
+      android:layout_height="60dp"
       android:layout_marginEnd="4dp"
       android:layout_marginLeft="4dp"
       android:layout_marginRight="4dp"
@@ -67,7 +65,8 @@
       tools:listitem="@layout/horizontal_medicine_list"
       app:layout_constraintBottom_toBottomOf="parent"
       app:layout_constraintLeft_toLeftOf="parent"
-      app:layout_constraintRight_toRightOf="parent" />
+      app:layout_constraintRight_toRightOf="parent"
+      app:layout_constraintHorizontal_bias="0.4" />
 
   <TextView
       android:id="@+id/medicineLabel"
@@ -95,6 +94,24 @@
       app:layout_constraintRight_toRightOf="@+id/imageView2"
       app:layout_constraintTop_toTopOf="@+id/imageView2" />
 
+  <Button
+      android:text="Save"
+      android:layout_width="wrap_content"
+      android:layout_height="0dp"
+      android:id="@+id/saveButton"
+      app:layout_constraintTop_toBottomOf="@+id/imageView2"
+      app:layout_constraintBottom_toTopOf="@+id/scrollView2"
+      app:layout_constraintRight_toRightOf="parent"
+      android:elevation="0dp"
+      android:layout_marginTop="4dp"
+      android:background="#00953c"
+      android:textColor="#FFF"
+      android:textSize="12sp"
+      android:layout_marginBottom="4dp"
+      app:layout_constraintVertical_bias="0.0"
+      android:layout_marginEnd="8dp"
+      android:layout_marginRight="8dp" />
+
   <ScrollView
       android:layout_width="0dp"
       android:layout_height="0dp"
@@ -106,23 +123,27 @@
       app:layout_constraintTop_toBottomOf="@+id/doctorImage"
       android:id="@+id/scrollView2" >
 
-    <include layout="@layout/doctor_detail_inner_layout" />
+    <include layout="@layout/doctor_detail_inner_layout"
+        tools:layout_editor_absoluteY="0dp"
+        tools:layout_editor_absoluteX="0dp" />
+
   </ScrollView >
 
   <Button
-      android:text="Save"
+      android:text="Delete"
       android:layout_width="wrap_content"
       android:layout_height="0dp"
-      android:id="@+id/button2"
+      android:id="@+id/discardButton"
+      app:layout_constraintRight_toLeftOf="@+id/saveButton"
+      android:layout_marginEnd="8dp"
+      android:layout_marginRight="8dp"
       app:layout_constraintTop_toBottomOf="@+id/imageView2"
       app:layout_constraintBottom_toTopOf="@+id/scrollView2"
-      android:layout_marginEnd="8dp"
-      app:layout_constraintRight_toRightOf="parent"
-      android:layout_marginRight="8dp"
-      android:elevation="0dp"
-      android:layout_marginTop="8dp"
-      android:layout_marginBottom="8dp"
+      android:layout_marginBottom="4dp"
+      android:layout_marginTop="4dp"
+      android:background="#e65100"
+      android:textSize="12sp"
       android:textColor="#FFF"
-      android:background="#00953c"/>
+      app:layout_constraintVertical_bias="0.9" />
 
 </android.support.constraint.ConstraintLayout >

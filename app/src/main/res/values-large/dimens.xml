@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources >
+
+
+  <dimen name="horizontal_medicine_list_height" >100dp</dimen >
+  <dimen name="doctor_detail_cover_image" >270dp</dimen >
+  <dimen name="doctor_detail_user_pic_size">130dp</dimen>
+  <dimen name="doctor_detail_user_pic_margin" >190dp</dimen >
+
+</resources >

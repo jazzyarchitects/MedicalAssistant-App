@@ -46,7 +46,7 @@
 
   <dimen name="toolbar_height" >60dp</dimen >
   <dimen name="webViewProgressBarSize" >70dp</dimen >
-  <dimen name="webViewIconSize" >200dp</dimen >
+  <dimen name="webViewIconSize" >150dp</dimen >
   <dimen name="navigationDrawerWidth" >280dp</dimen >
   <dimen name="newsItemHeight" >75dp</dimen >
   <dimen name="newsItemTitleHeight" >40dp</dimen >
@@ -78,4 +78,9 @@
   <dimen name="doctor_detail_cover_image" >164dp</dimen >
   <dimen name="doctor_detail_user_pic_margin" >95dp</dimen >
   <dimen name="doctor_detail_user_pic_size" >100dp</dimen >
+  <dimen name="doctor_detail_card_view_height" >60dp</dimen >
+
+  <dimen name="doctor_list_image_size" >80dp</dimen >
+  <dimen name="doctor_list_detail_height" >50dp</dimen >
+  <dimen name="doctor_list_card_height">@dimen/doctor_list_image_size</dimen>
 </resources >

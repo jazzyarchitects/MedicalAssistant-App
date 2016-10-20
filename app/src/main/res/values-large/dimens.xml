@@ -6,5 +6,7 @@
   <dimen name="doctor_detail_cover_image" >270dp</dimen >
   <dimen name="doctor_detail_user_pic_size">130dp</dimen>
   <dimen name="doctor_detail_user_pic_margin" >190dp</dimen >
+  <dimen name="doctor_list_image_size" >100dp</dimen >
+  <dimen name="doctor_detail_card_view_height" >60dp</dimen >
 
 </resources >

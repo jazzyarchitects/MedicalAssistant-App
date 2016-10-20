@@ -21,6 +21,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
@@ -117,13 +118,14 @@ public class DoctorListFragment extends Fragment {
 
     try {
       ((AppCompatActivity) getActivity()).getSupportActionBar().show();
+      ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Your Doctors");
     } catch (NullPointerException e) {
       e.printStackTrace();
     }
+
     doctorList = (RecyclerView) v.findViewById(R.id.recyclerView);
     doctorList.setVisibility(View.GONE);
-    ((AppCompatActivity) getActivity()).getSupportActionBar().setTitle("Your Doctors");
-    doctorList.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+    doctorList.setLayoutManager(new LinearLayoutManager(getActivity()));
 
     floatingActionButton = (FloatingActionButton) v.findViewById(R.id.floatingActionButton);
     floatingActionButton.setBackgroundTintList(Constants.getFabBackground(getActivity()));
@@ -150,6 +152,7 @@ public class DoctorListFragment extends Fragment {
   void refreshLayout() {
     DataHandler handler = new DataHandler(mContext);
     doctors = handler.getDoctorList();
+    handler.close();
     if (doctors == null) {
       doctorList.setVisibility(View.GONE);
       emptyList.setVisibility(View.VISIBLE);

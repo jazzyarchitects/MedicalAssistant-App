@@ -19,6 +19,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:gravity="center"
+        android:background="?attr/selectableItemBackground"
         android:layout_centerVertical="true">
 
       <TextView

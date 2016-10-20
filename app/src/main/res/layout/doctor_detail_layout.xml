@@ -47,6 +47,7 @@
       android:textStyle="bold"
       android:text="Jibin Mathews"
       android:id="@+id/doctorName"
+      android:inputType="textPersonName"
       app:layout_constraintRight_toRightOf="@+id/imageView2"
       android:layout_marginStart="8dp"
       app:layout_constraintLeft_toRightOf="@+id/doctorImage"

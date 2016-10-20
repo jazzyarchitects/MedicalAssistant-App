@@ -1,27 +1,121 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/ll"
+    android:layout_marginTop="5dp"
     android:layout_width="match_parent"
-    android:layout_height="145dp"
-    android:orientation="vertical"
-    android:padding="5dp" >
+    android:layout_height="@dimen/doctor_list_card_height"
+    android:orientation="vertical" >
 
-  <ImageView
-      android:id="@+id/imageView"
+
+  <android.support.v7.widget.CardView
       android:layout_width="match_parent"
-      android:layout_height="100dp"
-      android:src="@drawable/userlogin" />
+      android:layout_height="@dimen/doctor_list_detail_height"
+      android:layout_alignParentRight="true"
+      android:layout_alignParentEnd="true"
+      android:layout_marginRight="7dp"
+      android:layout_centerVertical="true"
+      android:layout_marginLeft="-30dp"
+      android:layout_marginStart="-30dp"
+      android:layout_toRightOf="@+id/doctorImage"
+      android:layout_toEndOf="@+id/doctorImage"
+      android:layout_marginEnd="7dp">
 
-  <TextView
-      android:id="@+id/textView"
-      android:layout_width="match_parent"
-      android:layout_height="35dp"
-      android:background="@color/actionBackground"
-      android:ellipsize="end"
-      android:gravity="center"
-      android:padding="5dp"
-      android:text="Doctor Name"
-      android:textColor="#FFF"
-      android:textSize="16sp" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="35dp"
+        android:paddingStart="35dp"
+        android:paddingRight="10dp"
+        android:paddingEnd="10dp"
+        android:background="?attr/selectableItemBackground">
 
-</LinearLayout >
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:orientation="vertical"
+          android:layout_centerVertical="true">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/doctorName"
+            android:textColor="#222"
+            android:textSize="16sp"
+            android:text="Doctor Name"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Hospital"
+            android:id="@+id/doctorHospital"
+            android:textSize="12sp"/>
+
+      </LinearLayout >
+
+
+    </RelativeLayout >
+
+  </android.support.v7.widget.CardView>
+
+  <de.hdodenhof.circleimageview.CircleImageView
+      android:layout_width="@dimen/doctor_list_image_size"
+      android:layout_height="@dimen/doctor_list_image_size"
+      android:src="@drawable/userlogin"
+      app:civ_fill_color="#FFF"
+      app:civ_border_color="#333"
+      app:civ_border_width="2dp"
+      android:id="@+id/doctorImage"
+      android:translationZ="10dp"
+      android:elevation="2dp"
+      android:layout_alignParentTop="true"
+      android:layout_alignParentLeft="true"
+      android:layout_alignParentStart="true"
+      android:layout_marginLeft="7dp"
+      android:layout_marginStart="7dp" />
+
+
+  <!--<ImageView-->
+      <!--android:id="@+id/imageView"-->
+      <!--android:layout_width="0dp"-->
+      <!--android:layout_height="0dp"-->
+      <!--android:src="@drawable/userlogin"-->
+      <!--tools:layout_constraintTop_creator="1"-->
+      <!--tools:layout_constraintRight_creator="1"-->
+      <!--tools:layout_constraintBottom_creator="1"-->
+      <!--app:layout_constraintBottom_toTopOf="@+id/textView"-->
+      <!--android:layout_marginStart="8dp"-->
+      <!--android:layout_marginEnd="8dp"-->
+      <!--app:layout_constraintRight_toRightOf="parent"-->
+      <!--android:layout_marginTop="5dp"-->
+      <!--tools:layout_constraintLeft_creator="1"-->
+      <!--app:layout_constraintLeft_toLeftOf="parent"-->
+      <!--app:layout_constraintTop_toTopOf="parent"-->
+      <!--android:layout_marginLeft="8dp"-->
+      <!--android:layout_marginRight="8dp" />-->
+
+  <!--<TextView-->
+      <!--android:id="@+id/textView"-->
+      <!--android:layout_width="0dp"-->
+      <!--android:layout_height="35dp"-->
+      <!--android:background="@color/actionBackground"-->
+      <!--android:ellipsize="end"-->
+      <!--android:gravity="center"-->
+      <!--android:padding="5dp"-->
+      <!--android:text="Doctor Name"-->
+      <!--android:textColor="#FFF"-->
+      <!--android:textSize="16sp"-->
+      <!--tools:layout_constraintRight_creator="1"-->
+      <!--tools:layout_constraintBottom_creator="1"-->
+      <!--android:layout_marginStart="8dp"-->
+      <!--app:layout_constraintBottom_toBottomOf="parent"-->
+      <!--android:layout_marginEnd="8dp"-->
+      <!--app:layout_constraintRight_toRightOf="parent"-->
+      <!--tools:layout_constraintLeft_creator="1"-->
+      <!--android:layout_marginBottom="5dp"-->
+      <!--app:layout_constraintLeft_toLeftOf="parent"-->
+      <!--android:layout_marginLeft="8dp"-->
+      <!--android:layout_marginRight="8dp" />-->
+
+</RelativeLayout >

@@ -39,7 +39,8 @@ dependencies {
     compile 'com.google.firebase:firebase-core:9.2.1'
     compile 'com.google.firebase:firebase-ads:9.2.1'
     compile 'com.google.firebase:firebase-config:9.2.1'
-    compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha1'
+    compile 'de.hdodenhof:circleimageview:2.1.0'
+    compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha9'
 }
 
 apply plugin: 'com.google.gms.google-services'

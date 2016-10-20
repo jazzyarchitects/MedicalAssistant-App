@@ -1,229 +1,239 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="architect.jazzy.medicinereminder">
+    package="architect.jazzy.medicinereminder" >
 
-    <!--
-    Normal Permissions
-    ACCESS_LOCATION_EXTRA_COMMANDS
-    ACCESS_NOTIFICATION_POLICY
-    ACCESS_WIFI_STATE
-    BLUETOOTH
-    BLUETOOTH_ADMIN
-    BROADCAST_STICKY
-    CHANGE_NETWORK_STATE
-    CHANGE_WIFI_MULTICAST_STATE
-    CHANGE_WIFI_STATE
-    DISABLE_KEYGUARD
-    EXPAND_STATUS_BAR
-    GET_PACKAGE_SIZE
-    INSTALL_SHORTCUT
-    KILL_BACKGROUND_PROCESSES
-    MODIFY_AUDIO_SETTINGS
-    NFC
-    READ_SYNC_SETTINGS
-    READ_SYNC_STATS
-    REORDER_TASKS
-    REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
-    REQUEST_INSTALL_PACKAGES
-    SET_ALARM
-    SET_TIME_ZONE
-    SET_WALLPAPER
-    SET_WALLPAPER_HINTS
-    TRANSMIT_IR
-    UNINSTALL_SHORTCUT
-    USE_FINGERPRINT
-    WRITE_SYNC_SETTINGS
+  <!--
+  Normal Permissions
+  ACCESS_LOCATION_EXTRA_COMMANDS
+  ACCESS_NOTIFICATION_POLICY
+  ACCESS_WIFI_STATE
+  BLUETOOTH
+  BLUETOOTH_ADMIN
+  BROADCAST_STICKY
+  CHANGE_NETWORK_STATE
+  CHANGE_WIFI_MULTICAST_STATE
+  CHANGE_WIFI_STATE
+  DISABLE_KEYGUARD
+  EXPAND_STATUS_BAR
+  GET_PACKAGE_SIZE
+  INSTALL_SHORTCUT
+  KILL_BACKGROUND_PROCESSES
+  MODIFY_AUDIO_SETTINGS
+  NFC
+  READ_SYNC_SETTINGS
+  READ_SYNC_STATS
+  REORDER_TASKS
+  REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
+  REQUEST_INSTALL_PACKAGES
+  SET_ALARM
+  SET_TIME_ZONE
+  SET_WALLPAPER
+  SET_WALLPAPER_HINTS
+  TRANSMIT_IR
+  UNINSTALL_SHORTCUT
+  USE_FINGERPRINT
+  WRITE_SYNC_SETTINGS
 
-    =========
+  =========
 
-    INTERNET
-    RECEIVE_BOOT_COMPLETED
-    VIBRATE
-    WAKE_LOCK
-    ACCESS_NETWORK_STATE
-    -->
+  INTERNET
+  RECEIVE_BOOT_COMPLETED
+  VIBRATE
+  WAKE_LOCK
+  ACCESS_NETWORK_STATE
+  -->
 
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+  <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+  <uses-permission android:name="android.permission.INTERNET" />
+  <uses-permission android:name="android.permission.WAKE_LOCK" />
+  <uses-permission android:name="android.permission.VIBRATE" />
+  <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
-    <!--
-    Dangerous Permissions
-    READ_CALENDAR
-    WRITE_CALENDAR
-    CAMERA
-    WRITE_CONTACTS
-    GET_ACCOUNTS
-    ACCESS_FINE_LOCATION
-    ACCESS_COARSE_LOCATION
-    RECORD_AUDIO
-    READ_PHONE_STATE
-    READ_CALL_LOG
-    WRITE_CALL_LOG
-    ADD_VOICEMAIL
-    USE_SIP
-    PROCESS_OUTGOING_CALLS
-    BODY_SENSORS
-    SEND_SMS
-    RECEIVE_SMS
-    READ_SMS
-    RECEIVE_WAP_PUSH
-    RECEIVE_MMS
+  <!--
+  Dangerous Permissions
+  READ_CALENDAR
+  WRITE_CALENDAR
+  CAMERA
+  WRITE_CONTACTS
+  GET_ACCOUNTS
+  ACCESS_FINE_LOCATION
+  ACCESS_COARSE_LOCATION
+  RECORD_AUDIO
+  READ_PHONE_STATE
+  READ_CALL_LOG
+  WRITE_CALL_LOG
+  ADD_VOICEMAIL
+  USE_SIP
+  PROCESS_OUTGOING_CALLS
+  BODY_SENSORS
+  SEND_SMS
+  RECEIVE_SMS
+  READ_SMS
+  RECEIVE_WAP_PUSH
+  RECEIVE_MMS
 
-    =========
-    READ_EXTERNAL_STORAGE
-    WRITE_EXTERNAL_STORAGE
-    READ_CONTACTS
-    CALL_PHONE
-    -->
+  =========
+  READ_EXTERNAL_STORAGE
+  WRITE_EXTERNAL_STORAGE
+  READ_CONTACTS
+  CALL_PHONE
+  -->
 
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.READ_CONTACTS" />
-    <uses-permission android:name="android.permission.CALL_PHONE" />
+  <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+  <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+  <uses-permission android:name="android.permission.READ_CONTACTS" />
+  <uses-permission android:name="android.permission.CALL_PHONE" />
 
-    <supports-screens
-        android:anyDensity="true"
-        android:resizeable="true" />
+  <supports-screens
+      android:anyDensity="true"
+      android:resizeable="true" />
 
-    <application
-        android:name=".ThisApplication"
-        android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+  <application
+      android:name=".ThisApplication"
+      android:allowBackup="true"
+      android:icon="@mipmap/ic_launcher"
+      android:label="@string/app_name"
+      android:theme="@style/AppTheme" >
+    <meta-data
+        android:name="com.google.android.gms.version"
+        android:value="@integer/google_play_services_version" />
+
+    <activity
+        android:name=".MedicalAssistant.Activities.MainActivity"
+        android:configChanges="orientation|keyboardHidden|screenSize"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme">
-        <meta-data
-            android:name="com.google.android.gms.version"
-            android:value="@integer/google_play_services_version" />
+        android:screenOrientation="portrait"
+        android:windowSoftInputMode="adjustPan|stateHidden" >
+      <intent-filter >
+        <action android:name="android.intent.action.MAIN" />
 
-        <activity
-            android:name=".MedicalAssistant.Activities.MainActivity"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/app_name"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|stateHidden">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+        <category android:name="android.intent.category.LAUNCHER" />
+      </intent-filter >
+    </activity >
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+    <receiver
+        android:name=".MedicalAssistant.BroadcastRecievers.AlarmReceiver"
+        android:enabled="true" />
 
-        <receiver
-            android:name=".MedicalAssistant.BroadcastRecievers.AlarmReceiver"
-            android:enabled="true" />
+    <activity
+        android:name=".MedicalAssistant.Activities.NotificationOpen"
+        android:label="@string/title_activity_notification_open"
+        android:parentActivityName=".MedicalAssistant.Activities.MainActivity"
+        android:screenOrientation="portrait" />
+    <activity
+        android:name=".MedicalAssistant.Activities.AboutUs"
+        android:label="About Us"
+        android:parentActivityName=".MedicalAssistant.Activities.MainActivity"
+        android:screenOrientation="portrait" />
+    <activity
+        android:name=".MedicalAssistant.Activities.BackupRestore"
+        android:label="@string/title_activity_backup_restore"
+        android:parentActivityName=".MedicalAssistant.Activities.MainActivity"
+        android:screenOrientation="portrait" >
+      <intent-filter >
+        <action android:name="android.intent.action.VIEW" />
 
-        <activity
-            android:name=".MedicalAssistant.Activities.NotificationOpen"
-            android:label="@string/title_activity_notification_open"
-            android:parentActivityName=".MedicalAssistant.Activities.MainActivity" />
-        <activity
-            android:name=".MedicalAssistant.Activities.AboutUs"
-            android:label="About Us"
-            android:parentActivityName=".MedicalAssistant.Activities.MainActivity"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".MedicalAssistant.Activities.BackupRestore"
-            android:label="@string/title_activity_backup_restore"
-            android:parentActivityName=".MedicalAssistant.Activities.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
+        <category android:name="android.intent.category.DEFAULT" />
 
-                <category android:name="android.intent.category.DEFAULT" />
+        <data
+            android:host="*"
+            android:mimeType="*/*"
+            android:pathPattern=".*\\.medBackup"
+            android:scheme="file" />
+      </intent-filter >
+    </activity >
+    <activity
+        android:name=".RemedySharing.RegistrationActivity"
+        android:parentActivityName=".MedicalAssistant.Activities.MainActivity"
+        android:screenOrientation="portrait" />
+    <activity
+        android:name=".RemedySharing.OnlineActivity"
+        android:label="@string/title_activity_online"
+        android:screenOrientation="portrait"
+        android:theme="@style/AppTheme" />
+    <activity
+        android:name=".RemedySharing.RemedyDetailsAcitvity"
+        android:label="@string/title_activity_remedy_details_acitvity"
+        android:screenOrientation="portrait"
+        android:theme="@style/AppTheme"
+        android:windowSoftInputMode="adjustPan|stateHidden" />
 
-                <data
-                    android:host="*"
-                    android:mimeType="*/*"
-                    android:pathPattern=".*\\.medBackup"
-                    android:scheme="file" />
-            </intent-filter>
-        </activity>
-        <activity
-            android:name=".RemedySharing.RegistrationActivity"
-            android:parentActivityName=".MedicalAssistant.Activities.MainActivity" />
-        <activity
-            android:name=".RemedySharing.OnlineActivity"
-            android:label="@string/title_activity_online"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".RemedySharing.RemedyDetailsAcitvity"
-            android:label="@string/title_activity_remedy_details_acitvity"
-            android:theme="@style/AppTheme"
-            android:windowSoftInputMode="adjustPan|stateHidden" />
+    <!-- This service is only used on devices with API v17+ -->
+    <receiver android:name=".MedicalAssistant.Activities.AppWidget" >
+      <intent-filter >
+        <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+      </intent-filter >
 
-        <!-- This service is only used on devices with API v17+ -->
-        <receiver android:name=".MedicalAssistant.Activities.AppWidget">
-            <intent-filter>
-                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
-            </intent-filter>
+      <meta-data
+          android:name="android.appwidget.provider"
+          android:resource="@xml/app_widget_info" />
+    </receiver >
 
-            <meta-data
-                android:name="android.appwidget.provider"
-                android:resource="@xml/app_widget_info" />
-        </receiver>
+    <service
+        android:name=".MedicalAssistant.Services.AlarmSetterService"
+        android:exported="false" />
 
-        <service
-            android:name=".MedicalAssistant.Services.AlarmSetterService"
-            android:exported="false" />
+    <receiver
+        android:name=".MedicalAssistant.BroadcastRecievers.BootCompleteReciever"
+        android:enabled="true"
+        android:exported="true" >
+      <intent-filter >
+        <action android:name="android.intent.action.BOOT_COMPLETED" />
+      </intent-filter >
+    </receiver >
+    <receiver
+        android:name=".MedicalAssistant.HelperClasses.DailyAlarmStarter"
+        android:enabled="true"
+        android:exported="true" />
 
-        <receiver
-            android:name=".MedicalAssistant.BroadcastRecievers.BootCompleteReciever"
-            android:enabled="true"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-            </intent-filter>
-        </receiver>
-        <receiver
-            android:name=".MedicalAssistant.HelperClasses.DailyAlarmStarter"
-            android:enabled="true"
-            android:exported="true" />
+    <activity
+        android:name=".MedicalAssistant.Activities.PopupWindow"
+        android:label="@string/title_activity_popup_window"
+        android:screenOrientation="portrait"
+        android:showOnLockScreen="true"
+        android:theme="@style/popup_style" />
+    <activity
+        android:name=".MedicalAssistant.Activities.FullScreenLockScreen"
+        android:label="@string/title_activity_full_screen_lock_screen"
+        android:screenOrientation="portrait"
+        android:showOnLockScreen="true"
+        android:theme="@style/FullscreenTheme" />
+    <activity
+        android:name="com.google.android.gms.ads.AdActivity"
+        android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
+        android:screenOrientation="portrait" />
+    <activity
+        android:name=".MedicalAssistant.Activities.MedicineDetails"
+        android:label="@string/title_activity_medicine_details"
+        android:parentActivityName=".MedicalAssistant.Activities.MainActivity"
+        android:screenOrientation="portrait"
+        android:windowSoftInputMode="adjustPan|stateHidden" />
+    <activity
+        android:name=".MedicalAssistant.Activities.TimeSettingPreference"
+        android:label="Default Timings"
+        android:parentActivityName=".MedicalAssistant.Activities.MainActivity"
+        android:screenOrientation="portrait"
+        android:windowSoftInputMode="adjustPan|stateHidden" />
+    <activity
+        android:name=".MedicalAssistant.Activities.Illustration"
+        android:label="@string/title_activity_illustration"
+        android:screenOrientation="portrait" />
 
-        <activity
-            android:name=".MedicalAssistant.Activities.PopupWindow"
-            android:label="@string/title_activity_popup_window"
-            android:screenOrientation="portrait"
-            android:showOnLockScreen="true"
-            android:theme="@style/popup_style" />
-        <activity
-            android:name=".MedicalAssistant.Activities.FullScreenLockScreen"
-            android:label="@string/title_activity_full_screen_lock_screen"
-            android:screenOrientation="portrait"
-            android:showOnLockScreen="true"
-            android:theme="@style/FullscreenTheme" />
-        <activity
-            android:name="com.google.android.gms.ads.AdActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize" />
-        <activity
-            android:name=".MedicalAssistant.Activities.MedicineDetails"
-            android:label="@string/title_activity_medicine_details"
-            android:parentActivityName=".MedicalAssistant.Activities.MainActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|stateHidden" />
-        <activity
-            android:name=".MedicalAssistant.Activities.TimeSettingPreference"
-            android:label="Default Timings"
-            android:parentActivityName=".MedicalAssistant.Activities.MainActivity"
-            android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|stateHidden" />
-        <activity
-            android:name=".MedicalAssistant.Activities.Illustration"
-            android:label="@string/title_activity_illustration" />
+    <receiver
+        android:name=".MedicalAssistant.BroadcastRecievers.AlarmSnooze"
+        android:enabled="true"
+        android:exported="false" />
+    <receiver
+        android:name=".MedicalAssistant.BroadcastRecievers.DismissNotification"
+        android:enabled="true"
+        android:exported="false" />
 
-        <receiver
-            android:name=".MedicalAssistant.BroadcastRecievers.AlarmSnooze"
-            android:enabled="true"
-            android:exported="false" />
-        <receiver
-            android:name=".MedicalAssistant.BroadcastRecievers.DismissNotification"
-            android:enabled="true"
-            android:exported="false" />
+    <activity
+        android:name=".MedicalAssistant.Activities.DoctorDetail"
+        android:screenOrientation="portrait"
+        android:windowSoftInputMode="adjustPan|stateHidden" />
+    <activity android:name=".MedicalAssistant.Activities.BrowserActivity"
+        android:screenOrientation="portrait" ></activity >
+  </application >
 
-        <activity android:name=".MedicalAssistant.Activities.DoctorDetail"
-                  android:windowSoftInputMode="adjustPan|stateHidden" />
-        <activity android:name=".MedicalAssistant.Activities.BrowserActivity"></activity>
-    </application>
-
-</manifest>
+</manifest >

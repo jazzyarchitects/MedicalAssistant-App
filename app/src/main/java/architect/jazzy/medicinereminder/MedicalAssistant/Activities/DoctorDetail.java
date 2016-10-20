@@ -6,28 +6,17 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
-import android.support.v4.content.res.ResourcesCompat;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.graphics.Palette;
-import android.support.v7.view.menu.ActionMenuItemView;
-import android.support.v7.widget.ActionMenuView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.android.gms.ads.AdListener;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 
@@ -52,12 +41,8 @@ public class DoctorDetail extends AppCompatActivity implements ViewPagerAdapter.
   private static final String TAG = "DoctorDetailActivity";
   private static final int COVER_PIC_REQUEST_CODE = 121;
   final int SHOW_LIST_REQUEST_CODE = 9865;
-  View v;
   TextView doctorNameView;
   ImageView doctorImageView;
-  TabLayout tabLayout;
-  Drawable userImage;
-  ViewPager viewPager;
   Doctor doctor;
   boolean setupDone = false;
   boolean menuSetup = false;
@@ -68,84 +53,6 @@ public class DoctorDetail extends AppCompatActivity implements ViewPagerAdapter.
   ActivityResultListener activityResultListener;
   int backgroundColor = Color.WHITE;
   DoctorDetailImageChangeListener doctorDetailImageChangeListener;
-
-  /**
-   * Use this method to colorize toolbar icons to the desired target color
-   *
-   * @param toolbarView       toolbar view being colored
-   * @param toolbarIconsColor the target color of toolbar icons
-   * @param activity          reference to activity needed to register observers
-   */
-  public static void colorizeToolbar(Toolbar toolbarView, int toolbarIconsColor, Activity activity) {
-    final PorterDuffColorFilter colorFilter
-        = new PorterDuffColorFilter(toolbarIconsColor, PorterDuff.Mode.MULTIPLY);
-
-    for (int i = 0; i < toolbarView.getChildCount(); i++) {
-
-      Log.e(TAG, "Toolbar icon instance of: " + (toolbarView.getChildAt(i).toString()));
-
-      final View v = toolbarView.getChildAt(i);
-
-      //Step 1 : Changing the color of back button (or open drawer button).
-      if (v instanceof ImageButton) {
-        //Action Bar back button
-        ((ImageButton) v).getDrawable().setColorFilter(colorFilter);
-      }
-
-      if (v instanceof ActionMenuItemView) {
-        int drawableCount = ((ActionMenuItemView) v).getCompoundDrawables().length;
-        for (int k = 0; k < drawableCount; k++) {
-
-          if (((ActionMenuItemView) v).getCompoundDrawables()[k] != null) {
-            final int finalK = k;
-
-            //Important to set the color filter in seperate thread,
-            //by adding it to the message queue
-            //Won't work otherwise.
-            v.post(new Runnable() {
-              @Override
-              public void run() {
-                ((ActionMenuItemView) v).getCompoundDrawables()[finalK].setColorFilter(colorFilter);
-              }
-            });
-          }
-        }
-
-      }
-
-      if (v instanceof ActionMenuView) {
-        for (int j = 0; j < ((ActionMenuView) v).getChildCount(); j++) {
-
-          //Step 2: Changing the color of any ActionMenuViews - icons that
-          //are not back button, nor text, nor overflow menu icon.
-          final View innerView = ((ActionMenuView) v).getChildAt(j);
-
-          if (innerView instanceof ActionMenuItemView) {
-            int drawablesCount = ((ActionMenuItemView) innerView).getCompoundDrawables().length;
-            for (int k = 0; k < drawablesCount; k++) {
-              if (((ActionMenuItemView) innerView).getCompoundDrawables()[k] != null) {
-                final int finalK = k;
-
-                //Important to set the color filter in seperate thread,
-                //by adding it to the message queue
-                //Won't work otherwise.
-                innerView.post(new Runnable() {
-                  @Override
-                  public void run() {
-                    ((ActionMenuItemView) innerView).getCompoundDrawables()[finalK].setColorFilter(colorFilter);
-                  }
-                });
-              }
-            }
-          }
-        }
-      }
-
-      //Step 3: Changing the color of title and subtitle.
-      toolbarView.setTitleTextColor(toolbarIconsColor);
-      toolbarView.setSubtitleTextColor(toolbarIconsColor);
-    }
-  }
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -164,59 +71,47 @@ public class DoctorDetail extends AppCompatActivity implements ViewPagerAdapter.
       getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
+//    adView = (AdView) findViewById(R.id.bannerAd);
+//    AdRequest.Builder builder = new AdRequest.Builder()
+//        .addTestDevice("5C8BFD2BD4F4C415F7456E231E186EE5")
+//        .addTestDevice("2EDDA47AED66B1BF9537214AF158BBE2");
+//    adRequest = builder.build();
+//    adView.loadAd(adRequest);
 
-    adView = (AdView) findViewById(R.id.bannerAd);
-
-    AdRequest.Builder builder = new AdRequest.Builder()
-        .addTestDevice("5C8BFD2BD4F4C415F7456E231E186EE5")
-        .addTestDevice("2EDDA47AED66B1BF9537214AF158BBE2");
-    adRequest = builder.build();
-    adView.loadAd(adRequest);
-//        adView.setVisibility(View.GONE);
-
-    adView.setAdListener(new AdListener() {
-      @Override
-      public void onAdClosed() {
-        Log.e(TAG, "onAdClosed");
-      }
-
-      @Override
-      public void onAdLoaded() {
-        super.onAdLoaded();
-        Log.e(TAG, "onAdLoaded");
-      }
-
-      @Override
-      public void onAdOpened() {
-        super.onAdOpened();
-        Log.e(TAG, "onAdOpened");
-      }
-
-      @Override
-      public void onAdLeftApplication() {
-        super.onAdLeftApplication();
-        Log.e(TAG, "onAdLefApplication");
-      }
-
-      @Override
-      public void onAdFailedToLoad(int i) {
-        super.onAdFailedToLoad(i);
-        Log.e(TAG, "onAdFailedToLoad: "+i);
-      }
-    });
-
-    adView.setAdListener(new AdListener() {
-      @Override
-      public void onAdLoaded() {
-        super.onAdLoaded();
-        adView.setVisibility(View.VISIBLE);
-      }
-    });
+//    adView.setAdListener(new AdListener() {
+//      @Override
+//      public void onAdClosed() {
+//        Log.e(TAG, "onAdClosed");
+//      }
+//
+//      @Override
+//      public void onAdLoaded() {
+//        super.onAdLoaded();
+//        Log.e(TAG, "onAdLoaded");
+//      }
+//
+//      @Override
+//      public void onAdOpened() {
+//        super.onAdOpened();
+//        Log.e(TAG, "onAdOpened");
+//      }
+//
+//      @Override
+//      public void onAdLeftApplication() {
+//        super.onAdLeftApplication();
+//        Log.e(TAG, "onAdLefApplication");
+//      }
+//
+//      @Override
+//      public void onAdFailedToLoad(int i) {
+//        super.onAdFailedToLoad(i);
+//        Log.e(TAG, "onAdFailedToLoad: "+i);
+//      }
+//    });
+//
 
     doctorNameView = (TextView) findViewById(R.id.doctorName);
     doctorImageView = (ImageView) findViewById(R.id.doctorImage);
-    tabLayout = (TabLayout) findViewById(R.id.tabLayout);
-    viewPager = (ViewPager) findViewById(R.id.viewPager);
 
     doctorImageView.setOnClickListener(new View.OnClickListener() {
       @Override
@@ -227,13 +122,11 @@ public class DoctorDetail extends AppCompatActivity implements ViewPagerAdapter.
       }
     });
 
-    userImage = ResourcesCompat.getDrawable(getResources(), R.drawable.userlogin, null).mutate();
-    userImage.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
 
     doctorImageView.setOnLongClickListener(new View.OnLongClickListener() {
       @Override
       public boolean onLongClick(View v) {
-        doctorImageView.setImageDrawable(userImage);
+        doctorImageView.setImageResource(R.drawable.userlogin);
         doctor.setPhoto("");
         DataHandler handler = new DataHandler(DoctorDetail.this);
         handler.updateDoctor(doctor);
@@ -249,16 +142,8 @@ public class DoctorDetail extends AppCompatActivity implements ViewPagerAdapter.
     if (!setupDone)
       setup();
 //    setupColors();
-    setupTabs();
+//    setupTabs();
   }
-
-//  void setupColors() {
-//    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && false) {
-//      Window window = getWindow();
-//      window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-//      window.setStatusBarColor(backgroundColor);
-//    }
-//  }
 
   @Override
   public void onDoctorImageChange(int resultCode, Intent data) {
@@ -269,63 +154,59 @@ public class DoctorDetail extends AppCompatActivity implements ViewPagerAdapter.
 
   void setup() {
     setupDone = true;
+//    doctorNameView.setText(doctor.getName());
+    if (doctor.getPhoto() == null || doctor.getPhoto().isEmpty()) {
+      return;
+    }
+//    Picasso.with(this)
+//        .load(doctor.getPhoto())
+//        .noFade()
+//        .error(R.drawable.userlogin)
+//        .placeholder(R.drawable.userlogin)
+//        .skipMemoryCache()
+//        .into(doctorImageView);
+
     try {
       Bitmap bitmap;
       String path = doctor.getPhoto();
       Log.e(TAG, "Doctor image path: " + path);
-      try {
-//                Uri uri = Uri.parse(path);
-        doctorImageView.setImageBitmap(Constants.getScaledBitmap(doctor.getPhoto(), 150, 150));
-        bitmap = ((BitmapDrawable) doctorImageView.getDrawable()).getBitmap();
-      } catch (Exception e) {
-        bitmap = Constants.getScaledBitmap(doctor.getPhoto(), 150, 150);
-        if (bitmap != null) {
-          doctorImageView.setImageBitmap(bitmap);
-        }
-      }
-      if (bitmap != null) {
-        Palette.Builder builder = Palette.from(bitmap);
-        Palette palette = builder.generate();
-        try {
-          int color = palette.getLightVibrantColor(0);
-          int color2 = palette.getDarkVibrantColor(0);
-          int color3 = palette.getDarkMutedColor(0);
-          int color4 = palette.getLightMutedColor(0);
-          int color5 = palette.getMutedColor(0);
-          int color6 = palette.getVibrantColor(0);
-
-          color = color == 0 ? color2 : color;
-          color = color == 0 ? color3 : color;
-          color = color == 0 ? color4 : color;
-          color = color == 0 ? color5 : color;
-          color = color == 0 ? color6 : color;
-
-          tabLayout.setBackgroundColor(color);
-          doctor.setBackgroundColor(color);
-          toolbar.setBackgroundColor(color);
-          backgroundColor = color;
-          float[] hsv = new float[3];
-          Color.colorToHSV(color, hsv);
-          if (hsv[2] > 0.75) {
-            textColor = Color.BLACK;
-            doctor.setTextColor(textColor);
-            doctorNameView.setTextColor(textColor);
-            tabLayout.setTabTextColors(Color.parseColor("#555555"), Color.BLACK);
-
-            colorizeToolbar(toolbar, textColor, this);
-          }
-          doctor.setBackgroundColor(color);
-        } catch (NullPointerException e) {
-          e.printStackTrace();
-        }
-      } else {
-        doctorImageView.setImageDrawable(userImage);
-      }
-
+      bitmap = Constants.getScaledBitmap(doctor.getPhoto(), 120, 120);
+      doctorImageView.setImageBitmap(bitmap);
+//      if (bitmap != null) {
+//        Palette.Builder builder = Palette.from(bitmap);
+//        Palette palette = builder.generate();
+//        try {
+//          int color = palette.getLightVibrantColor(0);
+//          int color2 = palette.getDarkVibrantColor(0);
+//          int color3 = palette.getDarkMutedColor(0);
+//          int color4 = palette.getLightMutedColor(0);
+//          int color5 = palette.getMutedColor(0);
+//          int color6 = palette.getVibrantColor(0);
+//
+//          color = color == 0 ? color2 : color;
+//          color = color == 0 ? color3 : color;
+//          color = color == 0 ? color4 : color;
+//          color = color == 0 ? color5 : color;
+//          color = color == 0 ? color6 : color;
+//
+//          doctor.setBackgroundColor(color);
+//          toolbar.setBackgroundColor(color);
+//          backgroundColor = color;
+//          float[] hsv = new float[3];
+//          Color.colorToHSV(color, hsv);
+//          if (hsv[2] > 0.75) {
+//            textColor = Color.BLACK;
+//            doctor.setTextColor(textColor);
+//            doctorNameView.setTextColor(textColor);
+//          }
+//          doctor.setBackgroundColor(color);
+//        } catch (NullPointerException e) {
+//          e.printStackTrace();
+//        }
+//      }
     } catch (Exception e) {
       e.printStackTrace();
     }
-    doctorNameView.setText(doctor.getName());
   }
 
   private void dimNotificationBar() {
@@ -352,13 +233,13 @@ public class DoctorDetail extends AppCompatActivity implements ViewPagerAdapter.
   }
 
   @SuppressWarnings("deprecation")
-  void setupTabs() {
-    ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(), doctor);
-    adapter.setViewPagerFragmentListener(this);
-    viewPager.setAdapter(adapter);
-    tabLayout.setupWithViewPager(viewPager);
-    tabLayout.setTabsFromPagerAdapter(adapter);
-  }
+//  void setupTabs() {
+//    ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(), doctor);
+//    adapter.setViewPagerFragmentListener(this);
+//    viewPager.setAdapter(adapter);
+//    tabLayout.setupWithViewPager(viewPager);
+//    tabLayout.setTabsFromPagerAdapter(adapter);
+//  }
 
   @Override
   public void onDoctorSaved(Doctor doctor) {

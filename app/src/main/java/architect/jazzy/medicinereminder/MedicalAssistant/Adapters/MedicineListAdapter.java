@@ -37,7 +37,7 @@ public class MedicineListAdapter extends RecyclerView.Adapter<MedicineListAdapte
   ArrayList<String> medicineNames;
   Activity parent = null;
   EventListener eventListener;
-  private String TAG = "MedicineListAdapter";
+  private String TAG = "HorizontalMedicineListAdapter";
   private Context context;
 
   public MedicineListAdapter() {
@@ -91,7 +91,7 @@ public class MedicineListAdapter extends RecyclerView.Adapter<MedicineListAdapte
         holder.goIcon.setVisibility(View.GONE);
       }
     } catch (NullPointerException e) {
-      Log.e("MedicineListAdapter", "Lock Screen popup " + e.getMessage());
+      Log.e("HorizontalMedicineListAdapter", "Lock Screen popup " + e.getMessage());
     }
 
     if (holder.cardView != null) {

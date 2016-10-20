@@ -3,19 +3,20 @@ package architect.jazzy.medicinereminder.MedicalAssistant.Activities;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
@@ -26,33 +27,27 @@ import java.util.TimerTask;
 
 import architect.jazzy.medicinereminder.HelperClasses.Constants;
 import architect.jazzy.medicinereminder.HelperClasses.FirebaseConstants;
-import architect.jazzy.medicinereminder.MedicalAssistant.Fragments.DoctorDetailFragments.Adapters.ViewPagerAdapter;
-import architect.jazzy.medicinereminder.MedicalAssistant.Fragments.DoctorDetailFragments.DoctorDetailFragment;
-import architect.jazzy.medicinereminder.MedicalAssistant.Fragments.DoctorDetailFragments.DoctorMedicineListFragment;
+import architect.jazzy.medicinereminder.MedicalAssistant.Adapters.HorizontalMedicineListAdapter;
 import architect.jazzy.medicinereminder.MedicalAssistant.Handlers.DataHandler;
 import architect.jazzy.medicinereminder.MedicalAssistant.Handlers.RealPathUtil;
 import architect.jazzy.medicinereminder.MedicalAssistant.Models.Doctor;
 import architect.jazzy.medicinereminder.MedicalAssistant.Models.Medicine;
 import architect.jazzy.medicinereminder.R;
 
-public class DoctorDetail extends AppCompatActivity implements ViewPagerAdapter.ViewPagerFragmentInteractionListener,
-    DoctorDetailFragment.ImageChangeListener, DoctorMedicineListFragment.FragmentInteractionListener {
+public class DoctorDetail extends AppCompatActivity {
 
   private static final String TAG = "DoctorDetailActivity";
   private static final int COVER_PIC_REQUEST_CODE = 121;
-  final int SHOW_LIST_REQUEST_CODE = 9865;
-  TextView doctorNameView;
+//  final int SHOW_LIST_REQUEST_CODE = 9865;
+  EditText doctorContactView, doctorOfficeView, doctorAddressView, doctorHospitalView, doctorNotesView, doctorNameView;
+  TextView medicineText;
+  Button saveButton, deleteButton;
   ImageView doctorImageView;
+  RecyclerView recyclerView;
   Doctor doctor;
-  boolean setupDone = false;
-  boolean menuSetup = false;
   AdRequest adRequest;
   AdView adView;
   Toolbar toolbar;
-  int textColor = Color.WHITE;
-  ActivityResultListener activityResultListener;
-  int backgroundColor = Color.WHITE;
-  DoctorDetailImageChangeListener doctorDetailImageChangeListener;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -60,58 +55,56 @@ public class DoctorDetail extends AppCompatActivity implements ViewPagerAdapter.
     setContentView(R.layout.doctor_detail_layout);
 
     FirebaseConstants.Analytics.logCurrentScreen(this, "DoctorDetail");
+    doctor = getIntent().getParcelableExtra("doctor");
 
     toolbar = (Toolbar) findViewById(R.id.toolbar);
     setSupportActionBar(toolbar);
-
-    doctor = getIntent().getParcelableExtra("doctor");
 
     if (getSupportActionBar() != null) {
       getSupportActionBar().setDisplayShowHomeEnabled(true);
       getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-//    adView = (AdView) findViewById(R.id.bannerAd);
-//    AdRequest.Builder builder = new AdRequest.Builder()
-//        .addTestDevice("5C8BFD2BD4F4C415F7456E231E186EE5")
-//        .addTestDevice("2EDDA47AED66B1BF9537214AF158BBE2");
-//    adRequest = builder.build();
-//    adView.loadAd(adRequest);
+    adView = (AdView) findViewById(R.id.adView);
+    AdRequest.Builder builder = new AdRequest.Builder()
+        .addTestDevice("5C8BFD2BD4F4C415F7456E231E186EE5")
+        .addTestDevice("2EDDA47AED66B1BF9537214AF158BBE2");
+    adRequest = builder.build();
+    adView.loadAd(adRequest);
 
-//    adView.setAdListener(new AdListener() {
-//      @Override
-//      public void onAdClosed() {
-//        Log.e(TAG, "onAdClosed");
-//      }
-//
-//      @Override
-//      public void onAdLoaded() {
-//        super.onAdLoaded();
-//        Log.e(TAG, "onAdLoaded");
-//      }
-//
-//      @Override
-//      public void onAdOpened() {
-//        super.onAdOpened();
-//        Log.e(TAG, "onAdOpened");
-//      }
-//
-//      @Override
-//      public void onAdLeftApplication() {
-//        super.onAdLeftApplication();
-//        Log.e(TAG, "onAdLefApplication");
-//      }
-//
-//      @Override
-//      public void onAdFailedToLoad(int i) {
-//        super.onAdFailedToLoad(i);
-//        Log.e(TAG, "onAdFailedToLoad: "+i);
-//      }
-//    });
-//
-
-    doctorNameView = (TextView) findViewById(R.id.doctorName);
+    doctorNameView = (EditText) findViewById(R.id.doctorName);
+    doctorContactView = (EditText) findViewById(R.id.doctorPhone);
+    doctorOfficeView = (EditText) findViewById(R.id.doctorOffice);
+    doctorAddressView = (EditText) findViewById(R.id.doctorAddress);
+    doctorHospitalView = (EditText) findViewById(R.id.doctorHospital);
+    doctorNotesView = (EditText) findViewById(R.id.doctorNotes);
+    medicineText = (TextView) findViewById(R.id.medicineLabel);
     doctorImageView = (ImageView) findViewById(R.id.doctorImage);
+    saveButton = (Button) findViewById(R.id.saveButton);
+    deleteButton = (Button) findViewById(R.id.discardButton);
+
+    saveButton.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        DataHandler handler = new DataHandler(DoctorDetail.this);
+        doctor.setName(doctorNameView.getText().toString());
+        doctor.setPhone_1(doctorContactView.getText().toString());
+        doctor.setPhone_2(doctorOfficeView.getText().toString());
+        doctor.setAddress(doctorAddressView.getText().toString());
+        doctor.setNotes(doctorNotesView.getText().toString());
+        doctor.setHospital(doctorHospitalView.getText().toString());
+        handler.updateDoctor(doctor);
+        handler.close();
+        Toast.makeText(DoctorDetail.this, "Doctor detail updated", Toast.LENGTH_LONG).show();
+      }
+    });
+
+    deleteButton.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        deleteDoctor();
+      }
+    });
 
     doctorImageView.setOnClickListener(new View.OnClickListener() {
       @Override
@@ -122,91 +115,66 @@ public class DoctorDetail extends AppCompatActivity implements ViewPagerAdapter.
       }
     });
 
-
     doctorImageView.setOnLongClickListener(new View.OnLongClickListener() {
       @Override
       public boolean onLongClick(View v) {
         doctorImageView.setImageResource(R.drawable.userlogin);
         doctor.setPhoto("");
-        DataHandler handler = new DataHandler(DoctorDetail.this);
-        handler.updateDoctor(doctor);
-        handler.close();
+        setupImage();
         return false;
       }
     });
 
-    backgroundColor = Constants.getThemeColor(this);
-
-
-    dimNotificationBar();
-    if (!setupDone)
-      setup();
-//    setupColors();
-//    setupTabs();
-  }
-
-  @Override
-  public void onDoctorImageChange(int resultCode, Intent data) {
-    if (doctorDetailImageChangeListener != null) {
-      doctorDetailImageChangeListener.onDoctorImageChanged(resultCode, data);
-    }
-  }
-
-  void setup() {
-    setupDone = true;
-//    doctorNameView.setText(doctor.getName());
     if (doctor.getPhoto() == null || doctor.getPhoto().isEmpty()) {
       return;
     }
-//    Picasso.with(this)
-//        .load(doctor.getPhoto())
-//        .noFade()
-//        .error(R.drawable.userlogin)
-//        .placeholder(R.drawable.userlogin)
-//        .skipMemoryCache()
-//        .into(doctorImageView);
+    doctorNameView.setText(doctor.getName());
+    doctorContactView.setText(doctor.getPhone_1());
+    doctorOfficeView.setText(doctor.getPhone_2());
+    doctorAddressView.setText(doctor.getAddress());
+    doctorHospitalView.setText(doctor.getHospital());
+    doctorNotesView.setText(doctor.getNotes());
 
-    try {
-      Bitmap bitmap;
-      String path = doctor.getPhoto();
-      Log.e(TAG, "Doctor image path: " + path);
-      bitmap = Constants.getScaledBitmap(doctor.getPhoto(), 120, 120);
-      doctorImageView.setImageBitmap(bitmap);
-//      if (bitmap != null) {
-//        Palette.Builder builder = Palette.from(bitmap);
-//        Palette palette = builder.generate();
-//        try {
-//          int color = palette.getLightVibrantColor(0);
-//          int color2 = palette.getDarkVibrantColor(0);
-//          int color3 = palette.getDarkMutedColor(0);
-//          int color4 = palette.getLightMutedColor(0);
-//          int color5 = palette.getMutedColor(0);
-//          int color6 = palette.getVibrantColor(0);
-//
-//          color = color == 0 ? color2 : color;
-//          color = color == 0 ? color3 : color;
-//          color = color == 0 ? color4 : color;
-//          color = color == 0 ? color5 : color;
-//          color = color == 0 ? color6 : color;
-//
-//          doctor.setBackgroundColor(color);
-//          toolbar.setBackgroundColor(color);
-//          backgroundColor = color;
-//          float[] hsv = new float[3];
-//          Color.colorToHSV(color, hsv);
-//          if (hsv[2] > 0.75) {
-//            textColor = Color.BLACK;
-//            doctor.setTextColor(textColor);
-//            doctorNameView.setTextColor(textColor);
-//          }
-//          doctor.setBackgroundColor(color);
-//        } catch (NullPointerException e) {
-//          e.printStackTrace();
-//        }
-//      }
-    } catch (Exception e) {
-      e.printStackTrace();
+    dimNotificationBar();
+    setupImage();
+    setupMedicines();
+  }
+
+  void setupImage() {
+    if (doctor.getPhoto() == null || doctor.getPhoto().isEmpty()) {
+      doctorImageView.setImageResource(R.drawable.userlogin);
+      return;
     }
+    doctorImageView.setImageBitmap(Constants.getScaledBitmap(doctor.getPhoto(), 120, 120));
+  }
+
+  void setupMedicines() {
+    recyclerView = (RecyclerView) findViewById(R.id.doctorMedicines);
+    recyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+
+    DataHandler handler = new DataHandler(this);
+    ArrayList<Medicine> medicines = handler.getMedicineListByDoctor(doctor);
+    handler.close();
+    if (medicines == null) {
+      recyclerView.setVisibility(View.GONE);
+      medicineText.setVisibility(View.GONE);
+      return;
+    }
+    recyclerView.setVisibility(View.VISIBLE);
+    medicineText.setVisibility(View.VISIBLE);
+    HorizontalMedicineListAdapter adapter = new HorizontalMedicineListAdapter(this, medicines);
+    adapter.setItemClickListener(new HorizontalMedicineListAdapter.OnItemClickListener() {
+      @Override
+      public void onItemClick(int position, ArrayList<Medicine> medicines) {
+        Intent i = new Intent(DoctorDetail.this, MedicineDetails.class);
+        Bundle bundle = new Bundle();
+        bundle.putParcelableArrayList(Constants.MEDICINE_NAME_LIST, medicines);
+        i.putExtra(Constants.MEDICINE_POSITION, position);
+        i.putExtras(bundle);
+        startActivity(i);
+      }
+    });
+    recyclerView.setAdapter(adapter);
   }
 
   private void dimNotificationBar() {
@@ -232,39 +200,14 @@ public class DoctorDetail extends AppCompatActivity implements ViewPagerAdapter.
     });
   }
 
-  @SuppressWarnings("deprecation")
-//  void setupTabs() {
-//    ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager(), doctor);
-//    adapter.setViewPagerFragmentListener(this);
-//    viewPager.setAdapter(adapter);
-//    tabLayout.setupWithViewPager(viewPager);
-//    tabLayout.setTabsFromPagerAdapter(adapter);
-//  }
-
-  @Override
-  public void onDoctorSaved(Doctor doctor) {
-    this.doctor = doctor;
-    setup();
-  }
-
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
-    getMenuInflater().inflate(R.menu.doctor_detail_menu, menu);
-    menuSetup = true;
-    if (!setupDone) {
-      setup();
-    }
-    for (int i = 0; i < menu.size(); i++) {
-      menu.getItem(i).getIcon().setColorFilter(textColor, PorterDuff.Mode.SRC_ATOP);
-    }
+    getMenuInflater().inflate(R.menu.menu_common, menu);
     return super.onCreateOptionsMenu(menu);
   }
 
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
-    if (item.getItemId() == R.id.deleteDoctor) {
-      deleteDoctor();
-    }
     if (item.getItemId() == android.R.id.home) {
       finish();
     }
@@ -295,54 +238,20 @@ public class DoctorDetail extends AppCompatActivity implements ViewPagerAdapter.
   }
 
   @Override
-  public void onBackPressed() {
-    super.onBackPressed();
-  }
-
-  @Override
   public void onActivityResult(int requestCode, int resultCode, Intent data) {
     super.onActivityResult(requestCode, resultCode, data);
     if (requestCode == COVER_PIC_REQUEST_CODE) {
       if (resultCode == Activity.RESULT_OK) {
         String path = RealPathUtil.getPathFromURI(this, data.getData());
-        doctorImageView.setImageBitmap(Constants.getScaledBitmap(path, doctorImageView.getMeasuredWidth(), doctorImageView.getMeasuredHeight()));
         doctor.setPhoto(path);
-        DataHandler handler = new DataHandler(this);
-        handler.updateDoctor(doctor);
-        handler.close();
-        setup();
-//        setupColors();
+        setupImage();
       }
     }
-    if (requestCode == SHOW_LIST_REQUEST_CODE) {
-      activityResultListener.medicineListActivityResult(requestCode, resultCode, data);
-    }
-  }
-
-  public void setDoctorDetailImageChangeListener(DoctorDetailImageChangeListener doctorDetailImageChangeListener) {
-    this.doctorDetailImageChangeListener = doctorDetailImageChangeListener;
-  }
-
-  public void setActivityResultListener(ActivityResultListener activityResultListener) {
-    this.activityResultListener = activityResultListener;
   }
 
   @Override
-  public void showDetails(int position, ArrayList<Medicine> medicines) {
-    Intent i = new Intent(this, MedicineDetails.class);
-    Bundle bundle = new Bundle();
-    bundle.putParcelableArrayList(Constants.MEDICINE_NAME_LIST, medicines);
-    i.putExtra(Constants.MEDICINE_POSITION, position);
-    i.putExtras(bundle);
-    startActivityForResult(i, SHOW_LIST_REQUEST_CODE);
+  protected void onResume() {
+    super.onResume();
+    setupMedicines();
   }
-
-  public interface DoctorDetailImageChangeListener {
-    void onDoctorImageChanged(int resultCode, Intent data);
-  }
-
-  public interface ActivityResultListener {
-    void medicineListActivityResult(int requestCode, int resultCode, Intent data);
-  }
-
 }

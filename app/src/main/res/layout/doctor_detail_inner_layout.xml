@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    tools:ignore="HardcodedText"
     android:orientation="vertical"
     tools:showIn="@layout/doctor_detail_layout" >
 
@@ -26,7 +27,7 @@
         android:layout_height="wrap_content"
         android:hint="Phone"
         android:textSize="14sp"
-        tools:ignore="HardcodedText"
+        android:inputType="phone"
         tools:text="+91-8877073355" />
   </android.support.design.widget.TextInputLayout >
 
@@ -48,6 +49,7 @@
         android:id="@+id/doctorOffice"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:inputType="phone"
         android:hint="Office"
         android:text="+91-8095648328"
         android:textSize="14sp" />
@@ -114,6 +116,7 @@
       android:layout_marginLeft="8dp"
       android:layout_marginRight="8dp"
       android:layout_marginStart="8dp"
+      android:id="@+id/textInputLayout5"
       app:layout_constraintLeft_toLeftOf="parent"
       app:layout_constraintRight_toRightOf="parent"
       app:layout_constraintHorizontal_bias="0.0"
@@ -136,6 +139,17 @@
         tools:text="@string/lorem_ipsum" />
 
   </android.support.design.widget.TextInputLayout >
+
+  <com.google.android.gms.ads.AdView
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:id="@+id/adView"
+      app:adSize="SMART_BANNER"
+      app:layout_constraintLeft_toLeftOf="parent"
+      app:layout_constraintRight_toRightOf="parent"
+      app:adUnitId="ca-app-pub-6208186273505028/5681028994"
+      app:layout_constraintTop_toBottomOf="@+id/textInputLayout5"
+      android:layout_marginTop="8dp" />
 
 
 </android.support.constraint.ConstraintLayout >

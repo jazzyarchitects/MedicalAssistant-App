@@ -75,7 +75,7 @@
 
 
   <dimen name="horizontal_medicine_list_height" >60dp</dimen >
-  <dimen name="doctor_detail_cover_image" >184dp</dimen >
-  <dimen name="doctor_detail_user_pic_margin" >115dp</dimen >
+  <dimen name="doctor_detail_cover_image" >164dp</dimen >
+  <dimen name="doctor_detail_user_pic_margin" >95dp</dimen >
   <dimen name="doctor_detail_user_pic_size" >100dp</dimen >
 </resources >

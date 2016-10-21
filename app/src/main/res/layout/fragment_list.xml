@@ -10,6 +10,7 @@
   <android.support.design.widget.CoordinatorLayout
       android:id="@+id/snackbarPosition"
       android:layout_width="match_parent"
+      android:layout_above="@+id/adView"
       android:layout_height="match_parent" >
 
     <RelativeLayout
@@ -63,4 +64,14 @@
 
   </android.support.design.widget.CoordinatorLayout >
 
+  <com.google.android.gms.ads.AdView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:id="@+id/adView"
+      app:adSize="SMART_BANNER"
+      android:layout_alignParentBottom="true"
+      app:layout_constraintLeft_toLeftOf="parent"
+      app:layout_constraintRight_toRightOf="parent"
+      app:adUnitId="ca-app-pub-6208186273505028/6615071795"
+      android:layout_marginTop="8dp" />
 </RelativeLayout >

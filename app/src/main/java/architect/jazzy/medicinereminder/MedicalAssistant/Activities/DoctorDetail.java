@@ -45,8 +45,6 @@ public class DoctorDetail extends AppCompatActivity {
   ImageView doctorImageView;
   RecyclerView recyclerView;
   Doctor doctor;
-  AdRequest adRequest;
-  AdView adView;
   Toolbar toolbar;
 
   @Override
@@ -65,7 +63,8 @@ public class DoctorDetail extends AppCompatActivity {
       getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
-    adView = (AdView) findViewById(R.id.adView);
+    AdRequest adRequest;
+    AdView adView = (AdView) findViewById(R.id.adView);
     AdRequest.Builder builder = new AdRequest.Builder()
         .addTestDevice("5C8BFD2BD4F4C415F7456E231E186EE5")
         .addTestDevice("2EDDA47AED66B1BF9537214AF158BBE2");

@@ -14,8 +14,10 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.Html;
 import android.util.Log;
 import android.view.Gravity;
@@ -26,6 +28,9 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 import java.util.ArrayList;
 
@@ -79,6 +84,16 @@ public class MedicineListFragment extends Fragment {
         fragmentInteractionListener.addMedicine();
       }
     });
+
+
+    AdRequest adRequest;
+    AdView adView = (AdView) v.findViewById(R.id.adView);
+    AdRequest.Builder builder = new AdRequest.Builder()
+        .addTestDevice("5C8BFD2BD4F4C415F7456E231E186EE5")
+        .addTestDevice("2EDDA47AED66B1BF9537214AF158BBE2");
+    adRequest = builder.build();
+    adView.loadAd(adRequest);
+
     getMedicineData();
 
     try {
@@ -191,7 +206,7 @@ public class MedicineListFragment extends Fragment {
       root.addView(textView);
       root.addView(addNew);
     } else {
-      RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context);
+      RecyclerView.LayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
       MedicineListAdapter adapter = new MedicineListAdapter(context, medicines, getActivity());
       adapter.setEventListener(new MedicineListAdapter.EventListener() {
         @Override

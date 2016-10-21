@@ -83,4 +83,6 @@
   <dimen name="doctor_list_image_size" >80dp</dimen >
   <dimen name="doctor_list_detail_height" >50dp</dimen >
   <dimen name="doctor_list_card_height">@dimen/doctor_list_image_size</dimen>
+
+  <dimen name="vertical_medicine_list_height">80dp</dimen>
 </resources >

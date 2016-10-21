@@ -126,7 +126,7 @@
   <color name="color_default" >@color/bg_swipe_group_item_right</color >
   <color name="linkColor" >#1b3d87</color >
 
-  <color name="deafaultFragmentBackground" >#FFF</color >
+  <color name="deafaultFragmentBackground" >#F8F8F8</color >
   <color name="doctorDetailFragmentsColor" >#FFF</color >
   <color name="color_red" >#890000</color >
   <!--<color name="dashboardMedicineCountColor">@color/color_red</color>-->

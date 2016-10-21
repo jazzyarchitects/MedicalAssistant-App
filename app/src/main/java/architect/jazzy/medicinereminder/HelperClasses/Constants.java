@@ -82,16 +82,18 @@ public class Constants {
   }
 
   public static int getThemeColor(Context context) {
-    return context.getSharedPreferences(SETTING_PREF, Context.MODE_PRIVATE)
-        .getInt(Constants.THEME_COLOR, context.getResources().getColor(R.color.themeColorDefault));
+//    return context.getSharedPreferences(SETTING_PREF, Context.MODE_PRIVATE)
+//        .getInt(Constants.THEME_COLOR, context.getResources().getColor(R.color.themeColorDefault));
+    return context.getResources().getColor(R.color.themeColorDefault);
   }
 
   private static int getFAB(int color) {
-    float[] hsv = new float[3];
-    Color.colorToHSV(color, hsv);
-    hsv[2] = hsv[2] > 0.5 ? hsv[2] : hsv[2] + 0.5f;
-    hsv[0] = (hsv[0] + 180) % 360;
-    return Color.HSVToColor(hsv);
+//    float[] hsv = new float[3];
+//    Color.colorToHSV(color, hsv);
+//    hsv[2] = hsv[2] > 0.5 ? hsv[2] : hsv[2] + 0.5f;
+//    hsv[0] = (hsv[0] + 180) % 360;
+//    return Color.HSVToColor(hsv);
+    return Color.parseColor("#238842");
   }
 
   public static int getFABColor(Context context) {

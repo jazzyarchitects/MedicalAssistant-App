@@ -32,6 +32,9 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+
 import java.util.ArrayList;
 
 import architect.jazzy.medicinereminder.HelperClasses.Constants;
@@ -123,6 +126,26 @@ public class DoctorListFragment extends Fragment {
       e.printStackTrace();
     }
 
+
+    AdRequest adRequest;
+    AdView adView = (AdView) v.findViewById(R.id.adView);
+    AdRequest.Builder builder = new AdRequest.Builder()
+        .addTestDevice("5C8BFD2BD4F4C415F7456E231E186EE5")
+        .addTestDevice("2EDDA47AED66B1BF9537214AF158BBE2");
+    adRequest = builder.build();
+    adView.loadAd(adRequest);
+    return v;
+  }
+
+  @Override
+  public void onViewCreated(View v, Bundle savedInstanceState) {
+    super.onViewCreated(v, savedInstanceState);
+    try {
+      ((AppCompatActivity) getActivity()).getSupportActionBar().show();
+    } catch (NullPointerException e) {
+      e.printStackTrace();
+    }
+
     doctorList = (RecyclerView) v.findViewById(R.id.recyclerView);
     doctorList.setVisibility(View.GONE);
     doctorList.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -136,17 +159,6 @@ public class DoctorListFragment extends Fragment {
       }
     });
     refreshLayout();
-    return v;
-  }
-
-  @Override
-  public void onViewCreated(View view, Bundle savedInstanceState) {
-    super.onViewCreated(view, savedInstanceState);
-    try {
-      ((AppCompatActivity) getActivity()).getSupportActionBar().show();
-    } catch (NullPointerException e) {
-      e.printStackTrace();
-    }
   }
 
   void refreshLayout() {
